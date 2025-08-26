@@ -1,184 +1,182 @@
 <template>
-  <div class="space-y-6">
+  <div class="p-4 space-y-6">
     <!-- 页面标题 -->
     <div class="flex items-center justify-between">
-      <h1 class="text-2xl font-bold text-gray-900">Java进程监控</h1>
+      <h1 class="text-2xl font-bold text-foreground">Java进程监控</h1>
       <div class="flex space-x-3">
-        <button @click="refreshProcesses" class="btn btn-primary">
+        <Button @click="refreshProcesses">
           <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
           </svg>
           刷新
-        </button>
-        <button @click="showStartProcessDialog" class="btn btn-secondary">
+        </Button>
+        <Button variant="outline" @click="showStartProcessDialog">
           <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
           </svg>
           启动进程
-        </button>
+        </Button>
       </div>
     </div>
 
     <!-- 统计信息 -->
     <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-      <div class="card">
-        <div class="text-center">
-          <p class="text-sm text-gray-500">总进程数</p>
-          <p class="text-2xl font-bold text-gray-900">{{ totalProcesses }}</p>
-        </div>
-      </div>
-      <div class="card">
-        <div class="text-center">
-          <p class="text-sm text-gray-500">运行中</p>
+      <Card>
+        <CardContent class="p-6 text-center">
+          <p class="text-sm text-muted-foreground">总进程数</p>
+          <p class="text-2xl font-bold text-foreground">{{ totalProcesses }}</p>
+        </CardContent>
+      </Card>
+      <Card>
+        <CardContent class="p-6 text-center">
+          <p class="text-sm text-muted-foreground">运行中</p>
           <p class="text-2xl font-bold text-green-600">{{ runningProcessesCount }}</p>
-        </div>
-      </div>
-      <div class="card">
-        <div class="text-center">
-          <p class="text-sm text-gray-500">已停止</p>
+        </CardContent>
+      </Card>
+      <Card>
+        <CardContent class="p-6 text-center">
+          <p class="text-sm text-muted-foreground">已停止</p>
           <p class="text-2xl font-bold text-red-600">{{ stoppedProcessesCount }}</p>
-        </div>
-      </div>
-      <div class="card">
-        <div class="text-center">
-          <p class="text-sm text-gray-500">总内存使用</p>
+        </CardContent>
+      </Card>
+      <Card>
+        <CardContent class="p-6 text-center">
+          <p class="text-sm text-muted-foreground">总内存使用</p>
           <p class="text-2xl font-bold text-blue-600">{{ formatMemory(totalMemoryUsage) }}</p>
-        </div>
-      </div>
+        </CardContent>
+      </Card>
     </div>
 
     <!-- 进程列表 -->
-    <div class="card">
-      <div class="flex items-center justify-between mb-4">
-        <h3 class="text-lg font-medium text-gray-900">进程列表</h3>
-        <div class="flex items-center space-x-2">
-          <input
-            v-model="searchQuery"
-            type="text"
-            placeholder="搜索进程..."
-            class="input input-sm"
-          />
-          <select v-model="statusFilter" class="select select-sm">
-            <option value="">全部状态</option>
-            <option value="running">运行中</option>
-            <option value="stopped">已停止</option>
-            <option value="error">错误</option>
-          </select>
+    <Card>
+      <CardHeader>
+        <div class="flex items-center justify-between">
+          <CardTitle>进程列表</CardTitle>
+          <div class="flex items-center space-x-2">
+            <Input
+              v-model="searchQuery"
+              type="text"
+              placeholder="搜索进程..."
+              class="w-48"
+            />
+            <select v-model="statusFilter" class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2">
+              <option value="">全部状态</option>
+              <option value="running">运行中</option>
+              <option value="stopped">已停止</option>
+              <option value="error">错误</option>
+            </select>
+          </div>
         </div>
-      </div>
+      </CardHeader>
+      <CardContent>
+        <div v-if="isLoading" class="flex justify-center py-8">
+          <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+        </div>
 
-      <div v-if="isLoading" class="flex justify-center py-8">
-        <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-600"></div>
-      </div>
+        <div v-else-if="filteredProcesses.length === 0" class="text-center py-8 text-muted-foreground">
+          没有找到进程
+        </div>
 
-      <div v-else-if="filteredProcesses.length === 0" class="text-center py-8 text-gray-500">
-        没有找到进程
-      </div>
-
-      <div v-else class="overflow-x-auto">
-        <table class="min-w-full divide-y divide-gray-200">
-          <thead class="bg-gray-50">
-            <tr>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                进程信息
-              </th>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                状态
-              </th>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                内存使用
-              </th>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                CPU使用
-              </th>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                线程数
-              </th>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                操作
-              </th>
-            </tr>
-          </thead>
-          <tbody class="bg-white divide-y divide-gray-200">
-            <tr v-for="process in filteredProcesses" :key="process.id" class="hover:bg-gray-50">
-              <td class="px-6 py-4 whitespace-nowrap">
-                <div>
-                  <div class="text-sm font-medium text-gray-900">{{ process.name }}</div>
-                  <div class="text-sm text-gray-500">PID: {{ process.pid }}</div>
-                  <div class="text-sm text-gray-500">{{ process.mainClass }}</div>
-                </div>
-              </td>
-              <td class="px-6 py-4 whitespace-nowrap">
-                <span :class="[
-                  'inline-flex px-2 py-1 text-xs font-semibold rounded-full',
-                  process.status === 'running' ? 'bg-green-100 text-green-800' :
-                  process.status === 'stopped' ? 'bg-red-100 text-red-800' :
-                  'bg-yellow-100 text-yellow-800'
-                ]">
-                  {{ getStatusText(process.status) }}
-                </span>
-              </td>
-              <td class="px-6 py-4 whitespace-nowrap">
-                <div class="text-sm text-gray-900">{{ formatMemory(process.memoryUsage.used) }}</div>
-                <div class="text-sm text-gray-500">{{ process.memoryUsage.percentage.toFixed(1) }}%</div>
-              </td>
-              <td class="px-6 py-4 whitespace-nowrap">
-                <div class="text-sm text-gray-900">{{ process.cpuUsage.toFixed(1) }}%</div>
-              </td>
-              <td class="px-6 py-4 whitespace-nowrap">
-                <div class="text-sm text-gray-900">{{ process.threadCount }}</div>
-              </td>
-              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                <div class="flex space-x-2">
-                  <button @click="viewProcessDetails(process)" class="text-primary-600 hover:text-primary-900">
-                    详情
-                  </button>
-                  <button v-if="process.status === 'running'" @click="stopProcess(process.id)" class="text-red-600 hover:text-red-900">
-                    停止
-                  </button>
-                  <button v-else @click="startProcess(process.id)" class="text-green-600 hover:text-green-900">
-                    启动
-                  </button>
-                  <button @click="restartProcess(process.id)" class="text-yellow-600 hover:text-yellow-900">
-                    重启
-                  </button>
-                </div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
+        <div v-else class="overflow-x-auto">
+          <table class="min-w-full divide-y divide-border">
+            <thead class="bg-muted/50">
+              <tr>
+                <th class="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">
+                  进程信息
+                </th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">
+                  状态
+                </th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">
+                  内存使用
+                </th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">
+                  CPU使用
+                </th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">
+                  线程数
+                </th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">
+                  操作
+                </th>
+              </tr>
+            </thead>
+            <tbody class="bg-background divide-y divide-border">
+              <tr v-for="process in filteredProcesses" :key="process.id" class="hover:bg-muted/50">
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div>
+                    <div class="text-sm font-medium text-foreground">{{ process.name }}</div>
+                    <div class="text-sm text-muted-foreground">PID: {{ process.pid }}</div>
+                    <div class="text-sm text-muted-foreground">{{ process.mainClass }}</div>
+                  </div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <Badge :variant="getStatusVariant(process.status)">
+                    {{ getStatusText(process.status) }}
+                  </Badge>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="text-sm text-foreground">{{ formatMemory(process.memoryUsage.used) }}</div>
+                  <div class="text-sm text-muted-foreground">{{ process.memoryUsage.percentage.toFixed(1) }}%</div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="text-sm text-foreground">{{ process.cpuUsage.toFixed(1) }}%</div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="text-sm text-foreground">{{ process.threadCount }}</div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                  <div class="flex space-x-2">
+                    <Button variant="ghost" size="sm" @click="viewProcessDetails(process)">
+                      详情
+                    </Button>
+                    <Button v-if="process.status === 'running'" variant="destructive" size="sm" @click="stopProcess(process.id)">
+                      停止
+                    </Button>
+                    <Button v-else variant="default" size="sm" @click="startProcess(process.id)">
+                      启动
+                    </Button>
+                    <Button variant="outline" size="sm" @click="restartProcess(process.id)">
+                      重启
+                    </Button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </CardContent>
+    </Card>
 
     <!-- 启动进程对话框 -->
-    <div v-if="showStartDialog" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
-      <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
+    <div v-if="showStartDialog" class="fixed inset-0 bg-background/80 backdrop-blur-sm overflow-y-auto h-full w-full z-50">
+      <div class="relative top-20 mx-auto p-6 border w-96 shadow-lg rounded-md bg-card">
         <div class="mt-3">
-          <h3 class="text-lg font-medium text-gray-900 mb-4">启动新进程</h3>
+          <h3 class="text-lg font-medium text-foreground mb-4">启动新进程</h3>
           <form @submit.prevent="handleStartProcess" class="space-y-4">
             <div>
-              <label class="block text-sm font-medium text-gray-700">JAR文件路径</label>
-              <input v-model="startParams.jarPath" type="text" required class="input w-full" />
+              <label class="block text-sm font-medium text-foreground">JAR文件路径</label>
+              <Input v-model="startParams.jarPath" type="text" required class="w-full" />
             </div>
             <div>
-              <label class="block text-sm font-medium text-gray-700">主类名</label>
-              <input v-model="startParams.mainClass" type="text" class="input w-full" />
+              <label class="block text-sm font-medium text-foreground">主类名</label>
+              <Input v-model="startParams.mainClass" type="text" class="w-full" />
             </div>
             <div>
-              <label class="block text-sm font-medium text-gray-700">JVM参数</label>
-              <textarea v-model="jvmOptionsText" placeholder="每行一个参数" class="textarea w-full" rows="3"></textarea>
+              <label class="block text-sm font-medium text-foreground">JVM参数</label>
+              <textarea v-model="jvmOptionsText" placeholder="每行一个参数" class="flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2" rows="3"></textarea>
             </div>
             <div>
-              <label class="block text-sm font-medium text-gray-700">程序参数</label>
-              <textarea v-model="argumentsText" placeholder="每行一个参数" class="textarea w-full" rows="3"></textarea>
+              <label class="block text-sm font-medium text-foreground">程序参数</label>
+              <textarea v-model="argumentsText" placeholder="每行一个参数" class="flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2" rows="3"></textarea>
             </div>
             <div class="flex justify-end space-x-3">
-              <button type="button" @click="closeStartDialog" class="btn btn-secondary">
+              <Button type="button" variant="outline" @click="closeStartDialog">
                 取消
-              </button>
-              <button type="submit" class="btn btn-primary">
+              </Button>
+              <Button type="submit">
                 启动
-              </button>
+              </Button>
             </div>
           </form>
         </div>
@@ -191,6 +189,7 @@
 import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useProcessStore } from '@/stores/process'
+import { Button, Card, CardHeader, CardTitle, CardContent, Input, Badge } from '@/components/ui'
 import type { JavaProcess, ProcessStartParams } from '@/types'
 
 const router = useRouter()
@@ -298,6 +297,15 @@ function getStatusText(status: string): string {
     error: '错误'
   }
   return statusMap[status as keyof typeof statusMap] || status
+}
+
+function getStatusVariant(status: string): 'default' | 'secondary' | 'destructive' | 'outline' {
+  const variantMap = {
+    running: 'default',
+    stopped: 'destructive',
+    error: 'destructive'
+  }
+  return variantMap[status as keyof typeof variantMap] || 'outline'
 }
 
 function formatMemory(bytes: number): string {
