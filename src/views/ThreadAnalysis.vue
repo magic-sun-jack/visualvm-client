@@ -69,13 +69,13 @@
           <div class="flex items-center space-x-4">
             <div class="flex items-center space-x-2">
               <label class="text-sm text-muted-foreground">状态:</label>
-              <select v-model="statusFilter" class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2">
-                <option value="">全部状态</option>
-                <option value="RUNNABLE">运行中</option>
-                <option value="WAITING">等待中</option>
-                <option value="BLOCKED">阻塞中</option>
-                <option value="TIMED_WAITING">限时等待</option>
-              </select>
+                          <Select v-model="statusFilter" class="w-32" placeholder="选择状态">
+              <option value="">全部状态</option>
+              <option value="RUNNABLE">运行中</option>
+              <option value="WAITING">等待中</option>
+              <option value="BLOCKED">阻塞中</option>
+              <option value="TIMED_WAITING">限时等待</option>
+            </Select>
             </div>
             <Input
               v-model="searchQuery"
@@ -150,7 +150,7 @@
 
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
-import { Button, Card, CardHeader, CardTitle, CardContent, Input, Badge } from '@/components/ui'
+import { Button, Card, CardHeader, CardTitle, CardContent, Input, Badge, Select } from '@/components/ui'
 
 // 响应式数据
 const isLoading = ref(false)

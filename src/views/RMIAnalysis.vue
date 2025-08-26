@@ -84,21 +84,21 @@
           <div class="flex items-center space-x-4">
             <div class="flex items-center space-x-2">
               <label class="text-sm text-muted-foreground">状态:</label>
-              <select v-model="statusFilter" class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2">
+              <Select v-model="statusFilter" class="w-32" placeholder="选择状态">
                 <option value="">全部</option>
                 <option value="success">成功</option>
                 <option value="error">错误</option>
                 <option value="timeout">超时</option>
-              </select>
+              </Select>
             </div>
             <div class="flex items-center space-x-2">
               <label class="text-sm text-muted-foreground">时间范围:</label>
-              <select v-model="timeRange" class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2">
+              <Select v-model="timeRange" class="w-32" placeholder="选择时间范围">
                 <option value="1h">最近1小时</option>
                 <option value="6h">最近6小时</option>
                 <option value="24h">最近24小时</option>
                 <option value="7d">最近7天</option>
-              </select>
+              </Select>
             </div>
             <Input
               v-model="searchQuery"
@@ -195,7 +195,7 @@
 
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
-import { Button, Card, CardHeader, CardTitle, CardContent, Input, Badge } from '@/components/ui'
+import { Button, Card, CardHeader, CardTitle, CardContent, Input, Badge, Select } from '@/components/ui'
 
 // 响应式数据
 const isLoading = ref(false)

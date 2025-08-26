@@ -73,12 +73,12 @@
               placeholder="搜索类名..."
               class="w-64"
             />
-            <select v-model="severityFilter" class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2">
+            <Select v-model="severityFilter" class="w-32" placeholder="选择级别">
               <option value="">全部级别</option>
               <option value="high">高</option>
               <option value="medium">中</option>
               <option value="low">低</option>
-            </select>
+            </Select>
           </div>
         </div>
       </CardHeader>
@@ -145,7 +145,7 @@
 
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
-import { Button, Card, CardHeader, CardTitle, CardContent, Input, Badge } from '@/components/ui'
+import { Button, Card, CardHeader, CardTitle, CardContent, Input, Badge, Select } from '@/components/ui'
 
 // 响应式数据
 const isLoading = ref(false)

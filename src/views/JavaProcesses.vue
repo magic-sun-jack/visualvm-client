@@ -59,12 +59,12 @@
               placeholder="搜索进程..."
               class="w-48"
             />
-            <select v-model="statusFilter" class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2">
+            <Select v-model="statusFilter" class="w-32" placeholder="选择状态">
               <option value="">全部状态</option>
               <option value="running">运行中</option>
               <option value="stopped">已停止</option>
               <option value="error">错误</option>
-            </select>
+            </Select>
           </div>
         </div>
       </CardHeader>
@@ -189,7 +189,7 @@
 import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useProcessStore } from '@/stores/process'
-import { Button, Card, CardHeader, CardTitle, CardContent, Input, Badge } from '@/components/ui'
+import { Button, Card, CardHeader, CardTitle, CardContent, Input, Badge, Select } from '@/components/ui'
 import type { JavaProcess, ProcessStartParams } from '@/types'
 
 const router = useRouter()
