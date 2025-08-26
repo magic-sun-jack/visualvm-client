@@ -7,6 +7,7 @@ import RMIAnalysis from '@/views/RMIAnalysis.vue'
 import MemoryLeak from '@/views/MemoryLeak.vue'
 import ThreadAnalysis from '@/views/ThreadAnalysis.vue'
 import ProcessManager from '@/views/ProcessManager.vue'
+import ShadcnDemo from '@/views/ShadcnDemo.vue'
 
 const routes: RouteRecordRaw[] = [
   {
@@ -54,6 +55,12 @@ const routes: RouteRecordRaw[] = [
     name: 'ProcessManager',
     component: ProcessManager,
     meta: { title: '进程管理' }
+  },
+  {
+    path: '/shadcn-demo',
+    name: 'ShadcnDemo',
+    component: ShadcnDemo,
+    meta: { title: 'shadcn-vue 组件演示' }
   }
 ]
 

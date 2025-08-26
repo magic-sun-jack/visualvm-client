@@ -108,6 +108,11 @@ const navigationItems = [
     name: '进程管理',
     path: '/manager',
     icon: 'ManagerIcon'
+  },
+  {
+    name: 'shadcn-vue 演示',
+    path: '/shadcn-demo',
+    icon: 'ShadcnIcon'
   }
 ]
 
@@ -152,6 +157,10 @@ processStore.fetchProcesses()
 }
 
 .ManagerIcon {
+  @apply w-5 h-5;
+}
+
+.ShadcnIcon {
   @apply w-5 h-5;
 }
 </style>
