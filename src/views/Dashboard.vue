@@ -1,5 +1,5 @@
 <template>
-  <div class="space-y-6">
+  <div class="p-4 space-y-6">
     <!-- 页面标题 -->
     <div class="flex items-center justify-between">
       <h1 class="text-2xl font-bold text-foreground">系统概览</h1>
