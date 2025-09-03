@@ -1,13 +1,10 @@
 <template>
   <input
     :class="cn(
-      'flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50',
-      className
+      'flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50',
+      $attrs.class
     )"
-    :type="type"
-    :placeholder="placeholder"
-    :disabled="disabled"
-    :value="modelValue"
+    v-bind="$attrs"
     @input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)"
   />
 </template>
@@ -15,23 +12,11 @@
 <script setup lang="ts">
 import { cn } from '@/lib/utils'
 
-interface InputProps {
-  type?: string
-  placeholder?: string
-  disabled?: boolean
-  className?: string
+defineProps<{
   modelValue?: string | number
-}
-
-withDefaults(defineProps<InputProps>(), {
-  type: 'text',
-  placeholder: '',
-  disabled: false,
-  className: '',
-  modelValue: ''
-})
+}>()
 
 defineEmits<{
-  'update:modelValue': [value: string]
+  'update:modelValue': [value: string | number]
 }>()
 </script>

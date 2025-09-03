@@ -1,7 +1,8 @@
 import { defineStore } from 'pinia'
-import { ref, computed } from 'vue'
+import { ref, computed, onUnmounted } from 'vue'
 import type { JavaProcess, ProcessStartParams } from '@/types'
 import { processApi } from '@/api'
+import { ReconnectingWebSocketClient } from '@/lib/ws'
 
 export const useProcessStore = defineStore('process', () => {
   // 状态
@@ -9,6 +10,8 @@ export const useProcessStore = defineStore('process', () => {
   const currentProcess = ref<JavaProcess | null>(null)
   const isLoading = ref(false)
   const error = ref<string | null>(null)
+  const isLive = ref(false)
+  let wsClient: ReconnectingWebSocketClient | null = null
 
   // 计算属性
   const runningProcesses = computed(() => 
@@ -144,12 +147,64 @@ export const useProcessStore = defineStore('process', () => {
     currentProcess.value = process
   }
 
+  // WebSocket live updates
+  function startLiveUpdates() {
+    if (isLive.value) return
+    const wsUrl = getWebSocketUrl('/ws/processes')
+    wsClient = new ReconnectingWebSocketClient({ url: wsUrl })
+    wsClient.onMessage((msg) => {
+      // Expecting messages like: { type: 'snapshot'|'upsert'|'remove', data: ... }
+      try {
+        if (msg?.type === 'snapshot' && Array.isArray(msg.data)) {
+          processes.value = msg.data as JavaProcess[]
+        } else if (msg?.type === 'upsert' && msg.data) {
+          const incoming: JavaProcess = msg.data
+          const idx = processes.value.findIndex(p => p.id === incoming.id)
+          if (idx === -1) {
+            processes.value.push(incoming)
+          } else {
+            processes.value[idx] = incoming
+          }
+          if (currentProcess.value?.id === incoming.id) {
+            currentProcess.value = incoming
+          }
+        } else if (msg?.type === 'remove' && msg.id) {
+          processes.value = processes.value.filter(p => p.id !== msg.id)
+          if (currentProcess.value?.id === msg.id) {
+            currentProcess.value = null
+          }
+        }
+      } catch (e) {
+        console.error('WS message handling error', e)
+      }
+    })
+    wsClient.connect()
+    isLive.value = true
+  }
+
+  function stopLiveUpdates() {
+    wsClient?.close()
+    wsClient = null
+    isLive.value = false
+  }
+
+  function getWebSocketUrl(path: string): string {
+    const protocol = location.protocol === 'https:' ? 'wss:' : 'ws:'
+    const host = location.host
+    return `${protocol}//${host}${path}`
+  }
+
+  onUnmounted(() => {
+    stopLiveUpdates()
+  })
+
   return {
     // 状态
     processes,
     currentProcess,
     isLoading,
     error,
+    isLive,
     
     // 计算属性
     runningProcesses,
@@ -166,5 +221,7 @@ export const useProcessStore = defineStore('process', () => {
     restartProcess,
     clearError,
     setCurrentProcess,
+    startLiveUpdates,
+    stopLiveUpdates,
   }
 })

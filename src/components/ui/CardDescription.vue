@@ -1,17 +1,9 @@
 <template>
-  <p :class="cn('text-sm text-muted-foreground', className)">
+  <div :class="cn('text-sm text-muted-foreground', $attrs.class as string)" v-bind="$attrs">
     <slot />
-  </p>
+  </div>
 </template>
 
 <script setup lang="ts">
 import { cn } from '@/lib/utils'
-
-interface CardDescriptionProps {
-  className?: string
-}
-
-withDefaults(defineProps<CardDescriptionProps>(), {
-  className: ''
-})
 </script>

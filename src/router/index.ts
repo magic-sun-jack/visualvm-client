@@ -8,6 +8,7 @@ import MemoryLeak from '@/views/MemoryLeak.vue'
 import ThreadAnalysis from '@/views/ThreadAnalysis.vue'
 import ProcessManager from '@/views/ProcessManager.vue'
 import ShadcnDemo from '@/views/ShadcnDemo.vue'
+import ShadcnShowcase from '@/views/ShadcnShowcase.vue'
 
 const routes: RouteRecordRaw[] = [
   {
@@ -62,6 +63,12 @@ const routes: RouteRecordRaw[] = [
     component: ShadcnDemo,
     meta: { title: 'shadcn-vue 组件演示' }
   },
+  {
+    path: '/shadcn-showcase',
+    name: 'ShadcnShowcase',
+    component: ShadcnShowcase,
+    meta: { title: 'shadcn-vue 完整展示' }
+  },
   // 兜底：未知路径重定向到仪表板，避免 RouterView 为空
   // { path: '/:pathMatch(.*)*', redirect: '/dashboard' }
 ]
@@ -70,7 +77,7 @@ const router = createRouter({
   history: createWebHistory(),
   routes,
   // 添加路由配置以避免DevTools问题
-  scrollBehavior(to, from, savedPosition) {
+  scrollBehavior(_to, _from, savedPosition) {
     if (savedPosition) {
       return savedPosition
     } else {
