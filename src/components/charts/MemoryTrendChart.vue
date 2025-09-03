@@ -14,6 +14,7 @@ interface Props {
 const props = defineProps<Props>()
 const chartRef = ref<HTMLElement>()
 let chart: echarts.ECharts | null = null
+let intervalId: number | null = null
 
 // 生成模拟的时间序列数据
 function generateTimeSeriesData() {
@@ -147,6 +148,10 @@ function handleResize() {
 
 onMounted(() => {
   initChart()
+  // 每1000ms刷新一次数据
+  intervalId = window.setInterval(() => {
+    updateChart()
+  }, 1000)
   window.addEventListener('resize', handleResize)
 })
 
@@ -154,6 +159,10 @@ onUnmounted(() => {
   if (chart) {
     chart.dispose()
     chart = null
+  }
+  if (intervalId !== null) {
+    clearInterval(intervalId)
+    intervalId = null
   }
   window.removeEventListener('resize', handleResize)
 })
