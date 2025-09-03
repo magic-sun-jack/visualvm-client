@@ -177,7 +177,7 @@ async function refreshData() {
   }
 }
 
-// 组件挂载时自动刷新数据
+// 组件挂载时：使用本地模拟流每300ms更新
 processStore.fetchProcesses()
 </script>
 

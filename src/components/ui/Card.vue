@@ -1,17 +1,9 @@
 <template>
-  <div :class="cn('rounded-lg border bg-card text-card-foreground shadow-sm', className)">
+  <div :class="cn('rounded-xl border bg-card text-card-foreground shadow', $attrs.class)" v-bind="$attrs">
     <slot />
   </div>
 </template>
 
 <script setup lang="ts">
 import { cn } from '@/lib/utils'
-
-interface CardProps {
-  className?: string
-}
-
-withDefaults(defineProps<CardProps>(), {
-  className: ''
-})
 </script>
