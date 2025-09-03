@@ -61,17 +61,54 @@ const routes: RouteRecordRaw[] = [
     name: 'ShadcnDemo',
     component: ShadcnDemo,
     meta: { title: 'shadcn-vue 组件演示' }
-  }
+  },
+  // 兜底：未知路径重定向到仪表板，避免 RouterView 为空
+  // { path: '/:pathMatch(.*)*', redirect: '/dashboard' }
 ]
 
 const router = createRouter({
   history: createWebHistory(),
-  routes
+  routes,
+  // 添加路由配置以避免DevTools问题
+  scrollBehavior(to, from, savedPosition) {
+    if (savedPosition) {
+      return savedPosition
+    } else {
+      return { top: 0 }
+    }
+  }
 })
 
-router.beforeEach((to, from, next) => {
-  document.title = `VisualVM - ${to.meta.title || '监控客户端'}`
-  next()
+router.beforeEach((to, _from, next) => {
+  try {
+    document.title = `VisualVM - ${to.meta.title || '监控客户端'}`
+    console.log('路由跳转到:', to.path, to.name)
+    next()
+  } catch (error) {
+    console.error('路由守卫错误:', error)
+    next()
+  }
+})
+
+// 添加路由错误处理
+router.onError((error) => {
+  console.error('路由错误:', error)
+})
+
+// 添加路由解析错误处理
+router.beforeResolve((to, _from, next) => {
+  try {
+    // 确保组件存在
+    if (to.matched.length === 0) {
+      console.warn('未找到匹配的路由:', to.path)
+      next('/dashboard')
+      return
+    }
+    next()
+  } catch (error) {
+    console.error('路由解析错误:', error)
+    next('/dashboard')
+  }
 })
 
 export default router

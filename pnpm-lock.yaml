@@ -29,6 +29,9 @@ importers:
       lodash-es:
         specifier: ^4.17.21
         version: 4.17.21
+      lucide-vue-next:
+        specifier: ^0.542.0
+        version: 0.542.0(vue@3.5.19(typescript@5.3.3))
       pinia:
         specifier: ^2.1.7
         version: 2.3.1(typescript@5.3.3)(vue@3.5.19(typescript@5.3.3))
@@ -1545,6 +1548,11 @@ packages:
 
   lru-cache@5.1.1:
     resolution: {integrity: sha512-KpNARQA3Iwv+jTA0utUVVbrh+Jlrr1Fv0e56GGzAFOXN7dk/FviaDW8LHmK52DlcH4WP2n6gI8vN1aesBFgo9w==}
+
+  lucide-vue-next@0.542.0:
+    resolution: {integrity: sha512-cJfyhFoneDgYTouHwUJEutXaCW5EQuRrBsvfELudWnMiwfqvcEtpZTFZLdZ5Nrqow+znzn+Iyhu3KeYIfa3mEg==}
+    peerDependencies:
+      vue: '>=3.0.1'
 
   magic-string@0.30.18:
     resolution: {integrity: sha512-yi8swmWbO17qHhwIBNeeZxTceJMeBvWJaId6dyvTSOwTipqeHhMhOrz6513r1sOKnpvQ7zkhlG8tPrpilwTxHQ==}
@@ -3741,6 +3749,10 @@ snapshots:
   lru-cache@5.1.1:
     dependencies:
       yallist: 3.1.1
+
+  lucide-vue-next@0.542.0(vue@3.5.19(typescript@5.3.3)):
+    dependencies:
+      vue: 3.5.19(typescript@5.3.3)
 
   magic-string@0.30.18:
     dependencies:

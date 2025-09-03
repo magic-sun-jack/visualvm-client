@@ -161,7 +161,7 @@ import { useProcessStore } from '@/stores/process'
 import ProcessStatusChart from '@/components/charts/ProcessStatusChart.vue'
 import MemoryTrendChart from '@/components/charts/MemoryTrendChart.vue'
 import { Button, Card, CardHeader, CardTitle, CardContent } from '@/components/ui'
-import type { JavaProcess } from '@/types'
+// import type { JavaProcess } from '@/types'
 
 const router = useRouter()
 const processStore = useProcessStore()
