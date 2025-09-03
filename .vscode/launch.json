@@ -4,8 +4,8 @@
     {
       "type": "node-terminal",
       "request": "launch",
-      "name": "Run VisualVM Client Dev",
-      "command": "pnpm dev",
+      "name": "Run Local",
+      "command": "pnpm dev-local",
       "cwd": "${workspaceFolder}"
     }
   ]

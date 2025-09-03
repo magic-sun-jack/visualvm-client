@@ -3,15 +3,38 @@ import vue from '@vitejs/plugin-vue'
 import { resolve } from 'path'
 
 export default defineConfig({
-  plugins: [vue()],
+  plugins: [
+    vue({
+      template: {
+        compilerOptions: {
+          // 禁用开发工具相关的警告
+          isCustomElement: (tag) => false,
+        },
+      },
+    })
+  ],
+  define: {
+    // 禁用Vue DevTools的开发模式集成
+    __VUE_PROD_DEVTOOLS__: false,
+    __VUE_PROD_HYDRATION_MISMATCH_DETAILS__: false,
+  },
   resolve: {
     alias: {
       '@': resolve(__dirname, 'src'),
     },
   },
   server: {
-    port: 3000,
+    port: 3300,
     host: true,
+    strictPort: true,
+    hmr: {
+      clientPort: 3300,
+      overlay: true,
+    },
+    watch: {
+      usePolling: true,
+      interval: 100,
+    },
     proxy: {
       '/api': {
         target: 'http://localhost:8080',

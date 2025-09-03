@@ -1,9 +1,11 @@
 <template>
-  <div id="app" class="min-h-screen bg-gray-50">
-    <RouterView />
+  <div id="app" class="min-h-screen bg-background">
+    <Layout>
+      <RouterView />
+    </Layout>
   </div>
 </template>
 
 <script setup lang="ts">
-// 使用Vue Router的RouterView组件
+import Layout from '@/components/Layout.vue'
 </script>
