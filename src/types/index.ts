@@ -120,6 +120,58 @@ export interface MonitoringConfig {
   }
 }
 
+// 监控场景类型
+export type MonitoringScenario = 'database' | 'http' | 'io' | 'rmi' | 'socket' | 'file'
+
+// 场景配置参数
+export interface ScenarioConfig {
+  scenario: MonitoringScenario
+  enabled: boolean
+  packages: string[]
+  excludePackages?: string[]
+  samplingInterval?: number
+  maxSamples?: number
+}
+
+// 数据库监控配置
+export interface DatabaseMonitoringConfig extends ScenarioConfig {
+  scenario: 'database'
+  connectionPoolMonitoring?: boolean
+  slowQueryThreshold?: number
+  captureParameters?: boolean
+}
+
+// IO监控配置
+export interface IOMonitoringConfig extends ScenarioConfig {
+  scenario: 'io' | 'socket' | 'file'
+  capturePayload?: boolean
+  maxPayloadSize?: number
+}
+
+// HTTP监控配置
+export interface HTTPMonitoringConfig extends ScenarioConfig {
+  scenario: 'http'
+  captureHeaders?: boolean
+  captureBody?: boolean
+  maxBodySize?: number
+}
+
+// 监控数据点
+export interface MonitoringDataPoint {
+  timestamp: string
+  value: number
+  label?: string
+}
+
+// 监控指标
+export interface MonitoringMetric {
+  name: string
+  value: number
+  unit: string
+  trend: 'up' | 'down' | 'stable'
+  dataPoints: MonitoringDataPoint[]
+}
+
 // 进程启动参数
 export interface ProcessStartParams {
   jarPath: string

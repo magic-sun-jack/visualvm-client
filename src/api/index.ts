@@ -386,4 +386,125 @@ export const systemApi = {
   }
 }
 
+// 场景监控API
+export const scenarioApi = {
+  // 获取数据库监控配置
+  async getDatabaseMonitoringConfig(processId: string): Promise<ApiResponse<any>> {
+    if (env.USE_MOCK_DATA) {
+      await mockDelay()
+      const config = mockDataGenerator.generateDatabaseMonitoringConfig()
+      return mockDataGenerator.generateApiResponse(config)
+    }
+    return api.get(`/scenario/database/${processId}/config`)
+  },
+
+  // 更新数据库监控配置
+  async updateDatabaseMonitoringConfig(processId: string, config: any): Promise<ApiResponse<void>> {
+    if (env.USE_MOCK_DATA) {
+      await mockDelay(800)
+      return mockDataGenerator.generateApiResponse(undefined as any, true, '数据库监控配置已更新')
+    }
+    return api.put(`/scenario/database/${processId}/config`, config)
+  },
+
+  // 获取数据库监控指标
+  async getDatabaseMetrics(processId: string): Promise<ApiResponse<any>> {
+    if (env.USE_MOCK_DATA) {
+      await mockDelay()
+      const metrics = mockDataGenerator.generateDatabaseMetrics()
+      return mockDataGenerator.generateApiResponse(metrics)
+    }
+    return api.get(`/scenario/database/${processId}/metrics`)
+  },
+
+  // 获取IO监控配置
+  async getIOMonitoringConfig(processId: string): Promise<ApiResponse<any>> {
+    if (env.USE_MOCK_DATA) {
+      await mockDelay()
+      const config = mockDataGenerator.generateIOMonitoringConfig()
+      return mockDataGenerator.generateApiResponse(config)
+    }
+    return api.get(`/scenario/io/${processId}/config`)
+  },
+
+  // 更新IO监控配置
+  async updateIOMonitoringConfig(processId: string, config: any): Promise<ApiResponse<void>> {
+    if (env.USE_MOCK_DATA) {
+      await mockDelay(800)
+      return mockDataGenerator.generateApiResponse(undefined as any, true, 'IO监控配置已更新')
+    }
+    return api.put(`/scenario/io/${processId}/config`, config)
+  },
+
+  // 获取IO监控指标
+  async getIOMetrics(processId: string): Promise<ApiResponse<any>> {
+    if (env.USE_MOCK_DATA) {
+      await mockDelay()
+      const metrics = mockDataGenerator.generateIOMetrics()
+      return mockDataGenerator.generateApiResponse(metrics)
+    }
+    return api.get(`/scenario/io/${processId}/metrics`)
+  },
+
+  // 获取HTTP监控配置
+  async getHTTPMonitoringConfig(processId: string): Promise<ApiResponse<any>> {
+    if (env.USE_MOCK_DATA) {
+      await mockDelay()
+      const config = mockDataGenerator.generateHTTPMonitoringConfig()
+      return mockDataGenerator.generateApiResponse(config)
+    }
+    return api.get(`/scenario/http/${processId}/config`)
+  },
+
+  // 更新HTTP监控配置
+  async updateHTTPMonitoringConfig(processId: string, config: any): Promise<ApiResponse<void>> {
+    if (env.USE_MOCK_DATA) {
+      await mockDelay(800)
+      return mockDataGenerator.generateApiResponse(undefined as any, true, 'HTTP监控配置已更新')
+    }
+    return api.put(`/scenario/http/${processId}/config`, config)
+  },
+
+  // 获取实时监控数据流（增量更新）
+  async getRealtimeMetrics(processId: string, scenario: string, lastTimestamp?: string): Promise<ApiResponse<any>> {
+    if (env.USE_MOCK_DATA) {
+      await mockDelay(200) // 实时数据响应更快
+      
+      // 生成增量数据点
+      const newDataPoint = {
+        timestamp: new Date().toISOString(),
+        value: Math.round((Math.random() * 40 + 30) * 100) / 100,
+        scenario,
+        processId
+      }
+      
+      return mockDataGenerator.generateApiResponse({
+        dataPoint: newDataPoint,
+        hasMore: true
+      })
+    }
+    return api.get(`/scenario/${scenario}/${processId}/realtime`, {
+      params: { lastTimestamp }
+    })
+  },
+
+  // 启动场景监控
+  async startScenarioMonitoring(processId: string, scenario: string): Promise<ApiResponse<void>> {
+    if (env.USE_MOCK_DATA) {
+      await mockDelay(1000)
+      return mockDataGenerator.generateApiResponse(undefined as any, true, `${scenario}监控已启动`)
+    }
+    return api.post(`/scenario/${scenario}/${processId}/start`)
+  },
+
+  // 停止场景监控
+  async stopScenarioMonitoring(processId: string, scenario: string): Promise<ApiResponse<void>> {
+    if (env.USE_MOCK_DATA) {
+      await mockDelay(800)
+      return mockDataGenerator.generateApiResponse(undefined as any, true, `${scenario}监控已停止`)
+    }
+    return api.post(`/scenario/${scenario}/${processId}/stop`)
+  }
+}
+
 export default api

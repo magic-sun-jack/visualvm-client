@@ -115,7 +115,7 @@ import {
   MemoryStick,
   GitBranch,
   Settings,
-
+  Eye,
   RefreshCw,
   User,
   Monitor
@@ -159,6 +159,11 @@ const navigationItems = [
     name: '进程管理',
     path: '/manager',
     icon: Settings
+  },
+  {
+    name: '场景监控',
+    path: '/scenario',
+    icon: Eye
   },
 
 ]

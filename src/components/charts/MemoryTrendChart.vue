@@ -3,21 +3,35 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted, watch } from 'vue'
+import { ref, onMounted, onUnmounted, watch, reactive } from 'vue'
 import * as echarts from 'echarts'
 import type { JavaProcess } from '@/types'
 
 interface Props {
   processes: JavaProcess[]
+  maxDataPoints?: number // 最大数据点数量
+  updateInterval?: number // 更新间隔（毫秒）
+  incremental?: boolean // 是否增量更新
 }
 
-const props = defineProps<Props>()
+const props = withDefaults(defineProps<Props>(), {
+  maxDataPoints: 50,
+  updateInterval: 1000,
+  incremental: true
+})
+
 const chartRef = ref<HTMLElement>()
 let chart: echarts.ECharts | null = null
 let intervalId: number | null = null
 
-// 生成模拟的时间序列数据
-function generateTimeSeriesData() {
+// 存储历史数据
+const chartData = reactive({
+  times: [] as string[],
+  memoryData: [] as number[]
+})
+
+// 生成初始时间序列数据
+function generateInitialData() {
   const now = new Date()
   const times = []
   const memoryData = []
@@ -32,7 +46,29 @@ function generateTimeSeriesData() {
     memoryData.push(Math.max(0, baseMemory * (1 + randomVariation)))
   }
   
-  return { times, memoryData }
+  chartData.times = times
+  chartData.memoryData = memoryData
+}
+
+// 添加新数据点（增量更新）
+function addDataPoint() {
+  const now = new Date()
+  const timeStr = now.toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit', second: '2-digit' })
+  
+  // 计算当前内存使用
+  const baseMemory = props.processes.reduce((sum, p) => sum + p.memoryUsage.used, 0)
+  const randomVariation = (Math.random() - 0.5) * 0.1 // ±5% 变化
+  const newMemoryValue = Math.max(0, baseMemory * (1 + randomVariation))
+  
+  // 增量添加数据
+  chartData.times.push(timeStr)
+  chartData.memoryData.push(newMemoryValue)
+  
+  // 限制数据点数量
+  if (chartData.times.length > props.maxDataPoints) {
+    chartData.times.shift()
+    chartData.memoryData.shift()
+  }
 }
 
 // 初始化图表
@@ -41,7 +77,8 @@ function initChart() {
   
   chart = echarts.init(chartRef.value)
   
-  const { times, memoryData } = generateTimeSeriesData()
+  // 生成初始数据
+  generateInitialData()
   
   const option = {
     tooltip: {
@@ -60,7 +97,7 @@ function initChart() {
     xAxis: {
       type: 'category',
       boundaryGap: false,
-      data: times,
+      data: chartData.times,
       axisLabel: {
         fontSize: 10
       }
@@ -79,7 +116,7 @@ function initChart() {
         name: '内存使用',
         type: 'line',
         smooth: true,
-        data: memoryData,
+        data: chartData.memoryData,
         areaStyle: {
           color: {
             type: 'linear',
@@ -111,20 +148,30 @@ function initChart() {
 function updateChart() {
   if (!chart) return
   
-  const { times, memoryData } = generateTimeSeriesData()
+  if (props.incremental) {
+    // 增量更新：只添加新数据点
+    addDataPoint()
+  } else {
+    // 全量更新：重新生成所有数据
+    generateInitialData()
+  }
   
   const option = {
     xAxis: {
-      data: times
+      data: chartData.times
     },
     series: [
       {
-        data: memoryData
+        data: chartData.memoryData
       }
     ]
   }
   
-  chart.setOption(option)
+  // 使用notMerge选项进行平滑更新
+  chart.setOption(option, {
+    notMerge: false,
+    lazyUpdate: true
+  })
 }
 
 // 格式化内存大小
@@ -148,10 +195,10 @@ function handleResize() {
 
 onMounted(() => {
   initChart()
-  // 每1000ms刷新一次数据
+  // 根据配置的间隔刷新数据
   intervalId = window.setInterval(() => {
     updateChart()
-  }, 1000)
+  }, props.updateInterval)
   window.addEventListener('resize', handleResize)
 })
 
