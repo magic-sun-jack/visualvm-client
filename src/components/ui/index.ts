@@ -36,5 +36,4 @@ export { default as TableHead } from './TableHead.vue'
 export { default as Label } from './Label.vue'
 export { default as RadioGroup } from './RadioGroup.vue'
 
-// Note: React components have been converted to Vue components above
-// All components are now Vue 3 compatible
+// All components are Vue 3 compatible

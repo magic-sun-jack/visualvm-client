@@ -11,16 +11,13 @@
           <CardTitle class="text-base">选择进程</CardTitle>
         </CardHeader>
         <CardContent>
-          <Select v-model="selectedProcessId" @update:modelValue="handleProcessChange">
-            <SelectTrigger class="w-full max-w-md">
-              <SelectValue placeholder="请选择要监控的Java进程" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem v-for="process in processes" :key="process.id" :value="process.id">
-                {{ process.name }} (PID: {{ process.pid }})
-              </SelectItem>
-            </SelectContent>
-          </Select>
+          <Select 
+            v-model="selectedProcessId" 
+            :options="processOptions"
+            placeholder="请选择要监控的Java进程"
+            class="w-full max-w-md"
+            @update:modelValue="handleProcessChange"
+          />
         </CardContent>
       </Card>
     </div>
@@ -42,15 +39,21 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { ref, computed, onMounted } from 'vue'
+import { Card, CardContent, CardHeader, CardTitle, Select } from '@/components/ui'
 import ScenarioMonitoringComponent from '@/components/monitoring/ScenarioMonitoring.vue'
 import { processApi } from '@/api'
 import type { JavaProcess } from '@/types'
 
 const processes = ref<JavaProcess[]>([])
 const selectedProcessId = ref<string>('')
+
+const processOptions = computed(() => 
+  processes.value.map(process => ({
+    value: process.id,
+    label: `${process.name} (PID: ${process.pid})`
+  }))
+)
 
 async function loadProcesses() {
   try {
@@ -63,7 +66,8 @@ async function loadProcesses() {
   }
 }
 
-function handleProcessChange(processId: string) {
+function handleProcessChange(value: string | number) {
+  const processId = String(value)
   console.log('Selected process:', processId)
 }
 
