@@ -9,7 +9,13 @@ import type {
   PaginatedResult,
   ApiResponse,
   MemoryUsage,
-  MonitoringConfig
+  MonitoringConfig,
+  ScenarioConfig,
+  DatabaseMonitoringConfig,
+  IOMonitoringConfig,
+  HTTPMonitoringConfig,
+  MonitoringMetric,
+  MonitoringDataPoint
 } from '@/types'
 
 // 模拟数据生成器
@@ -353,6 +359,156 @@ class MockDataGenerator {
         responseTime: 5000
       }
     }
+  }
+
+  // 生成数据库监控配置
+  generateDatabaseMonitoringConfig(): DatabaseMonitoringConfig {
+    const databasePackages = [
+      'java.sql.*',
+      'javax.sql.*',
+      'com.mysql.cj.*',
+      'com.mysql.jdbc.*',
+      'org.postgresql.*',
+      'oracle.jdbc.*',
+      'com.microsoft.sqlserver.jdbc.*',
+      'com.zaxxer.hikari.*',
+      'org.apache.commons.dbcp2.*',
+      'org.springframework.jdbc.core.*',
+      'org.mybatis.spring.SqlSessionTemplate.*',
+      'org.apache.ibatis.executor.*',
+      'org.hibernate.*',
+      'spring.data.*'
+    ]
+
+    return {
+      scenario: 'database',
+      enabled: true,
+      packages: databasePackages.slice(0, Math.floor(Math.random() * 5) + 3),
+      excludePackages: ['org.slf4j.*', 'ch.qos.logback.*'],
+      samplingInterval: 1000,
+      maxSamples: 10000,
+      connectionPoolMonitoring: true,
+      slowQueryThreshold: 1000,
+      captureParameters: true
+    }
+  }
+
+  // 生成IO监控配置
+  generateIOMonitoringConfig(): IOMonitoringConfig {
+    const ioPackages = [
+      'java.net.*',
+      'java.nio.*',
+      'sun.nio.ch.*',
+      'java.io.*',
+      'java.nio.file.*',
+      'sun.nio.fs.*',
+      'org.apache.http.*',
+      'okhttp3.*',
+      'io.netty.*',
+      'reactor.netty.*'
+    ]
+
+    return {
+      scenario: 'io',
+      enabled: true,
+      packages: ioPackages.slice(0, Math.floor(Math.random() * 4) + 2),
+      excludePackages: ['jdk.*', 'sun.*'],
+      samplingInterval: 500,
+      maxSamples: 5000,
+      capturePayload: true,
+      maxPayloadSize: 1024 * 10 // 10KB
+    }
+  }
+
+  // 生成HTTP监控配置
+  generateHTTPMonitoringConfig(): HTTPMonitoringConfig {
+    const httpPackages = [
+      'org.apache.http.*',
+      'org.apache.hc.client5.*',
+      'okhttp3.*',
+      'jdk.internal.net.http.*',
+      'org.apache.coyote.*',
+      'org.eclipse.jetty.*',
+      'io.undertow.*'
+    ]
+
+    return {
+      scenario: 'http',
+      enabled: true,
+      packages: httpPackages.slice(0, Math.floor(Math.random() * 3) + 2),
+      samplingInterval: 1000,
+      maxSamples: 10000,
+      captureHeaders: true,
+      captureBody: false,
+      maxBodySize: 1024 * 50 // 50KB
+    }
+  }
+
+  // 生成监控数据点
+  generateMonitoringDataPoints(count: number = 20): MonitoringDataPoint[] {
+    const points: MonitoringDataPoint[] = []
+    const now = Date.now()
+    
+    for (let i = count - 1; i >= 0; i--) {
+      const timestamp = new Date(now - i * 60000) // 每分钟一个点
+      const value = Math.sin(i * 0.3) * 30 + 50 + Math.random() * 10 // 波动数据
+      
+      points.push({
+        timestamp: timestamp.toISOString(),
+        value: Math.max(0, Math.round(value * 100) / 100),
+        label: i === 0 ? 'Current' : undefined
+      })
+    }
+    
+    return points
+  }
+
+  // 生成监控指标
+  generateMonitoringMetric(name: string, unit: string): MonitoringMetric {
+    const dataPoints = this.generateMonitoringDataPoints()
+    const currentValue = dataPoints[dataPoints.length - 1].value
+    const previousValue = dataPoints[dataPoints.length - 2].value
+    
+    let trend: 'up' | 'down' | 'stable'
+    if (currentValue > previousValue * 1.05) {
+      trend = 'up'
+    } else if (currentValue < previousValue * 0.95) {
+      trend = 'down'
+    } else {
+      trend = 'stable'
+    }
+
+    return {
+      name,
+      value: currentValue,
+      unit,
+      trend,
+      dataPoints
+    }
+  }
+
+  // 生成数据库监控指标
+  generateDatabaseMetrics(): MonitoringMetric[] {
+    return [
+      this.generateMonitoringMetric('Query Rate', 'queries/sec'),
+      this.generateMonitoringMetric('Connection Pool Usage', '%'),
+      this.generateMonitoringMetric('Average Query Time', 'ms'),
+      this.generateMonitoringMetric('Slow Queries', 'count'),
+      this.generateMonitoringMetric('Active Connections', 'connections'),
+      this.generateMonitoringMetric('Transaction Rate', 'tx/sec')
+    ]
+  }
+
+  // 生成IO监控指标
+  generateIOMetrics(): MonitoringMetric[] {
+    return [
+      this.generateMonitoringMetric('Read Throughput', 'MB/s'),
+      this.generateMonitoringMetric('Write Throughput', 'MB/s'),
+      this.generateMonitoringMetric('Network Latency', 'ms'),
+      this.generateMonitoringMetric('Active Sockets', 'count'),
+      this.generateMonitoringMetric('File Operations', 'ops/sec'),
+      this.generateMonitoringMetric('IO Wait Time', 'ms')
+    ]
   }
 }
 

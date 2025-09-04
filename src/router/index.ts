@@ -7,6 +7,7 @@ import RMIAnalysis from '@/views/RMIAnalysis.vue'
 import MemoryLeak from '@/views/MemoryLeak.vue'
 import ThreadAnalysis from '@/views/ThreadAnalysis.vue'
 import ProcessManager from '@/views/ProcessManager.vue'
+import ScenarioMonitoring from '@/views/ScenarioMonitoring.vue'
 
 import ShadcnShowcase from '@/views/ShadcnShowcase.vue'
 
@@ -56,6 +57,12 @@ const routes: RouteRecordRaw[] = [
     name: 'ProcessManager',
     component: ProcessManager,
     meta: { title: '进程管理' }
+  },
+  {
+    path: '/scenario',
+    name: 'ScenarioMonitoring',
+    component: ScenarioMonitoring,
+    meta: { title: '场景监控' }
   },
 
   {
