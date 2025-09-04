@@ -10,7 +10,6 @@ import type {
   ApiResponse,
   MemoryUsage,
   MonitoringConfig,
-  ScenarioConfig,
   DatabaseMonitoringConfig,
   IOMonitoringConfig,
   HTTPMonitoringConfig,

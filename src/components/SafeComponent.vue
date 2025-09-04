@@ -20,7 +20,7 @@ interface Props {
   component: any
 }
 
-const props = defineProps<Props>()
+defineProps<Props>()
 const emit = defineEmits<{
   mounted: []
   updated: []

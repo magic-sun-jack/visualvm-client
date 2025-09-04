@@ -9,7 +9,7 @@ import { scenarioApi } from '@/api'
 
 interface Props {
   scenario: string
-  processId: string
+  processId?: string
   interval?: number
   maxPoints?: number
 }
@@ -32,7 +32,7 @@ const chartData = reactive({
 async function fetchRealtimeData() {
   try {
     const response = await scenarioApi.getRealtimeMetrics(
-      props.processId,
+      props.processId || '',
       props.scenario,
       lastTimestamp || undefined
     )

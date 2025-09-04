@@ -4,16 +4,13 @@
       <CardHeader>
         <CardTitle>场景监控</CardTitle>
         <div class="flex items-center gap-2 ml-auto">
-          <Select v-model="selectedScenario" @update:modelValue="handleScenarioChange">
-            <SelectTrigger class="w-40">
-              <SelectValue placeholder="选择监控场景" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="database">数据库监控</SelectItem>
-              <SelectItem value="io">IO监控</SelectItem>
-              <SelectItem value="http">HTTP监控</SelectItem>
-            </SelectContent>
-          </Select>
+          <Select 
+            v-model="selectedScenario" 
+            :options="scenarioOptions"
+            placeholder="选择监控场景"
+            class="w-40"
+            @update:modelValue="(value: string | number) => handleScenarioChange(String(value))"
+          />
           
           <Button
             :variant="isMonitoring ? 'destructive' : 'default'"
@@ -140,10 +137,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted, onUnmounted } from 'vue'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { ref, onMounted, onUnmounted } from 'vue'
+import { Card, CardContent, CardHeader, CardTitle, Button, Select } from '@/components/ui'
 import { scenarioApi } from '@/api'
 import MetricSparkline from './MetricSparkline.vue'
 import RealtimeChart from './RealtimeChart.vue'
@@ -160,6 +155,12 @@ const isMonitoring = ref(false)
 const loading = ref(false)
 const config = ref<any>(null)
 const metrics = ref<MonitoringMetric[]>([])
+
+const scenarioOptions = [
+  { value: 'database', label: '数据库监控' },
+  { value: 'io', label: 'IO监控' },
+  { value: 'http', label: 'HTTP监控' }
+]
 
 let metricsIntervalId: number | null = null
 
