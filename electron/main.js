@@ -38,6 +38,17 @@ function createWindow() {
     mainWindow.loadFile(path.join(__dirname, '../dist/index.html'))
   }
 
+  // 添加导航拦截器，处理 SPA 路由
+  mainWindow.webContents.on('did-fail-load', (event, errorCode, errorDescription, validatedURL) => {
+    // 如果是路由导航失败，重新加载主页面
+    if (errorCode === -6) { // ERR_FILE_NOT_FOUND
+      console.log('路由导航失败，重新加载:', validatedURL)
+      if (!isDev) {
+        mainWindow.loadFile(path.join(__dirname, '../dist/index.html'))
+      }
+    }
+  })
+
   // 窗口准备好后显示
   mainWindow.once('ready-to-show', () => {
     mainWindow.show()

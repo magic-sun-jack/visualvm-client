@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHistory, createWebHashHistory } from 'vue-router'
 import type { RouteRecordRaw } from 'vue-router'
 import Dashboard from '@/views/Dashboard.vue'
 import JavaProcesses from '@/views/JavaProcesses.vue'
@@ -75,8 +75,11 @@ const routes: RouteRecordRaw[] = [
   // { path: '/:pathMatch(.*)*', redirect: '/dashboard' }
 ]
 
+// 检测是否在 Electron 环境中 - 检查用户代理字符串或其他 Electron 特征
+const isElectron = typeof window !== 'undefined' && window.navigator.userAgent.includes('Electron')
+
 const router = createRouter({
-  history: createWebHistory(),
+  history: isElectron ? createWebHashHistory() : createWebHistory(),
   routes,
   // 添加路由配置以避免DevTools问题
   scrollBehavior(_to, _from, savedPosition) {

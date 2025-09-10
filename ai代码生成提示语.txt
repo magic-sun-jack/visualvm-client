@@ -5,3 +5,7 @@
 views文件夹下所有文件使用shadch-vue组件，页面body要有16px内边距，元素上下居中
 
 增加一个打包成exe安装包的命令，生成可执行文件,使用esm而不用cjs
+
+以electron客户端运行时刷新会导致页面不加载，如何解决
+(node:2652) electron: Failed to load URL: file:///dashboard with error: ERR_FILE_NOT_FOUND
+(Use `electron --trace-warnings ...` to show where the warning was created)
