@@ -1,2 +1,5 @@
 node_modules
-dist-electron/win-unpacked/
+dist-electron/
+.DS_Store
+dist
+dist-electron/win-unpacked

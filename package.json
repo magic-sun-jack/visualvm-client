@@ -8,6 +8,7 @@
   "scripts": {
     "dev": "vite --open --port 3300",
     "dev-local": "vite --open --port 3300 --mode dev-local",
+    "deploy": "npm run build && gh-pages -d dist",
     "build": "vite build",
     "build:check": "vue-tsc && vite build",
     "preview": "vite preview",
@@ -54,6 +55,7 @@
     "electron-builder": "^26.0.12",
     "eslint": "^8.55.0",
     "eslint-plugin-vue": "^9.19.0",
+    "gh-pages": "^6.3.0",
     "postcss": "^8.4.32",
     "tailwindcss": "^3.4.0",
     "tailwindcss-animate": "^1.0.7",
