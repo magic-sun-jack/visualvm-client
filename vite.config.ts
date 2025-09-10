@@ -3,6 +3,7 @@ import vue from '@vitejs/plugin-vue'
 import { resolve } from 'path'
 
 export default defineConfig({
+  base: process.env.NODE_ENV === 'production' ? './' : '/',
   plugins: [
     vue({
       template: {
@@ -61,5 +62,7 @@ export default defineConfig({
         },
       },
     },
+    // 为 Electron 优化资源路径
+    assetsInlineLimit: 0,
   },
 })
