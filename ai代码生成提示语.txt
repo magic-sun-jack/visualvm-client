@@ -3,3 +3,5 @@
 使用@https://ui.shadcn.com/ 得UI组件
 
 views文件夹下所有文件使用shadch-vue组件，页面body要有16px内边距，元素上下居中
+
+增加一个打包成exe安装包的命令，生成可执行文件,使用esm而不用cjs

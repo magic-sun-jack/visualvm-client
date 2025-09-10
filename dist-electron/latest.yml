@@ -1,0 +1,8 @@
+version: 1.0.0
+files:
+  - url: VisualVM-Client-Setup-1.0.0.exe
+    sha512: zUzU/7DjtTO5sj4J5b5/h/8rsLPq9rctNmM+s4HfrMUs6WluHszD3wA9AIlHkMDajaccmRLoRfi8Wa69bfh4EA==
+    size: 89174264
+path: VisualVM-Client-Setup-1.0.0.exe
+sha512: zUzU/7DjtTO5sj4J5b5/h/8rsLPq9rctNmM+s4HfrMUs6WluHszD3wA9AIlHkMDajaccmRLoRfi8Wa69bfh4EA==
+releaseDate: '2025-09-10T05:34:29.400Z'

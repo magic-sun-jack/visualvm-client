@@ -2,6 +2,44 @@
 
 一个基于 Vue 3 + TypeScript + Tailwind CSS 的现代化 Java 应用监控客户端，提供全面的 JVM 性能监控和分析功能。
 
+## 开发相关命令：
+
+```bash
+npm run dev - 启动 Vite 开发服务器
+```
+```bash
+npm run electron:dev - 同时启动开发服务器和 Electron
+```
+```bash
+npm run electron - 仅启动 Electron（需要先构建）
+```
+```bash
+构建相关命令：
+
+npm run build - 构建 Vue 应用（跳过 TypeScript 检查）
+```
+```bash
+npm run build:check - 构建 Vue 应用（包含 TypeScript 检查）
+```
+打包相关命令：
+
+```bash
+npm run pack:win - 仅打包（不重新构建）
+```
+```bash
+npm run dist:win - 构建并打包成 Windows 安装包
+```
+```bash
+npm run installer:win - 构建并打包成可自定义安装路径的 Windows 安装包
+```
+```bash
+npm run electron:build:win - 标准的构建和打包命令
+```
+生成的文件位置：
+
+安装包：dist-electron/VisualVM Client Setup 1.0.0.exe
+解压版本：dist-electron/win-unpacked/
+
 ## 🚀 功能特性
 
 ### 核心监控功能
