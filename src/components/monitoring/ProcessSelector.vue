@@ -9,45 +9,45 @@
       </DialogHeader>
 
       <div class="grid gap-4 py-4">
-        <Tabs :tabs="[
-          { value: 'local', label: '本地进程' },
-          { value: 'remote', label: '远程进程' }
-        ]" v-model:activeTab="activeTab">
-          <template #default="{ activeTab }">
-            <div v-if="activeTab === 'local'" class="space-y-4">
-              <div v-if="loading" class="flex items-center justify-center py-8">
-                <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
-              </div>
-              <div v-else-if="processes.length === 0" class="text-center py-8 text-gray-500">
-                未找到正在运行的 Java 进程
-              </div>
-              <div v-else class="space-y-2 max-h-[400px] overflow-y-auto">
-                <RadioGroup 
-                  v-model="selectedProcess"
-                  :options="processes.map(p => ({
-                    value: String(p.pid),
-                    label: `PID: ${p.pid} - ${p.mainClass}`
-                  }))"
-                  name="process-selector"
-                />
-              </div>
-              <Button @click="refreshProcesses" class="w-full">
-                刷新进程列表
-              </Button>
+        <Tabs v-model="activeTab" default-value="local" class="w-full">
+          <TabsList class="grid w-full grid-cols-2">
+            <TabsTrigger value="local">本地进程</TabsTrigger>
+            <TabsTrigger value="remote">远程进程</TabsTrigger>
+          </TabsList>
+          <TabsContent value="local" class="space-y-4">
+            <div v-if="loading" class="flex items-center justify-center py-8">
+              <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
             </div>
-            <div v-else-if="activeTab === 'remote'" class="space-y-4">
-              <div class="grid grid-cols-2 gap-4">
-                <div class="space-y-2">
-                  <Label>IP 地址</Label>
-                  <Input v-model="remoteHost" placeholder="例如: 192.168.1.100" />
+            <div v-else-if="processes.length === 0" class="text-center py-8 text-gray-500">
+              未找到正在运行的 Java 进程
+            </div>
+            <div v-else class="space-y-2 max-h-[400px] overflow-y-auto">
+              <RadioGroup v-model="selectedProcess">
+                <div v-for="process in processes" :key="process.pid" class="flex items-start space-x-4 p-4 rounded-lg border">
+                  <RadioGroupItem :value="String(process.pid)" />
+                  <div>
+                    <div class="font-medium">PID: {{ process.pid }}</div>
+                    <div class="text-sm text-gray-500">{{ process.mainClass }}</div>
+                  </div>
                 </div>
-                <div class="space-y-2">
-                  <Label>端口</Label>
-                  <Input v-model="remotePort" placeholder="例如: 9010" type="number" />
-                </div>
+              </RadioGroup>
+            </div>
+            <Button @click="refreshProcesses" class="w-full">
+              刷新进程列表
+            </Button>
+          </TabsContent>
+          <TabsContent value="remote" class="space-y-4">
+            <div class="grid grid-cols-2 gap-4">
+              <div class="space-y-2">
+                <Label>IP 地址</Label>
+                <Input v-model="remoteHost" placeholder="例如: 192.168.1.100" />
+              </div>
+              <div class="space-y-2">
+                <Label>端口</Label>
+                <Input v-model="remotePort" placeholder="例如: 9010" type="number" />
               </div>
             </div>
-          </template>
+          </TabsContent>
         </Tabs>
       </div>
 
@@ -65,12 +65,12 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue'
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui'
-import { Tabs } from '@/components/ui'
-import { RadioGroup } from '@/components/ui'
-import { Label } from '@/components/ui'
-import { Input } from '@/components/ui'
-import { Button } from '@/components/ui'
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
+import { Label } from '@/components/ui/label'
+import { Input } from '@/components/ui/input'
+import { Button } from '@/components/ui/button'
 import { processApi } from '@/api'
 import type { JavaProcess } from '@/types'
 

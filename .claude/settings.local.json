@@ -2,7 +2,22 @@
   "permissions": {
     "allow": [
       "Bash(npm run dev:*)",
-      "Bash(netstat:*)"
+      "Bash(netstat:*)",
+      "Read(/D:\\code\\money\\visualvm-client/**)",
+      "Read(/D:\\code\\money\\visualvm-client/**)",
+      "Bash(npm --version)",
+      "Bash(node:*)",
+      "Bash(taskkill:*)",
+      "Bash(cmd /c:*)",
+      "Read(/D:\\code\\money\\visualvm-client/**)",
+      "Read(/D:\\code\\money\\visualvm-client\\src\\components\\ui/**)",
+      "Read(/D:\\code\\money\\visualvm-client\\src\\components\\ui/**)",
+      "Read(/D:\\code\\money\\visualvm-client\\src\\components\\ui/**)",
+      "Read(/D:\\code\\money\\visualvm-client\\src\\components\\ui/**)",
+      "Read(/D:\\code\\money\\visualvm-client\\src\\components\\ui/**)",
+      "Read(/D:\\code\\money\\visualvm-client\\src\\components\\ui\\button/**)",
+      "Read(/D:\\code\\money\\visualvm-client\\src\\components\\ui\\button/**)",
+      "Read(/D:\\code\\money\\visualvm-client\\src\\components\\ui/**)"
     ],
     "deny": [],
     "ask": []
