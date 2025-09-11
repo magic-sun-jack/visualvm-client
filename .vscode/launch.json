@@ -7,6 +7,13 @@
       "name": "Run Local",
       "command": "pnpm dev-local",
       "cwd": "${workspaceFolder}"
+    },
+    {
+      "type": "node-terminal",
+      "request": "launch",
+      "name": "Run Deploy",
+      "command": "pnpm deploy",
+      "cwd": "${workspaceFolder}"
     }
   ]
 }

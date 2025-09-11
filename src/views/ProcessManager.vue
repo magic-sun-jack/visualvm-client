@@ -10,11 +10,11 @@
           </svg>
           刷新
         </Button>
-        <Button variant="outline" @click="showCreateProcessDialog">
+        <Button variant="default" @click="showProcessSelector">
           <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
           </svg>
-          创建进程
+          添加监控
         </Button>
       </div>
     </div>
@@ -142,59 +142,25 @@
       </CardContent>
     </Card>
 
-    <!-- 创建进程对话框 -->
-    <div v-if="showCreateDialog" class="fixed inset-0 bg-background/80 backdrop-blur-sm overflow-y-auto h-full w-full z-50">
-      <div class="relative top-20 mx-auto p-6 border w-96 shadow-lg rounded-md bg-card">
-        <div class="mt-3">
-          <h3 class="text-lg font-medium text-foreground mb-4">创建新进程</h3>
-          <form @submit.prevent="handleCreateProcess" class="space-y-4">
-            <div>
-              <label class="block text-sm font-medium text-foreground">进程名称</label>
-              <Input v-model="createParams.name" type="text" required class="w-full" />
-            </div>
-            <div>
-              <label class="block text-sm font-medium text-foreground">命令</label>
-              <Input v-model="createParams.command" type="text" required class="w-full" />
-            </div>
-            <div>
-              <label class="block text-sm font-medium text-foreground">工作目录</label>
-              <Input v-model="createParams.workingDir" type="text" class="w-full" />
-            </div>
-            <div>
-              <label class="block text-sm font-medium text-foreground">环境变量</label>
-              <textarea v-model="envVarsText" placeholder="每行一个变量，格式：KEY=VALUE" class="flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2" rows="3"></textarea>
-            </div>
-            <div class="flex justify-end space-x-3">
-              <Button type="button" variant="outline" @click="closeCreateDialog">
-                取消
-              </Button>
-              <Button type="submit">
-                创建
-              </Button>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
+    <!-- 进程选择器对话框 -->
+    <ProcessSelector
+      v-model:isOpen="showProcessSelectorDialog"
+      @select="handleProcessSelect"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
 import { Button, Card, CardHeader, CardTitle, CardContent, Input, Badge, Select } from '@/components/ui'
+import ProcessSelector from '@/components/monitoring/ProcessSelector.vue'
+import { getJavaProcesses, startMonitoring, stopMonitoring } from '@/api/process'
 
 // 响应式数据
 const isLoading = ref(false)
 const searchQuery = ref('')
 const statusFilter = ref('')
-const showCreateDialog = ref(false)
-const createParams = ref({
-  name: '',
-  command: '',
-  workingDir: '',
-  envVars: []
-})
-const envVarsText = ref('')
+const showProcessSelectorDialog = ref(false)
 
 // 模拟数据
 const totalProcesses = ref(25)
@@ -252,50 +218,77 @@ const filteredProcesses = computed(() => {
 })
 
 // 方法
-function refreshProcesses() {
+async function refreshProcesses() {
   isLoading.value = true
-  setTimeout(() => {
+  try {
+    const response = await getJavaProcesses()
+    if (response.success) {
+      processes.value = response.data.map(process => ({
+        id: process.pid.toString(),
+        name: process.name,
+        pid: process.pid,
+        command: process.mainClass,
+        status: process.status,
+        memoryUsage: process.memoryUsage.used,
+        cpuUsage: process.cpuUsage
+      }))
+    }
+  } catch (error) {
+    console.error('获取进程列表失败:', error)
+  } finally {
     isLoading.value = false
-  }, 1000)
-}
-
-function showCreateProcessDialog() {
-  showCreateDialog.value = true
-  createParams.value = {
-    name: '',
-    command: '',
-    workingDir: '',
-    envVars: []
   }
-  envVarsText.value = ''
 }
 
-function closeCreateDialog() {
-  showCreateDialog.value = false
+function showProcessSelector() {
+  showProcessSelectorDialog.value = true
 }
 
-async function handleCreateProcess() {
-  // 解析环境变量
-  createParams.value.envVars = envVarsText.value.split('\n').filter(s => s.trim())
-
-  console.log('创建进程:', createParams.value)
-  closeCreateDialog()
-  refreshProcesses()
+async function handleProcessSelect(config: { pid: string, host?: string, port?: number }) {
+  try {
+    const response = await startMonitoring(config)
+    if (response.success) {
+      console.log('开始监控进程:', config)
+      await refreshProcesses()
+    }
+  } catch (error) {
+    console.error('启动监控失败:', error)
+  }
 }
 
 async function stopProcess(id: string) {
-  console.log('停止进程:', id)
-  refreshProcesses()
+  try {
+    const response = await stopMonitoring(id)
+    if (response.success) {
+      console.log('停止监控进程:', id)
+      await refreshProcesses()
+    }
+  } catch (error) {
+    console.error('停止监控失败:', error)
+  }
 }
 
 async function startProcess(id: string) {
-  console.log('启动进程:', id)
-  refreshProcesses()
+  try {
+    const response = await startMonitoring({ pid: id })
+    if (response.success) {
+      console.log('启动监控进程:', id)
+      await refreshProcesses()
+    }
+  } catch (error) {
+    console.error('启动监控失败:', error)
+  }
 }
 
 async function restartProcess(id: string) {
-  console.log('重启进程:', id)
-  refreshProcesses()
+  try {
+    await stopMonitoring(id)
+    await startMonitoring({ pid: id })
+    console.log('重启监控进程:', id)
+    await refreshProcesses()
+  } catch (error) {
+    console.error('重启监控失败:', error)
+  }
 }
 
 function viewProcessDetails(process: any) {

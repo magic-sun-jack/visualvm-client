@@ -2,3 +2,4 @@ node_modules
 dist-electron
 .DS_Store
 dist
+*.jar
