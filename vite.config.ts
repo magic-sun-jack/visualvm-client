@@ -37,10 +37,9 @@ export default defineConfig({
       interval: 100,
     },
     proxy: {
-      '/api': {
-        target: 'http://localhost:8080',
+      '/cvm': {
+        target: 'http://localhost:8099',
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, ''),
       },
       '/ws': {
         target: 'http://localhost:8080',

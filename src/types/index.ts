@@ -1,3 +1,13 @@
+// 进程概览信息
+export interface ProcessOverview {
+  pid: number                    // 进程ID
+  name: string                   // 进程名称
+  memoryUsage: MemoryUsage      // 内存使用情况
+  status: 'running' | 'stopped' | 'error' // 进程状态
+  uptime: number                // 运行时间
+  threadCount: number           // 线程数
+}
+
 // Java进程信息
 export interface JavaProcess {
   id: string
@@ -16,10 +26,12 @@ export interface JavaProcess {
 
 // 内存使用情况
 export interface MemoryUsage {
-  used: number
-  max: number
-  committed: number
-  percentage: number
+  used: number        // 已使用内存(MB)
+  max: number         // 最大内存(MB)
+  committed: number   // 已提交内存(MB)
+  heapUsage: number  // 堆内存使用(MB)
+  nonHeapUsage: number // 非堆内存使用(MB)
+  percentage: number  // 使用率(%)
 }
 
 // 线程信息
@@ -85,10 +97,10 @@ export interface SystemOverview {
 
 // API响应格式
 export interface ApiResponse<T> {
-  success: boolean
-  data: T
-  message?: string
-  timestamp: string
+  code: number      // 状态码
+  msg: string      // 消息
+  data: T          // 数据
+  success: boolean // 是否成功
 }
 
 // 分页参数

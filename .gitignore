@@ -3,3 +3,9 @@ dist-electron
 .DS_Store
 dist
 *.jar
+
+# H2数据库文件
+java/db/*.db
+java/db/*.mv.db
+java/db/*.trace.db
+db/monitor.mv.db

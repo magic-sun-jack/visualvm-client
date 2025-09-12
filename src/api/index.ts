@@ -19,8 +19,26 @@ const api = axios.create({
   baseURL: env.API_BASE_URL,
   timeout: env.API_TIMEOUT,
   headers: {
-    'Content-Type': 'application/json',
+    'Content-Type': 'application/json'
   },
+  responseType: 'json',
+  transformResponse: [
+    data => {
+      if (typeof data === 'string') {
+        try {
+          data = JSON.parse(data);
+        } catch (e) {
+          /* Ignore */
+        }
+      }
+      return {
+        success: data.status === 0,
+        code: data.status,
+        msg: data.msg,
+        data: data.data
+      };
+    }
+  ],
 })
 
 // 请求拦截器
@@ -40,6 +58,11 @@ api.interceptors.request.use(
 api.interceptors.response.use(
   (response) => {
     debugLog('API响应:', response.config.url, response.data)
+    // 检查响应状态
+    if (!response.data.success) {
+      errorLog('业务错误:', response.data.msg)
+      return Promise.reject(new Error(response.data.msg))
+    }
     return response.data
   },
   (error) => {
@@ -58,7 +81,7 @@ export const processApi = {
       const processes = mockDataCache.getProcesses()
       return mockDataGenerator.generateApiResponse(processes)
     }
-    return api.get('/processes')
+    return api.get('/overview/getFilteredProcesses')
   },
 
   // 获取单个进程详情
@@ -71,7 +94,7 @@ export const processApi = {
       }
       return mockDataGenerator.generateApiResponse(process)
     }
-    return api.get(`/processes/${id}`)
+    return api.get(`/overview/getLocalOverview?pid=${id}`)
   },
 
   // 启动JAR进程

@@ -1,0 +1,275 @@
+{
+  "info": {
+    "name": "VisualVM Client API",
+    "description": "VisualVM 客户端 API 集合",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "进程管理",
+      "item": [
+        {
+          "name": "获取本地进程概述",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/cvm/overview/getLocalOverview?pid={{pid}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["cvm", "overview", "getLocalOverview"],
+              "query": [
+                {
+                  "key": "pid",
+                  "value": "{{pid}}"
+                }
+              ]
+            },
+            "description": "获取本地指定进程的概述信息"
+          }
+        },
+        {
+          "name": "获取远程进程概述",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/cvm/overview/getRemoteOverview?host={{host}}&port={{port}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["cvm", "overview", "getRemoteOverview"],
+              "query": [
+                {
+                  "key": "host",
+                  "value": "{{host}}"
+                },
+                {
+                  "key": "port",
+                  "value": "{{port}}"
+                }
+              ]
+            },
+            "description": "获取远程主机上的进程概述"
+          }
+        },
+        {
+          "name": "启动进程监控",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/cvm/monitor/start?pid={{pid}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["cvm", "monitor", "start"],
+              "query": [
+                {
+                  "key": "pid",
+                  "value": "{{pid}}"
+                }
+              ]
+            },
+            "description": "启动对指定进程的监控"
+          }
+        },
+        {
+          "name": "获取过滤后的进程",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/cvm/overview/getFilteredProcesses",
+              "host": ["{{baseUrl}}"],
+              "path": ["cvm", "overview", "getFilteredProcesses"]
+            },
+            "description": "获取经过过滤的进程列表"
+          }
+        }
+      ],
+      "description": "进程管理相关接口"
+    },
+    {
+      "name": "线程分析",
+      "item": [
+        {
+          "name": "监控线程",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/cvm/thread/monitorThreads?pid={{pid}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["cvm", "thread", "monitorThreads"],
+              "query": [
+                {
+                  "key": "pid",
+                  "value": "{{pid}}"
+                }
+              ]
+            },
+            "description": "监控指定进程的线程"
+          }
+        },
+        {
+          "name": "获取线程转储",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/cvm/thread/dump?pid={{pid}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["cvm", "thread", "dump"],
+              "query": [
+                {
+                  "key": "pid",
+                  "value": "{{pid}}"
+                }
+              ]
+            },
+            "description": "获取指定进程的线程转储信息"
+          }
+        }
+      ],
+      "description": "线程分析相关接口"
+    },
+    {
+      "name": "CPU监控",
+      "item": [
+        {
+          "name": "启动CPU监控",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/cvm/cpu/start?pid={{pid}}&packageFilter=java.*,com.*&filterType=include",
+              "host": ["{{baseUrl}}"],
+              "path": ["cvm", "cpu", "start"],
+              "query": [
+                {
+                  "key": "pid",
+                  "value": "{{pid}}"
+                },
+                {
+                  "key": "packageFilter",
+                  "value": "java.*,com.*"
+                },
+                {
+                  "key": "filterType",
+                  "value": "include"
+                }
+              ]
+            },
+            "description": "启动CPU使用监控"
+          }
+        },
+        {
+          "name": "获取CPU监控流",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/cvm/cpu/stream?pid={{pid}}&refreshPeriod=5000",
+              "host": ["{{baseUrl}}"],
+              "path": ["cvm", "cpu", "stream"],
+              "query": [
+                {
+                  "key": "pid",
+                  "value": "{{pid}}"
+                },
+                {
+                  "key": "refreshPeriod",
+                  "value": "5000"
+                }
+              ]
+            },
+            "description": "获取CPU使用情况数据流"
+          }
+        },
+        {
+          "name": "停止CPU监控",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/cvm/cpu/stop?pid={{pid}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["cvm", "cpu", "stop"],
+              "query": [
+                {
+                  "key": "pid",
+                  "value": "{{pid}}"
+                }
+              ]
+            },
+            "description": "停止CPU使用监控"
+          }
+        }
+      ],
+      "description": "CPU监控相关接口"
+    },
+    {
+      "name": "内存监控",
+      "item": [
+        {
+          "name": "启动内存监控",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/cvm/memory/start?pid={{pid}}&refresh=10000",
+              "host": ["{{baseUrl}}"],
+              "path": ["cvm", "memory", "start"],
+              "query": [
+                {
+                  "key": "pid",
+                  "value": "{{pid}}"
+                },
+                {
+                  "key": "refresh",
+                  "value": "10000"
+                }
+              ]
+            },
+            "description": "启动内存使用监控"
+          }
+        },
+        {
+          "name": "获取内存监控流",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/cvm/memory/stream?pid={{pid}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["cvm", "memory", "stream"],
+              "query": [
+                {
+                  "key": "pid",
+                  "value": "{{pid}}"
+                }
+              ]
+            },
+            "description": "获取内存使用情况数据流"
+          }
+        },
+        {
+          "name": "停止内存监控",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/cvm/memory/stop?pid={{pid}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["cvm", "memory", "stop"],
+              "query": [
+                {
+                  "key": "pid",
+                  "value": "{{pid}}"
+                }
+              ]
+            },
+            "description": "停止内存使用监控"
+          }
+        }
+      ],
+      "description": "内存监控相关接口"
+    }
+  ]
+}
