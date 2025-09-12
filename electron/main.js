@@ -1,13 +1,16 @@
-import { app, BrowserWindow, Menu, shell } from 'electron'
+import { app, BrowserWindow, Menu, shell, ipcMain } from 'electron'
 import path from 'path'
 import { fileURLToPath } from 'url'
 import { dirname } from 'path'
+import { spawn } from 'child_process'
+import axios from 'axios'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
 const isDev = process.env.NODE_ENV === 'development'
 
 let mainWindow
+let javaProcess = null
 
 function createWindow() {
   // 创建浏览器窗口
@@ -20,7 +23,8 @@ function createWindow() {
       nodeIntegration: false,
       contextIsolation: true,
       enableRemoteModule: false,
-      webSecurity: true
+      webSecurity: true,
+      preload: path.join(__dirname, 'preload.js')
     },
     icon: path.join(__dirname, '../public/icon.svg'), // 应用图标
     titleBarStyle: 'default',
@@ -67,8 +71,18 @@ function createWindow() {
 }
 
 // 当 Electron 完成初始化并准备创建浏览器窗口时调用此方法
-app.whenReady().then(() => {
+app.whenReady().then(async () => {
   createWindow()
+  
+  // 立即通知前端显示loading状态
+  mainWindow.webContents.send('java-service-status', { status: 'loading' })
+  
+  try {
+    await startJavaService()
+  } catch (error) {
+    console.error('Java服务启动失败:', error)
+    mainWindow.webContents.send('java-service-status', { status: 'error', message: error.message })
+  }
 
   // 在 macOS 上，当单击 dock 图标并且没有其他窗口打开时，
   // 通常在应用程序中重新创建窗口
@@ -86,6 +100,85 @@ app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
     app.quit()
   }
+})
+
+// 启动 Java 服务
+async function startJavaService() {
+  const jarPath = path.join(__dirname, '../java/monitor-0.0.1-SNAPSHOT.jar')
+  
+  javaProcess = spawn('java', ['-jar', jarPath], {
+    stdio: ['ignore', 'pipe', 'pipe']
+  })
+
+  javaProcess.stdout.on('data', (data) => {
+    console.log(`Java服务输出: ${data}`)
+    if (data.toString().includes('Started MonitorApplication')) {
+      mainWindow.webContents.send('java-service-status', { status: 'running' })
+    }
+  })
+
+  javaProcess.stderr.on('data', (data) => {
+    console.error(`Java服务错误: ${data}`)
+  })
+
+  javaProcess.on('close', (code) => {
+    console.log(`Java服务已退出，退出码: ${code}`)
+    mainWindow.webContents.send('java-service-status', { status: 'stopped' })
+    javaProcess = null
+  })
+
+  // 等待服务启动
+  let attempts = 0
+  const maxAttempts = 30
+  while (attempts < maxAttempts) {
+    try {
+      await axios.get('http://localhost:8080/health')
+      console.log('Java服务已就绪')
+      mainWindow.webContents.send('java-service-status', { status: 'running' })
+      return true
+    } catch (error) {
+      attempts++
+      await new Promise(resolve => setTimeout(resolve, 1000))
+    }
+  }
+  throw new Error('Java服务启动超时')
+}
+
+// 停止 Java 服务
+function stopJavaService() {
+  if (javaProcess) {
+    javaProcess.kill()
+    javaProcess = null
+  }
+}
+
+// 在应用退出前清理
+app.on('before-quit', () => {
+  stopJavaService()
+})
+
+// 设置 IPC 通信
+ipcMain.handle('check-java-service', async () => {
+  try {
+    const response = await axios.get('http://localhost:8080/health')
+    return { status: 'running' }
+  } catch (error) {
+    return { status: 'stopped' }
+  }
+})
+
+ipcMain.handle('start-java-service', async () => {
+  try {
+    await startJavaService()
+    return { success: true }
+  } catch (error) {
+    console.error('启动Java服务失败:', error)
+    return { success: false, error: error.message }
+  }
+})
+
+ipcMain.handle('exit-app', () => {
+  app.quit()
 })
 
 // 设置应用菜单

@@ -1,0 +1,14 @@
+2025-09-12 09:23:49.489 [main] ERROR org.springframework.boot.diagnostics.LoggingFailureAnalysisReporter - 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Web server failed to start. Port 8099 was already in use.
+
+Action:
+
+Identify and stop the process that's listening on port 8099 or configure this application to listen on another port.
+

@@ -1,0 +1,7 @@
+ignoredBuiltDependencies:
+  - '@tailwindcss/oxide'
+  - electron
+  - electron-winstaller
+  - esbuild
+  - vue-demi
+  - vue-echarts
