@@ -14,6 +14,13 @@
       "name": "Run Deploy",
       "command": "pnpm deploy",
       "cwd": "${workspaceFolder}"
+    },
+    {
+      "type": "node-terminal",
+      "request": "launch",
+      "name": "Run Electron Dev",
+      "command": "pnpm electron:dev",
+      "cwd": "${workspaceFolder}"
     }
   ]
 }
