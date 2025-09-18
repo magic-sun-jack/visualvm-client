@@ -94,7 +94,25 @@ export const processApi = {
       }
       return mockDataGenerator.generateApiResponse(process)
     }
-    return api.get(`/overview/getLocalOverview?pid=${id}`)
+    return api.get(`/overview/getLocalOverview`, { params: { pid: id } })
+  },
+
+  // 获取远程进程概述信息
+  async getRemoteProcess(host: string, port: number, username?: string, password?: string): Promise<ApiResponse<JavaProcess>> {
+    if (env.USE_MOCK_DATA) {
+      await mockDelay(1200) // 远程连接需要更长时间
+      const process = mockDataGenerator.generateJavaProcess()
+      process.host = host
+      process.port = port
+      process.name = `远程进程@${host}:${port}`
+      return mockDataGenerator.generateApiResponse(process)
+    }
+    
+    const params: any = { host, port }
+    if (username) params.username = username
+    if (password) params.password = password
+    
+    return api.get(`/overview/getRemoteOverview`, { params })
   },
 
   // 启动JAR进程
@@ -109,7 +127,13 @@ export const processApi = {
       mockDataCache.processes.push(newProcess)
       return mockDataGenerator.generateApiResponse(newProcess, true, '进程启动成功')
     }
-    return api.post('/processes/start', params)
+    // 与文档对齐：启动监控 GET /monitor/start?pid=...&host=...&port=...
+    const query = {
+      pid: (params as any).pid,
+      host: (params as any).host,
+      port: (params as any).port
+    }
+    return api.get('/monitor/start', { params: query })
   },
 
   // 停止进程
@@ -148,7 +172,7 @@ export const processApi = {
       const threads = mockDataCache.getThreads().slice(0, 20) // 返回前20个线程
       return mockDataGenerator.generateApiResponse(threads)
     }
-    return api.get(`/processes/${id}/threads`)
+    return api.get(`/thread/monitorThreads`, { params: { pid: id } })
   },
 
   // 获取进程内存使用情况
@@ -177,7 +201,8 @@ export const processApi = {
         timestamp: new Date().toISOString()
       })
     }
-    return api.get(`/processes/${id}/cpu`)
+    // 文档流式接口：GET /cpu/stream?pid=...
+    return api.get(`/cpu/stream`, { params: { pid: id } })
   }
 }
 
@@ -373,7 +398,7 @@ export const threadApi = {
       const threads = mockDataCache.getThreads()
       return mockDataGenerator.generateApiResponse(threads)
     }
-    return api.get(`/threads/${processId}/dump`)
+    return api.get(`/thread/dump`, { params: { pid: processId } })
   }
 }
 

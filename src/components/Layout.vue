@@ -26,7 +26,16 @@
             <span class="text-xs text-muted-foreground">系统运行中</span>
           </div>
 
-
+          <!-- 连接进程按钮 -->
+          <Button
+            variant="default"
+            size="sm"
+            @click="openProcessConnectDialog"
+            class="h-8 px-3 hidden sm:flex"
+          >
+            <Plug class="h-4 w-4" />
+            连接进程
+          </Button>
 
           <!-- 刷新按钮 -->
           <Button
@@ -95,18 +104,27 @@
         <slot />
       </main>
     </div>
+
+    <!-- 进程连接对话框 -->
+    <ProcessConnectDialog
+      v-model:open="showProcessConnectDialog"
+      @process-connected="handleProcessConnected"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 import { useProcessStore } from '@/stores/process'
+import type { JavaProcess } from '@/types'
 import { Button } from '@/components/ui'
 import MobileNav from '@/components/MobileNav.vue'
 import Breadcrumb from '@/components/Breadcrumb.vue'
 import SearchBar from '@/components/SearchBar.vue'
 import ThemeToggle from '@/components/ThemeToggle.vue'
 import NotificationBell from '@/components/NotificationBell.vue'
+import ProcessConnectDialog from '@/components/ProcessConnectDialog.vue'
 import {
   LayoutDashboard,
   Activity,
@@ -118,11 +136,14 @@ import {
   Eye,
   RefreshCw,
   User,
-  Monitor
+  Monitor,
+  Plug
 } from 'lucide-vue-next'
 
+const router = useRouter()
 const processStore = useProcessStore()
 const isRefreshing = ref(false)
+const showProcessConnectDialog = ref(false)
 
 const navigationItems = [
   {
@@ -176,6 +197,18 @@ async function refreshData() {
   } finally {
     isRefreshing.value = false
   }
+}
+
+function openProcessConnectDialog() {
+  showProcessConnectDialog.value = true
+}
+
+function handleProcessConnected(process: JavaProcess) {
+  console.log('进程连接成功:', process)
+  // 刷新进程列表
+  processStore.fetchProcesses()
+  // 可以导航到进程监控页面
+  router.push(`/processes`)
 }
 
 // 组件挂载时：使用本地模拟流每300ms更新

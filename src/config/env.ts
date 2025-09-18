@@ -5,7 +5,7 @@ export const env = {
   APP_VERSION: import.meta.env.VITE_APP_VERSION || '1.0.0',
   
   // API配置
-  API_BASE_URL: import.meta.env.VITE_API_BASE_URL || '/api',
+  API_BASE_URL: import.meta.env.VITE_API_BASE_URL || 'http://localhost:8099',
   API_TIMEOUT: Number(import.meta.env.VITE_API_TIMEOUT) || 30000,
   
   // 模拟数据配置

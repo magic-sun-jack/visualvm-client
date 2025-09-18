@@ -22,6 +22,8 @@ export interface JavaProcess {
   memoryUsage: MemoryUsage
   cpuUsage: number
   threadCount: number
+  host?: string  // 远程主机地址（可选，本地进程时为空）
+  port?: number  // 远程端口（可选，本地进程时为空）
 }
 
 // 内存使用情况
