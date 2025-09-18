@@ -24,6 +24,9 @@ export interface JavaProcess {
   threadCount: number
   host?: string  // 远程主机地址（可选，本地进程时为空）
   port?: number  // 远程端口（可选，本地进程时为空）
+  javaVersion?: string  // Java版本信息
+  javaHome?: string     // Java安装路径
+  jvmFlags?: string     // JVM启动标志
 }
 
 // 内存使用情况

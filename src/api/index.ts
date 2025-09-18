@@ -203,7 +203,7 @@ export const processApi = {
     }
     // 文档流式接口：GET /cpu/stream?pid=...
     return api.get(`/cpu/stream`, { params: { pid: id } })
-  }
+  },
 }
 
 // 数据库分析相关API

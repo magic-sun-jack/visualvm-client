@@ -52,16 +52,11 @@
             {{ isRefreshing ? '刷新中...' : '刷新' }}
           </Button>
 
-          <!-- 用户菜单 -->
-          <Button variant="ghost" size="sm" class="h-8 w-8 p-0">
-            <User class="h-4 w-4" />
-          </Button>
-
           <!-- 主题切换 -->
           <ThemeToggle />
 
           <!-- 通知铃铛 -->
-          <NotificationBell />
+          <!-- <NotificationBell /> -->
 
           <!-- 移动端导航菜单 -->
           <MobileNav :navigation-items="navigationItems" />
@@ -127,13 +122,9 @@ import NotificationBell from '@/components/NotificationBell.vue'
 import ProcessConnectDialog from '@/components/ProcessConnectDialog.vue'
 import {
   LayoutDashboard,
-  Activity,
   Database,
-  Network,
   MemoryStick,
   GitBranch,
-  Settings,
-  Eye,
   RefreshCw,
   User,
   Monitor,
@@ -147,46 +138,25 @@ const showProcessConnectDialog = ref(false)
 
 const navigationItems = [
   {
-    name: '仪表板',
+    name: '概览',
     path: '/dashboard',
     icon: LayoutDashboard
   },
   {
-    name: 'Java进程监控',
-    path: '/processes',
-    icon: Activity
-  },
-  {
-    name: '数据库调用分析',
-    path: '/database',
-    icon: Database
-  },
-  {
-    name: 'RMI分析',
-    path: '/rmi',
-    icon: Network
-  },
-  {
-    name: '内存泄漏分析',
+    name: '内存信息',
     path: '/memory',
     icon: MemoryStick
   },
   {
-    name: '多线程分析',
+    name: '线程监控',
     path: '/threads',
     icon: GitBranch
   },
   {
-    name: '进程管理',
-    path: '/manager',
-    icon: Settings
-  },
-  {
-    name: '场景监控',
-    path: '/scenario',
-    icon: Eye
-  },
-
+    name: '数据库',
+    path: '/database',
+    icon: Database
+  }
 ]
 
 async function refreshData() {
@@ -217,35 +187,4 @@ processStore.fetchProcesses()
 
 <style scoped>
 /* 自定义图标样式 - 使用更现代的图标 */
-.Dashboard{
-  @apply w-4 h-4;
-}
-
-.Process{
-  @apply w-4 h-4;
-}
-
-.Database{
-  @apply w-4 h-4;
-}
-
-.RMI{
-  @apply w-4 h-4;
-}
-
-.Memory{
-  @apply w-4 h-4;
-}
-
-.Thread{
-  @apply w-4 h-4;
-}
-
-.Manager{
-  @apply w-4 h-4;
-}
-
-.Shadcn{
-  @apply w-4 h-4;
-}
 </style>

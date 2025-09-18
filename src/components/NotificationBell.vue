@@ -1,9 +1,9 @@
 <template>
-  <div class="relative">
+  <div class="relative notification-bell">
     <Button
       variant="ghost"
       size="sm"
-      @click="showNotifications = !showNotifications"
+      @click.stop="toggleNotifications"
       class="h-8 w-8 p-0 relative"
       :title="`${unreadCount} 条未读通知`"
     >
@@ -36,7 +36,7 @@
             <Button
               variant="ghost"
               size="sm"
-              @click="markAllAsRead"
+              @click.stop="markAllAsRead"
               class="h-6 px-2 text-xs"
             >
               全部标记为已读
@@ -54,7 +54,7 @@
                 ? 'bg-muted/50 hover:bg-muted'
                 : 'bg-blue-50 hover:bg-blue-100 dark:bg-blue-950/50 dark:hover:bg-blue-950'
             ]"
-            @click="markAsRead(notification.id)"
+            @click.stop="markAsRead(notification.id)"
           >
             <div class="flex items-start space-x-3">
               <div class="flex-shrink-0">
@@ -171,6 +171,10 @@ function markAsRead(id: string) {
 
 function markAllAsRead() {
   notifications.value.forEach(n => n.read = true)
+}
+
+function toggleNotifications() {
+  showNotifications.value = !showNotifications.value
 }
 
 function formatTime(date: Date): string {
