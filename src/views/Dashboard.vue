@@ -1,116 +1,121 @@
 <template>
-  <div class="p-6 space-y-6 bg-background min-h-full">
+  <div class="p-4 md:p-6 space-y-4 md:space-y-6 bg-background min-h-full">
     <!-- 顶部标题栏 -->
     <Card>
       <CardContent class="p-6">
-        <div class="flex items-center justify-between mb-6">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
           <h1 class="text-xl font-semibold">概述</h1>
-          <div class="flex items-center gap-4">
-            <label class="flex items-center gap-2 text-sm">
-              <input 
-                type="checkbox" 
-                v-model="savedDataEnabled"
-                class="rounded border-gray-300"
+          <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+            <div class="flex items-center gap-2 text-sm">
+              <Checkbox 
+                v-model:checked="savedDataEnabled"
+                id="saved-data"
               />
-              <CheckSquare class="w-4 h-4 text-blue-500" />
-              <span>保存的数据</span>
-            </label>
-            <label class="flex items-center gap-2 text-sm">
-              <input 
-                type="checkbox" 
-                v-model="detailInfoEnabled"
-                class="rounded border-gray-300"
+              <label for="saved-data" class="flex items-center gap-2 cursor-pointer">
+                <CheckSquare class="w-4 h-4 text-blue-500" />
+                <span>保存的数据</span>
+              </label>
+            </div>
+            <div class="flex items-center gap-2 text-sm">
+              <Checkbox 
+                v-model:checked="detailInfoEnabled"
+                id="detail-info"
               />
-              <FileText class="w-4 h-4 text-blue-500" />
-              <span>详细信息</span>
-            </label>
+              <label for="detail-info" class="flex items-center gap-2 cursor-pointer">
+                <FileText class="w-4 h-4 text-blue-500" />
+                <span>详细信息</span>
+              </label>
+            </div>
           </div>
         </div>
 
         <!-- 错误信息显示 -->
-        <div v-if="errorMessage" class="mb-4 p-3 bg-destructive/15 border border-destructive/20 rounded-md">
-          <div class="flex items-center gap-2 text-sm text-destructive">
+        <Alert v-if="errorMessage" variant="destructive" class="mb-4">
+          <AlertDescription class="flex items-center gap-2">
             <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
             </svg>
             {{ errorMessage }}
-          </div>
-        </div>
+          </AlertDescription>
+        </Alert>
 
         <!-- 进程信息表格 -->
         <div class="space-y-4">
-          <!-- PID 行 -->
-          <div class="grid grid-cols-12 gap-4 items-center py-2">
-            <div class="col-span-2 text-sm font-medium">PID</div>
-            <div class="col-span-6 flex items-center gap-2">
-              <select 
+          <!-- PID 选择器 -->
+          <div class="grid grid-cols-1 sm:grid-cols-12 gap-4 items-center py-2">
+            <div class="sm:col-span-2 text-sm font-medium">PID</div>
+            <div class="sm:col-span-6 flex items-center gap-2">
+              <Select 
                 v-model="selectedPid" 
-                class="border rounded-md px-3 py-1 text-sm bg-background"
-                @change="handlePidChange"
+                @update:model-value="handlePidChange"
                 :disabled="availableProcesses.length === 0"
               >
-                <option v-if="availableProcesses.length === 0" value="" disabled>
-                  暂无可用进程
-                </option>
-                <option v-for="process in availableProcesses" :key="process.pid" :value="process.pid">
-                  {{ process.pid }}
-                </option>
-              </select>
+                <SelectTrigger class="w-full">
+                  <SelectValue :placeholder="availableProcesses.length === 0 ? '暂无可用进程' : '选择进程'" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem 
+                    v-for="process in availableProcesses" 
+                    :key="process.pid" 
+                    :value="process.pid.toString()"
+                  >
+                    {{ process.pid }} - {{ process.name || process.mainClass || '未知进程' }}
+                  </SelectItem>
+                </SelectContent>
+              </Select>
               <Button variant="ghost" size="sm" @click="refreshProcesses" :disabled="isRefreshing">
                 <RefreshCw :class="['w-4 h-4', { 'animate-spin': isRefreshing }]" />
               </Button>
             </div>
           </div>
 
-          <!-- 主机 -->
-          <div class="grid grid-cols-12 gap-4 items-center py-2">
-            <div class="col-span-2 text-sm font-medium">主机</div>
-            <div class="col-span-10 text-sm text-muted-foreground">{{ currentProcess.host || '本地' }}</div>
-          </div>
-
-          <!-- 主类 -->
-          <div class="grid grid-cols-12 gap-4 items-center py-2">
-            <div class="col-span-2 text-sm font-medium">主类</div>
-            <div class="col-span-10 text-sm text-muted-foreground">{{ currentProcess.mainClass || 'monitor-0.0.1-SNAPSHOT(1).jar' }}</div>
-          </div>
-
-          <!-- 参数 -->
-          <div class="grid grid-cols-12 gap-4 items-center py-2">
-            <div class="col-span-2 text-sm font-medium">参数</div>
-            <div class="col-span-10 text-sm text-muted-foreground">{{ formatArguments(currentProcess.arguments) || '接口待补充' }}</div>
-          </div>
-
-          <!-- JVM -->
-          <div class="grid grid-cols-12 gap-4 items-center py-2">
-            <div class="col-span-2 text-sm font-medium">JVM</div>
-            <div class="col-span-10 text-sm text-muted-foreground">{{ currentProcess.jvmVersion || 'monitor-0.0.1-SNAPSHOT(1).jar' }}</div>
-          </div>
-
-          <!-- Java版本 -->
-          <div class="grid grid-cols-12 gap-4 items-center py-2">
-            <div class="col-span-2 text-sm font-medium">Java版本</div>
-            <div class="col-span-10 text-sm text-muted-foreground">{{ currentProcess.javaVersion || '-' }}</div>
-          </div>
-
-          <!-- Java Home目录 -->
-          <div class="grid grid-cols-12 gap-4 items-center py-2">
-            <div class="col-span-2 text-sm font-medium">Java Home目录</div>
-            <div class="col-span-10 text-sm text-muted-foreground">{{ currentProcess.javaHome || '-' }}</div>
-          </div>
-
-          <!-- JVM标志 -->
-          <div class="grid grid-cols-12 gap-4 items-center py-2">
-            <div class="col-span-2 text-sm font-medium">JVM标志</div>
-            <div class="col-span-10 text-sm text-muted-foreground">{{ currentProcess.jvmFlags || 'monitor-0.0.1-SNAPSHOT(1).jar' }}</div>
-          </div>
+          <!-- 进程信息表格 -->
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead class="w-[200px]">属性</TableHead>
+                <TableHead>值</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              <TableRow>
+                <TableCell class="font-medium">主机</TableCell>
+                <TableCell class="text-muted-foreground">{{ currentProcess.host || '本地' }}</TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell class="font-medium">主类</TableCell>
+                <TableCell class="text-muted-foreground">{{ currentProcess.mainClass || 'monitor-0.0.1-SNAPSHOT(1).jar' }}</TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell class="font-medium">参数</TableCell>
+                <TableCell class="text-muted-foreground">{{ formatArguments(currentProcess.arguments) || '接口待补充' }}</TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell class="font-medium">JVM</TableCell>
+                <TableCell class="text-muted-foreground">{{ currentProcess.jvmVersion || 'monitor-0.0.1-SNAPSHOT(1).jar' }}</TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell class="font-medium">Java版本</TableCell>
+                <TableCell class="text-muted-foreground">{{ currentProcess.javaVersion || '-' }}</TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell class="font-medium">Java Home目录</TableCell>
+                <TableCell class="text-muted-foreground">{{ currentProcess.javaHome || '-' }}</TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell class="font-medium">JVM标志</TableCell>
+                <TableCell class="text-muted-foreground">{{ currentProcess.jvmFlags || 'monitor-0.0.1-SNAPSHOT(1).jar' }}</TableCell>
+              </TableRow>
+            </TableBody>
+          </Table>
         </div>
       </CardContent>
     </Card>
 
     <!-- 底部双面板区域 -->
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+    <div class="grid grid-cols-1 xl:grid-cols-12 gap-4 md:gap-6">
       <!-- 左侧保存的数据面板 -->
-      <div class="lg:col-span-4">
+      <div class="xl:col-span-4">
         <Card class="h-fit">
           <CardHeader>
             <CardTitle class="text-base">保存的数据</CardTitle>
@@ -118,39 +123,48 @@
           <CardContent class="space-y-3">
             <div class="flex justify-between items-center py-2">
               <span class="text-sm">线程Dump</span>
-              <span class="text-sm text-muted-foreground">{{ statistics.threadDumps > 0 ? statistics.threadDumps : '-' }}</span>
+              <Badge variant="secondary">
+                {{ statistics.threadDumps > 0 ? statistics.threadDumps : '0' }}
+              </Badge>
             </div>
             <div class="flex justify-between items-center py-2">
               <span class="text-sm">堆Dump</span>
-              <span class="text-sm text-muted-foreground">{{ statistics.heapDumps > 0 ? statistics.heapDumps : '-' }}</span>
+              <Badge variant="secondary">
+                {{ statistics.heapDumps > 0 ? statistics.heapDumps : '0' }}
+              </Badge>
             </div>
             <div class="flex justify-between items-center py-2">
               <span class="text-sm">PreFilter快照</span>
-              <span class="text-sm text-muted-foreground">{{ statistics.profilerSnapshots > 0 ? statistics.profilerSnapshots : '-' }}</span>
+              <Badge variant="secondary">
+                {{ statistics.profilerSnapshots > 0 ? statistics.profilerSnapshots : '0' }}
+              </Badge>
             </div>
           </CardContent>
         </Card>
       </div>
 
       <!-- 右侧标签页区域 -->
-      <div class="lg:col-span-8">
+      <div class="xl:col-span-8">
         <Card class="h-fit">
           <CardContent class="p-0">
             <Tabs v-model="activeTab" class="w-full">
               <TabsList class="w-full justify-start rounded-none border-b bg-muted/30">
-                <TabsTrigger value="jvm-arguments" class="rounded-none">JVM参数</TabsTrigger>
-                <TabsTrigger value="system-properties" class="rounded-none">系统属性</TabsTrigger>
+                <TabsTrigger value="jvm-arguments">JVM参数</TabsTrigger>
+                <TabsTrigger value="system-properties">系统属性</TabsTrigger>
               </TabsList>
 
               <!-- JVM参数标签页 -->
               <TabsContent value="jvm-arguments" class="p-4">
                 <div class="space-y-2">
                   <!-- 加载状态 -->
-                  <div v-if="isLoadingJvmArgs" class="flex items-center justify-center py-8">
-                    <div class="flex items-center gap-2 text-sm text-muted-foreground">
+                  <div v-if="isLoadingJvmArgs" class="space-y-2 py-4">
+                    <div class="flex items-center gap-2 text-sm text-muted-foreground mb-4">
                       <div class="h-4 w-4 animate-spin rounded-full border-2 border-primary border-t-transparent"></div>
                       正在加载JVM参数...
                     </div>
+                    <Skeleton class="h-8 w-full" />
+                    <Skeleton class="h-8 w-full" />
+                    <Skeleton class="h-8 w-3/4" />
                   </div>
                   <!-- 无数据状态 -->
                   <div v-else-if="jvmArguments.length === 0" class="text-muted-foreground text-center py-8">
@@ -173,10 +187,16 @@
               <TabsContent value="system-properties" class="p-4">
                 <div class="space-y-1">
                   <!-- 加载状态 -->
-                  <div v-if="isLoadingSysProps" class="flex items-center justify-center py-8">
-                    <div class="flex items-center gap-2 text-sm text-muted-foreground">
+                  <div v-if="isLoadingSysProps" class="space-y-2 py-4">
+                    <div class="flex items-center gap-2 text-sm text-muted-foreground mb-4">
                       <div class="h-4 w-4 animate-spin rounded-full border-2 border-primary border-t-transparent"></div>
                       正在加载系统属性...
+                    </div>
+                    <div class="space-y-2">
+                      <Skeleton class="h-6 w-full" />
+                      <Skeleton class="h-6 w-full" />
+                      <Skeleton class="h-6 w-5/6" />
+                      <Skeleton class="h-6 w-4/5" />
                     </div>
                   </div>
                   <!-- 无数据状态 -->
@@ -210,6 +230,12 @@ import { useProcessStore } from '@/stores/process'
 import { processApi } from '@/api'
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui'
 import { Button } from '@/components/ui/button'
+import { Checkbox } from '@/components/ui/checkbox'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { Alert, AlertDescription } from '@/components/ui/alert'
+import { Skeleton } from '@/components/ui/skeleton'
+import { Badge } from '@/components/ui/badge'
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import {
   Tabs,
   TabsContent,
@@ -229,7 +255,7 @@ const activeTab = ref('jvm-arguments')
 // UI 状态
 const savedDataEnabled = ref(true)
 const detailInfoEnabled = ref(true)
-const selectedPid = ref<number>(23088)
+const selectedPid = ref<string>('23088')
 const isRefreshing = ref(false)
 const isLoadingDetails = ref(false)
 const isLoadingJvmArgs = ref(false)
@@ -274,7 +300,7 @@ const currentProcess = computed((): JavaProcess => {
   }
   
   // 从进程列表中查找当前选中的进程
-  const found = availableProcesses.value.find(p => p.pid === selectedPid.value)
+  const found = availableProcesses.value.find(p => p.pid.toString() === selectedPid.value)
   if (found) {
     return {
       id: found.pid.toString(),
@@ -304,9 +330,9 @@ const currentProcess = computed((): JavaProcess => {
   
   // 默认空进程数据
   return {
-    id: selectedPid.value.toString(),
+    id: selectedPid.value,
     name: '',
-    pid: selectedPid.value,
+    pid: parseInt(selectedPid.value) || 0,
     status: 'running',
     mainClass: '',
     arguments: [],
@@ -336,14 +362,14 @@ function formatArguments(args: string[]): string {
 }
 
 // 加载进程详细信息
-async function loadProcessDetails(pid: number) {
+async function loadProcessDetails(pid: string) {
   if (!pid) return
   
   isLoadingDetails.value = true
   errorMessage.value = ''
   
   try {
-    const response = await processApi.getProcess(pid.toString())
+    const response = await processApi.getProcess(pid)
     if (response.success) {
       processDetails.value = response.data
     } else {
@@ -414,7 +440,7 @@ watch(selectedPid, (newPid) => {
 // 监听进程列表变化，自动选择第一个进程
 watch(() => availableProcesses.value, (newProcesses) => {
   if (newProcesses.length > 0 && !selectedPid.value) {
-    selectedPid.value = newProcesses[0].pid
+    selectedPid.value = newProcesses[0].pid.toString()
   }
 }, { immediate: true })
 
@@ -424,7 +450,7 @@ onMounted(async () => {
   
   // 如果有可用进程，加载第一个进程的详细信息
   if (availableProcesses.value.length > 0) {
-    selectedPid.value = availableProcesses.value[0].pid
+    selectedPid.value = availableProcesses.value[0].pid.toString()
     await handlePidChange()
   }
 })
