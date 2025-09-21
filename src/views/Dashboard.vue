@@ -8,7 +8,7 @@
           <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4">
             <div class="flex items-center gap-2 text-sm">
               <Checkbox 
-                v-model:checked="savedDataEnabled"
+                v-model="savedDataEnabled"
                 id="saved-data"
               />
               <label for="saved-data" class="flex items-center gap-2 cursor-pointer">
@@ -18,7 +18,7 @@
             </div>
             <div class="flex items-center gap-2 text-sm">
               <Checkbox 
-                v-model:checked="detailInfoEnabled"
+                v-model="detailInfoEnabled"
                 id="detail-info"
               />
               <label for="detail-info" class="flex items-center gap-2 cursor-pointer">
@@ -115,7 +115,7 @@
     <!-- 底部双面板区域 -->
     <div class="grid grid-cols-1 xl:grid-cols-12 gap-4 md:gap-6">
       <!-- 左侧保存的数据面板 -->
-      <div class="xl:col-span-4">
+      <div v-if="savedDataEnabled" class="xl:col-span-4">
         <Card class="h-fit">
           <CardHeader>
             <CardTitle class="text-base">保存的数据</CardTitle>
@@ -144,7 +144,7 @@
       </div>
 
       <!-- 右侧标签页区域 -->
-      <div class="xl:col-span-8">
+      <div v-if="detailInfoEnabled" :class="savedDataEnabled ? 'xl:col-span-8' : 'xl:col-span-12'">
         <Card class="h-fit">
           <CardContent class="p-0">
             <Tabs v-model="activeTab" class="w-full">
@@ -367,6 +367,12 @@ async function loadProcessDetails(pid: string) {
   
   isLoadingDetails.value = true
   errorMessage.value = ''
+  await processApi.startProcess({
+    pid: pid
+  }).catch(error => {
+    errorMessage.value = '启动进程失败'
+    console.error('启动进程异常:', error)
+  })
   
   try {
     const response = await processApi.getProcess(pid)
@@ -409,6 +415,7 @@ function setMockSystemProperties() {
 // 处理PID变化
 async function handlePidChange() {
   console.log('切换到PID:', selectedPid.value)
+
   await loadProcessDetails(selectedPid.value)
   // 使用模拟数据替代不存在的API接口
   setMockJvmArguments()

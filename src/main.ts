@@ -6,25 +6,29 @@ import './style.css'
 
 // 在开发环境中禁用Vue DevTools的自动集成
 if (import.meta.env.DEV) {
-  // 禁用Vue DevTools的自动检测
-  ;(window as any).__VUE_DEVTOOLS_GLOBAL_HOOK__ = {
-    Vue: null,
-    apps: [],
-    emit: () => {},
-    on: () => {},
-    off: () => {},
-    once: () => {},
-    replay: () => {},
-    log: () => {},
-    devtoolsEnabled: false,
-    isVue: () => false,
-    devtools: {
-      enabled: false,
-      installed: false,
+  try {
+    // 禁用Vue DevTools的自动检测
+    ;(window as any).__VUE_DEVTOOLS_GLOBAL_HOOK__ = {
       Vue: null,
-      version: '',
-      app: null
+      apps: [],
+      emit: () => {},
+      on: () => {},
+      off: () => {},
+      once: () => {},
+      replay: () => {},
+      log: () => {},
+      devtoolsEnabled: false,
+      isVue: () => false,
+      devtools: {
+        enabled: false,
+        installed: false,
+        Vue: null,
+        version: '',
+        app: null
+      }
     }
+  } catch (error) {
+    console.error('Vue DevTools禁用失败:', error)
   }
 }
 

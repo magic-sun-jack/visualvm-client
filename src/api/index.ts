@@ -116,7 +116,7 @@ export const processApi = {
   },
 
   // 启动JAR进程
-  async startProcess(params: ProcessStartParams): Promise<ApiResponse<JavaProcess>> {
+  async startProcess(params: { pid: string }): Promise<ApiResponse<JavaProcess>> {
     if (env.USE_MOCK_DATA) {
       await mockDelay(1000) // 启动操作需要更长时间
       const newProcess = mockDataGenerator.generateJavaProcess()
@@ -127,13 +127,8 @@ export const processApi = {
       mockDataCache.processes.push(newProcess)
       return mockDataGenerator.generateApiResponse(newProcess, true, '进程启动成功')
     }
-    // 与文档对齐：启动监控 GET /monitor/start?pid=...&host=...&port=...
-    const query = {
-      pid: (params as any).pid,
-      host: (params as any).host,
-      port: (params as any).port
-    }
-    return api.get('/monitor/start', { params: query })
+    // 与Postman集合对齐：启动监控 GET /monitor/start?pid=...
+    return api.get('/monitor/start', { params: { pid: (params as any).pid } })
   },
 
   // 停止进程
@@ -201,7 +196,7 @@ export const processApi = {
         timestamp: new Date().toISOString()
       })
     }
-    // 文档流式接口：GET /cpu/stream?pid=...
+    // 与Postman集合对齐：GET /cpu/stream?pid=...
     return api.get(`/cpu/stream`, { params: { pid: id } })
   },
 }
