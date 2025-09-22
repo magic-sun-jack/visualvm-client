@@ -171,7 +171,6 @@
 import { ref, computed, onMounted, watch } from 'vue'
 import { processApi } from '@/api'
 import type { JavaProcess } from '@/types'
-import { useProcessStore } from '@/stores/process'
 import {
   Dialog,
   DialogContent,
@@ -215,7 +214,6 @@ interface Emits {
 const props = defineProps<Props>()
 const emit = defineEmits<Emits>()
 
-const processStore = useProcessStore()
 const activeTab = ref<'local' | 'remote'>('local')
 const isLoadingLocal = ref(false)
 const isConnecting = ref(false)

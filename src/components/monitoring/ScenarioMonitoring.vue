@@ -9,7 +9,7 @@
             :options="scenarioOptions"
             placeholder="选择监控场景"
             class="w-40"
-            @update:modelValue="(value: string | number) => handleScenarioChange(String(value))"
+            @update:modelValue="(value: any) => handleScenarioChange(String(value))"
           />
           
           <Button
