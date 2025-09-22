@@ -8,7 +8,6 @@
   "scripts": {
     "dev": "vite --port 3300",
     "dev-local": "vite --port 3300 --mode dev-local",
-    "deploy": "pnpm run build && gh-pages -d dist",
     "deploy:github": "pnpm run build && gh-pages -d dist -b gh-pages",
     "build": "vite build",
     "build:check": "vue-tsc && vite build",
