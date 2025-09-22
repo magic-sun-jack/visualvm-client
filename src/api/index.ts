@@ -6,7 +6,6 @@ import type {
   MemoryLeakResult, 
   ThreadInfo,
   SystemOverview,
-  ProcessStartParams,
   PaginationParams,
   PaginatedResult,
   ApiResponse
@@ -121,14 +120,14 @@ export const processApi = {
       await mockDelay(1000) // 启动操作需要更长时间
       const newProcess = mockDataGenerator.generateJavaProcess()
       newProcess.status = 'running'
-      newProcess.name = params.jarPath.split('/').pop() || 'New Process'
-      newProcess.mainClass = params.mainClass || 'com.example.Application'
-      newProcess.arguments = params.arguments || []
+      newProcess.name = `Process-${params.pid}`
+      newProcess.mainClass = 'com.example.Application'
+      newProcess.arguments = []
       mockDataCache.processes.push(newProcess)
       return mockDataGenerator.generateApiResponse(newProcess, true, '进程启动成功')
     }
     // 与Postman集合对齐：启动监控 GET /monitor/start?pid=...
-    return api.get('/monitor/start', { params: { pid: (params as any).pid } })
+    return api.get('/monitor/start', { params: { pid: params.pid } })
   },
 
   // 停止进程

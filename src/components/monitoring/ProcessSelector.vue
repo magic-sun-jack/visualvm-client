@@ -105,7 +105,7 @@ async function refreshProcesses() {
     if (response.success) {
       processes.value = response.data
     } else {
-      console.error('获取进程列表失败:', response.message)
+      console.error('获取进程列表失败:', response.msg)
     }
   } catch (error) {
     console.error('获取进程列表失败:', error)

@@ -103,9 +103,11 @@ export interface SystemOverview {
 // API响应格式
 export interface ApiResponse<T> {
   code: number      // 状态码
-  msg: string      // 消息
-  data: T          // 数据
-  success: boolean // 是否成功
+  msg: string       // 消息
+  data: T           // 数据
+  success: boolean  // 是否成功
+  message?: string  // 可选消息字段
+  timestamp?: string // 可选时间戳字段
 }
 
 // 分页参数

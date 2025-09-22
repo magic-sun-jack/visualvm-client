@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { ref, computed, onUnmounted } from 'vue'
-import type { JavaProcess, ProcessStartParams } from '@/types'
+import type { JavaProcess } from '@/types'
 import { processApi } from '@/api'
 import { ReconnectingWebSocketClient } from '@/lib/ws'
 
@@ -67,7 +67,7 @@ export const useProcessStore = defineStore('process', () => {
     }
   }
 
-  async function startProcess(params: ProcessStartParams) {
+  async function startProcess(params: { pid: string }) {
     try {
       isLoading.value = true
       error.value = null

@@ -1,5 +1,5 @@
 import { processApi } from '.'
-import type { ApiResponse, JavaProcess, ProcessStartParams } from '@/types'
+import type { ApiResponse, JavaProcess } from '@/types'
 
 export interface ProcessConfig {
   pid: string
@@ -20,13 +20,10 @@ export async function getJavaProcesses(): Promise<ApiResponse<JavaProcess[]>> {
  * @param config 进程配置信息
  */
 export async function startMonitoring(config: ProcessConfig): Promise<ApiResponse<void>> {
-  // 适配为 ProcessStartParams
-  const params: ProcessStartParams = {
-    jarPath: '', // 这里不需要 jarPath，因为是监控已存在的进程
-    pid: config.pid,
-    host: config.host,
-    port: config.port
-  } as any // 使用 any 来绕过类型检查，因为我们的用例与默认接口不完全匹配
+  // 构造参数，适配接口要求
+  const params = {
+    pid: config.pid
+  }
 
   const response = await processApi.startProcess(params)
   return {

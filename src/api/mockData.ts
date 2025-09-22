@@ -49,10 +49,15 @@ class MockDataGenerator {
     const committed = Math.floor(used * 1.1) // 比used稍大
     const percentage = Math.round((used / max) * 100)
 
+    const heapUsage = Math.round(used * 0.7 * 1024 * 1024 * 1024) // 假设堆内存占70%
+    const nonHeapUsage = Math.round(used * 0.3 * 1024 * 1024 * 1024) // 非堆内存占30%
+    
     return {
       used: used * 1024 * 1024 * 1024, // 转换为字节
       max: max * 1024 * 1024 * 1024,
       committed: committed * 1024 * 1024 * 1024,
+      heapUsage,
+      nonHeapUsage,
       percentage
     }
   }
@@ -339,8 +344,10 @@ class MockDataGenerator {
   // 生成API响应
   generateApiResponse<T>(data: T, success: boolean = true, message?: string): ApiResponse<T> {
     return {
-      success,
+      code: success ? 200 : 500,
+      msg: message || (success ? '操作成功' : '操作失败'),
       data,
+      success,
       message: message || (success ? '操作成功' : '操作失败'),
       timestamp: new Date().toISOString()
     }

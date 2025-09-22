@@ -118,7 +118,6 @@ import MobileNav from '@/components/MobileNav.vue'
 import Breadcrumb from '@/components/Breadcrumb.vue'
 import SearchBar from '@/components/SearchBar.vue'
 import ThemeToggle from '@/components/ThemeToggle.vue'
-import NotificationBell from '@/components/NotificationBell.vue'
 import ProcessConnectDialog from '@/components/ProcessConnectDialog.vue'
 import {
   LayoutDashboard,
@@ -126,7 +125,6 @@ import {
   MemoryStick,
   GitBranch,
   RefreshCw,
-  User,
   Monitor,
   Plug
 } from 'lucide-vue-next'
