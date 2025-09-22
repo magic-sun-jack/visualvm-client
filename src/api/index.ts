@@ -8,7 +8,8 @@ import type {
   SystemOverview,
   PaginationParams,
   PaginatedResult,
-  ApiResponse
+  ApiResponse,
+  JavaProcessDetail
 } from '@/types'
 import { env, mockDelay, debugLog, errorLog } from '@/config/env'
 import { mockDataGenerator, mockDataCache } from './mockData'
@@ -72,7 +73,18 @@ api.interceptors.response.use(
 
 // Java进程相关API
 export const processApi = {
-  // 获取所有Java进程
+  // 获取进程列表
+  // async getProcesses(): Promise<ApiResponse<JavaProcess[]>> {
+  //   debugLog('getProcesses', env.USE_MOCK_DATA)
+  //   if (env.USE_MOCK_DATA) {
+  //     await mockDelay()
+  //     const processes = mockDataCache.getProcesses()
+  //     return mockDataGenerator.generateApiResponse(processes)
+  //   }
+  //   return api.get('/overview/getProcesses')
+  // },
+
+  // 获取过滤进程
   async getProcesses(): Promise<ApiResponse<JavaProcess[]>> {
     debugLog('getProcesses', env.USE_MOCK_DATA)
     if (env.USE_MOCK_DATA) {
@@ -84,7 +96,7 @@ export const processApi = {
   },
 
   // 获取单个进程详情
-  async getProcess(id: string): Promise<ApiResponse<JavaProcess>> {
+  async getProcess(id: string): Promise<ApiResponse<JavaProcessDetail>> {
     if (env.USE_MOCK_DATA) {
       await mockDelay()
       const process = mockDataCache.getProcessById(id)
@@ -97,7 +109,14 @@ export const processApi = {
   },
 
   // 获取远程进程概述信息
-  async getRemoteProcess(host: string, port: number, username?: string, password?: string): Promise<ApiResponse<JavaProcess>> {
+  /**
+   * 注意⚠：远程jvm需要加上以下参数：
+  -Dcom.sun.management.jmxremote
+  -Dcom.sun.management.jmxremote.port=9010
+  -Dcom.sun.management.jmxremote.authenticate=false
+  -Dcom.sun.management.jmxremote.ssl=false
+   */
+  async getRemoteProcess(host: string, port: number, username?: string, password?: string, authenticate?: boolean, ssl?: boolean): Promise<ApiResponse<JavaProcessDetail>> {
     if (env.USE_MOCK_DATA) {
       await mockDelay(1200) // 远程连接需要更长时间
       const process = mockDataGenerator.generateJavaProcess()

@@ -8,27 +8,46 @@ export interface ProcessOverview {
   threadCount: number           // 线程数
 }
 
-// Java进程信息
-export interface JavaProcess {
-  id: string
-  name: string
-  pid: number
-  status: 'running' | 'stopped' | 'error'
-  mainClass: string
-  arguments: string[]
-  jvmVersion: string
-  startTime: string
-  uptime: number
-  memoryUsage: MemoryUsage
-  cpuUsage: number
-  threadCount: number
-  host?: string  // 远程主机地址（可选，本地进程时为空）
-  port?: number  // 远程端口（可选，本地进程时为空）
-  javaVersion?: string  // Java版本信息
-  javaHome?: string     // Java安装路径
-  jvmFlags?: string     // JVM启动标志
+export interface heap_memory_interface {
+  init: number // 初始大小
+  used: number // 已用
+  committed: number // 承诺大小
+  max: number // 最大可用
 }
 
+export interface non_heap_memory_interface {
+  init: number // 初始大小
+  used: number // 已用
+  committed: number // 承诺大小
+  max: number // 最大可用
+}
+
+// Java进程信息
+export interface JavaProcess {
+  daemon_thread_count: number	//	当前守护线程数量
+  heap_memory:  heap_memory_interface	//	堆内存使用情况
+  non_heap_memory: non_heap_memory_interface // 非堆内存使用情况
+  uptime_ms: number	//	JVM 启动时间，单位毫秒（JVM 运行时长）
+  loaded_class_count: number	//	当前已加载类的数量
+  process_cpu_load: number	//	当前 JVM 进程 CPU 使用率
+  system_cpu_load: number	//	系统整体 CPU 使用率
+  thread_count: number	//	当前活动线程总数
+}
+
+export interface JavaProcessDetail {
+  host_ip: string // ip地址
+  system_properties: string // 系统属性
+  jvm_name: string // jvm名
+  java_home: string // java路径
+  os_version: string // 系统版本
+  java_version: string // java版本
+  os_arch: string // 系统架构
+  os_name: string // 系统名
+  pid: number // 进程id
+  main_class: string // 主类
+  jvm_version: string // jvm版本
+  jvm_args: string // jvm参数
+}
 // 内存使用情况
 export interface MemoryUsage {
   used: number        // 已使用内存(MB)
