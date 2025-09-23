@@ -17,7 +17,11 @@
       "Read(/D:\\code\\money\\visualvm-client\\src\\components\\ui/**)",
       "Read(/D:\\code\\money\\visualvm-client\\src\\components\\ui\\button/**)",
       "Read(/D:\\code\\money\\visualvm-client\\src\\components\\ui\\button/**)",
-      "Read(/D:\\code\\money\\visualvm-client\\src\\components\\ui/**)"
+      "Read(/D:\\code\\money\\visualvm-client\\src\\components\\ui/**)",
+      "Bash(dir java)",
+      "Bash(dir)",
+      "Bash(docker build:*)",
+      "Bash(docker:*)"
     ],
     "deny": [],
     "ask": []
