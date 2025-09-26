@@ -2,7 +2,6 @@ node_modules
 dist-electron
 .DS_Store
 dist
-*.jar
 
 # H2数据库文件
 java/db/*.db
