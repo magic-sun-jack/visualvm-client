@@ -21,7 +21,8 @@
       "Bash(dir java)",
       "Bash(dir)",
       "Bash(docker build:*)",
-      "Bash(docker:*)"
+      "Bash(docker:*)",
+      "Bash(chmod:*)"
     ],
     "deny": [],
     "ask": []
