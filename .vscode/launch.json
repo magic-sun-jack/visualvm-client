@@ -21,6 +21,20 @@
       "name": "Run Electron Dev",
       "command": "pnpm electron:dev",
       "cwd": "${workspaceFolder}"
+    },
+    {
+      "type": "node-terminal",
+      "request": "launch",
+      "name": "Start Java Service (Linux/Mac)",
+      "command": "bash java/start.sh",
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      "type": "node-terminal",
+      "request": "launch",
+      "name": "Start Java Service (Windows)",
+      "command": "cmd /c java\\start.bat",
+      "cwd": "${workspaceFolder}"
     }
   ]
 }

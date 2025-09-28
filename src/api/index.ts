@@ -9,7 +9,8 @@ import type {
   PaginationParams,
   PaginatedResult,
   ApiResponse,
-  JavaProcessDetail
+  JavaProcessDetail,
+  JavaProcessListDetail
 } from '@/types'
 import { env, mockDelay, debugLog, errorLog } from '@/config/env'
 import { mockDataGenerator, mockDataCache } from './mockData'
@@ -85,7 +86,7 @@ export const processApi = {
   // },
 
   // 获取过滤进程
-  async getProcesses(): Promise<ApiResponse<JavaProcess[]>> {
+  async getProcesses(): Promise<ApiResponse<JavaProcessListDetail[]>> {
     debugLog('getProcesses', env.USE_MOCK_DATA)
     if (env.USE_MOCK_DATA) {
       await mockDelay()

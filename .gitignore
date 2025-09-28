@@ -12,3 +12,4 @@ db/monitor.mv.db
 logs
 logs/error/error.log
 logs/info/info.log
+java/logs/info/info.log

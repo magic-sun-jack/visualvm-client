@@ -112,7 +112,7 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useProcessStore } from '@/stores/process'
-import type { JavaProcess } from '@/types'
+import type { JavaProcessListDetail } from '@/types'
 import { Button } from '@/components/ui'
 import MobileNav from '@/components/MobileNav.vue'
 import Breadcrumb from '@/components/Breadcrumb.vue'
@@ -171,7 +171,7 @@ function openProcessConnectDialog() {
   showProcessConnectDialog.value = true
 }
 
-function handleProcessConnected(process: JavaProcess) {
+function handleProcessConnected(process: JavaProcessListDetail) {
   console.log('进程连接成功:', process)
   // 刷新进程列表
   processStore.fetchProcesses()

@@ -34,6 +34,19 @@ export interface JavaProcess {
   thread_count: number	//	当前活动线程总数
 }
 
+// Java进程List信息
+export interface JavaProcessListDetail {
+  pid: number	//	进程pid
+  displayName: string	//	展示名称
+  javaHome: string	//	java home
+  mainArgs: string	//	主要参数
+  mainClass: string	//	主类
+  jvmArgs: string	//	jvm参数
+  command: string	//	命令
+  startTime: string	//	开始时间
+  ip: string | null	//	ip地址
+}
+
 export interface JavaProcessDetail {
   host_ip: string // ip地址
   system_properties: string // 系统属性

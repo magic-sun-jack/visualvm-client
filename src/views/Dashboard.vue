@@ -247,7 +247,7 @@ import {
   FileText,
   RefreshCw
 } from 'lucide-vue-next'
-import type { JavaProcess } from '@/types'
+import type { JavaProcess, JavaProcessListDetail } from '@/types'
 
 const processStore = useProcessStore()
 const activeTab = ref('jvm-arguments')
@@ -265,7 +265,7 @@ const isLoadingSysProps = ref(false)
 const errorMessage = ref<string>('')
 
 // 数据状态
-const processDetails = ref<JavaProcess | null>(null)
+const processDetails = ref<JavaProcessListDetail | null>(null)
 const jvmArguments = ref<string[]>([])
 const systemProperties = ref<Array<{key: string, value: string}>>([])
 
@@ -294,7 +294,7 @@ const availableProcesses = computed(() => {
 })
 
 // 当前进程数据
-const currentProcess = computed((): JavaProcess => {
+const currentProcess = computed((): JavaProcessListDetail => {
   if (processDetails.value) {
     return processDetails.value
   }
@@ -302,30 +302,7 @@ const currentProcess = computed((): JavaProcess => {
   // 从进程列表中查找当前选中的进程
   const found = availableProcesses.value.find(p => p.pid.toString() === selectedPid.value)
   if (found) {
-    return {
-      id: found.pid.toString(),
-      name: found.name,
-      pid: found.pid,
-      status: found.status,
-      mainClass: found.mainClass,
-      arguments: [],
-      jvmVersion: '',
-      javaVersion: '',
-      javaHome: '',
-      jvmFlags: '',
-      startTime: new Date().toISOString(),
-      uptime: 0,
-      memoryUsage: {
-        used: 0,
-        max: 0,
-        committed: 0,
-        heapUsage: 0,
-        nonHeapUsage: 0,
-        percentage: 0
-      },
-      cpuUsage: 0,
-      threadCount: 0
-    } as JavaProcess
+    return found as JavaProcessListDetail
   }
   
   // 默认空进程数据
@@ -352,7 +329,7 @@ const currentProcess = computed((): JavaProcess => {
     },
     cpuUsage: 0,
     threadCount: 0
-  } as JavaProcess
+  } as JavaProcessListDetail
 })
 
 // 格式化参数

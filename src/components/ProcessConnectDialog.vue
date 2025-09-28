@@ -47,10 +47,10 @@
             <div
               v-else
               v-for="process in localProcesses"
-              :key="process.id"
+              :key="process.pid"
               :class="[
                 'p-3 rounded-lg border cursor-pointer transition-colors',
-                selectedLocalProcess?.id === process.id 
+                selectedLocalProcess?.pid === process.pid 
                   ? 'border-primary bg-primary/5' 
                   : 'border-border hover:bg-accent'
               ]"
@@ -58,7 +58,7 @@
             >
               <div class="flex items-center justify-between">
                 <div class="flex-1">
-                  <h4 class="text-sm font-medium">{{ process.name }}</h4>
+                  <h4 class="text-sm font-medium">{{ process.displayName }}</h4>
                   <p class="text-xs text-muted-foreground">PID: {{ process.pid }}</p>
                   <p class="text-xs text-muted-foreground">{{ process.mainClass }}</p>
                 </div>
@@ -170,7 +170,7 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, watch } from 'vue'
 import { processApi } from '@/api'
-import type { JavaProcess } from '@/types'
+import type { JavaProcessListDetail } from '@/types'
 import {
   Dialog,
   DialogContent,
@@ -208,7 +208,7 @@ interface Props {
 
 interface Emits {
   (e: 'update:open', value: boolean): void
-  (e: 'process-connected', process: JavaProcess): void
+  (e: 'process-connected', process: JavaProcessListDetail): void
 }
 
 const props = defineProps<Props>()
@@ -220,8 +220,8 @@ const isConnecting = ref(false)
 const connectionError = ref<string>('')
 
 // 本地进程相关
-const localProcesses = ref<JavaProcess[]>([])
-const selectedLocalProcess = ref<JavaProcess | null>(null)
+const localProcesses = ref<JavaProcessListDetail[]>([])
+const selectedLocalProcess = ref<JavaProcessListDetail | null>(null)
 
 // 远程连接表单
 const remoteForm = ref({
@@ -266,7 +266,7 @@ async function refreshLocalProcesses() {
   }
 }
 
-function selectLocalProcess(process: JavaProcess) {
+function selectLocalProcess(process: JavaProcessListDetail) {
   selectedLocalProcess.value = process
   connectionError.value = ''
 }
@@ -281,7 +281,7 @@ async function connect() {
     if (activeTab.value === 'local' && selectedLocalProcess.value) {
       // 连接本地进程 - 启动监控
       const response = await processApi.startProcess({
-        pid: selectedLocalProcess.value.id,
+        pid: selectedLocalProcess.value.pid,
         host: undefined,
         port: undefined
       } as any)
