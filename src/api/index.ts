@@ -15,9 +15,26 @@ import type {
 import { env, mockDelay, debugLog, errorLog } from '@/config/env'
 import { mockDataGenerator, mockDataCache } from './mockData'
 
-// 创建axios实例
+// 计算基础地址：在 Electron 或 file:// 协议下，强制使用本地后端以避免 file:/// 请求
+function resolveApiBaseUrl(): string {
+  try {
+    const hasExplicit = !!env.API_BASE_URL
+    const explicit = (env.API_BASE_URL || '').toString()
+    const isHttp = explicit.startsWith('http://') || explicit.startsWith('https://')
+    const isFileProtocol = typeof window !== 'undefined' && window.location && window.location.protocol === 'file:'
+    const isElectronUA = typeof window !== 'undefined' && window.navigator && window.navigator.userAgent.includes('Electron')
+    if (isElectronUA || isFileProtocol) {
+      return isHttp ? explicit : 'http://localhost:8099'
+    }
+    // 非 Electron：优先使用明确设置的值，否则走 Vite 代理
+    return hasExplicit ? explicit : '/'
+  } catch {
+    return '/'
+  }
+}
+
 const api = axios.create({
-  baseURL: env.API_BASE_URL,
+  baseURL: resolveApiBaseUrl(),
   timeout: env.API_TIMEOUT,
   headers: {
     'Content-Type': 'application/json'
@@ -45,6 +62,16 @@ const api = axios.create({
 // 请求拦截器
 api.interceptors.request.use(
   (config) => {
+    // Electron 环境且指向本地 8099 时，确保路径包含 /cvm 前缀
+    try {
+      const base = (config.baseURL || '').toString()
+      const urlPath = (config.url || '').toString()
+      const isTo8099 = base.includes('localhost:8099') || base.includes('127.0.0.1:8099')
+      if (env.isElectron && isTo8099 && urlPath && !urlPath.startsWith('/cvm')) {
+        config.url = `/cvm${urlPath.startsWith('/') ? '' : '/'}${urlPath}`
+      }
+    } catch {}
+
     debugLog('API请求:', config.method?.toUpperCase(), config.url, config.data)
     // 可以在这里添加认证token等
     return config

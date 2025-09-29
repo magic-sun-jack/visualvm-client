@@ -140,6 +140,7 @@ async function startJavaService() {
   
   javaProcess = spawn('java', [
     '-Dfile.encoding=UTF-8',
+    '-Dspring.jpa.database-platform=org.hibernate.dialect.H2Dialect',
     '--add-modules=jdk.attach',
     '-jar', jarPath
   ], {

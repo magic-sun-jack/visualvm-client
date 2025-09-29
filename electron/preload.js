@@ -1,4 +1,5 @@
-import { contextBridge, ipcRenderer } from 'electron'
+// 使用 CommonJS 以兼容 Electron 预加载脚本环境
+const { contextBridge, ipcRenderer } = require('electron')
 
 contextBridge.exposeInMainWorld('electron', {
   startJavaService: () => ipcRenderer.invoke('start-java-service'),
