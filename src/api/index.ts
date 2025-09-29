@@ -82,7 +82,7 @@ export const processApi = {
   //     const processes = mockDataCache.getProcesses()
   //     return mockDataGenerator.generateApiResponse(processes)
   //   }
-  //   return api.get('/overview/getProcesses')
+  //   return api.get('/cvm/overview/getProcesses')
   // },
 
   // 获取过滤进程
@@ -93,7 +93,7 @@ export const processApi = {
       const processes = mockDataCache.getProcesses()
       return mockDataGenerator.generateApiResponse(processes)
     }
-    return api.get('/overview/getFilteredProcesses')
+    return api.get('/cvm/overview/getFilteredProcesses')
   },
 
   // 获取单个进程详情
@@ -106,7 +106,7 @@ export const processApi = {
       }
       return mockDataGenerator.generateApiResponse(process)
     }
-    return api.get(`/overview/getLocalOverview`, { params: { pid: id } })
+    return api.get(`/cvm/overview/getLocalOverview`, { params: { pid: id } })
   },
 
   // 获取远程进程概述信息
@@ -131,7 +131,7 @@ export const processApi = {
     if (username) params.username = username
     if (password) params.password = password
     
-    return api.get(`/overview/getRemoteOverview`, { params })
+    return api.get(`/cvm/overview/getRemoteOverview`, { params })
   },
 
   // 启动JAR进程
@@ -147,7 +147,7 @@ export const processApi = {
       return mockDataGenerator.generateApiResponse(newProcess, true, '进程启动成功')
     }
     // 与Postman集合对齐：启动监控 GET /monitor/start?pid=...
-    return api.get('/monitor/start', { params: { pid: params.pid } })
+    return api.get('/cvm/monitor/start', { params: { pid: params.pid } })
   },
 
   // 停止进程
@@ -160,7 +160,7 @@ export const processApi = {
       }
       return mockDataGenerator.generateApiResponse(undefined as any, true, '进程已停止')
     }
-    return api.post(`/processes/${id}/stop`)
+    return api.post(`/cvm/processes/${id}/stop`)
   },
 
   // 重启进程
@@ -176,7 +176,7 @@ export const processApi = {
       process.uptime = 0
       return mockDataGenerator.generateApiResponse(process, true, '进程重启成功')
     }
-    return api.post(`/processes/${id}/restart`)
+    return api.post(`/cvm/processes/${id}/restart`)
   },
 
   // 获取进程线程信息
@@ -186,7 +186,7 @@ export const processApi = {
       const threads = mockDataCache.getThreads().slice(0, 20) // 返回前20个线程
       return mockDataGenerator.generateApiResponse(threads)
     }
-    return api.get(`/thread/monitorThreads`, { params: { pid: id } })
+    return api.get(`/cvm/thread/monitorThreads`, { params: { pid: id } })
   },
 
   // 获取进程内存使用情况
@@ -199,7 +199,7 @@ export const processApi = {
       }
       return mockDataGenerator.generateApiResponse(process.memoryUsage)
     }
-    return api.get(`/processes/${id}/memory`)
+    return api.get(`/cvm/processes/${id}/memory`)
   },
 
   // 获取进程CPU使用情况
@@ -216,7 +216,7 @@ export const processApi = {
       })
     }
     // 与Postman集合对齐：GET /cpu/stream?pid=...
-    return api.get(`/cpu/stream`, { params: { pid: id } })
+    return api.get(`/cvm/cpu/stream`, { params: { pid: id } })
   },
 }
 
@@ -238,7 +238,7 @@ export const databaseApi = {
       }
       return mockDataGenerator.generateApiResponse(stats)
     }
-    return api.get(`/database/${processId}/stats`)
+    return api.get(`/cvm/database/${processId}/stats`)
   },
 
   // 获取慢查询列表
@@ -253,7 +253,7 @@ export const databaseApi = {
       )
       return mockDataGenerator.generateApiResponse(result)
     }
-    return api.get(`/database/${processId}/slow-queries`, { params })
+    return api.get(`/cvm/database/${processId}/slow-queries`, { params })
   },
 
   // 获取数据库连接池状态
@@ -271,7 +271,7 @@ export const databaseApi = {
       }
       return mockDataGenerator.generateApiResponse(poolStatus)
     }
-    return api.get(`/database/${processId}/connection-pool`)
+    return api.get(`/cvm/database/${processId}/connection-pool`)
   }
 }
 
@@ -295,7 +295,7 @@ export const rmiApi = {
       }
       return mockDataGenerator.generateApiResponse(stats)
     }
-    return api.get(`/rmi/${processId}/stats`)
+    return api.get(`/cvm/rmi/${processId}/stats`)
   },
 
   // 获取RMI调用列表
@@ -309,7 +309,7 @@ export const rmiApi = {
       )
       return mockDataGenerator.generateApiResponse(result)
     }
-    return api.get(`/rmi/${processId}/calls`, { params })
+    return api.get(`/cvm/rmi/${processId}/calls`, { params })
   }
 }
 
@@ -322,7 +322,7 @@ export const memoryApi = {
       const results = mockDataCache.getMemoryLeakResults()
       return mockDataGenerator.generateApiResponse(results)
     }
-    return api.get(`/memory/${processId}/leak-results`)
+    return api.get(`/cvm/memory/${processId}/leak-results`)
   },
 
   // 开始内存泄漏检测
@@ -331,7 +331,7 @@ export const memoryApi = {
       await mockDelay(1500)
       return mockDataGenerator.generateApiResponse(undefined as any, true, '内存泄漏检测已开始')
     }
-    return api.post(`/memory/${processId}/start-detection`)
+    return api.post(`/cvm/memory/${processId}/start-detection`)
   },
 
   // 停止内存泄漏检测
@@ -340,7 +340,7 @@ export const memoryApi = {
       await mockDelay(1000)
       return mockDataGenerator.generateApiResponse(undefined as any, true, '内存泄漏检测已停止')
     }
-    return api.post(`/memory/${processId}/stop-detection`)
+    return api.post(`/cvm/memory/${processId}/stop-detection`)
   },
 
   // 获取堆转储
@@ -350,7 +350,7 @@ export const memoryApi = {
       const heapDumpPath = `/tmp/heapdump_${processId}_${Date.now()}.hprof`
       return mockDataGenerator.generateApiResponse(heapDumpPath, true, '堆转储文件已生成')
     }
-    return api.get(`/memory/${processId}/heap-dump`)
+    return api.get(`/cvm/memory/${processId}/heap-dump`)
   }
 }
 
@@ -374,7 +374,7 @@ export const threadApi = {
       }
       return mockDataGenerator.generateApiResponse(stats)
     }
-    return api.get(`/threads/${processId}/stats`)
+    return api.get(`/cvm/threads/${processId}/stats`)
   },
 
   // 获取死锁检测结果
@@ -402,7 +402,7 @@ export const threadApi = {
       }
       return mockDataGenerator.generateApiResponse(deadlockInfo)
     }
-    return api.get(`/threads/${processId}/deadlock`)
+    return api.get(`/cvm/threads/${processId}/deadlock`)
   },
 
   // 获取线程转储
@@ -412,7 +412,7 @@ export const threadApi = {
       const threads = mockDataCache.getThreads()
       return mockDataGenerator.generateApiResponse(threads)
     }
-    return api.get(`/thread/dump`, { params: { pid: processId } })
+    return api.get(`/cvm/thread/dump`, { params: { pid: processId } })
   }
 }
 
@@ -425,7 +425,7 @@ export const systemApi = {
       const overview = mockDataCache.getSystemOverview()
       return mockDataGenerator.generateApiResponse(overview)
     }
-    return api.get('/system/overview')
+    return api.get('/cvm/system/overview')
   },
 
   // 获取监控配置
@@ -435,7 +435,7 @@ export const systemApi = {
       const config = mockDataGenerator.generateMonitoringConfig()
       return mockDataGenerator.generateApiResponse(config)
     }
-    return api.get('/system/config')
+    return api.get('/cvm/system/config')
   },
 
   // 更新监控配置
@@ -457,7 +457,7 @@ export const scenarioApi = {
       const config = mockDataGenerator.generateDatabaseMonitoringConfig()
       return mockDataGenerator.generateApiResponse(config)
     }
-    return api.get(`/scenario/database/${processId}/config`)
+    return api.get(`/cvm/scenario/database/${processId}/config`)
   },
 
   // 更新数据库监控配置
@@ -466,7 +466,7 @@ export const scenarioApi = {
       await mockDelay(800)
       return mockDataGenerator.generateApiResponse(undefined as any, true, '数据库监控配置已更新')
     }
-    return api.put(`/scenario/database/${processId}/config`, config)
+    return api.put(`/cvm/scenario/database/${processId}/config`, config)
   },
 
   // 获取数据库监控指标
@@ -476,7 +476,7 @@ export const scenarioApi = {
       const metrics = mockDataGenerator.generateDatabaseMetrics()
       return mockDataGenerator.generateApiResponse(metrics)
     }
-    return api.get(`/scenario/database/${processId}/metrics`)
+    return api.get(`/cvm/scenario/database/${processId}/metrics`)
   },
 
   // 获取IO监控配置
@@ -486,7 +486,7 @@ export const scenarioApi = {
       const config = mockDataGenerator.generateIOMonitoringConfig()
       return mockDataGenerator.generateApiResponse(config)
     }
-    return api.get(`/scenario/io/${processId}/config`)
+    return api.get(`/cvm/scenario/io/${processId}/config`)
   },
 
   // 更新IO监控配置
@@ -495,7 +495,7 @@ export const scenarioApi = {
       await mockDelay(800)
       return mockDataGenerator.generateApiResponse(undefined as any, true, 'IO监控配置已更新')
     }
-    return api.put(`/scenario/io/${processId}/config`, config)
+    return api.put(`/cvm/scenario/io/${processId}/config`, config)
   },
 
   // 获取IO监控指标
@@ -505,7 +505,7 @@ export const scenarioApi = {
       const metrics = mockDataGenerator.generateIOMetrics()
       return mockDataGenerator.generateApiResponse(metrics)
     }
-    return api.get(`/scenario/io/${processId}/metrics`)
+    return api.get(`/cvm/scenario/io/${processId}/metrics`)
   },
 
   // 获取HTTP监控配置
@@ -515,7 +515,7 @@ export const scenarioApi = {
       const config = mockDataGenerator.generateHTTPMonitoringConfig()
       return mockDataGenerator.generateApiResponse(config)
     }
-    return api.get(`/scenario/http/${processId}/config`)
+    return api.get(`/cvm/scenario/http/${processId}/config`)
   },
 
   // 更新HTTP监控配置
@@ -524,7 +524,7 @@ export const scenarioApi = {
       await mockDelay(800)
       return mockDataGenerator.generateApiResponse(undefined as any, true, 'HTTP监控配置已更新')
     }
-    return api.put(`/scenario/http/${processId}/config`, config)
+    return api.put(`/cvm/scenario/http/${processId}/config`, config)
   },
 
   // 获取实时监控数据流（增量更新）
@@ -545,7 +545,7 @@ export const scenarioApi = {
         hasMore: true
       })
     }
-    return api.get(`/scenario/${scenario}/${processId}/realtime`, {
+    return api.get(`/cvm/scenario/${scenario}/${processId}/realtime`, {
       params: { lastTimestamp }
     })
   },
@@ -556,7 +556,7 @@ export const scenarioApi = {
       await mockDelay(1000)
       return mockDataGenerator.generateApiResponse(undefined as any, true, `${scenario}监控已启动`)
     }
-    return api.post(`/scenario/${scenario}/${processId}/start`)
+    return api.post(`/cvm/scenario/${scenario}/${processId}/start`)
   },
 
   // 停止场景监控
@@ -565,7 +565,7 @@ export const scenarioApi = {
       await mockDelay(800)
       return mockDataGenerator.generateApiResponse(undefined as any, true, `${scenario}监控已停止`)
     }
-    return api.post(`/scenario/${scenario}/${processId}/stop`)
+    return api.post(`/cvm/scenario/${scenario}/${processId}/stop`)
   }
 }
 
