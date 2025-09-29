@@ -1,13 +1,13 @@
 import { defineStore } from 'pinia'
 import { ref, computed, onUnmounted } from 'vue'
-import type { JavaProcess } from '@/types'
+import type { JavaProcess, JavaProcessListDetail } from '@/types'
 import { processApi } from '@/api'
 import { ReconnectingWebSocketClient } from '@/lib/ws'
 
 export const useProcessStore = defineStore('process', () => {
   // 状态
-  const processes = ref<JavaProcess[]>([])
-  const currentProcess = ref<JavaProcess | null>(null)
+  const processes = ref<JavaProcessListDetail[]>([])
+  const currentProcess = ref<JavaProcessListDetail | null>(null)
   const isLoading = ref(false)
   const error = ref<string | null>(null)
   const isLive = ref(false)
@@ -39,7 +39,7 @@ export const useProcessStore = defineStore('process', () => {
       error.value = null
       const response = await processApi.getProcesses()
       if (response.success) {
-        processes.value = response.data
+        processes.value = response.data.filter(process => !process.mainClass.includes('monitor-0.0.1-SNAPSHOT.jar')) || []
       } else {
         error.value = response.message || '获取进程列表失败'
       }

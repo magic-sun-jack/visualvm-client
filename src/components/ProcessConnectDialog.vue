@@ -253,7 +253,7 @@ async function refreshLocalProcesses() {
   try {
     const response = await processApi.getProcesses()
     if (response.success) {
-      localProcesses.value = response.data || []
+      localProcesses.value = response.data?.filter(process => !process.mainClass.includes('monitor-0.0.1-SNAPSHOT.jar')) || []
     } else {
       connectionError.value = response.msg || '获取进程列表失败'
     }
@@ -309,13 +309,13 @@ async function connect() {
       if (response.success) {
         // 启动远程监控
         const startResponse = await processApi.startProcess({
-          pid: response.data.id,
+          pid: response.data.pid,
           host: host,
           port: port
         } as any)
 
         if (startResponse.success) {
-          emit('process-connected', response.data)
+          emit('process-connected', response.data.pid)
           closeDialog()
         } else {
           connectionError.value = startResponse.msg || '启动远程监控失败'

@@ -80,7 +80,7 @@
             <TableBody>
               <TableRow>
                 <TableCell class="font-medium">主机</TableCell>
-                <TableCell class="text-muted-foreground">{{ currentProcess.host || '本地' }}</TableCell>
+                <TableCell class="text-muted-foreground">{{ currentProcess.ip || '本地' }}</TableCell>
               </TableRow>
               <TableRow>
                 <TableCell class="font-medium">主类</TableCell>
@@ -88,23 +88,23 @@
               </TableRow>
               <TableRow>
                 <TableCell class="font-medium">参数</TableCell>
-                <TableCell class="text-muted-foreground">{{ formatArguments(currentProcess.arguments) || '接口待补充' }}</TableCell>
+                <TableCell class="text-muted-foreground">{{ formatArguments(currentProcess?.mainArgs) || '接口待补充' }}</TableCell>
               </TableRow>
               <TableRow>
                 <TableCell class="font-medium">JVM</TableCell>
-                <TableCell class="text-muted-foreground">{{ currentProcess.jvmVersion || 'monitor-0.0.1-SNAPSHOT(1).jar' }}</TableCell>
+                <TableCell class="text-muted-foreground">{{ currentProcess?.jvmArgs || '-' }}</TableCell>
               </TableRow>
               <TableRow>
                 <TableCell class="font-medium">Java版本</TableCell>
-                <TableCell class="text-muted-foreground">{{ currentProcess.javaVersion || '-' }}</TableCell>
+                <TableCell class="text-muted-foreground">{{ currentProcess?.javaHome?.split('jdk-')[1] || '-' }}</TableCell>
               </TableRow>
               <TableRow>
                 <TableCell class="font-medium">Java Home目录</TableCell>
-                <TableCell class="text-muted-foreground">{{ currentProcess.javaHome || '-' }}</TableCell>
+                <TableCell class="text-muted-foreground">{{ currentProcess?.javaHome || '-' }}</TableCell>
               </TableRow>
               <TableRow>
                 <TableCell class="font-medium">JVM标志</TableCell>
-                <TableCell class="text-muted-foreground">{{ currentProcess.jvmFlags || 'monitor-0.0.1-SNAPSHOT(1).jar' }}</TableCell>
+                <TableCell class="text-muted-foreground">{{ currentProcess?.jvmArgs || 'monitor-0.0.1-SNAPSHOT(1).jar' }}</TableCell>
               </TableRow>
             </TableBody>
           </Table>
@@ -333,9 +333,9 @@ const currentProcess = computed((): JavaProcessListDetail => {
 })
 
 // 格式化参数
-function formatArguments(args: string[]): string {
+function formatArguments(args: string[] | string): string {
   if (!args || args.length === 0) return ''
-  return args.join(' ')
+  return typeof args === 'string' ? args : args.join(' ')
 }
 
 // 加载进程详细信息
