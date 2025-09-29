@@ -98,15 +98,51 @@ app.on('window-all-closed', () => {
   // 在 macOS 上，除非用户用 Cmd + Q 确定地退出，
   // 否则绝大部分应用及其菜单栏会保持激活
   if (process.platform !== 'darwin') {
+    console.log('所有窗口已关闭，正在停止Java服务...')
+    stopJavaService()
     app.quit()
   }
+})
+
+// 处理应用即将退出事件
+app.on('will-quit', (event) => {
+  console.log('Electron应用即将退出，确保Java服务已停止...')
+  if (javaProcess && !javaProcess.killed) {
+    console.log('Java服务仍在运行，强制停止...')
+    stopJavaService()
+  }
+})
+
+// 处理进程退出事件
+process.on('exit', () => {
+  console.log('进程退出，清理Java服务...')
+  if (javaProcess && !javaProcess.killed) {
+    javaProcess.kill('SIGKILL')
+  }
+})
+
+// 处理未捕获的异常
+process.on('uncaughtException', (error) => {
+  console.error('未捕获的异常:', error)
+  stopJavaService()
+  process.exit(1)
+})
+
+// 处理未处理的Promise拒绝
+process.on('unhandledRejection', (reason, promise) => {
+  console.error('未处理的Promise拒绝:', reason)
+  stopJavaService()
 })
 
 // 启动 Java 服务
 async function startJavaService() {
   const jarPath = path.join(__dirname, '../java/monitor-0.0.1-SNAPSHOT.jar')
   
-  javaProcess = spawn('java', ['-jar', jarPath], {
+  javaProcess = spawn('java', [
+    '-Dfile.encoding=UTF-8',
+    '--add-modules=jdk.attach',
+    '-jar', jarPath
+  ], {
     stdio: ['ignore', 'pipe', 'pipe']
   })
 
@@ -132,7 +168,7 @@ async function startJavaService() {
   const maxAttempts = 30
   while (attempts < maxAttempts) {
     try {
-      await axios.get('http://localhost:8080/health')
+      await axios.get('http://localhost:8099/cvm/overview/getFilteredProcesses')
       console.log('Java服务已就绪')
       mainWindow.webContents.send('java-service-status', { status: 'running' })
       return true
@@ -147,14 +183,52 @@ async function startJavaService() {
 // 停止 Java 服务
 function stopJavaService() {
   if (javaProcess) {
-    javaProcess.kill()
-    javaProcess = null
+    console.log('正在停止Java服务...')
+    try {
+      // 先尝试优雅关闭
+      javaProcess.kill('SIGTERM')
+      
+      // 设置超时，如果5秒内没有关闭则强制杀死
+      setTimeout(() => {
+        if (javaProcess && !javaProcess.killed) {
+          console.log('强制停止Java服务...')
+          javaProcess.kill('SIGKILL')
+        }
+      }, 5000)
+      
+      javaProcess.on('exit', (code) => {
+        console.log(`Java服务已停止，退出码: ${code}`)
+        javaProcess = null
+      })
+    } catch (error) {
+      console.error('停止Java服务时出错:', error)
+      javaProcess = null
+    }
   }
 }
 
 // 在应用退出前清理
-app.on('before-quit', () => {
+app.on('before-quit', (event) => {
+  console.log('Electron应用即将退出，正在停止Java服务...')
   stopJavaService()
+  
+  // 等待Java服务停止后再退出
+  if (javaProcess) {
+    event.preventDefault()
+    
+    const checkInterval = setInterval(() => {
+      if (!javaProcess || javaProcess.killed) {
+        clearInterval(checkInterval)
+        app.quit()
+      }
+    }, 100)
+    
+    // 最多等待10秒
+    setTimeout(() => {
+      clearInterval(checkInterval)
+      app.quit()
+    }, 10000)
+  }
 })
 
 // 设置 IPC 通信
@@ -177,7 +251,19 @@ ipcMain.handle('start-java-service', async () => {
   }
 })
 
+ipcMain.handle('stop-java-service', () => {
+  try {
+    stopJavaService()
+    return { success: true }
+  } catch (error) {
+    console.error('停止Java服务失败:', error)
+    return { success: false, error: error.message }
+  }
+})
+
 ipcMain.handle('exit-app', () => {
+  console.log('收到退出应用请求，正在停止Java服务...')
+  stopJavaService()
   app.quit()
 })
 
