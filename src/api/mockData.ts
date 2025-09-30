@@ -1,5 +1,7 @@
 import type { 
   JavaProcess, 
+  JavaProcessDetail,
+  JavaProcessListDetail,
   DatabaseCall, 
   RMICall, 
   MemoryLeakResult, 
@@ -8,13 +10,13 @@ import type {
   PaginationParams,
   PaginatedResult,
   ApiResponse,
-  MemoryUsage,
   MonitoringConfig,
   DatabaseMonitoringConfig,
   IOMonitoringConfig,
   HTTPMonitoringConfig,
   MonitoringMetric,
-  MonitoringDataPoint
+  MonitoringDataPoint,
+  SystemProperties
 } from '@/types'
 
 // 模拟数据生成器
@@ -42,28 +44,63 @@ class MockDataGenerator {
     return now.toISOString()
   }
 
-  // 生成内存使用情况
-  private generateMemoryUsage(): MemoryUsage {
-    const max = Math.floor(Math.random() * 8) + 2 // 2-10GB
-    const used = Math.floor(Math.random() * max * 0.8) + max * 0.2 // 20%-100%
-    const committed = Math.floor(used * 1.1) // 比used稍大
-    const percentage = Math.round((used / max) * 100)
-
-    const heapUsage = Math.round(used * 0.7 * 1024 * 1024 * 1024) // 假设堆内存占70%
-    const nonHeapUsage = Math.round(used * 0.3 * 1024 * 1024 * 1024) // 非堆内存占30%
-    
-    return {
-      used: used * 1024 * 1024 * 1024, // 转换为字节
-      max: max * 1024 * 1024 * 1024,
-      committed: committed * 1024 * 1024 * 1024,
-      heapUsage,
-      nonHeapUsage,
-      percentage
-    }
-  }
 
   // 生成Java进程数据
   generateJavaProcess(): JavaProcess {
+    const uptime = Math.floor(Math.random() * 86400) + 3600 // 1小时到1天
+
+    return {
+      daemon_thread_count: Math.floor(Math.random() * 50) + 10,
+      heap_memory: {
+        init: 256 * 1024 * 1024, // 256MB
+        used: Math.floor(Math.random() * 512) * 1024 * 1024, // 0-512MB
+        committed: Math.floor(Math.random() * 1024) * 1024 * 1024, // 0-1GB
+        max: 2048 * 1024 * 1024 // 2GB
+      },
+      non_heap_memory: {
+        init: 64 * 1024 * 1024, // 64MB
+        used: Math.floor(Math.random() * 128) * 1024 * 1024, // 0-128MB
+        committed: Math.floor(Math.random() * 256) * 1024 * 1024, // 0-256MB
+        max: -1 // 无限制
+      },
+      uptime_ms: uptime * 1000,
+      loaded_class_count: Math.floor(Math.random() * 10000) + 5000,
+      process_cpu_load: Math.round(Math.random() * 100 * 100) / 100,
+      system_cpu_load: Math.round(Math.random() * 100 * 100) / 100,
+      thread_count: Math.floor(Math.random() * 200) + 50
+    }
+  }
+
+  // 生成Java进程详情
+  generateJavaProcessDetail(): JavaProcessDetail {
+    const pid = Math.floor(Math.random() * 9000) + 1000
+    const jvmArgs = [
+      '-Xmx512m',
+      '-Xms256m',
+      '-XX:+UseG1GC',
+      '-XX:+UseStringDeduplication',
+      '-Djava.awt.headless=true'
+    ]
+
+    return {
+      host_ip: '127.0.0.1',
+      system_properties: this.generateSystemProperties(),
+      jvm_name: 'Java HotSpot(TM) 64-Bit Server VM',
+      java_home: 'C:\\Program Files\\Java\\jdk-11',
+      os_version: '10.0',
+      java_version: '11.0.27',
+      os_arch: 'amd64',
+      os_name: 'Windows 11',
+      pid: pid.toString(),
+      main_class: 'math-game.jar',
+      jvm_version: '11.0.27+8-LTS-232',
+      jvm_args: jvmArgs
+    }
+  }
+
+  // 生成Java进程列表详情
+  generateJavaProcessListDetail(): JavaProcessListDetail {
+    const pid = Math.floor(Math.random() * 9000) + 1000
     const processNames = [
       'Spring Boot Application',
       'Tomcat Server',
@@ -90,35 +127,83 @@ class MockDataGenerator {
       'kafka.Kafka'
     ]
 
-    const jvmVersions = [
-      '1.8.0_312',
-      '11.0.16',
-      '17.0.4',
-      '21.0.1'
-    ]
-
-    const statuses: ('running' | 'stopped' | 'error')[] = ['running', 'stopped', 'error']
-    const status = statuses[Math.floor(Math.random() * statuses.length)]
-
-    const name = processNames[Math.floor(Math.random() * processNames.length)]
-    const mainClass = mainClasses[Math.floor(Math.random() * mainClasses.length)]
-    const jvmVersion = jvmVersions[Math.floor(Math.random() * jvmVersions.length)]
-    const pid = Math.floor(Math.random() * 65535) + 1000
-    const uptime = Math.floor(Math.random() * 86400) + 3600 // 1小时到1天
+    const randomName = processNames[Math.floor(Math.random() * processNames.length)]
+    const randomMainClass = mainClasses[Math.floor(Math.random() * mainClasses.length)]
 
     return {
-      id: this.generateId(),
-      name,
-      pid,
-      status,
-      mainClass,
-      arguments: ['-Xmx2g', '-Xms1g', '-Dspring.profiles.active=dev'],
-      jvmVersion,
-      startTime: this.generateTimestamp(),
-      uptime,
-      memoryUsage: this.generateMemoryUsage(),
-      cpuUsage: Math.round(Math.random() * 100 * 100) / 100,
-      threadCount: Math.floor(Math.random() * 200) + 50
+      pid: pid.toString(),
+      displayName: randomName,
+      javaHome: 'C:\\Program Files\\Java\\jdk-11',
+      mainArgs: '--server.port=8080 --spring.profiles.active=dev',
+      mainClass: randomMainClass,
+      jvmArgs: '-Xmx512m -Xms256m -XX:+UseG1GC',
+      ip: '127.0.0.1',
+      command: `java -Xmx512m -Xms256m -XX:+UseG1GC -jar ${randomMainClass}`,
+      startTime: this.generateTimestamp()
+    }
+  }
+
+  // 生成系统属性
+  generateSystemProperties(): SystemProperties {
+    return {
+      'sun.desktop': 'windows',
+      'awt.toolkit': 'sun.awt.windows.WToolkit',
+      'java.specification.version': '11',
+      'sun.cpu.isalist': 'amd64',
+      'sun.jnu.encoding': 'GBK',
+      'java.class.path': 'math-game.jar',
+      'java.vm.vendor': 'Oracle Corporation',
+      'sun.arch.data.model': '64',
+      'user.variant': '',
+      'java.vendor.url': 'https://java.oracle.com/',
+      'user.timezone': 'Asia/Shanghai',
+      'os.name': 'Windows 11',
+      'java.vm.specification.version': '11',
+      'sun.java.launcher': 'SUN_STANDARD',
+      'user.country': 'CN',
+      'sun.boot.library.path': 'C:\\Program Files\\Java\\jdk-11\\bin',
+      'sun.java.command': 'math-game.jar',
+      'jdk.debug': 'release',
+      'sun.cpu.endian': 'little',
+      'user.home': 'C:\\Users\\User',
+      'user.language': 'zh',
+      'sun.stderr.encoding': 'cp936',
+      'java.specification.vendor': 'Oracle Corporation',
+      'java.version.date': '2023-10-17',
+      'java.home': 'C:\\Program Files\\Java\\jdk-11',
+      'file.separator': '\\',
+      'java.vm.compressedOopsMode': '32-bit',
+      'line.separator': '\r\n',
+      'sun.stdout.encoding': 'cp936',
+      'java.specification.name': 'Java Platform API Specification',
+      'java.vm.specification.vendor': 'Oracle Corporation',
+      'java.awt.graphicsenv': 'sun.awt.Win32GraphicsEnvironment',
+      'user.script': '',
+      'sun.management.compiler': 'HotSpot 64-Bit Tiered Compilers',
+      'java.runtime.version': '11.0.27+8-LTS-232',
+      'user.name': 'User',
+      'path.separator': ';',
+      'os.version': '10.0',
+      'java.runtime.name': 'Java(TM) SE Runtime Environment',
+      'file.encoding': 'UTF-8',
+      'java.vm.name': 'Java HotSpot(TM) 64-Bit Server VM',
+      'java.vendor.version': '11.0.27+8-LTS-232',
+      'java.vendor.url.bug': 'https://bugreport.java.com/bugreport/',
+      'java.io.tmpdir': 'C:\\Users\\User\\AppData\\Local\\Temp\\',
+      'java.version': '11.0.27',
+      'user.dir': 'D:\\code\\money\\visualvm-client',
+      'os.arch': 'amd64',
+      'java.vm.specification.name': 'Java Virtual Machine Specification',
+      'java.awt.printerjob': 'sun.awt.windows.WPrinterJob',
+      'sun.os.patch.level': '',
+      'java.library.path': 'C:\\Program Files\\Java\\jdk-11\\bin;C:\\Windows\\Sun\\Java\\bin;C:\\Windows\\system32;C:\\Windows;C:\\Program Files\\Java\\jdk-11\\bin;C:\\Windows\\Sun\\Java\\bin;C:\\Windows\\system32;C:\\Windows',
+      'java.vendor': 'Oracle Corporation',
+      'java.vm.info': 'mixed mode',
+      'java.vm.version': '11.0.27+8-LTS-232',
+      'java.specification.maintenance.version': '0',
+      'java.rmi.server.randomIDs': 'true',
+      'sun.io.unicode.encoding': 'UnicodeLittle',
+      'java.class.version': '55.0'
     }
   }
 
@@ -522,7 +607,8 @@ export const mockDataGenerator = MockDataGenerator.getInstance()
 
 // 预生成的模拟数据缓存
 export const mockDataCache = {
-  processes: [] as JavaProcess[],
+  processes: [] as JavaProcessListDetail[],
+  processDetails: [] as JavaProcessDetail[],
   threads: [] as ThreadInfo[],
   databaseCalls: [] as DatabaseCall[],
   rmiCalls: [] as RMICall[],
@@ -531,8 +617,11 @@ export const mockDataCache = {
 
   // 初始化缓存数据
   initialize() {
-    // 生成10个进程
-    this.processes = Array.from({ length: 10 }, () => mockDataGenerator.generateJavaProcess())
+    // 生成10个进程列表
+    this.processes = Array.from({ length: 10 }, () => mockDataGenerator.generateJavaProcessListDetail())
+    
+    // 生成10个进程详情
+    this.processDetails = Array.from({ length: 10 }, () => mockDataGenerator.generateJavaProcessDetail())
     
     // 生成100个线程
     this.threads = Array.from({ length: 100 }, () => mockDataGenerator.generateThreadInfo())
@@ -551,13 +640,13 @@ export const mockDataCache = {
   },
 
   // 获取进程列表
-  getProcesses(): JavaProcess[] {
+  getProcesses(): JavaProcessListDetail[] {
     return [...this.processes]
   },
 
-  // 根据ID获取进程
-  getProcessById(id: string): JavaProcess | undefined {
-    return this.processes.find(p => p.id === id)
+  // 根据ID获取进程详情
+  getProcessById(id: string): JavaProcessDetail | undefined {
+    return this.processDetails.find(p => p.pid === id)
   },
 
   // 获取线程列表

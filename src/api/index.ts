@@ -166,10 +166,6 @@ export const processApi = {
     if (env.USE_MOCK_DATA) {
       await mockDelay(1000) // 启动操作需要更长时间
       const newProcess = mockDataGenerator.generateJavaProcess()
-      newProcess.status = 'running'
-      newProcess.name = `Process-${params.pid}`
-      newProcess.mainClass = 'com.example.Application'
-      newProcess.arguments = []
       mockDataCache.processes.push(newProcess)
       return mockDataGenerator.generateApiResponse(newProcess, true, '进程启动成功')
     }
@@ -179,15 +175,21 @@ export const processApi = {
 
   // 停止进程
   async stopProcess(id: string): Promise<ApiResponse<void>> {
-    if (env.USE_MOCK_DATA) {
-      await mockDelay(800)
-      const process = mockDataCache.getProcessById(id)
-      if (process) {
-        process.status = 'stopped'
-      }
-      return mockDataGenerator.generateApiResponse(undefined as any, true, '进程已停止')
+    return {
+      success: false,
+      code: 404,
+      msg: '接口不存在',
+      data: undefined
     }
-    return api.post(`/cvm/processes/${id}/stop`)
+    // if (env.USE_MOCK_DATA) {
+    //   await mockDelay(800)
+    //   const process = mockDataCache.getProcessById(id)
+    //   if (process) {
+    //     process.status = 'stopped'
+    //   }
+    //   return mockDataGenerator.generateApiResponse(undefined as any, true, '进程已停止')
+    // }
+    // return api.post(`/cvm/processes/${id}/stop`)
   },
 
   // 重启进程

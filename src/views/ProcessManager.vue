@@ -124,14 +124,14 @@
                     <Button variant="ghost" size="sm" @click="viewProcessDetails(process)">
                       详情
                     </Button>
-                    <Button v-if="process.status === 'running'" variant="destructive" size="sm" @click="stopProcess(process.id)">
+                    <!-- <Button v-if="process.status === 'running'" variant="destructive" size="sm" @click="stopProcess(process.id)">
                       停止
+                    </Button> -->
+                    <Button v-if="process.status === 'running'" variant="outline" size="sm" @click="restartProcess(process.id)">
+                      重启
                     </Button>
                     <Button v-else variant="default" size="sm" @click="startProcess(process.id)">
                       启动
-                    </Button>
-                    <Button variant="outline" size="sm" @click="restartProcess(process.id)">
-                      重启
                     </Button>
                   </div>
                 </td>

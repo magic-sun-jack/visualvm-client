@@ -130,14 +130,14 @@
                     <Button variant="ghost" size="sm" @click="viewProcessDetails(process)">
                       详情
                     </Button>
-                    <Button v-if="process.status === 'running'" variant="destructive" size="sm" @click="stopProcess(process.id)">
+                    <!-- <Button v-if="process.status === 'running'" variant="destructive" size="sm" @click="stopProcess(process.id)">
                       停止
+                    </Button> -->
+                    <Button v-if="process.status === 'running'" variant="outline" size="sm" @click="restartProcess(process.id)">
+                      重启
                     </Button>
                     <Button v-else variant="default" size="sm" @click="startProcess(process.id)">
                       启动
-                    </Button>
-                    <Button variant="outline" size="sm" @click="restartProcess(process.id)">
-                      重启
                     </Button>
                   </div>
                 </td>
@@ -190,7 +190,7 @@ import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useProcessStore } from '@/stores/process'
 import { Button, Card, CardHeader, CardTitle, CardContent, Input, Badge, Select } from '@/components/ui'
-import type { JavaProcess, ProcessStartParams } from '@/types'
+import type { JavaProcess, ProcessStartParams, Process } from '@/types'
 
 const router = useRouter()
 const processStore = useProcessStore()
@@ -237,7 +237,7 @@ const filteredProcesses = computed(() => {
 
 // 方法
 function refreshProcesses() {
-  processStore.fetchProcesses()
+  processStore.getFilteredProcesses()
 }
 
 function showStartProcessDialog() {
@@ -285,7 +285,7 @@ async function restartProcess(id: string) {
   }
 }
 
-function viewProcessDetails(process: JavaProcess) {
+function viewProcessDetails(process: Process) {
   processStore.setCurrentProcess(process)
   router.push(`/processes/${process.id}`)
 }

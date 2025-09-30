@@ -36,30 +36,91 @@ export interface JavaProcess {
 
 // Java进程List信息
 export interface JavaProcessListDetail {
-  pid: number	//	进程pid
+  pid: string	//	进程pid
   displayName: string	//	展示名称
   javaHome: string	//	java home
   mainArgs: string	//	主要参数
   mainClass: string	//	主类
   jvmArgs: string	//	jvm参数
+  ip: string | null	//	ip地址
   command: string	//	命令
   startTime: string	//	开始时间
-  ip: string | null	//	ip地址
+}
+
+export interface SystemPropertiesInterface {
+  "sun.desktop": string,
+  "awt.toolkit": string,
+  "java.specification.version": string,
+  "sun.cpu.isalist": string,
+  "sun.jnu.encoding": string,
+  "java.class.path": string,
+  "java.vm.vendor": string,
+  "sun.arch.data.model": string,
+  "user.variant": string,
+  "java.vendor.url": string,
+  "user.timezone": string,
+  "os.name": string,
+  "java.vm.specification.version": string,
+  "sun.java.launcher": string,
+  "user.country": string,
+  "sun.boot.library.path": string,
+  "sun.java.command": string,
+  "jdk.debug": string,
+  "sun.cpu.endian": string,
+  "user.home": string,
+  "user.language": string,
+  "sun.stderr.encoding": string,
+  "java.specification.vendor": string,
+  "java.version.date": string,
+  "java.home": string,
+  "file.separator": string,
+  "java.vm.compressedOopsMode": string,
+  "line.separator": string,
+  "sun.stdout.encoding": string,
+  "java.specification.name": string,
+  "java.vm.specification.vendor": string,
+  "java.awt.graphicsenv": string,
+  "user.script": string,
+  "sun.management.compiler": string,
+  "java.runtime.version": string,
+  "user.name": string,
+  "path.separator": string,
+  "os.version": string,
+  "java.runtime.name": string,
+  "file.encoding": string,
+  "java.vm.name": string,
+  "java.vendor.version": string,
+  "java.vendor.url.bug": string,
+  "java.io.tmpdir": string,
+  "java.version": string,
+  "user.dir": string,
+  "os.arch": string,
+  "java.vm.specification.name": string,
+  "java.awt.printerjob": string,
+  "sun.os.patch.level": string,
+  "java.library.path": string,
+  "java.vendor": string,
+  "java.vm.info": string,
+  "java.vm.version": string,
+  "java.specification.maintenance.version": string,
+  "java.rmi.server.randomIDs": string,
+  "sun.io.unicode.encoding": string,
+  "java.class.version": string
 }
 
 export interface JavaProcessDetail {
   host_ip: string // ip地址
-  system_properties: string // 系统属性
+  system_properties?: SystemPropertiesInterface // 系统属性
   jvm_name: string // jvm名
   java_home: string // java路径
   os_version: string // 系统版本
   java_version: string // java版本
   os_arch: string // 系统架构
   os_name: string // 系统名
-  pid: number // 进程id
+  pid: string // 进程id
   main_class: string // 主类
   jvm_version: string // jvm版本
-  jvm_args: string // jvm参数
+  jvm_args: string[] | string | null  // jvm参数
 }
 // 内存使用情况
 export interface MemoryUsage {

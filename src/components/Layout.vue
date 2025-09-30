@@ -160,7 +160,7 @@ const navigationItems = [
 async function refreshData() {
   isRefreshing.value = true
   try {
-    await processStore.fetchProcesses()
+    await processStore.getFilteredProcesses()
     // 可以在这里添加其他数据的刷新
   } finally {
     isRefreshing.value = false
@@ -174,13 +174,13 @@ function openProcessConnectDialog() {
 function handleProcessConnected(process: JavaProcessListDetail) {
   console.log('进程连接成功:', process)
   // 刷新进程列表
-  processStore.fetchProcesses()
+  processStore.getFilteredProcesses()
   // 可以导航到进程监控页面
   router.push(`/processes`)
 }
 
 // 组件挂载时：使用本地模拟流每300ms更新
-processStore.fetchProcesses()
+processStore.getFilteredProcesses()
 </script>
 
 <style scoped>

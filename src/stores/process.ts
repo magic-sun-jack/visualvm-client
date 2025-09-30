@@ -1,13 +1,21 @@
 import { defineStore } from 'pinia'
 import { ref, computed, onUnmounted } from 'vue'
-import type { JavaProcess, JavaProcessListDetail } from '@/types'
+import type { JavaProcess, JavaProcessListDetail, JavaProcessDetail } from '@/types'
 import { processApi } from '@/api'
 import { ReconnectingWebSocketClient } from '@/lib/ws'
 
+interface Process extends JavaProcessListDetail {
+  status: 'running' | 'stopped'
+}
+
+interface ProcessDetail extends JavaProcessDetail {
+  status: 'running' | 'stopped'
+}
+
 export const useProcessStore = defineStore('process', () => {
   // 状态
-  const processes = ref<JavaProcessListDetail[]>([])
-  const currentProcess = ref<JavaProcessListDetail | null>(null)
+  const processes = ref<Process[]>([])
+  const currentProcess = ref<ProcessDetail | null>(null)
   const isLoading = ref(false)
   const error = ref<string | null>(null)
   const isLive = ref(false)
@@ -23,23 +31,18 @@ export const useProcessStore = defineStore('process', () => {
   )
   
   const totalProcesses = computed(() => processes.value.length)
-  
-  const totalMemoryUsage = computed(() => 
-    processes.value.reduce((sum, p) => sum + p.memoryUsage.used, 0)
-  )
-  
-  const totalCpuUsage = computed(() => 
-    processes.value.reduce((sum, p) => sum + p.cpuUsage, 0)
-  )
 
   // 动作
-  async function fetchProcesses() {
+  async function getFilteredProcesses() {
     try {
       isLoading.value = true
       error.value = null
       const response = await processApi.getProcesses()
       if (response.success) {
-        processes.value = response.data.filter(process => !process.mainClass.includes('monitor-0.0.1-SNAPSHOT.jar')) || []
+        processes.value = response.data.filter(process => !process.mainClass.includes('monitor-0.0.1-SNAPSHOT.jar'))?.map(process => ({
+          ...process,
+          status: 'stopped'
+        })) || []
       } else {
         error.value = response.message || '获取进程列表失败'
       }
@@ -50,13 +53,16 @@ export const useProcessStore = defineStore('process', () => {
     }
   }
 
-  async function fetchProcess(id: string) {
+  async function getLocalOverview(id: string) {
     try {
       isLoading.value = true
       error.value = null
       const response = await processApi.getProcess(id)
       if (response.success) {
-        currentProcess.value = response.data
+        currentProcess.value = {
+          ...response.data,
+          status: 'running'
+        }
       } else {
         error.value = response.message || '获取进程详情失败'
       }
@@ -74,7 +80,7 @@ export const useProcessStore = defineStore('process', () => {
       const response = await processApi.startProcess(params)
       if (response.success) {
         // 添加到进程列表
-        processes.value.push(response.data)
+        // processes.value.push(response.data)
         return response.data
       } else {
         error.value = response.message || '启动进程失败'
@@ -95,11 +101,11 @@ export const useProcessStore = defineStore('process', () => {
       const response = await processApi.stopProcess(id)
       if (response.success) {
         // 更新进程状态
-        const process = processes.value.find(p => p.id === id)
+        const process = processes.value.find(p => p.pid === id)
         if (process) {
           process.status = 'stopped'
         }
-        if (currentProcess.value?.id === id) {
+        if (currentProcess.value?.pid === id) {
           currentProcess.value.status = 'stopped'
         }
       } else {
@@ -113,37 +119,14 @@ export const useProcessStore = defineStore('process', () => {
   }
 
   async function restartProcess(id: string) {
-    try {
-      isLoading.value = true
-      error.value = null
-      const response = await processApi.restartProcess(id)
-      if (response.success) {
-        // 更新进程信息
-        const index = processes.value.findIndex(p => p.id === id)
-        if (index !== -1) {
-          processes.value[index] = response.data
-        }
-        if (currentProcess.value?.id === id) {
-          currentProcess.value = response.data
-        }
-        return response.data
-      } else {
-        error.value = response.message || '重启进程失败'
-        return null
-      }
-    } catch (err) {
-      error.value = err instanceof Error ? err.message : '重启进程失败'
-      return null
-    } finally {
-      isLoading.value = false
-    }
+    return startProcess({ pid: id })
   }
 
   function clearError() {
     error.value = null
   }
 
-  function setCurrentProcess(process: JavaProcess | null) {
+  function setCurrentProcess(process: ProcessDetail | null) {
     currentProcess.value = process
   }
 
@@ -210,12 +193,10 @@ export const useProcessStore = defineStore('process', () => {
     runningProcesses,
     stoppedProcesses,
     totalProcesses,
-    totalMemoryUsage,
-    totalCpuUsage,
     
     // 动作
-    fetchProcesses,
-    fetchProcess,
+    getFilteredProcesses,
+    getLocalOverview,
     startProcess,
     stopProcess,
     restartProcess,

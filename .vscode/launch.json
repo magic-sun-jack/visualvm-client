@@ -11,6 +11,13 @@
     {
       "type": "node-terminal",
       "request": "launch",
+      "name": "Run Dev",
+      "command": "pnpm dev",
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      "type": "node-terminal",
+      "request": "launch",
       "name": "Run Deploy",
       "command": "pnpm deploy",
       "cwd": "${workspaceFolder}"
@@ -35,6 +42,13 @@
       "name": "Start Java Service (Windows)",
       "command": "cmd /c java\\start.bat",
       "cwd": "${workspaceFolder}"
+    },
+    {
+      "type": "node-terminal",
+      "request": "launch",
+      "name": "Start Math Java Service",
+      "command": "java -jar math-game.jar",
+      "cwd": "${workspaceFolder}/java"
     }
   ]
 }

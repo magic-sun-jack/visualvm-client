@@ -59,7 +59,7 @@
                     :key="process.pid" 
                     :value="process.pid.toString()"
                   >
-                    {{ process.pid }} - {{ process.name || process.mainClass || '未知进程' }}
+                    {{ process.pid }} - {{ process.displayName || process.ip || '未知进程' }}
                   </SelectItem>
                 </SelectContent>
               </Select>
@@ -80,31 +80,31 @@
             <TableBody>
               <TableRow>
                 <TableCell class="font-medium">主机</TableCell>
-                <TableCell class="text-muted-foreground">{{ currentProcess.ip || '本地' }}</TableCell>
+                <TableCell class="text-muted-foreground">{{ currentProcess?.host_ip || '本地' }}</TableCell>
               </TableRow>
               <TableRow>
                 <TableCell class="font-medium">主类</TableCell>
-                <TableCell class="text-muted-foreground">{{ currentProcess.mainClass || 'monitor-0.0.1-SNAPSHOT(1).jar' }}</TableCell>
+                <TableCell class="text-muted-foreground">{{ currentProcess?.main_class || 'monitor-0.0.1-SNAPSHOT(1).jar' }}</TableCell>
               </TableRow>
               <TableRow>
-                <TableCell class="font-medium">参数</TableCell>
-                <TableCell class="text-muted-foreground">{{ formatArguments(currentProcess?.mainArgs) || '接口待补充' }}</TableCell>
+                <TableCell class="font-medium">参数？？</TableCell>
+                <TableCell class="text-muted-foreground">{{ formatArguments(currentProcess?.jvm_args) || '-' }}</TableCell>
               </TableRow>
               <TableRow>
                 <TableCell class="font-medium">JVM</TableCell>
-                <TableCell class="text-muted-foreground">{{ currentProcess?.jvmArgs || '-' }}</TableCell>
+                <TableCell class="text-muted-foreground">{{ currentProcess?.jvm_name || '-' }}</TableCell>
               </TableRow>
               <TableRow>
                 <TableCell class="font-medium">Java版本</TableCell>
-                <TableCell class="text-muted-foreground">{{ currentProcess?.javaHome?.split('jdk-')[1] || '-' }}</TableCell>
+                <TableCell class="text-muted-foreground">{{ currentProcess?.java_home?.split('jdk-')[1] || '-' }}</TableCell>
               </TableRow>
               <TableRow>
                 <TableCell class="font-medium">Java Home目录</TableCell>
-                <TableCell class="text-muted-foreground">{{ currentProcess?.javaHome || '-' }}</TableCell>
+                <TableCell class="text-muted-foreground">{{ currentProcess?.java_home || '-' }}</TableCell>
               </TableRow>
               <TableRow>
-                <TableCell class="font-medium">JVM标志</TableCell>
-                <TableCell class="text-muted-foreground">{{ currentProcess?.jvmArgs || 'monitor-0.0.1-SNAPSHOT(1).jar' }}</TableCell>
+                <TableCell class="font-medium">JVM标志？？</TableCell>
+                <TableCell class="text-muted-foreground">{{ formatArguments(currentProcess?.jvm_args) || '-' }}</TableCell>
               </TableRow>
             </TableBody>
           </Table>
@@ -167,7 +167,7 @@
                     <Skeleton class="h-8 w-3/4" />
                   </div>
                   <!-- 无数据状态 -->
-                  <div v-else-if="jvmArguments.length === 0" class="text-muted-foreground text-center py-8">
+                  <div v-else-if="jvmArguments?.length === 0" class="text-muted-foreground text-center py-8">
                     没有可用的JVM参数信息
                   </div>
                   <!-- 数据显示 -->
@@ -185,7 +185,7 @@
 
               <!-- 系统属性标签页 -->
               <TabsContent value="system-properties" class="p-4">
-                <div class="space-y-1">
+                <div class="space-y-1 max-h-[400px] overflow-y-auto">
                   <!-- 加载状态 -->
                   <div v-if="isLoadingSysProps" class="space-y-2 py-4">
                     <div class="flex items-center gap-2 text-sm text-muted-foreground mb-4">
@@ -200,18 +200,18 @@
                     </div>
                   </div>
                   <!-- 无数据状态 -->
-                  <div v-else-if="systemProperties.length === 0" class="text-muted-foreground text-center py-8">
+                  <div v-else-if="!systemProperties" class="text-muted-foreground text-center py-8">
                     没有可用的系统属性信息
                   </div>
                   <!-- 数据显示 -->
                   <div v-else class="space-y-1">
                     <div 
-                      v-for="property in systemProperties" 
-                      :key="property.key" 
+                      v-for="property in Object.keys(systemProperties)" 
+                      :key="property" 
                       class="grid grid-cols-5 gap-4 py-2 px-2 hover:bg-muted/50 rounded text-sm"
                     >
-                      <div class="font-medium col-span-2">{{ property.key }}</div>
-                      <div class="text-muted-foreground col-span-3 break-all">{{ property.value }}</div>
+                      <div class="font-medium col-span-2">{{ property }}</div>
+                      <div class="text-muted-foreground col-span-3 break-all">{{ systemProperties[property as keyof SystemPropertiesInterface] }}</div>
                     </div>
                   </div>
                 </div>
@@ -247,7 +247,7 @@ import {
   FileText,
   RefreshCw
 } from 'lucide-vue-next'
-import type { JavaProcess, JavaProcessListDetail } from '@/types'
+import type { JavaProcessDetail, SystemPropertiesInterface } from '@/types'
 
 const processStore = useProcessStore()
 const activeTab = ref('jvm-arguments')
@@ -255,7 +255,7 @@ const activeTab = ref('jvm-arguments')
 // UI 状态
 const savedDataEnabled = ref(true)
 const detailInfoEnabled = ref(true)
-const selectedPid = ref<string>('23088')
+const selectedPid = ref<string>('')
 const isRefreshing = ref(false)
 const isLoadingDetails = ref(false)
 const isLoadingJvmArgs = ref(false)
@@ -265,9 +265,9 @@ const isLoadingSysProps = ref(false)
 const errorMessage = ref<string>('')
 
 // 数据状态
-const processDetails = ref<JavaProcessListDetail | null>(null)
-const jvmArguments = ref<string[]>([])
-const systemProperties = ref<Array<{key: string, value: string}>>([])
+const processDetails = ref<JavaProcessDetail | null>(null)
+const jvmArguments = ref<JavaProcessDetail['jvm_args']>(null)
+const systemProperties = ref<SystemPropertiesInterface>()
 
 // 统计数据
 const statistics = ref({
@@ -281,12 +281,7 @@ const statistics = ref({
 const availableProcesses = computed(() => {
   const processes = processStore.processes
   if (processes.length > 0) {
-    return processes.map(p => ({
-      pid: p.pid,
-      name: p.name,
-      mainClass: p.mainClass,
-      status: p.status
-    }))
+    return processes
   }
   
   // 如果没有真实数据，返回空数组
@@ -294,47 +289,18 @@ const availableProcesses = computed(() => {
 })
 
 // 当前进程数据
-const currentProcess = computed((): JavaProcessListDetail => {
+const currentProcess = computed((): JavaProcessDetail | null => {
   if (processDetails.value) {
     return processDetails.value
   }
   
-  // 从进程列表中查找当前选中的进程
-  const found = availableProcesses.value.find(p => p.pid.toString() === selectedPid.value)
-  if (found) {
-    return found as JavaProcessListDetail
-  }
-  
   // 默认空进程数据
-  return {
-    id: selectedPid.value,
-    name: '',
-    pid: parseInt(selectedPid.value) || 0,
-    status: 'running',
-    mainClass: '',
-    arguments: [],
-    jvmVersion: '',
-    javaVersion: '',
-    javaHome: '',
-    jvmFlags: '',
-    startTime: new Date().toISOString(),
-    uptime: 0,
-    memoryUsage: {
-      used: 0,
-      max: 0,
-      committed: 0,
-      heapUsage: 0,
-      nonHeapUsage: 0,
-      percentage: 0
-    },
-    cpuUsage: 0,
-    threadCount: 0
-  } as JavaProcessListDetail
+  return null
 })
 
 // 格式化参数
-function formatArguments(args: string[] | string): string {
-  if (!args || args.length === 0) return ''
+function formatArguments(args: string[] | string | null | undefined): string {
+  if (!args || (Array.isArray(args) && args.length === 0)) return ''
   return typeof args === 'string' ? args : args.join(' ')
 }
 
@@ -355,6 +321,8 @@ async function loadProcessDetails(pid: string) {
     const response = await processApi.getProcess(pid)
     if (response.success) {
       processDetails.value = response.data
+      jvmArguments.value = response.data.jvm_args
+      systemProperties.value = response.data.system_properties
     } else {
       errorMessage.value = response.msg || '获取进程详情失败'
       console.error('获取进程详情失败:', response.msg)
@@ -372,8 +340,33 @@ function setMockJvmArguments() {
   isLoadingJvmArgs.value = true
   // 模拟加载延迟
   setTimeout(() => {
-    // 暂时使用空数组，等待后端提供相应接口或在概述接口中包含这些信息
-    jvmArguments.value = []
+    // 从当前进程详情中提取JVM参数，如果没有则使用默认值
+    if (currentProcess.value?.jvm_args) {
+      const args = currentProcess.value.jvm_args
+      if (Array.isArray(args) && args.length > 0) {
+        jvmArguments.value = args
+      } else if (typeof args === 'string' && args.trim()) {
+        jvmArguments.value = args.split(' ').filter(arg => arg.trim())
+      } else {
+        // 使用默认的JVM参数
+        jvmArguments.value = [
+          '-Xmx512m',
+          '-Xms256m',
+          '-XX:+UseG1GC',
+          '-XX:+UseStringDeduplication',
+          '-Djava.awt.headless=true'
+        ]
+      }
+    } else {
+      // 使用默认的JVM参数
+      jvmArguments.value = [
+        '-Xmx512m',
+        '-Xms256m',
+        '-XX:+UseG1GC',
+        '-XX:+UseStringDeduplication',
+        '-Djava.awt.headless=true'
+      ]
+    }
     isLoadingJvmArgs.value = false
   }, 500)
 }
@@ -383,20 +376,38 @@ function setMockSystemProperties() {
   isLoadingSysProps.value = true
   // 模拟加载延迟
   setTimeout(() => {
-    // 暂时使用空数组，等待后端提供相应接口或在概述接口中包含这些信息
-    systemProperties.value = []
+    // 从当前进程详情中提取系统属性，如果没有则使用默认值
+    if (currentProcess.value?.system_properties) {
+      const props = currentProcess.value.system_properties
+      systemProperties.value = Object.entries(props).map(([key, value]) => ({
+        key,
+        value: String(value)
+      }))
+    } else {
+      // 使用默认的系统属性
+      systemProperties.value = [
+        { key: 'java.version', value: '11.0.27' },
+        { key: 'java.vm.name', value: 'Java HotSpot(TM) 64-Bit Server VM' },
+        { key: 'java.vm.version', value: '11.0.27+8-LTS-232' },
+        { key: 'java.home', value: 'C:\\Program Files\\Java\\jdk-11' },
+        { key: 'os.name', value: 'Windows 11' },
+        { key: 'os.version', value: '10.0' },
+        { key: 'os.arch', value: 'amd64' },
+        { key: 'user.dir', value: 'D:\\code\\money\\visualvm-client' },
+        { key: 'file.encoding', value: 'UTF-8' },
+        { key: 'java.class.path', value: 'math-game.jar' }
+      ]
+    }
     isLoadingSysProps.value = false
   }, 500)
 }
 
 // 处理PID变化
 async function handlePidChange() {
-  console.log('切换到PID:', selectedPid.value)
-
   await loadProcessDetails(selectedPid.value)
   // 使用模拟数据替代不存在的API接口
-  setMockJvmArguments()
-  setMockSystemProperties()
+  // setMockJvmArguments()
+  // setMockSystemProperties()
 }
 
 // 刷新进程列表
@@ -405,7 +416,7 @@ async function refreshProcesses() {
   errorMessage.value = ''
   
   try {
-    await processStore.fetchProcesses()
+    await processStore.getFilteredProcesses()
   } catch (error) {
     errorMessage.value = '刷新进程列表失败'
     console.error('刷新进程列表异常:', error)
@@ -430,7 +441,7 @@ watch(() => availableProcesses.value, (newProcesses) => {
 
 // 组件挂载时初始化
 onMounted(async () => {
-  await processStore.fetchProcesses()
+  await processStore.getFilteredProcesses()
   
   // 如果有可用进程，加载第一个进程的详细信息
   if (availableProcesses.value.length > 0) {
