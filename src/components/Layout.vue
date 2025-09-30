@@ -9,7 +9,7 @@
             <div class="h-6 w-6 rounded-lg bg-primary flex items-center justify-center">
               <span class="text-primary-foreground text-sm font-bold">V</span>
             </div>
-            <span class="hidden font-bold sm:inline-block">VisualVM 监控</span>
+            <span class="hidden font-bold sm:inline-block">VisualVM</span>
           </RouterLink>
         </div>
 
@@ -71,7 +71,6 @@
           <div class="px-3 py-2">
             <div class="flex items-center mb-2 px-4 text-lg font-semibold tracking-tight">
               <Monitor class="mr-2 h-5 w-5" />
-              监控面板
             </div>
             <div class="space-y-1">
               <RouterLink

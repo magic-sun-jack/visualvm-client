@@ -190,7 +190,7 @@ import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useProcessStore } from '@/stores/process'
 import { Button, Card, CardHeader, CardTitle, CardContent, Input, Badge, Select } from '@/components/ui'
-import type { JavaProcess, ProcessStartParams, Process } from '@/types'
+import type { JavaProcessInfo, ProcessStartParams, Process } from '@/types'
 
 const router = useRouter()
 const processStore = useProcessStore()

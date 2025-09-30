@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { ref, computed, onUnmounted } from 'vue'
-import type { JavaProcess, JavaProcessListDetail, JavaProcessDetail } from '@/types'
+import type { JavaProcessInfo, JavaProcessListDetail, JavaProcessDetail } from '@/types'
 import { processApi } from '@/api'
 import { ReconnectingWebSocketClient } from '@/lib/ws'
 
@@ -57,7 +57,7 @@ export const useProcessStore = defineStore('process', () => {
     try {
       isLoading.value = true
       error.value = null
-      const response = await processApi.getProcess(id)
+      const response = await processApi.getProcessLocalOverview(id)
       if (response.success) {
         currentProcess.value = {
           ...response.data,
@@ -139,9 +139,9 @@ export const useProcessStore = defineStore('process', () => {
       // Expecting messages like: { type: 'snapshot'|'upsert'|'remove', data: ... }
       try {
         if (msg?.type === 'snapshot' && Array.isArray(msg.data)) {
-          processes.value = msg.data as JavaProcess[]
+          processes.value = msg.data as JavaProcessInfo[]
         } else if (msg?.type === 'upsert' && msg.data) {
-          const incoming: JavaProcess = msg.data
+          const incoming: JavaProcessInfo = msg.data
           const idx = processes.value.findIndex(p => p.id === incoming.id)
           if (idx === -1) {
             processes.value.push(incoming)

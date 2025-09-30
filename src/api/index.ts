@@ -1,6 +1,6 @@
 import axios from 'axios'
 import type { 
-  JavaProcess, 
+  JavaProcessInfo, 
   DatabaseCall, 
   RMICall, 
   MemoryLeakResult, 
@@ -102,7 +102,7 @@ api.interceptors.response.use(
 // Java进程相关API
 export const processApi = {
   // 获取进程列表
-  // async getProcesses(): Promise<ApiResponse<JavaProcess[]>> {
+  // async getProcesses(): Promise<ApiResponse<JavaProcessInfo[]>> {
   //   debugLog('getProcesses', env.USE_MOCK_DATA)
   //   if (env.USE_MOCK_DATA) {
   //     await mockDelay()
@@ -124,7 +124,7 @@ export const processApi = {
   },
 
   // 获取单个进程详情
-  async getProcess(id: string): Promise<ApiResponse<JavaProcessDetail>> {
+  async getProcessLocalOverview(id: string): Promise<ApiResponse<JavaProcessDetail>> {
     if (env.USE_MOCK_DATA) {
       await mockDelay()
       const process = mockDataCache.getProcessById(id)
@@ -161,8 +161,8 @@ export const processApi = {
     return api.get(`/cvm/overview/getRemoteOverview`, { params })
   },
 
-  // 启动JAR进程
-  async startProcess(params: { pid: string }): Promise<ApiResponse<JavaProcess>> {
+  // 获取pid进程监视信息
+  async startProcess(params: { pid: string }): Promise<ApiResponse<JavaProcessInfo>> {
     if (env.USE_MOCK_DATA) {
       await mockDelay(1000) // 启动操作需要更长时间
       const newProcess = mockDataGenerator.generateJavaProcess()
@@ -193,7 +193,7 @@ export const processApi = {
   },
 
   // 重启进程
-  async restartProcess(id: string): Promise<ApiResponse<JavaProcess>> {
+  async restartProcess(id: string): Promise<ApiResponse<JavaProcessInfo>> {
     if (env.USE_MOCK_DATA) {
       await mockDelay(1200)
       const process = mockDataCache.getProcessById(id)
@@ -434,7 +434,7 @@ export const threadApi = {
     return api.get(`/cvm/threads/${processId}/deadlock`)
   },
 
-  // 获取线程转储
+  // 获取pid线程dump信息
   async getThreadDump(processId: string): Promise<ApiResponse<ThreadInfo[]>> {
     if (env.USE_MOCK_DATA) {
       await mockDelay(1000) // 线程转储需要时间

@@ -112,7 +112,7 @@ VITE_ENABLE_DEBUG=true
 
 ### 进程管理 API
 - ✅ `getProcesses()` - 获取所有进程
-- ✅ `getProcess(id)` - 获取单个进程
+- ✅ `getProcessLocalOverview(id)` - 获取单个进程
 - ✅ `startProcess(params)` - 启动进程
 - ✅ `stopProcess(id)` - 停止进程
 - ✅ `restartProcess(id)` - 重启进程

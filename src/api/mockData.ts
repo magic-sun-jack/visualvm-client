@@ -1,5 +1,5 @@
 import type { 
-  JavaProcess, 
+  JavaProcessInfo, 
   JavaProcessDetail,
   JavaProcessListDetail,
   DatabaseCall, 
@@ -46,7 +46,7 @@ class MockDataGenerator {
 
 
   // 生成Java进程数据
-  generateJavaProcess(): JavaProcess {
+  generateJavaProcess(): JavaProcessInfo {
     const uptime = Math.floor(Math.random() * 86400) + 3600 // 1小时到1天
 
     return {

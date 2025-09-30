@@ -72,7 +72,7 @@ import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { processApi } from '@/api'
-import type { JavaProcess } from '@/types'
+import type { JavaProcessInfo } from '@/types'
 
 defineProps<{
   isOpen: boolean
@@ -84,7 +84,7 @@ const emit = defineEmits<{
 }>()
 
 const loading = ref(false)
-const processes = ref<Array<JavaProcess>>([])
+const processes = ref<Array<JavaProcessInfo>>([])
 const selectedProcess = ref<string>('')
 const remoteHost = ref('')
 const remotePort = ref<number>()

@@ -5,10 +5,10 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted, watch, reactive } from 'vue'
 import * as echarts from 'echarts'
-import type { JavaProcess } from '@/types'
+import type { JavaProcessInfo } from '@/types'
 
 interface Props {
-  processes: JavaProcess[]
+  processes: JavaProcessInfo[]
   maxDataPoints?: number // 最大数据点数量
   updateInterval?: number // 更新间隔（毫秒）
   incremental?: boolean // 是否增量更新

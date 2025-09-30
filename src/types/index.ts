@@ -23,7 +23,7 @@ export interface non_heap_memory_interface {
 }
 
 // Java进程信息
-export interface JavaProcess {
+export interface JavaProcessInfo {
   daemon_thread_count: number	//	当前守护线程数量
   heap_memory:  heap_memory_interface	//	堆内存使用情况
   non_heap_memory: non_heap_memory_interface // 非堆内存使用情况

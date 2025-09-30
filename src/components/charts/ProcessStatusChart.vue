@@ -5,10 +5,10 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted, watch } from 'vue'
 import * as echarts from 'echarts'
-import type { JavaProcess } from '@/types'
+import type { JavaProcessInfo } from '@/types'
 
 interface Props {
-  processes: JavaProcess[]
+  processes: JavaProcessInfo[]
 }
 
 const props = defineProps<Props>()

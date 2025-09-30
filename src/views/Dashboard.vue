@@ -42,7 +42,7 @@
         <!-- 进程信息表格 -->
         <div class="space-y-4">
           <!-- PID 选择器 -->
-          <div class="grid grid-cols-1 sm:grid-cols-12 gap-4 items-center py-2">
+          <!-- <div class="grid grid-cols-1 sm:grid-cols-12 gap-4 items-center py-2">
             <div class="sm:col-span-2 text-sm font-medium">PID</div>
             <div class="sm:col-span-6 flex items-center gap-2">
               <Select 
@@ -67,7 +67,7 @@
                 <RefreshCw :class="['w-4 h-4', { 'animate-spin': isRefreshing }]" />
               </Button>
             </div>
-          </div>
+          </div> -->
 
           <!-- 进程信息表格 -->
           <Table>
@@ -79,16 +79,20 @@
             </TableHeader>
             <TableBody>
               <TableRow>
+                <TableCell class="font-medium">PID</TableCell>
+                <TableCell class="text-muted-foreground">{{ currentProcess?.pid || '-' }}</TableCell>
+              </TableRow>
+              <TableRow>
                 <TableCell class="font-medium">主机</TableCell>
                 <TableCell class="text-muted-foreground">{{ currentProcess?.host_ip || '本地' }}</TableCell>
               </TableRow>
               <TableRow>
                 <TableCell class="font-medium">主类</TableCell>
-                <TableCell class="text-muted-foreground">{{ currentProcess?.main_class || 'monitor-0.0.1-SNAPSHOT(1).jar' }}</TableCell>
+                <TableCell class="text-muted-foreground">{{ currentProcess?.main_class?.split(' ')[0] || '-' }}</TableCell>
               </TableRow>
               <TableRow>
-                <TableCell class="font-medium">参数？？</TableCell>
-                <TableCell class="text-muted-foreground">{{ formatArguments(currentProcess?.jvm_args) || '-' }}</TableCell>
+                <TableCell class="font-medium">参数</TableCell>
+                <TableCell class="text-muted-foreground">{{ formatArguments((currentProcess?.main_class?.split(' ').slice(1)) ?? []) || '-' }}</TableCell>
               </TableRow>
               <TableRow>
                 <TableCell class="font-medium">JVM</TableCell>
@@ -96,7 +100,7 @@
               </TableRow>
               <TableRow>
                 <TableCell class="font-medium">Java版本</TableCell>
-                <TableCell class="text-muted-foreground">{{ currentProcess?.java_home?.split('jdk-')[1] || '-' }}</TableCell>
+                <TableCell class="text-muted-foreground">{{ currentProcess?.java_version || '-' }}</TableCell>
               </TableRow>
               <TableRow>
                 <TableCell class="font-medium">Java Home目录</TableCell>
@@ -104,7 +108,7 @@
               </TableRow>
               <TableRow>
                 <TableCell class="font-medium">JVM标志？？</TableCell>
-                <TableCell class="text-muted-foreground">{{ formatArguments(currentProcess?.jvm_args) || '-' }}</TableCell>
+                <TableCell class="text-muted-foreground">{{ '' || '-' }}</TableCell>
               </TableRow>
             </TableBody>
           </Table>
@@ -120,7 +124,7 @@
           <CardHeader>
             <CardTitle class="text-base">保存的数据</CardTitle>
           </CardHeader>
-          <CardContent class="space-y-3">
+          <CardContent class="space-y-3" v-loading="saveDataLoading">
             <div class="flex justify-between items-center py-2">
               <span class="text-sm">线程Dump</span>
               <Badge variant="secondary">
@@ -206,7 +210,7 @@
                   <!-- 数据显示 -->
                   <div v-else class="space-y-1">
                     <div 
-                      v-for="property in Object.keys(systemProperties)" 
+                      v-for="property in Object.keys(systemProperties).sort((a, b) => a.localeCompare(b))" 
                       :key="property" 
                       class="grid grid-cols-5 gap-4 py-2 px-2 hover:bg-muted/50 rounded text-sm"
                     >
@@ -247,7 +251,7 @@ import {
   FileText,
   RefreshCw
 } from 'lucide-vue-next'
-import type { JavaProcessDetail, SystemPropertiesInterface } from '@/types'
+import type { JavaProcessDetail, SystemPropertiesInterface, JavaProcessInfo } from '@/types'
 
 const processStore = useProcessStore()
 const activeTab = ref('jvm-arguments')
@@ -304,21 +308,10 @@ function formatArguments(args: string[] | string | null | undefined): string {
   return typeof args === 'string' ? args : args.join(' ')
 }
 
-// 加载进程详细信息
-async function loadProcessDetails(pid: string) {
+async function getDetailInfoEnabled(pid: string) {
   if (!pid) return
-  
-  isLoadingDetails.value = true
-  errorMessage.value = ''
-  await processApi.startProcess({
-    pid: pid
-  }).catch(error => {
-    errorMessage.value = '启动进程失败'
-    console.error('启动进程异常:', error)
-  })
-  
   try {
-    const response = await processApi.getProcess(pid)
+    const response = await processApi.getProcessLocalOverview(pid)
     if (response.success) {
       processDetails.value = response.data
       jvmArguments.value = response.data.jvm_args
@@ -333,6 +326,25 @@ async function loadProcessDetails(pid: string) {
   } finally {
     isLoadingDetails.value = false
   }
+}
+
+const saveDataLoading = ref(false)
+const saveDataInfo = ref<JavaProcessInfo>()
+// 加载进程详细信息
+async function getSaveDataFn(pid: string) {
+  if (!pid) return
+  saveDataLoading.value = true
+  errorMessage.value = ''
+  await processApi.startProcess({
+    pid: pid
+  }).then(response => {
+    saveDataInfo.value = response.data
+  }).catch(error => {
+    errorMessage.value = '启动进程失败'
+    console.error('启动进程异常:', error)
+  }).finally(() => {
+    saveDataLoading.value = false
+  })
 }
 
 // 模拟JVM参数数据（从进程详情中提取或使用默认值）
@@ -404,7 +416,8 @@ function setMockSystemProperties() {
 
 // 处理PID变化
 async function handlePidChange() {
-  await loadProcessDetails(selectedPid.value)
+  await getSaveDataFn(selectedPid.value)
+  await getDetailInfoEnabled(selectedPid.value)
   // 使用模拟数据替代不存在的API接口
   // setMockJvmArguments()
   // setMockSystemProperties()
