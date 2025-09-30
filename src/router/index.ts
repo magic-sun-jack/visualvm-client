@@ -8,8 +8,13 @@ import MemoryLeak from '@/views/MemoryLeak.vue'
 import ThreadAnalysis from '@/views/ThreadAnalysis.vue'
 import ProcessManager from '@/views/ProcessManager.vue'
 import ScenarioMonitoring from '@/views/ScenarioMonitoring.vue'
-
 import ShadcnShowcase from '@/views/ShadcnShowcase.vue'
+import {
+  LayoutDashboard,
+  Database,
+  MemoryStick,
+  GitBranch,
+} from 'lucide-vue-next'
 
 const routes: RouteRecordRaw[] = [
   {
@@ -20,56 +25,59 @@ const routes: RouteRecordRaw[] = [
     path: '/dashboard',
     name: 'Dashboard',
     component: Dashboard,
-    meta: { title: '仪表板' }
-  },
-  {
-    path: '/processes',
-    name: 'JavaProcesses',
-    component: JavaProcesses,
-    meta: { title: 'Java进程监控' }
-  },
-  {
-    path: '/database',
-    name: 'DatabaseAnalysis',
-    component: DatabaseAnalysis,
-    meta: { title: '数据库调用分析' }
-  },
-  {
-    path: '/rmi',
-    name: 'RMIAnalysis',
-    component: RMIAnalysis,
-    meta: { title: 'RMI分析' }
+    meta: { 
+      title: '概览',
+      icon: LayoutDashboard 
+    }
   },
   {
     path: '/memory',
     name: 'MemoryLeak',
     component: MemoryLeak,
-    meta: { title: '内存泄漏分析' }
+    meta: { title: '内存信息', icon: MemoryStick }
   },
   {
     path: '/threads',
     name: 'ThreadAnalysis',
     component: ThreadAnalysis,
-    meta: { title: '多线程分析' }
+    meta: { title: '线程监控', icon: GitBranch }
+  },
+  {
+    path: '/database',
+    name: 'DatabaseAnalysis',
+    component: DatabaseAnalysis,
+    meta: { title: '数据库', icon: Database }
+  },
+  {
+    path: '/processes',
+    name: 'JavaProcesses',
+    component: JavaProcesses,
+    meta: { title: 'Java进程监控', show: false }
+  },
+  {
+    path: '/rmi',
+    name: 'RMIAnalysis',
+    component: RMIAnalysis,
+    meta: { title: 'RMI分析', show: false }
   },
   {
     path: '/manager',
     name: 'ProcessManager',
     component: ProcessManager,
-    meta: { title: '进程管理' }
+    meta: { title: '进程管理', show: false }
   },
   {
     path: '/scenario',
     name: 'ScenarioMonitoring',
     component: ScenarioMonitoring,
-    meta: { title: '场景监控' }
+    meta: { title: '场景监控', show: false }
   },
 
   {
     path: '/shadcn-showcase',
     name: 'ShadcnShowcase',
     component: ShadcnShowcase,
-    meta: { title: 'shadcn-vue 完整展示' }
+    meta: { title: 'shadcn-vue 完整展示', show: false }
   },
   // 兜底：未知路径重定向到仪表板，避免 RouterView 为空
   // { path: '/:pathMatch(.*)*', redirect: '/dashboard' }
@@ -122,5 +130,7 @@ router.beforeResolve((to, _from, next) => {
     next('/dashboard')
   }
 })
+
+export { routes, type RouteRecordRaw }
 
 export default router

@@ -79,13 +79,13 @@
                 :to="item.path"
                 :class="[
                   'flex items-center px-3 py-2 text-sm rounded-md transition-colors',
-                  $route.path === item.path
+                  $route.path === item?.path
                     ? 'bg-accent text-accent-foreground'
                     : 'hover:bg-accent hover:text-accent-foreground'
                 ]"
               >
-                <component :is="item.icon" class="mr-3 h-4 w-4" />
-                {{ item.name }}
+                <component :is="item?.icon" class="mr-3 h-4 w-4" />
+                {{ item?.name }}
               </RouterLink>
             </div>
           </div>
@@ -93,8 +93,8 @@
       </aside>
 
       <!-- 主内容区域 -->
-      <main class="flex-1 p-4 lg:p-6">
-        <Breadcrumb />
+      <main class="flex-1 p-2">
+        <!-- <Breadcrumb /> -->
         <slot />
       </main>
     </div>
@@ -127,34 +127,28 @@ import {
   Monitor,
   Plug
 } from 'lucide-vue-next'
+import { routes } from '@/router'
+import type { RouteRecordRaw } from '@/router'
 
 const router = useRouter()
 const processStore = useProcessStore()
 const isRefreshing = ref(false)
 const showProcessConnectDialog = ref(false)
 
-const navigationItems = [
-  {
-    name: '概览',
-    path: '/dashboard',
-    icon: LayoutDashboard
-  },
-  {
-    name: '内存信息',
-    path: '/memory',
-    icon: MemoryStick
-  },
-  {
-    name: '线程监控',
-    path: '/threads',
-    icon: GitBranch
-  },
-  {
-    name: '数据库',
-    path: '/database',
-    icon: Database
+const navigationItems = routes.map((route: RouteRecordRaw) =>   {
+  if (route.meta?.show !== false && route.path !== '/') {
+    return {
+      name: route.meta?.title,
+      path: route.path,
+      icon: route.meta?.icon,
+      show: route.meta?.show
+    }
+  } else {
+    return null
   }
-]
+}).filter(Boolean)
+
+console.log(navigationItems, routes)
 
 async function refreshData() {
   isRefreshing.value = true

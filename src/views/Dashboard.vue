@@ -1,8 +1,6 @@
 <template>
   <div class="p-4 md:p-6 space-y-4 md:space-y-6 bg-background min-h-full">
     <!-- 顶部标题栏 -->
-    <Card>
-      <CardContent class="p-6">
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
           <h1 class="text-xl font-semibold">概述</h1>
           <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4">
@@ -28,6 +26,8 @@
             </div>
           </div>
         </div>
+    <Card>
+      <CardContent class="p-6">
 
         <!-- 错误信息显示 -->
         <Alert v-if="errorMessage" variant="destructive" class="mb-4">
@@ -80,35 +80,227 @@
             <TableBody>
               <TableRow>
                 <TableCell class="font-medium">PID</TableCell>
-                <TableCell class="text-muted-foreground">{{ currentProcess?.pid || '-' }}</TableCell>
+                <TableCell class="text-muted-foreground">
+                  <div class="group relative pr-8" @dblclick="handleDblclickCopy($event, String(currentProcess?.pid || '-'))">
+                    <TooltipProvider>
+                      <Tooltip>
+                        <TooltipTrigger as-child>
+                          <div class="max-w-full break-all overflow-hidden line-clamp-2">
+                            {{ currentProcess?.pid || '-' }}
+                          </div>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <div class="max-w-[60vw] break-all whitespace-pre-wrap">{{ String(currentProcess?.pid || '-') }}</div>
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      class="absolute right-1 top-1/2 -translate-y-1/2 h-7 w-7 opacity-0 group-hover:opacity-100 transition-opacity"
+                      :aria-label="'复制'"
+                      @click.stop="copyText(String(currentProcess?.pid || '-'))"
+                    >
+                      <component :is="copiedText === String(currentProcess?.pid || '-') ? Check : Copy" class="w-4 h-4" />
+                    </Button>
+                  </div>
+                </TableCell>
               </TableRow>
               <TableRow>
                 <TableCell class="font-medium">主机</TableCell>
-                <TableCell class="text-muted-foreground">{{ currentProcess?.host_ip || '本地' }}</TableCell>
+                <TableCell class="text-muted-foreground">
+                  <div class="group relative pr-8" @dblclick="handleDblclickCopy($event, String(currentProcess?.host_ip || '本地'))">
+                    <TooltipProvider>
+                      <Tooltip>
+                        <TooltipTrigger as-child>
+                          <div class="max-w-full break-all overflow-hidden line-clamp-2">
+                            {{ currentProcess?.host_ip || '本地' }}
+                          </div>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <div class="max-w-[60vw] break-all whitespace-pre-wrap">{{ String(currentProcess?.host_ip || '本地') }}</div>
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      class="absolute right-1 top-1/2 -translate-y-1/2 h-7 w-7 opacity-0 group-hover:opacity-100 transition-opacity"
+                      :aria-label="'复制'"
+                      @click.stop="copyText(String(currentProcess?.host_ip || '本地'))"
+                    >
+                      <component :is="copiedText === String(currentProcess?.host_ip || '本地') ? Check : Copy" class="w-4 h-4" />
+                    </Button>
+                  </div>
+                </TableCell>
               </TableRow>
               <TableRow>
                 <TableCell class="font-medium">主类</TableCell>
-                <TableCell class="text-muted-foreground">{{ currentProcess?.main_class?.split(' ')[0] || '-' }}</TableCell>
+                <TableCell class="text-muted-foreground">
+                  <div class="group relative pr-8" @dblclick="handleDblclickCopy($event, String(currentProcess?.main_class?.split(' ')[0] || '-'))">
+                    <TooltipProvider>
+                      <Tooltip>
+                        <TooltipTrigger as-child>
+                          <div class="max-w-full break-all overflow-hidden line-clamp-2">
+                            {{ currentProcess?.main_class?.split(' ')[0] || '-' }}
+                          </div>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <div class="max-w-[60vw] break-all whitespace-pre-wrap">{{ String(currentProcess?.main_class?.split(' ')[0] || '-') }}</div>
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      class="absolute right-1 top-1/2 -translate-y-1/2 h-7 w-7 opacity-0 group-hover:opacity-100 transition-opacity"
+                      :aria-label="'复制'"
+                      @click.stop="copyText(String(currentProcess?.main_class?.split(' ')[0] || '-'))"
+                    >
+                      <component :is="copiedText === String(currentProcess?.main_class?.split(' ')[0] || '-') ? Check : Copy" class="w-4 h-4" />
+                    </Button>
+                  </div>
+                </TableCell>
               </TableRow>
               <TableRow>
                 <TableCell class="font-medium">参数</TableCell>
-                <TableCell class="text-muted-foreground">{{ formatArguments((currentProcess?.main_class?.split(' ').slice(1)) ?? []) || '-' }}</TableCell>
+                <TableCell class="text-muted-foreground">
+                  <div class="group relative pr-8" @dblclick="handleDblclickCopy($event, formatArguments((currentProcess?.main_class?.split(' ').slice(1)) ?? []) || '-')">
+                    <TooltipProvider>
+                      <Tooltip>
+                        <TooltipTrigger as-child>
+                          <div class="max-w-full break-all overflow-hidden line-clamp-2">
+                            {{ formatArguments((currentProcess?.main_class?.split(' ').slice(1)) ?? []) || '-' }}
+                          </div>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <div class="max-w-[60vw] break-all whitespace-pre-wrap">{{ formatArguments((currentProcess?.main_class?.split(' ').slice(1)) ?? []) || '-' }}</div>
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      class="absolute right-1 top-1/2 -translate-y-1/2 h-7 w-7 opacity-0 group-hover:opacity-100 transition-opacity"
+                      :aria-label="'复制'"
+                      @click.stop="copyText(formatArguments((currentProcess?.main_class?.split(' ').slice(1)) ?? []) || '-')"
+                    >
+                      <component :is="copiedText === (formatArguments((currentProcess?.main_class?.split(' ').slice(1)) ?? []) || '-') ? Check : Copy" class="w-4 h-4" />
+                    </Button>
+                  </div>
+                </TableCell>
               </TableRow>
               <TableRow>
                 <TableCell class="font-medium">JVM</TableCell>
-                <TableCell class="text-muted-foreground">{{ currentProcess?.jvm_name || '-' }}</TableCell>
+                <TableCell class="text-muted-foreground">
+                  <div class="group relative pr-8" @dblclick="handleDblclickCopy($event, String(currentProcess?.jvm_name || '-'))">
+                    <TooltipProvider>
+                      <Tooltip>
+                        <TooltipTrigger as-child>
+                          <div class="max-w-full break-all overflow-hidden line-clamp-2">
+                            {{ currentProcess?.jvm_name || '-' }}
+                          </div>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <div class="max-w-[60vw] break-all whitespace-pre-wrap">{{ String(currentProcess?.jvm_name || '-') }}</div>
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      class="absolute right-1 top-1/2 -translate-y-1/2 h-7 w-7 opacity-0 group-hover:opacity-100 transition-opacity"
+                      :aria-label="'复制'"
+                      @click.stop="copyText(String(currentProcess?.jvm_name || '-'))"
+                    >
+                      <component :is="copiedText === String(currentProcess?.jvm_name || '-') ? Check : Copy" class="w-4 h-4" />
+                    </Button>
+                  </div>
+                </TableCell>
               </TableRow>
               <TableRow>
                 <TableCell class="font-medium">Java版本</TableCell>
-                <TableCell class="text-muted-foreground">{{ currentProcess?.java_version || '-' }}</TableCell>
+                <TableCell class="text-muted-foreground">
+                  <div class="group relative pr-8" @dblclick="handleDblclickCopy($event, String(currentProcess?.java_version || '-'))">
+                    <TooltipProvider>
+                      <Tooltip>
+                        <TooltipTrigger as-child>
+                          <div class="max-w-full break-all overflow-hidden line-clamp-2">
+                            {{ currentProcess?.java_version || '-' }}
+                          </div>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <div class="max-w-[60vw] break-all whitespace-pre-wrap">{{ String(currentProcess?.java_version || '-') }}</div>
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      class="absolute right-1 top-1/2 -translate-y-1/2 h-7 w-7 opacity-0 group-hover:opacity-100 transition-opacity"
+                      :aria-label="'复制'"
+                      @click.stop="copyText(String(currentProcess?.java_version || '-'))"
+                    >
+                      <component :is="copiedText === String(currentProcess?.java_version || '-') ? Check : Copy" class="w-4 h-4" />
+                    </Button>
+                  </div>
+                </TableCell>
               </TableRow>
               <TableRow>
                 <TableCell class="font-medium">Java Home目录</TableCell>
-                <TableCell class="text-muted-foreground">{{ currentProcess?.java_home || '-' }}</TableCell>
+                <TableCell class="text-muted-foreground">
+                  <div class="group relative pr-8" @dblclick="handleDblclickCopy($event, String(currentProcess?.java_home || '-'))">
+                    <TooltipProvider>
+                      <Tooltip>
+                        <TooltipTrigger as-child>
+                          <div class="max-w-full break-all overflow-hidden line-clamp-2">
+                            {{ currentProcess?.java_home || '-' }}
+                          </div>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <div class="max-w-[60vw] break-all whitespace-pre-wrap">{{ String(currentProcess?.java_home || '-') }}</div>
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      class="absolute right-1 top-1/2 -translate-y-1/2 h-7 w-7 opacity-0 group-hover:opacity-100 transition-opacity"
+                      :aria-label="'复制'"
+                      @click.stop="copyText(String(currentProcess?.java_home || '-'))"
+                    >
+                      <component :is="copiedText === String(currentProcess?.java_home || '-') ? Check : Copy" class="w-4 h-4" />
+                    </Button>
+                  </div>
+                </TableCell>
               </TableRow>
               <TableRow>
                 <TableCell class="font-medium">JVM标志？？</TableCell>
-                <TableCell class="text-muted-foreground">{{ '' || '-' }}</TableCell>
+                <TableCell class="text-muted-foreground">
+                  <div class="group relative pr-8" @dblclick="handleDblclickCopy($event, formatArguments(currentProcess?.jvm_args) || '-')">
+                    <TooltipProvider>
+                      <Tooltip>
+                        <TooltipTrigger as-child>
+                          <div class="max-w-full break-all overflow-hidden line-clamp-2">
+                            {{ formatArguments(currentProcess?.jvm_args) || '-' }}
+                          </div>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <div class="max-w-[60vw] break-all whitespace-pre-wrap">{{ formatArguments(currentProcess?.jvm_args) || '-' }}</div>
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      class="absolute right-1 top-1/2 -translate-y-1/2 h-7 w-7 opacity-0 group-hover:opacity-100 transition-opacity"
+                      :aria-label="'复制'"
+                      @click.stop="copyText(formatArguments(currentProcess?.jvm_args) || '-')"
+                    >
+                      <component :is="copiedText === (formatArguments(currentProcess?.jvm_args) || '-') ? Check : Copy" class="w-4 h-4" />
+                    </Button>
+                  </div>
+                </TableCell>
               </TableRow>
             </TableBody>
           </Table>
@@ -179,9 +371,30 @@
                     <div 
                       v-for="(arg, index) in jvmArguments" 
                       :key="index" 
-                      class="p-2 bg-muted/50 rounded text-sm font-mono"
+                      class="group relative p-2 pr-10 bg-muted/50 rounded text-sm font-mono"
+                      @dblclick="handleDblclickCopy($event, String(arg))"
                     >
-                      {{ arg }}
+                      <TooltipProvider>
+                        <Tooltip>
+                          <TooltipTrigger as-child>
+                            <div class="max-w-full break-all overflow-hidden line-clamp-2">
+                              {{ arg }}
+                            </div>
+                          </TooltipTrigger>
+                          <TooltipContent>
+                            <div class="max-w-[60vw] break-all whitespace-pre-wrap">{{ String(arg) }}</div>
+                          </TooltipContent>
+                        </Tooltip>
+                      </TooltipProvider>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        class="absolute right-1 top-1/2 -translate-y-1/2 h-7 w-7 opacity-0 group-hover:opacity-100 transition-opacity"
+                        :aria-label="'复制'"
+                        @click.stop="copyText(String(arg))"
+                      >
+                        <component :is="copiedText === String(arg) ? Check : Copy" class="w-4 h-4" />
+                      </Button>
                     </div>
                   </div>
                 </div>
@@ -189,7 +402,7 @@
 
               <!-- 系统属性标签页 -->
               <TabsContent value="system-properties" class="p-4">
-                <div class="space-y-1 max-h-[400px] overflow-y-auto">
+                <div class="space-y-1 max-h-[600px] overflow-y-auto">
                   <!-- 加载状态 -->
                   <div v-if="isLoadingSysProps" class="space-y-2 py-4">
                     <div class="flex items-center gap-2 text-sm text-muted-foreground mb-4">
@@ -212,10 +425,45 @@
                     <div 
                       v-for="property in Object.keys(systemProperties).sort((a, b) => a.localeCompare(b))" 
                       :key="property" 
-                      class="grid grid-cols-5 gap-4 py-2 px-2 hover:bg-muted/50 rounded text-sm"
+                      class="group grid grid-cols-5 gap-4 py-2 px-2 hover:bg-muted/50 rounded text-sm"
                     >
-                      <div class="font-medium col-span-2">{{ property }}</div>
-                      <div class="text-muted-foreground col-span-3 break-all">{{ systemProperties[property as keyof SystemPropertiesInterface] }}</div>
+                      <div class="font-medium col-span-2">
+                        <TooltipProvider>
+                          <Tooltip>
+                            <TooltipTrigger as-child>
+                              <div class="max-w-full break-all overflow-hidden line-clamp-2">
+                                {{ property }}
+                              </div>
+                            </TooltipTrigger>
+                            <TooltipContent>
+                              <div class="max-w-[60vw] break-all whitespace-pre-wrap">{{ property }}</div>
+                            </TooltipContent>
+                          </Tooltip>
+                        </TooltipProvider>
+                      </div>
+                      <div class="text-muted-foreground col-span-3 relative pr-8" @dblclick="handleDblclickCopy($event, String(systemProperties[property as keyof SystemPropertiesInterface]))">
+                        <TooltipProvider>
+                          <Tooltip>
+                            <TooltipTrigger as-child>
+                              <div class="max-w-full break-all overflow-hidden line-clamp-2">
+                                {{ systemProperties[property as keyof SystemPropertiesInterface] }}
+                              </div>
+                            </TooltipTrigger>
+                            <TooltipContent>
+                              <div class="max-w-[60vw] break-all whitespace-pre-wrap">{{ String(systemProperties[property as keyof SystemPropertiesInterface]) }}</div>
+                            </TooltipContent>
+                          </Tooltip>
+                        </TooltipProvider>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          class="absolute right-1 top-1/2 -translate-y-1/2 h-7 w-7 opacity-0 group-hover:opacity-100 transition-opacity"
+                          :aria-label="'复制'"
+                          @click.stop="copyText(String(systemProperties[property as keyof SystemPropertiesInterface]))"
+                        >
+                          <component :is="copiedText === String(systemProperties[property as keyof SystemPropertiesInterface]) ? Check : Copy" class="w-4 h-4" />
+                        </Button>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -249,8 +497,11 @@ import {
 import {
   CheckSquare,
   FileText,
-  RefreshCw
+  RefreshCw,
+  Copy,
+  Check
 } from 'lucide-vue-next'
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 import type { JavaProcessDetail, SystemPropertiesInterface, JavaProcessInfo } from '@/types'
 import { useStatisticsStore } from '@/stores/statistics'
 
@@ -303,6 +554,32 @@ const currentProcess = computed((): JavaProcessDetail | null => {
 function formatArguments(args: string[] | string | null | undefined): string {
   if (!args || (Array.isArray(args) && args.length === 0)) return ''
   return typeof args === 'string' ? args : args.join(' ')
+}
+
+// 复制功能
+const copiedText = ref<string>('')
+async function copyText(text: string) {
+  try {
+    await navigator.clipboard.writeText(text)
+    copiedText.value = text
+    setTimeout(() => { if (copiedText.value === text) copiedText.value = '' }, 1200)
+  } catch (e) {
+    console.error('复制失败:', e)
+  }
+}
+
+function handleDblclickCopy(e: MouseEvent, text: string) {
+  const target = e.currentTarget as HTMLElement | null
+  if (!target) {
+    copyText(text)
+    return
+  }
+  const range = document.createRange()
+  range.selectNodeContents(target)
+  const sel = window.getSelection()
+  sel?.removeAllRanges()
+  sel?.addRange(range)
+  copyText(text)
 }
 
 async function getDetailInfoEnabled(pid: string) {
