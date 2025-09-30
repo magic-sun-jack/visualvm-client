@@ -252,6 +252,7 @@ import {
   RefreshCw
 } from 'lucide-vue-next'
 import type { JavaProcessDetail, SystemPropertiesInterface, JavaProcessInfo } from '@/types'
+import { useStatisticsStore } from '@/stores/statistics'
 
 const processStore = useProcessStore()
 const activeTab = ref('jvm-arguments')
@@ -273,13 +274,9 @@ const processDetails = ref<JavaProcessDetail | null>(null)
 const jvmArguments = ref<JavaProcessDetail['jvm_args']>(null)
 const systemProperties = ref<SystemPropertiesInterface>()
 
-// 统计数据
-const statistics = ref({
-  threadDumps: 0,
-  heapDumps: 0,
-  profilerSnapshots: 0,
-  jfrSnapshots: 0
-})
+// 统计数据（Pinia）
+const statisticsStore = useStatisticsStore()
+const statistics = computed(() => statisticsStore.stats)
 
 // 可用进程列表
 const availableProcesses = computed(() => {
