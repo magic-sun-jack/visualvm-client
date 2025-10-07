@@ -198,7 +198,7 @@ export interface ApiResponse<T> {
   code: number      // 状态码
   msg: string       // 消息
   data: T           // 数据
-  success: boolean  // 是否成功
+  areSuccess: boolean  // 是否成功
   message?: string  // 可选消息字段
   timestamp?: string // 可选时间戳字段
 }
@@ -292,4 +292,21 @@ export interface ProcessStartParams {
   arguments?: string[]
   workingDirectory?: string
   environment?: Record<string, string>
+}
+
+export interface CpuStream {
+  result: Array<{
+    method: string // 方法
+    selfTimeMs: number // 自用时间
+    selfTimePercent: number // 自用时间占比
+    totalTimeMs: number // 总时间
+  }>
+  pid: string
+  config: { // 配置
+    pid: string 
+    packageFilters: string[] // 过滤的类名
+    filterType: 'INCLUDE' | 'exclude' // 过滤类型
+    samplingPeriod: number // 采样间隔
+    refreshPeriod: number // 数据返回频率
+  }
 }

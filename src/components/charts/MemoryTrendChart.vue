@@ -5,10 +5,10 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted, watch, reactive } from 'vue'
 import * as echarts from 'echarts'
-import type { JavaProcessInfo } from '@/types'
 
 interface Props {
-  processes: JavaProcessInfo[]
+  data: any[]
+  field: string // 例如 'memoryUsage.used' 或 'process_cpu_load'
   maxDataPoints?: number // 最大数据点数量
   updateInterval?: number // 更新间隔（毫秒）
   incremental?: boolean // 是否增量更新
@@ -30,40 +30,45 @@ const chartData = reactive({
   memoryData: [] as number[]
 })
 
+// 递归获取对象字段值
+function getFieldValue(obj: any, field: string): number {
+  if (!obj || !field) return 0
+  const keys = field.split('.')
+  let value = obj
+  for (const key of keys) {
+    value = value?.[key]
+    if (value === undefined) return 0
+  }
+  return typeof value === 'number' ? value : Number(value) || 0
+}
+
 // 生成初始时间序列数据
 function generateInitialData() {
   const now = new Date()
   const times = []
-  const memoryData = []
-  
+  const valueData = []
   for (let i = 11; i >= 0; i--) {
     const time = new Date(now.getTime() - i * 5 * 60 * 1000)
     times.push(time.toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' }))
-    
-    // 模拟内存使用数据
-    const baseMemory = props.processes.reduce((sum, p) => sum + p.memoryUsage.used, 0)
+    // 模拟数据：取所有data的field值之和
+    const baseValue = props.data.reduce((sum, item) => sum + getFieldValue(item, props.field), 0)
     const randomVariation = (Math.random() - 0.5) * 0.1 // ±5% 变化
-    memoryData.push(Math.max(0, baseMemory * (1 + randomVariation)))
+    valueData.push(Math.max(0, baseValue * (1 + randomVariation)))
   }
-  
   chartData.times = times
-  chartData.memoryData = memoryData
+  chartData.memoryData = valueData
 }
 
 // 添加新数据点（增量更新）
 function addDataPoint() {
   const now = new Date()
   const timeStr = now.toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit', second: '2-digit' })
-  
-  // 计算当前内存使用
-  const baseMemory = props.processes.reduce((sum, p) => sum + p.memoryUsage.used, 0)
+  // 计算当前字段值
+  const baseValue = props.data.reduce((sum, item) => sum + getFieldValue(item, props.field), 0)
   const randomVariation = (Math.random() - 0.5) * 0.1 // ±5% 变化
-  const newMemoryValue = Math.max(0, baseMemory * (1 + randomVariation))
-  
-  // 增量添加数据
+  const newValue = Math.max(0, baseValue * (1 + randomVariation))
   chartData.times.push(timeStr)
-  chartData.memoryData.push(newMemoryValue)
-  
+  chartData.memoryData.push(newValue)
   // 限制数据点数量
   if (chartData.times.length > props.maxDataPoints) {
     chartData.times.shift()
@@ -85,7 +90,7 @@ function initChart() {
       trigger: 'axis',
       formatter: function(params: any) {
         const data = params[0]
-        return `${data.name}<br/>内存使用: ${formatMemory(data.value)}`
+  return `${data.name}<br/>数值: ${formatMemory(data.value)}`
       }
     },
     grid: {
@@ -113,7 +118,7 @@ function initChart() {
     },
     series: [
       {
-        name: '内存使用',
+  name: props.field,
         type: 'line',
         smooth: true,
         data: chartData.memoryData,
@@ -174,17 +179,18 @@ function updateChart() {
   })
 }
 
-// 格式化内存大小
+// 格式化数值（自动单位）
 function formatMemory(bytes: number): string {
-  if (bytes === 0) return '0 B'
+  if (bytes === 0) return '0'
+  if (Math.abs(bytes) < 1024) return bytes.toFixed(1)
   const k = 1024
-  const sizes = ['B', 'KB', 'MB', 'GB']
+  const sizes = ['B', 'KB', 'MB', 'GB', 'TB']
   const i = Math.floor(Math.log(bytes) / Math.log(k))
   return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i]
 }
 
-// 监听进程数据变化
-watch(() => props.processes, () => {
+// 监听数据变化
+watch(() => props.data, () => {
   updateChart()
 }, { deep: true })
 

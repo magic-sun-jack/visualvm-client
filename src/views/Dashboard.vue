@@ -1,31 +1,31 @@
 <template>
   <div class="p-4 md:p-6 space-y-4 md:space-y-6 bg-background min-h-full">
     <!-- 顶部标题栏 -->
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
-          <h1 class="text-xl font-semibold">概述</h1>
-          <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4">
-            <div class="flex items-center gap-2 text-sm">
-              <Checkbox 
-                v-model="savedDataEnabled"
-                id="saved-data"
-              />
-              <label for="saved-data" class="flex items-center gap-2 cursor-pointer">
-                <CheckSquare class="w-4 h-4 text-blue-500" />
-                <span>保存的数据</span>
-              </label>
-            </div>
-            <div class="flex items-center gap-2 text-sm">
-              <Checkbox 
-                v-model="detailInfoEnabled"
-                id="detail-info"
-              />
-              <label for="detail-info" class="flex items-center gap-2 cursor-pointer">
-                <FileText class="w-4 h-4 text-blue-500" />
-                <span>详细信息</span>
-              </label>
-            </div>
-          </div>
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+      <h1 class="text-xl font-semibold">概述</h1>
+      <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+        <div class="flex items-center gap-2 text-sm">
+          <Checkbox 
+            v-model="savedDataEnabled"
+            id="saved-data"
+          />
+          <label for="saved-data" class="flex items-center gap-2 cursor-pointer">
+            <CheckSquare class="w-4 h-4 text-blue-500" />
+            <span>保存的数据</span>
+          </label>
         </div>
+        <div class="flex items-center gap-2 text-sm">
+          <Checkbox 
+            v-model="detailInfoEnabled"
+            id="detail-info"
+          />
+          <label for="detail-info" class="flex items-center gap-2 cursor-pointer">
+            <FileText class="w-4 h-4 text-blue-500" />
+            <span>详细信息</span>
+          </label>
+        </div>
+      </div>
+    </div>
     <Card>
       <CardContent class="p-6">
 
@@ -473,13 +473,55 @@
         </Card>
       </div>
     </div>
+    <!-- 监控区域 -->
+    <div class="monitor-section mt-8">
+      <div class="grid grid-cols-2 gap-6">
+        <!-- CPU监控卡片 -->
+        <div class="bg-white rounded shadow p-4 flex flex-col">
+          <div class="font-bold mb-2">CPU</div>
+          <!-- 图表插槽 -->
+          <div class="flex-1 min-h-[220px]">
+            <MemoryTrendChart :data="cpuData?.result" :field="'selfTimePercent'" :maxDataPoints="100" :updateInterval="2000" />
+          </div>
+          <div class="text-xs text-gray-500 mt-2">CPU usage / GC activity</div>
+        </div>
+        <!-- 内存监控卡片 -->
+        <div class="bg-white rounded shadow p-4 flex flex-col">
+          <div class="font-bold mb-2">内存</div>
+          <!-- 图表插槽 -->
+          <div class="flex-1 min-h-[220px]">
+            <!-- <MemoryTrendChart :processes="availableProcesses" :maxDataPoints="30" :updateInterval="2000" /> -->
+          </div>
+          <div class="text-xs text-gray-500 mt-2">Heap / Metaspace</div>
+        </div>
+        <!-- 类监控卡片 -->
+        <div class="bg-white rounded shadow p-4 flex flex-col">
+          <div class="font-bold mb-2">类</div>
+          <!-- 图表插槽 -->
+          <div class="flex-1 min-h-[220px]">
+            <!-- <ProcessStatusChart :processes="availableProcesses" /> -->
+          </div>
+          <div class="text-xs text-gray-500 mt-2">Total loaded / Shared loaded classes</div>
+        </div>
+        <!-- 线程监控卡片 -->
+        <div class="bg-white rounded shadow p-4 flex flex-col">
+          <div class="font-bold mb-2">线程</div>
+          <!-- 图表插槽 -->
+          <div class="flex-1 min-h-[220px]">
+            <!-- <ProcessStatusChart :processes="availableProcesses" /> -->
+          </div>
+          <div class="text-xs text-gray-500 mt-2">Live threads / Daemon threads</div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
-
 <script setup lang="ts">
 import { ref, computed, onMounted, watch } from 'vue'
+import MemoryTrendChart from '@/components/charts/MemoryTrendChart.vue'
+import ProcessStatusChart from '@/components/charts/ProcessStatusChart.vue'
 import { useProcessStore } from '@/stores/process'
-import { processApi } from '@/api'
+import { cpuApi, processApi } from '@/api'
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
@@ -692,6 +734,7 @@ function setMockSystemProperties() {
 async function handlePidChange() {
   await getSaveDataFn(selectedPid.value)
   await getDetailInfoEnabled(selectedPid.value)
+  cpuStart()
   // 使用模拟数据替代不存在的API接口
   // setMockJvmArguments()
   // setMockSystemProperties()
@@ -725,6 +768,29 @@ watch(() => availableProcesses.value, (newProcesses) => {
     selectedPid.value = newProcesses[0].pid.toString()
   }
 }, { immediate: true })
+
+const cpuData = ref()
+
+async function cpuStart() {
+  await cpuApi.startCpuProfiling(selectedPid.value).then((response) => {
+    if (response.areSuccess) {
+      console.log('CPU分析启动成功:', response.data)
+    } else {
+      console.error('CPU分析启动失败:', response.msg)
+    }
+  }).catch((error) => {
+    console.error('CPU分析启动异常:', error)
+  })
+  const es = new EventSource(`/cvm/cpu/stream?pid=${selectedPid.value}&refreshPeriod=${5000}`);
+  es.onmessage = (event) => {
+    // 处理 event.data
+    cpuData.value = JSON.parse(event.data);
+    console.log('Received CPU data:', cpuData.value);
+  };
+  es.onerror = (err) => {
+    // 处理错误
+  };
+}
 
 // 组件挂载时初始化
 onMounted(async () => {
