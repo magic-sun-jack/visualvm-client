@@ -479,17 +479,35 @@
         <!-- CPU监控卡片 -->
         <div class="bg-white rounded shadow p-4 flex flex-col">
           <div class="font-bold mb-2">CPU</div>
+          <div class="grid grid-cols-2 gap-x-4 gap-y-1 mb-2">
+            <div v-for="flagObj in [{
+              text: 'CPU使用',
+              value: ''
+            }, {
+              text: 'GC活动',
+              value: ''
+            }]" :key="flagObj.text" class="text-xs text-gray-500">{{ flagObj.text }}: {{ flagObj.value }}</div>
+          </div>
           <!-- 图表插槽 -->
           <div class="flex-1 min-h-[220px]">
-            <MemoryTrendChart :data="cpuData?.result || []" :field="'selfTimePercent'" :maxDataPoints="20" :updateInterval="2000" />
+            <MemoryTrendChart :data="cpuData?.result || []" :field="'selfTimePercent'" :maxDataPoints="20" :updateInterval="2000" :unit="'%'" />
           </div>
           <div class="text-xs text-gray-500 mt-2">CPU usage / GC activity</div>
         </div>
         <!-- 内存监控卡片 -->
         <div class="bg-white rounded shadow p-4 flex flex-col">
           <div class="font-bold mb-2">内存</div>
-          <div class="flex flex-row gap-2">
-            <div v-for="text in ['大小', '已用', '最大']" :key="text" class="text-xs text-gray-500 mt-2">{{ text }}</div>
+          <div class="grid grid-cols-2 gap-x-4 gap-y-1 mb-2">
+            <div v-for="flagObj in [{
+              text: '大小',
+              value: ''
+            }, {
+              text: '已用',
+              value: ''
+            }, {
+              text: '剩余',
+              value: ''
+            }]" :key="flagObj.text" class="text-xs text-gray-500">{{ flagObj.text }}: {{ flagObj.value }}</div>
           </div>
           <!-- 图表插槽 -->
           <div class="flex-1 min-h-[220px]">

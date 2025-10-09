@@ -12,6 +12,7 @@ interface Props {
   maxDataPoints?: number // 最大数据点数量
   updateInterval?: number // 更新间隔（毫秒）
   incremental?: boolean // 是否增量更新
+  unit?: string // 单位符串，如 'MB', 'GB', '%'
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -27,7 +28,7 @@ let intervalId: number | null = null
 // 存储历史数据
 const chartData = reactive({
   times: [] as string[],
-  memoryData: [] as number[]
+  memoryData: [] as (number | string)[]
 })
 
 // 递归获取对象字段值
@@ -90,7 +91,7 @@ function initChart() {
       trigger: 'axis',
       formatter: function(params: any) {
         const data = params[0]
-  return `${data.name}<br/>数值: ${formatMemory(data.value)}`
+        return `${data.name}<br/>数值: ${data.value}${props.unit ? ' ' + props.unit : ''}`
       }
     },
     grid: {
@@ -111,7 +112,7 @@ function initChart() {
       type: 'value',
       axisLabel: {
         formatter: function(value: number) {
-          return formatMemory(value)
+          return value + (props.unit ? ' ' + props.unit : '')
         },
         fontSize: 10
       }
