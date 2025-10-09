@@ -57,3 +57,4 @@
 2025-10-09 09:30:47.081 [http-nio-8099-exec-9] INFO  org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
 2025-10-09 09:30:47.093 [http-nio-8099-exec-9] INFO  org.springframework.web.servlet.DispatcherServlet - Completed initialization in 12 ms
 2025-10-09 09:30:50.006 [http-nio-8099-exec-3] INFO  com.cc.monitor.controller.CpuMonitorController - 开始抽样:23352 cpu
+2025-10-09 11:03:45.536 [http-nio-8099-exec-2] INFO  com.cc.monitor.controller.MemoryController - 23352 开始内存抽样

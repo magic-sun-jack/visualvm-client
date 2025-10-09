@@ -52,7 +52,7 @@ function generateInitialData() {
     times.push(time.toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' }))
     // 模拟数据：取所有data的field值之和
     const baseValue = props.data.reduce((sum, item) => sum + getFieldValue(item, props.field), 0)
-    const randomVariation = (Math.random() - 0.5) * 0.1 // ±5% 变化
+    const randomVariation = 0 // ±5% 变化
     valueData.push(Math.max(0, baseValue * (1 + randomVariation)))
   }
   chartData.times = times
@@ -65,7 +65,7 @@ function addDataPoint() {
   const timeStr = now.toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit', second: '2-digit' })
   // 计算当前字段值
   const baseValue = props.data.reduce((sum, item) => sum + getFieldValue(item, props.field), 0)
-  const randomVariation = (Math.random() - 0.5) * 0.1 // ±5% 变化
+  const randomVariation = 0 // ±5% 变化
   const newValue = Math.max(0, baseValue * (1 + randomVariation))
   chartData.times.push(timeStr)
   chartData.memoryData.push(newValue)
@@ -118,7 +118,7 @@ function initChart() {
     },
     series: [
       {
-  name: props.field,
+        name: props.field,
         type: 'line',
         smooth: true,
         data: chartData.memoryData,
@@ -167,6 +167,8 @@ function updateChart() {
     },
     series: [
       {
+        name: props.field,
+        type: 'line',
         data: chartData.memoryData
       }
     ]

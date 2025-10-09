@@ -2,43 +2,58 @@
 
 一个基于 Vue 3 + TypeScript + Tailwind CSS 的现代化 Java 应用监控客户端，提供全面的 JVM 性能监控和分析功能。
 
-## 开发相关命令：
+## 如何运行
+
+### 开发环境运行
+要运行开发服务器，请在终端中执行以下命令：
 
 ```bash
-npm run dev - 启动 Vite 开发服务器
-```
-```bash
-npm run electron:dev - 同时启动开发服务器和 Electron
-```
-```bash
-npm run electron - 仅启动 Electron（需要先构建）
-```
-```bash
-构建相关命令：
+# 安装依赖
+pnpm install
 
-npm run build - 构建 Vue 应用（跳过 TypeScript 检查）
+# 启动开发服务器
+pnpm run dev
 ```
-```bash
-npm run build:check - 构建 Vue 应用（包含 TypeScript 检查）
-```
-打包相关命令：
+
+### Electron 桌面应用运行
+要运行 Electron 桌面应用，请执行：
 
 ```bash
-npm run pack:win - 仅打包（不重新构建）
+# 同时启动开发服务器和 Electron
+pnpm run electron:dev
 ```
-```bash
-npm run dist:win - 构建并打包成 Windows 安装包
-```
-```bash
-npm run installer:win - 构建并打包成可自定义安装路径的 Windows 安装包
-```
-```bash
-npm run electron:build:win - 标准的构建和打包命令
-```
-生成的文件位置：
 
-安装包：dist-electron/VisualVM Client Setup 1.0.0.exe
-解压版本：dist-electron/win-unpacked/
+### 生产环境构建
+要构建生产版本，请执行：
+
+```bash
+# 构建 Vue 应用
+pnpm run build
+
+# 构建并打包 Electron 应用
+pnpm run electron:build
+```
+
+## 如何测试
+
+### 代码检查
+要运行代码检查，请在终端中执行以下命令：
+
+```bash
+# ESLint 代码检查
+pnpm run lint
+
+# TypeScript 类型检查
+pnpm run type-check
+```
+
+### 构建测试
+要测试构建过程，请执行：
+
+```bash
+# 构建并检查类型
+pnpm run build:check
+```
 
 ## 🚀 功能特性
 
@@ -70,67 +85,35 @@ npm run electron:build:win - 标准的构建和打包命令
 - **路由管理**: Vue Router 4.2+
 - **图表库**: ECharts 5.4+
 - **构建工具**: Vite 5.0+
+- **桌面应用**: Electron 28.1+
 - **代码规范**: ESLint + Prettier
 
-## 📦 安装和运行
+## 📦 环境要求
 
-### 环境要求
 - Node.js 18.0+
-- npm 9.0+ 或 yarn 1.22+
-
-### 安装依赖
-```bash
-npm install
-# 或
-yarn install
-```
-
-### 开发环境运行
-```bash
-npm run dev
-# 或
-yarn dev
-```
-
-### 生产环境构建
-```bash
-npm run build
-# 或
-yarn build
-```
-
-### 代码检查
-```bash
-npm run lint
-# 或
-yarn lint
-```
-
-### 类型检查
-```bash
-npm run type-check
-# 或
-yarn type-check
-```
+- pnpm 8.0+ (推荐) 或 npm 9.0+
 
 ## 🏗️ 项目结构
 
 ```
 src/
 ├── api/                 # API 接口层
+│   ├── cpu.ts          # CPU 监控接口
+│   ├── process.ts      # 进程管理接口
 │   └── index.ts        # API 配置和接口定义
 ├── components/          # 公共组件
 │   ├── charts/         # 图表组件
-│   │   ├── MemoryTrendChart.vue
-│   │   └── ProcessStatusChart.vue
+│   ├── monitoring/     # 监控相关组件
+│   ├── ui/             # UI 基础组件
 │   └── Layout.vue      # 主布局组件
 ├── router/             # 路由配置
 │   └── index.ts        # 路由定义
 ├── stores/             # 状态管理
-│   └── process.ts      # 进程状态管理
+│   ├── process.ts      # 进程状态管理
+│   ├── service.ts      # 服务状态管理
+│   └── statistics.ts   # 统计数据管理
 ├── types/              # TypeScript 类型定义
 │   └── index.ts        # 接口和类型
-├── utils/              # 工具函数
 ├── views/              # 页面组件
 │   ├── Dashboard.vue           # 仪表板
 │   ├── JavaProcesses.vue       # Java 进程监控
@@ -200,23 +183,9 @@ VITE_APP_TITLE=VisualVM 监控客户端
 VITE_APP_VERSION=1.0.0
 ```
 
-### Tailwind CSS 配置
-在 `tailwind.config.js` 中自定义主题：
-
-```javascript
-module.exports = {
-  theme: {
-    extend: {
-      colors: {
-        primary: { /* 自定义主色调 */ },
-        success: { /* 成功状态色 */ },
-        warning: { /* 警告状态色 */ },
-        danger: { /* 危险状态色 */ }
-      }
-    }
-  }
-}
-```
+### 开发模式配置
+- `pnpm run dev` - 标准开发模式
+- `pnpm run dev-local` - 本地开发模式
 
 ## 📊 数据接口
 
@@ -233,64 +202,30 @@ module.exports = {
 - `GET /api/monitoring/database` - 数据库调用数据
 - `GET /api/monitoring/rmi` - RMI 调用数据
 
-## 🎨 自定义主题
-
-### 颜色系统
-项目使用语义化的颜色系统：
-
-- `primary`: 主要操作和链接
-- `success`: 成功状态和确认操作
-- `warning`: 警告状态和注意提示
-- `danger`: 错误状态和危险操作
-- `info`: 信息提示和说明
-
-### 组件样式
-所有组件都支持主题定制，通过 CSS 变量实现：
-
-```css
-:root {
-  --color-primary-500: #3b82f6;
-  --color-success-500: #22c55e;
-  --color-warning-500: #f59e0b;
-  --color-danger-500: #ef4444;
-}
-```
-
 ## 🚀 部署说明
 
 ### 开发环境
 ```bash
-npm run dev
+pnpm run dev
 ```
 
 ### 生产环境
 ```bash
-npm run build
-npm run preview
+pnpm run build
+pnpm run preview
 ```
 
-### Docker 部署
-```dockerfile
-FROM node:18-alpine as builder
-WORKDIR /app
-COPY package*.json ./
-RUN npm ci --only=production
-COPY . .
-RUN npm run build
+### Electron 应用打包
+```bash
+# Windows
+pnpm run electron:build:win
 
-FROM nginx:alpine
-COPY --from=builder /app/dist /usr/share/nginx/html
-EXPOSE 80
-CMD ["nginx", "-g", "daemon off;"]
+# macOS
+pnpm run electron:build:mac
+
+# Linux
+pnpm run electron:build:linux
 ```
-
-## 🤝 贡献指南
-
-1. Fork 项目
-2. 创建功能分支 (`git checkout -b feature/AmazingFeature`)
-3. 提交更改 (`git commit -m 'Add some AmazingFeature'`)
-4. 推送到分支 (`git push origin feature/AmazingFeature`)
-5. 打开 Pull Request
 
 ## 📝 开发规范
 
@@ -324,6 +259,7 @@ CMD ["nginx", "-g", "daemon off;"]
 - [Tailwind CSS](https://tailwindcss.com/) - 实用优先的 CSS 框架
 - [ECharts](https://echarts.apache.org/) - 数据可视化图表库
 - [Pinia](https://pinia.vuejs.org/) - Vue 状态管理库
+- [Electron](https://www.electronjs.org/) - 跨平台桌面应用框架
 
 ## 📞 联系方式
 
@@ -335,4 +271,3 @@ CMD ["nginx", "-g", "daemon off;"]
 ---
 
 **注意**: 这是一个前端监控客户端，需要配合后端监控服务使用。请确保后端服务正常运行并正确配置 API 接口。
-# visualvm-client

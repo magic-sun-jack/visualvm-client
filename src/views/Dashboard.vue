@@ -481,13 +481,16 @@
           <div class="font-bold mb-2">CPU</div>
           <!-- 图表插槽 -->
           <div class="flex-1 min-h-[220px]">
-            <MemoryTrendChart :data="cpuData?.result" :field="'selfTimePercent'" :maxDataPoints="100" :updateInterval="2000" />
+            <MemoryTrendChart :data="cpuData?.result || []" :field="'selfTimePercent'" :maxDataPoints="20" :updateInterval="2000" />
           </div>
           <div class="text-xs text-gray-500 mt-2">CPU usage / GC activity</div>
         </div>
         <!-- 内存监控卡片 -->
         <div class="bg-white rounded shadow p-4 flex flex-col">
           <div class="font-bold mb-2">内存</div>
+          <div class="flex flex-row gap-2">
+            <div v-for="text in ['大小', '已用', '最大']" :key="text" class="text-xs text-gray-500 mt-2">{{ text }}</div>
+          </div>
           <!-- 图表插槽 -->
           <div class="flex-1 min-h-[220px]">
             <!-- <MemoryTrendChart :processes="availableProcesses" :maxDataPoints="30" :updateInterval="2000" /> -->
@@ -663,72 +666,6 @@ async function getSaveDataFn(pid: string) {
   })
 }
 
-// 模拟JVM参数数据（从进程详情中提取或使用默认值）
-function setMockJvmArguments() {
-  isLoadingJvmArgs.value = true
-  // 模拟加载延迟
-  setTimeout(() => {
-    // 从当前进程详情中提取JVM参数，如果没有则使用默认值
-    if (currentProcess.value?.jvm_args) {
-      const args = currentProcess.value.jvm_args
-      if (Array.isArray(args) && args.length > 0) {
-        jvmArguments.value = args
-      } else if (typeof args === 'string' && args.trim()) {
-        jvmArguments.value = args.split(' ').filter(arg => arg.trim())
-      } else {
-        // 使用默认的JVM参数
-        jvmArguments.value = [
-          '-Xmx512m',
-          '-Xms256m',
-          '-XX:+UseG1GC',
-          '-XX:+UseStringDeduplication',
-          '-Djava.awt.headless=true'
-        ]
-      }
-    } else {
-      // 使用默认的JVM参数
-      jvmArguments.value = [
-        '-Xmx512m',
-        '-Xms256m',
-        '-XX:+UseG1GC',
-        '-XX:+UseStringDeduplication',
-        '-Djava.awt.headless=true'
-      ]
-    }
-    isLoadingJvmArgs.value = false
-  }, 500)
-}
-
-// 模拟系统属性数据（从进程详情中提取或使用默认值）
-function setMockSystemProperties() {
-  isLoadingSysProps.value = true
-  // 模拟加载延迟
-  setTimeout(() => {
-    // 从当前进程详情中提取系统属性，如果没有则使用默认值
-    if (currentProcess.value?.system_properties) {
-      const props = currentProcess.value.system_properties
-      systemProperties.value = Object.entries(props).map(([key, value]) => ({
-        key,
-        value: String(value)
-      }))
-    } else {
-      // 使用默认的系统属性
-      systemProperties.value = [
-        { key: 'java.version', value: '11.0.27' },
-        { key: 'java.vm.name', value: 'Java HotSpot(TM) 64-Bit Server VM' },
-        { key: 'java.vm.version', value: '11.0.27+8-LTS-232' },
-        { key: 'java.home', value: 'C:\\Program Files\\Java\\jdk-11' },
-        { key: 'os.name', value: 'Windows 11' },
-        { key: 'os.version', value: '10.0' },
-        { key: 'os.arch', value: 'amd64' },
-        { key: 'user.dir', value: 'D:\\code\\money\\visualvm-client' },
-        { key: 'file.encoding', value: 'UTF-8' },
-        { key: 'java.class.path', value: 'math-game.jar' }
-      ]
-    }
-    isLoadingSysProps.value = false
-  }, 500)
-}
 
 // 处理PID变化
 async function handlePidChange() {
@@ -785,9 +722,10 @@ async function cpuStart() {
   es.onmessage = (event) => {
     // 处理 event.data
     cpuData.value = JSON.parse(event.data);
-    console.log('Received CPU data:', cpuData.value);
+    console.log('Received CPU data:', cpuData.value?.result);
+    console.log('Received CPU data:', JSON.parse(event.data)?.result);
   };
-  es.onerror = (err) => {
+  es.onerror = () => {
     // 处理错误
   };
 }
