@@ -38,9 +38,9 @@
         </div>
       </div>
       <div class="flex space-x-3">
-        <Button @click="handleRetry" variant="default">
+        <!-- <Button @click="handleRetry" variant="default">
           重试启动
-        </Button>
+        </Button> -->
         <Button @click="handleExit" variant="outline">
           退出应用
         </Button>
@@ -54,6 +54,7 @@ import { onMounted } from 'vue'
 import { useServiceStore } from '@/stores/service'
 import { Button } from '@/components/ui/button'
 import { AlertCircle } from 'lucide-vue-next'
+import { processApi } from '@/api';
 
 const serviceStore = useServiceStore()
 
@@ -96,12 +97,15 @@ onMounted(() => {
   } else {
     // 开发环境：模拟服务启动过程
     console.log('开发环境：模拟服务启动过程')
-    serviceStore.setServiceStatus('loading')
-    
-    // 模拟3秒后服务启动完成
-    setTimeout(() => {
-      serviceStore.setServiceStatus('running')
-    }, 3000)
+    processApi.getProcesses().then((response) => {
+      if (response.success) {
+        serviceStore.setServiceStatus('running')
+      } else {
+        serviceStore.setServiceStatus('error', response.msg)
+      }
+    }).catch((error) => {
+      serviceStore.setServiceStatus('loading')
+    })
   }
 })
 </script>

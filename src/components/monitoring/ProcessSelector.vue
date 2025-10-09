@@ -102,7 +102,7 @@ async function refreshProcesses() {
   loading.value = true
   try {
     const response = await processApi.getProcesses()
-    if (response.success) {
+    if (response.areSuccess) {
       processes.value = response.data
     } else {
       console.error('获取进程列表失败:', response.msg)

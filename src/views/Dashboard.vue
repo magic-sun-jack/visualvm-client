@@ -1,7 +1,7 @@
 <template>
   <div class="p-4 md:p-6 space-y-4 md:space-y-6 bg-background min-h-full">
     <!-- 顶部标题栏 -->
-    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+    <div class="hidden flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
       <h1 class="text-xl font-semibold">概述</h1>
       <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4">
         <div class="flex items-center gap-2 text-sm">
@@ -26,7 +26,7 @@
         </div>
       </div>
     </div>
-    <Card>
+    <Card class="hidden">
       <CardContent class="p-6">
 
         <!-- 错误信息显示 -->
@@ -309,7 +309,7 @@
     </Card>
 
     <!-- 底部双面板区域 -->
-    <div class="grid grid-cols-1 xl:grid-cols-12 gap-4 md:gap-6">
+    <div class="hidden grid grid-cols-1 xl:grid-cols-12 gap-4 md:gap-6">
       <!-- 左侧保存的数据面板 -->
       <div v-if="savedDataEnabled" class="xl:col-span-4">
         <Card class="h-fit">
@@ -628,7 +628,7 @@ async function getDetailInfoEnabled(pid: string) {
   if (!pid) return
   try {
     const response = await processApi.getProcessLocalOverview(pid)
-    if (response.success) {
+    if (response.areSuccess) {
       processDetails.value = response.data
       jvmArguments.value = response.data.jvm_args
       systemProperties.value = response.data.system_properties

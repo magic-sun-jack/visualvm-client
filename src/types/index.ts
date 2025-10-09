@@ -199,6 +199,7 @@ export interface ApiResponse<T> {
   msg: string       // 消息
   data: T           // 数据
   areSuccess: boolean  // 是否成功
+  success: boolean  // 是否成功
   message?: string  // 可选消息字段
   timestamp?: string // 可选时间戳字段
 }
