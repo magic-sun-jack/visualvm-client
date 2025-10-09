@@ -34,7 +34,21 @@ const routes: RouteRecordRaw[] = [
     path: '/memory',
     name: 'MemoryLeak',
     component: MemoryLeak,
-    meta: { title: '内存信息', icon: MemoryStick }
+    meta: { title: '内存信息', icon: MemoryStick },
+    children: [
+        {
+          path: 'gc',
+          name: 'GCMonitoring',
+          component: MemoryLeak,
+          meta: { title: 'GC监控', icon: MemoryStick }
+      },
+      {
+        path: 'leak',
+        name: 'LeakDetection',
+        component: MemoryLeak,
+        meta: { title: '内存泄漏检测', icon: MemoryStick}
+      }
+    ]
   },
   {
     path: '/threads',

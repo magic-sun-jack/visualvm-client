@@ -153,7 +153,7 @@ console.log(navigationItems, routes)
 async function refreshData() {
   isRefreshing.value = true
   try {
-    await processStore.getFilteredProcesses()
+    await processStore.getFilteredProcesses() 
     // 可以在这里添加其他数据的刷新
   } finally {
     isRefreshing.value = false

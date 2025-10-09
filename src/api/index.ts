@@ -10,7 +10,8 @@ import type {
   PaginatedResult,
   ApiResponse,
   JavaProcessDetail,
-  JavaProcessListDetail
+  JavaProcessListDetail,
+  CpuStream
 } from '@/types'
 import { env, mockDelay, debugLog, errorLog } from '@/config/env'
 import { mockDataGenerator, mockDataCache } from './mockData'
@@ -595,6 +596,24 @@ export const scenarioApi = {
       return mockDataGenerator.generateApiResponse(undefined as any, true, `${scenario}监控已停止`)
     }
     return api.post(`/cvm/scenario/${scenario}/${processId}/stop`)
+  }
+}
+
+export const cpuApi = {
+  async startCpuProfiling(pid: string, refreshPeriod: number = 1000): Promise<ApiResponse<void>> {
+    return api.post(`/cvm/cpu/start?pid=${pid}&filterType=include&filter=jdbc,IO&refreshPeriod=${refreshPeriod}`)
+  },
+
+  async stopCpuProfiling(pid: string): Promise<ApiResponse<void>> {
+    return api.post(`/cvm/cpu/stop?pid=${pid}`)
+  },
+
+  async getCpuProfileData(pid: string, refreshPeriod: number = 5000): Promise<ApiResponse<CpuStream>> {
+    return api.get(`/cvm/cpu/stream`, { 
+      params: { pid, refreshPeriod }, 
+      headers: { 'Content-Type': 'text/event-stream;charset=UTF-8' },
+      // responseType: 'text'
+    })
   }
 }
 
