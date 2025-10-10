@@ -1,0 +1,16 @@
+public class TestHeap {
+        private static final List<byte[]> LEAKY_LIST = new ArrayList<>();
+        public static void main(String[] args) throws InterruptedException {
+        System.out.println("开始填充内存...");
+        for (int i = 0; i < Integer.MAX_VALUE; i++) {
+            // 每次分配 1MB 的字节数组并保存到静态集合
+            LEAKY_LIST.add(new byte[1024 * 1024]);
+            // 每 100 次打印一次，便于观察
+            if (i % 100 == 0) {
+                System.out.printf("已分配 %d MB%n", i);
+            }
+            // 慢一点，方便用 jvisualvm / jconsole 观察内存增长
+            Thread.sleep(100);
+        }
+    }
+}

@@ -346,104 +346,113 @@ export const rmiApi = {
 
 // 内存泄漏分析相关API
 export const memoryApi = {
-  // 获取内存泄漏检测结果
-  async getMemoryLeakResults(processId: string): Promise<ApiResponse<MemoryLeakResult[]>> {
-    if (env.USE_MOCK_DATA) {
-      await mockDelay()
-      const results = mockDataCache.getMemoryLeakResults()
-      return mockDataGenerator.generateApiResponse(results)
-    }
-    return api.get(`/cvm/memory/${processId}/leak-results`)
+  // 开始pid进程内存分析
+  async getMemoryStats({
+    pid,
+    refresh = 5000,
+    filterType = "include",
+    filter = "jdbc",
+  }: {
+    pid: string; // 进程ID
+    refresh: number; // 刷新频率，单位毫秒
+    filterType: string; // 过滤类型，include或exclude
+    filter: string; // 场景过滤	否
+  }): Promise<ApiResponse<any>> {
+    return api.post(
+      `/cvm/memory/start?pid=${pid}&refresh=${refresh}&filter=${filter}&filterType=${filterType}`
+    );
   },
 
-  // 开始内存泄漏检测
-  async startMemoryLeakDetection(processId: string): Promise<ApiResponse<void>> {
-    if (env.USE_MOCK_DATA) {
-      await mockDelay(1500)
-      return mockDataGenerator.generateApiResponse(undefined as any, true, '内存泄漏检测已开始')
-    }
-    return api.post(`/cvm/memory/${processId}/start-detection`)
+  // 获取pid进程内存分析数据
+  async getMemoryAnalysisData(
+    processId: string
+  ): Promise<ApiResponse<any>> {
+    // totalClasses	类总数
+    // totalInstances	实例总数
+    // totalBytes	字节总数
+    // bytesPercent	字节占比
+    // className	类名
+    // instances	实例数
+    // bytes	字节数
+    // instancePercent	实例占比
+    return api.get('/cvm/memory/stream', { params: { pid: processId } })
   },
 
-  // 停止内存泄漏检测
-  async stopMemoryLeakDetection(processId: string): Promise<ApiResponse<void>> {
-    if (env.USE_MOCK_DATA) {
-      await mockDelay(1000)
-      return mockDataGenerator.generateApiResponse(undefined as any, true, '内存泄漏检测已停止')
-    }
-    return api.post(`/cvm/memory/${processId}/stop-detection`)
+  // 停止pid进程内存分析
+  async stopMemory(): Promise<ApiResponse<any>> {
+    return api.post(`/cvm/memory/stop?pid=14758`)
   },
 
-  // 获取堆转储
-  async getHeapDump(processId: string): Promise<ApiResponse<string>> {
-    if (env.USE_MOCK_DATA) {
-      await mockDelay(2000) // 堆转储需要更长时间
-      const heapDumpPath = `/tmp/heapdump_${processId}_${Date.now()}.hprof`
-      return mockDataGenerator.generateApiResponse(heapDumpPath, true, '堆转储文件已生成')
-    }
-    return api.get(`/cvm/memory/${processId}/heap-dump`)
+  // 导出指定pid进程的heapdump文件
+  async exportHeapDump({pid, output}: {pid: string, output: string}): Promise<ApiResponse<any>> {
+    return api.post(`/cvm/heapdump/generate?pid=${pid}&output=${output}`)
+  },
+  
+  // 内存泄漏分析
+  async getMemoryLeakAnalysis(filePath: string): Promise<ApiResponse<any>> {
+    return api.get('/cvm/heapdump/analyse', { params: { filePath } })
+  },
+};
+
+export const gcApi = {
+  // 获取GC监控数据
+  async getGCStats(pid: string): Promise<ApiResponse<any>> {
+    return api.get('/cvm/gc/getGC', { params: { pid: pid }})
   }
-}
+  // gcCollectors	gc集合
+  // name	gc名称
+  // collectionCount	GC执行次数
+  // collectionTime	GC总耗时（ms）
+  // nonHeapMemoryUsage	堆内存使用情况（字节）
+  // heapMemoryUsage	非堆内存使用情况（字节）
+  // init	JVM 初始化分配的内存大小（字节）
+  // used	当前使用的内存（字节）
+  // committed	JVM 已承诺可用的内存（操作系统已保证可用）（字节）
+  // max	可用的最大内存（-1 表示未定义）（字节）
+};
 
 // 线程分析相关API
 export const threadApi = {
-  // 获取线程统计信息
-  async getThreadStats(processId: string): Promise<ApiResponse<any>> {
-    if (env.USE_MOCK_DATA) {
-      await mockDelay()
-      const threads = mockDataCache.getThreads()
-      const stats = {
-        totalThreads: threads.length,
-        runnableThreads: threads.filter(t => t.state === 'RUNNABLE').length,
-        blockedThreads: threads.filter(t => t.state === 'BLOCKED').length,
-        waitingThreads: threads.filter(t => t.state === 'WAITING').length,
-        timedWaitingThreads: threads.filter(t => t.state === 'TIMED_WAITING').length,
-        terminatedThreads: threads.filter(t => t.state === 'TERMINATED').length,
-        totalCpuTime: threads.reduce((sum, t) => sum + t.cpuTime, 0),
-        totalUserTime: threads.reduce((sum, t) => sum + t.userTime, 0),
-        avgCpuTime: Math.round(threads.reduce((sum, t) => sum + t.cpuTime, 0) / threads.length)
-      }
-      return mockDataGenerator.generateApiResponse(stats)
-    }
-    return api.get(`/cvm/threads/${processId}/stats`)
+  // 获取pid线程列表
+  async getThreadList(pid: string): Promise<ApiResponse<any>> {
+    return api.get(`/cvm/thread/monitorThreads`, { params: { pid } })
+    // liveThreads	存活的线程数
+    // daemonThreads	守护的线程数
+    // peakThreads	峰值线程数
+    // totalStartedThreads	启动的总线程数
+    // stateDistributionPercent	线程状态占比
+    // sampleMillis	采样间隔
+    // cpuProcessor	可用的处理器数
+    // threadName	线程名
+    // threadState	线程状态
+    // blockedCount	线程进入 BLOCKED 状态的总次数
+    // waitedCount	线程处于 WAITING 或 TIMED_WAITING 状态的总次数
+    // blockedTimeMs	线程进入 BLOCKED 状态的大致累积经过时间（以毫秒为单位）
+    // waitedTimeMs	线程处于 WAITING 或 TIMED_WAITING 状态的大致累积经过时间（以毫秒为单位）
+    // cpuTimeDeltaMs	cpu 时间增量
+    // cpuPercent	cpu占比
+    // daemon	是否是守护线程
   },
 
-  // 获取死锁检测结果
-  async getDeadlockDetection(processId: string): Promise<ApiResponse<any>> {
-    if (env.USE_MOCK_DATA) {
-      await mockDelay()
-      const deadlockInfo = {
-        hasDeadlock: Math.random() > 0.8, // 20% 概率有死锁
-        deadlockCount: Math.floor(Math.random() * 3),
-        deadlockThreads: [
-          {
-            threadId: 123,
-            threadName: 'Thread-1',
-            lockInfo: 'java.lang.Object@0x12345678',
-            blockedBy: 'Thread-2'
-          },
-          {
-            threadId: 124,
-            threadName: 'Thread-2',
-            lockInfo: 'java.lang.Object@0x87654321',
-            blockedBy: 'Thread-1'
-          }
-        ],
-        detectionTime: new Date().toISOString()
-      }
-      return mockDataGenerator.generateApiResponse(deadlockInfo)
-    }
-    return api.get(`/cvm/threads/${processId}/deadlock`)
+  // 获取pid线程分析Tree（死锁等信息）
+  async getTheradTree(pid: string): Promise<ApiResponse<any>> {
+    return api.get(`/cvm/thread/getThreadTree`, { params: { pid } })
+    // totalThreads	线程总数
+    // deadlockedCount	死锁线程数
+    // normalCount	正常线程数
+    // deadlockedThreads	死锁线程列表
+    // normalThreads	正常线程列表
+    // threadName	线程名称
+    // state	线程状态
+    // waitingLock	正在等待的锁
+    // ownedLocks	当前线程持有的锁
+    // deadlocked	是否死锁
+    // stackTrace	栈追踪
   },
 
   // 获取pid线程dump信息
-  async getThreadDump(processId: string): Promise<ApiResponse<ThreadInfo[]>> {
-    if (env.USE_MOCK_DATA) {
-      await mockDelay(1000) // 线程转储需要时间
-      const threads = mockDataCache.getThreads()
-      return mockDataGenerator.generateApiResponse(threads)
-    }
-    return api.get(`/cvm/thread/dump`, { params: { pid: processId } })
+  async getThreadDump(pid: string): Promise<ApiResponse<any>> {
+    return api.get(`/cvm/thread/dump`, { params: { pid: pid } })
   }
 }
 
@@ -615,6 +624,13 @@ export const cpuApi = {
       headers: { 'Content-Type': 'text/event-stream;charset=UTF-8' },
       // responseType: 'text'
     })
+  }
+}
+
+export const configApi = {
+  // 获取场景配置
+  async getScenarioConfig(): Promise<ApiResponse<any>> {
+    return api.get('/cvm/config/getConfig')
   }
 }
 

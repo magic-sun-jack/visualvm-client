@@ -118,3 +118,34 @@
 2025-10-10 11:29:46.756 [http-nio-8099-exec-4] INFO  org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
 2025-10-10 11:29:46.830 [http-nio-8099-exec-4] INFO  org.springframework.web.servlet.DispatcherServlet - Completed initialization in 73 ms
 2025-10-10 11:29:48.485 [http-nio-8099-exec-1] INFO  com.cc.monitor.controller.CpuMonitorController - 开始抽样:23352 cpu
+2025-10-10 21:50:40.929 [main] INFO  com.cc.monitor.MonitorApplication - Starting MonitorApplication v0.0.1-SNAPSHOT on ben with PID 34324 (D:\gitee\visualvm-client\java\monitor-0.0.1-SNAPSHOT.jar started by SY199 in D:\gitee\visualvm-client\java)
+2025-10-10 21:50:40.932 [main] INFO  com.cc.monitor.MonitorApplication - No active profile set, falling back to default profiles: default
+2025-10-10 21:50:41.801 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-10-10 21:50:41.918 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 100ms. Found 3 JPA repository interfaces.
+2025-10-10 21:50:42.378 [main] INFO  o.s.context.support.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2025-10-10 21:50:43.145 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8099 (http)
+2025-10-10 21:50:43.162 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8099"]
+2025-10-10 21:50:43.163 [main] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2025-10-10 21:50:43.164 [main] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.30]
+2025-10-10 21:50:43.253 [main] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/cvm] - Initializing Spring embedded WebApplicationContext
+2025-10-10 21:50:43.254 [main] INFO  org.springframework.web.context.ContextLoader - Root WebApplicationContext: initialization completed in 2251 ms
+2025-10-10 21:50:43.330 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-10-10 21:50:43.714 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-10-10 21:50:43.723 [main] INFO  org.springframework.boot.autoconfigure.h2.H2ConsoleAutoConfiguration - H2 console available at '/h2-console'. Database available at 'jdbc:h2:file:./db/monitor'
+2025-10-10 21:50:43.966 [main] INFO  org.hibernate.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-10-10 21:50:44.077 [main] INFO  org.hibernate.Version - HHH000412: Hibernate Core {5.4.10.Final}
+2025-10-10 21:50:44.310 [main] INFO  org.hibernate.annotations.common.Version - HCANN000001: Hibernate Commons Annotations {5.1.0.Final}
+2025-10-10 21:50:44.549 [main] INFO  org.hibernate.dialect.Dialect - HHH000400: Using dialect: org.hibernate.dialect.H2Dialect
+2025-10-10 21:50:45.279 [main] INFO  org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2025-10-10 21:50:45.288 [main] INFO  org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-10-10 21:50:46.446 [main] INFO  org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor - Initializing ExecutorService 'applicationTaskExecutor'
+2025-10-10 21:50:46.943 [main] INFO  org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler - Initializing ExecutorService 'taskScheduler'
+2025-10-10 21:50:47.022 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8099"]
+2025-10-10 21:50:47.120 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port(s): 8099 (http) with context path '/cvm'
+2025-10-10 21:50:47.132 [main] INFO  com.cc.monitor.MonitorApplication - Started MonitorApplication in 6.961 seconds (JVM running for 7.415)
+2025-10-10 21:50:47.137 [main] INFO  com.cc.monitor.listener.AppStartupListener - 监控工具启动完成！
+2025-10-10 21:51:18.961 [http-nio-8099-exec-2] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/cvm] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-10-10 21:51:18.963 [http-nio-8099-exec-2] INFO  org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-10-10 21:51:18.982 [http-nio-8099-exec-2] INFO  org.springframework.web.servlet.DispatcherServlet - Completed initialization in 19 ms
+2025-10-10 21:51:20.255 [http-nio-8099-exec-7] INFO  com.cc.monitor.controller.CpuMonitorController - 开始抽样:26448 cpu
+2025-10-10 22:13:16.563 [http-nio-8099-exec-9] INFO  com.cc.monitor.controller.MemoryController - 26448 开始内存抽样
