@@ -94,6 +94,9 @@ function initChart() {
         return `${data.name}<br/>数值: ${data.value}${props.unit ? ' ' + props.unit : ''}`
       }
     },
+    legend: {
+      left: 'right',
+    },
     grid: {
       left: '3%',
       right: '4%',

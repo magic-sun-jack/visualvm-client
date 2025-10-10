@@ -1,7 +1,7 @@
 <template>
   <div class="min-h-screen bg-background">
     <!-- 顶部导航栏 -->
-    <header class="hidden sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <header class="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div class="w-full px-5 flex h-14 items-center">
         <!-- Logo 区域 -->
         <div class="mr-4 flex">
@@ -9,13 +9,13 @@
             <div class="h-6 w-6 rounded-lg bg-primary flex items-center justify-center">
               <span class="text-primary-foreground text-sm font-bold">V</span>
             </div>
-            <span class="hidden font-bold sm:inline-block">VisualVM</span>
+            <span class="font-bold sm:inline-block">VisualVM</span>
           </RouterLink>
         </div>
 
         <!-- 搜索栏 -->
         <div class="hidden md:block">
-          <SearchBar :navigation-items="navigationItems" />
+          <SearchBar :navigation-items="flatNavigationItems" />
         </div>
 
         <!-- 右侧操作区域 -->
@@ -59,34 +59,83 @@
           <!-- <NotificationBell /> -->
 
           <!-- 移动端导航菜单 -->
-          <MobileNav :navigation-items="navigationItems" />
+          <MobileNav :navigation-items="flatNavigationItems" />
         </div>
       </div>
     </header>
 
     <div class="flex">
       <!-- 侧边栏 -->
-      <aside class="hidden lg:hidden w-64 border-r bg-muted/40 min-h-[calc(100vh-3.5rem)]">
+      <aside class="hidden lg:block w-64 border-r bg-muted/40 min-h-[calc(100vh-3.5rem)]">
         <nav class="space-y-2">
           <div class="px-3 py-2">
             <div class="flex items-center mb-2 px-4 text-lg font-semibold tracking-tight">
               <Monitor class="mr-2 h-5 w-5" />
             </div>
             <div class="space-y-1">
-              <RouterLink
-                v-for="item in navigationItems"
-                :key="item.name"
-                :to="item.path"
-                :class="[
-                  'flex items-center px-3 py-2 text-sm rounded-md transition-colors',
-                  $route.path === item?.path
-                    ? 'bg-accent text-accent-foreground'
-                    : 'hover:bg-accent hover:text-accent-foreground'
-                ]"
-              >
-                <component :is="item?.icon" class="mr-3 h-4 w-4" />
-                {{ item?.name }}
-              </RouterLink>
+              <!-- 渲染导航项目 -->
+              <template v-for="(item, index) in navigationItems" :key="item?.name || index">
+                <!-- 有子路由的父级菜单 -->
+                <div v-if="item?.children && item.children.length > 0">
+                  <!-- 父级菜单项 -->
+                  <button
+                    @click="toggleSubmenu(item.path)"
+                    :class="[
+                      'w-full flex items-center justify-between px-3 py-2 text-sm rounded-md transition-colors',
+                      isParentActive(item) 
+                        ? 'bg-accent text-accent-foreground' 
+                        : 'hover:bg-accent hover:text-accent-foreground'
+                    ]"
+                  >
+                    <div class="flex items-center">
+                      <component :is="item?.icon" class="mr-3 h-4 w-4" />
+                      {{ item?.name }}
+                    </div>
+                    <ChevronDown 
+                      :class="[
+                        'h-4 w-4 transition-transform duration-200',
+                        expandedMenus.includes(item.path) ? 'rotate-180' : ''
+                      ]"
+                    />
+                  </button>
+                  
+                  <!-- 子菜单 -->
+                  <div 
+                    v-show="expandedMenus.includes(item.path)"
+                    class="ml-6 mt-1 space-y-1"
+                  >
+                    <RouterLink
+                      v-for="child in item.children"
+                      :key="child.name"
+                      :to="child.path"
+                      :class="[
+                        'flex items-center px-3 py-2 text-sm rounded-md transition-colors',
+                        $route.path === child.path
+                          ? 'bg-accent text-accent-foreground'
+                          : 'hover:bg-accent hover:text-accent-foreground'
+                      ]"
+                    >
+                      <component :is="child.icon" class="mr-3 h-4 w-4" />
+                      {{ child.name }}
+                    </RouterLink>
+                  </div>
+                </div>
+                
+                <!-- 没有子路由的普通菜单项 -->
+                <RouterLink
+                  v-else
+                  :to="item?.path || ''"
+                  :class="[
+                    'flex items-center px-3 py-2 text-sm rounded-md transition-colors',
+                    $route.path === item?.path
+                      ? 'bg-accent text-accent-foreground'
+                      : 'hover:bg-accent hover:text-accent-foreground'
+                  ]"
+                >
+                  <component :is="item?.icon" class="mr-3 h-4 w-4" />
+                  {{ item?.name }}
+                </RouterLink>
+              </template>
             </div>
           </div>
         </nav>
@@ -108,8 +157,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { ref, computed, watch } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
 import { useProcessStore } from '@/stores/process'
 import type { JavaProcessListDetail } from '@/types'
 import { Button } from '@/components/ui'
@@ -125,30 +174,92 @@ import {
   GitBranch,
   RefreshCw,
   Monitor,
-  Plug
+  Plug,
+  ChevronDown
 } from 'lucide-vue-next'
 import { routes } from '@/router'
 import type { RouteRecordRaw } from '@/router'
 
 const router = useRouter()
+const route = useRoute()
 const processStore = useProcessStore()
 const isRefreshing = ref(false)
 const showProcessConnectDialog = ref(false)
+const expandedMenus = ref<string[]>([])
 
-const navigationItems = routes.map((route: RouteRecordRaw) =>   {
-  if (route.meta?.show !== false && route.path !== '/') {
-    return {
-      name: route.meta?.title,
-      path: route.path,
-      icon: route.meta?.icon,
-      show: route.meta?.show
+// 构建导航项目，支持两级路由
+const navigationItems = computed(() => {
+  return routes.map((route: RouteRecordRaw) => {
+    if (route.meta?.show !== false && route.path !== '/') {
+      const item = {
+        name: route.meta?.title,
+        path: route.path,
+        icon: route.meta?.icon,
+        show: route.meta?.show,
+        children: [] as any[]
+      }
+      
+      // 处理子路由
+      if (route.children && route.children.length > 0) {
+        item.children = route.children
+          .filter(child => child.meta?.show !== false)
+          .map(child => ({
+            name: child.meta?.title,
+            path: child.path.startsWith('/') ? child.path : `${route.path}/${child.path}`,
+            icon: child.meta?.icon,
+            show: child.meta?.show
+          }))
+      }
+      
+      return item
     }
-  } else {
     return null
-  }
-}).filter(Boolean)
+  }).filter(Boolean)
+})
 
-console.log(navigationItems, routes)
+// 扁平化的导航项目，用于搜索
+const flatNavigationItems = computed(() => {
+  const items: any[] = []
+  navigationItems.value.forEach(item => {
+    if (item) {
+      items.push(item)
+      if (item.children && item.children.length > 0) {
+        items.push(...item.children)
+      }
+    }
+  })
+  return items
+})
+
+// 切换子菜单展开/收起
+function toggleSubmenu(path: string) {
+  const index = expandedMenus.value.indexOf(path)
+  if (index > -1) {
+    expandedMenus.value.splice(index, 1)
+  } else {
+    expandedMenus.value.push(path)
+  }
+}
+
+// 检查父级菜单是否处于激活状态
+function isParentActive(item: any) {
+  if (!item.children || item.children.length === 0) return false
+  return item.children.some((child: any) => route.path === child.path)
+}
+
+// 监听路由变化，自动展开包含当前路由的父级菜单
+watch(() => route.path, (newPath) => {
+  navigationItems.value.forEach(item => {
+    if (item && item.children && item.children.length > 0) {
+      const hasActiveChild = item.children.some((child: any) => newPath === child.path)
+      if (hasActiveChild && !expandedMenus.value.includes(item.path)) {
+        expandedMenus.value.push(item.path)
+      }
+    }
+  })
+}, { immediate: true })
+
+console.log(navigationItems.value, routes)
 
 async function refreshData() {
   isRefreshing.value = true

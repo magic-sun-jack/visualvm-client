@@ -15,7 +15,7 @@ interface ProcessDetail extends JavaProcessDetail {
 export const useProcessStore = defineStore('process', () => {
   // 状态
   const processes = ref<Process[]>([])
-  const currentProcess = ref<ProcessDetail | null>(null)
+  const currentProcess = ref<ProcessDetail>()
   const isLoading = ref(false)
   const error = ref<string | null>(null)
   const isLive = ref(false)
@@ -38,11 +38,16 @@ export const useProcessStore = defineStore('process', () => {
       isLoading.value = true
       error.value = null
       const response = await processApi.getProcesses()
-      if (response.success) {
+      if (response.areSuccess) {
         processes.value = response.data.filter(process => !process.mainClass.includes('monitor-0.0.1-SNAPSHOT.jar'))?.map(process => ({
           ...process,
           status: 'stopped'
         })) || []
+        if (!currentProcess.value) {
+          getLocalOverview(processes.value[0].pid)
+        } else {
+          getLocalOverview(currentProcess.value?.pid || '')
+        }
       } else {
         error.value = response.message || '获取进程列表失败'
       }
@@ -58,7 +63,7 @@ export const useProcessStore = defineStore('process', () => {
       isLoading.value = true
       error.value = null
       const response = await processApi.getProcessLocalOverview(id)
-      if (response.success) {
+      if (response.areSuccess) {
         currentProcess.value = {
           ...response.data,
           status: 'running'
@@ -130,41 +135,6 @@ export const useProcessStore = defineStore('process', () => {
     currentProcess.value = process
   }
 
-  // WebSocket live updates
-  function startLiveUpdates() {
-    if (isLive.value) return
-    const wsUrl = getWebSocketUrl('/ws/processes')
-    wsClient = new ReconnectingWebSocketClient({ url: wsUrl })
-    wsClient.onMessage((msg) => {
-      // Expecting messages like: { type: 'snapshot'|'upsert'|'remove', data: ... }
-      try {
-        if (msg?.type === 'snapshot' && Array.isArray(msg.data)) {
-          processes.value = msg.data as JavaProcessInfo[]
-        } else if (msg?.type === 'upsert' && msg.data) {
-          const incoming: JavaProcessInfo = msg.data
-          const idx = processes.value.findIndex(p => p.id === incoming.id)
-          if (idx === -1) {
-            processes.value.push(incoming)
-          } else {
-            processes.value[idx] = incoming
-          }
-          if (currentProcess.value?.id === incoming.id) {
-            currentProcess.value = incoming
-          }
-        } else if (msg?.type === 'remove' && msg.id) {
-          processes.value = processes.value.filter(p => p.id !== msg.id)
-          if (currentProcess.value?.id === msg.id) {
-            currentProcess.value = null
-          }
-        }
-      } catch (e) {
-        console.error('WS message handling error', e)
-      }
-    })
-    wsClient.connect()
-    isLive.value = true
-  }
-
   function stopLiveUpdates() {
     wsClient?.close()
     wsClient = null
@@ -202,7 +172,6 @@ export const useProcessStore = defineStore('process', () => {
     restartProcess,
     clearError,
     setCurrentProcess,
-    startLiveUpdates,
     stopLiveUpdates,
   }
 })

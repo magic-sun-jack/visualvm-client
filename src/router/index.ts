@@ -5,6 +5,8 @@ import JavaProcesses from '@/views/JavaProcesses.vue'
 import DatabaseAnalysis from '@/views/DatabaseAnalysis.vue'
 import RMIAnalysis from '@/views/RMIAnalysis.vue'
 import MemoryLeak from '@/views/MemoryLeak.vue'
+import GCMonitoring from '@/views/GCMonitoring.vue'
+import LeakDetection from '@/views/LeakDetection.vue'
 import ThreadAnalysis from '@/views/ThreadAnalysis.vue'
 import ProcessManager from '@/views/ProcessManager.vue'
 import ScenarioMonitoring from '@/views/ScenarioMonitoring.vue'
@@ -33,20 +35,20 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/memory',
     name: 'MemoryLeak',
-    component: MemoryLeak,
+    // component: MemoryLeak,
     meta: { title: '内存信息', icon: MemoryStick },
     children: [
         {
           path: 'gc',
           name: 'GCMonitoring',
-          component: MemoryLeak,
-          meta: { title: 'GC监控', icon: MemoryStick }
+          component: GCMonitoring,
+          meta: { title: 'GC监控', icon: GitBranch }
       },
       {
         path: 'leak',
         name: 'LeakDetection',
-        component: MemoryLeak,
-        meta: { title: '内存泄漏检测', icon: MemoryStick}
+        component: LeakDetection,
+        meta: { title: '内存泄漏检测', icon: GitBranch}
       }
     ]
   },

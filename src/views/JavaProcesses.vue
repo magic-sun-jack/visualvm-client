@@ -275,7 +275,14 @@ async function stopProcess(id: string) {
 
 async function startProcess(id: string) {
   // 这里需要实现启动已停止进程的逻辑
-  console.log('启动进程:', id)
+  const process = processStore.processes.find(p => p.pid === id)
+  if (process) {
+    processStore.setCurrentProcess(process)
+    const result = await processStore.startProcess(process)
+    if (result) {
+      refreshProcesses()
+    }
+  }
 }
 
 async function restartProcess(id: string) {
@@ -286,8 +293,7 @@ async function restartProcess(id: string) {
 }
 
 function viewProcessDetails(process: Process) {
-  processStore.setCurrentProcess(process)
-  router.push(`/processes/${process.id}`)
+  // router.push(`/processes/${process.id}`)
 }
 
 function getStatusText(status: string): string {

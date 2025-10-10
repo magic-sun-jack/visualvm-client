@@ -51,6 +51,7 @@ const api = axios.create({
         }
       }
       return {
+        areSuccess: data.areSuccess,
         success: data.status === 0,
         code: data.status,
         msg: data.msg,

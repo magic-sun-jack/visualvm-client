@@ -201,6 +201,9 @@ import {
   AlertCircle,
   Plug
 } from 'lucide-vue-next'
+import { useProcessStore } from '@/stores/process'
+
+const processStore = useProcessStore()
 
 interface Props {
   open: boolean
@@ -251,12 +254,13 @@ async function refreshLocalProcesses() {
   connectionError.value = ''
   
   try {
-    const response = await processApi.getProcesses()
-    if (response.success) {
-      localProcesses.value = response.data?.filter(process => !process.mainClass.includes('monitor-0.0.1-SNAPSHOT.jar')) || []
-    } else {
-      connectionError.value = response.msg || '获取进程列表失败'
-    }
+    // const response = await processApi.getProcesses()
+    // if (response.success) {
+    //   localProcesses.value = response.data?.filter(process => !process.mainClass.includes('monitor-0.0.1-SNAPSHOT.jar')) || []
+    // } else {
+    //   connectionError.value = response.msg || '获取进程列表失败'
+    // }
+    await processStore.getFilteredProcesses()
   } catch (error) {
     console.error('获取本地进程失败:', error)
     connectionError.value = '获取进程列表失败'
@@ -358,6 +362,9 @@ watch(isOpen, (newValue) => {
 onMounted(() => {
   if (props.open) {
     refreshLocalProcesses()
+  }
+  if (!processStore.currentProcess) {
+    processStore.getLocalOverview(processStore.currentProcess?.pid || '')
   }
 })
 </script>
