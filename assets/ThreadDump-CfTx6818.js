@@ -1,0 +1,1 @@
+import{d as s,c as o,e as a,Z as t}from"./vendor-DxGh91gQ.js";const n={class:"p-4"},m=s({__name:"ThreadDump",setup(p){return(r,e)=>(a(),o("div",n,[...e[0]||(e[0]=[t("h2",{class:"text-lg font-bold mb-4"},"线程Dump",-1),t("div",null,"线程Dump内容开发中...",-1)])]))}});export{m as default};
