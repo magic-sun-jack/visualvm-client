@@ -4,6 +4,7 @@ import { fileURLToPath } from 'url'
 import { dirname } from 'path'
 import { spawn } from 'child_process'
 import axios from 'axios'
+import { existsSync } from 'fs'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
@@ -136,7 +137,43 @@ process.on('unhandledRejection', (reason, promise) => {
 
 // 启动 Java 服务
 async function startJavaService() {
-  const jarPath = path.join(__dirname, '../java/monitor-0.0.1-SNAPSHOT.jar')
+  // 在开发环境中使用相对路径，在生产环境中使用打包后的路径
+  let jarPath
+  if (isDev) {
+    // 开发环境：使用项目根目录下的 java 文件夹
+    jarPath = path.join(__dirname, '../java/monitor-0.0.1-SNAPSHOT.jar')
+  } else {
+    // 生产环境：使用打包后的 resources 目录
+    jarPath = path.join(process.resourcesPath, 'monitor-0.0.1-SNAPSHOT.jar')
+  }
+  
+  console.log('Java JAR 文件路径:', jarPath)
+  console.log('文件是否存在:', existsSync(jarPath))
+  
+  // 如果文件不存在，尝试其他可能的路径
+  if (!existsSync(jarPath)) {
+    console.log('尝试查找 JAR 文件的其他位置...')
+    const possiblePaths = [
+      path.join(__dirname, '../java/monitor-0.0.1-SNAPSHOT.jar'),
+      path.join(process.cwd(), 'java/monitor-0.0.1-SNAPSHOT.jar'),
+      path.join(process.resourcesPath, 'monitor-0.0.1-SNAPSHOT.jar'),
+      path.join(process.resourcesPath, 'app.asar.unpacked', 'monitor-0.0.1-SNAPSHOT.jar')
+    ]
+    
+    for (const testPath of possiblePaths) {
+      console.log('检查路径:', testPath, '存在:', existsSync(testPath))
+      if (existsSync(testPath)) {
+        jarPath = testPath
+        console.log('找到 JAR 文件:', jarPath)
+        break
+      }
+    }
+  }
+  
+  // 如果仍然找不到 JAR 文件，抛出错误
+  if (!existsSync(jarPath)) {
+    throw new Error(`无法找到 JAR 文件。已检查的路径：\n${possiblePaths.map(p => `- ${p}`).join('\n')}`)
+  }
   
   javaProcess = spawn('java', [
     '-Dfile.encoding=UTF-8',

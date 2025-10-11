@@ -543,6 +543,7 @@ import MemoryTrendChart from '@/components/charts/MemoryTrendChart.vue'
 import ProcessStatusChart from '@/components/charts/ProcessStatusChart.vue'
 import { useProcessStore } from '@/stores/process'
 import { cpuApi, processApi } from '@/api'
+import { resolveApiBaseUrl } from '@/api'
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
@@ -732,7 +733,10 @@ async function cpuStart() {
   }).catch((error) => {
     console.error('CPU分析启动异常:', error)
   })
-  const es = new EventSource(`/cvm/cpu/stream?pid=${selectedPid.value}&refreshPeriod=${5000}`);
+  // 使用正确的 API 基础 URL 来创建 EventSource
+  const baseUrl = resolveApiBaseUrl()
+  const eventSourceUrl = `${baseUrl}/cvm/cpu/stream?pid=${selectedPid.value}&refreshPeriod=${5000}`
+  const es = new EventSource(eventSourceUrl);
   es.onmessage = (event) => {
     // 处理 event.data
     cpuData.value = JSON.parse(event.data);

@@ -17,7 +17,7 @@ import { env, mockDelay, debugLog, errorLog } from '@/config/env'
 import { mockDataGenerator, mockDataCache } from './mockData'
 
 // 计算基础地址：在 Electron 或 file:// 协议下，强制使用本地后端以避免 file:/// 请求
-function resolveApiBaseUrl(): string {
+export function resolveApiBaseUrl(): string {
   try {
     const hasExplicit = !!env.API_BASE_URL
     const explicit = (env.API_BASE_URL || '').toString()
@@ -633,5 +633,6 @@ export const configApi = {
     return api.get('/cvm/config/getConfig')
   }
 }
+
 
 export default api
