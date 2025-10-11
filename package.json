@@ -1,6 +1,6 @@
 {
   "name": "visualvm-client",
-  "version": "1.0.2",
+  "version": "1.0.5",
   "description": "VisualVM数据监控前端客户端",
   "type": "module",
   "main": "electron/main.js",
@@ -17,13 +17,16 @@
     "electron": "electron .",
     "electron:dev": "concurrently \"pnpm run dev\" \"wait-on tcp:3300 && electron .\"",
     "electron:dev-local": "concurrently \"pnpm run dev-local\" \"wait-on tcp:3300 && electron .\"",
-    "electron:build": "pnpm run build && electron-builder",
-    "electron:build:win": "pnpm run build && electron-builder --win",
-    "electron:build:mac": "pnpm run build && electron-builder --mac",
-    "electron:build:linux": "pnpm run build && electron-builder --linux",
+    "version:patch": "node scripts/version-update.js patch",
+    "version:minor": "node scripts/version-update.js minor",
+    "version:major": "node scripts/version-update.js major",
+    "electron:build": "pnpm run version:patch && pnpm run build && electron-builder",
+    "electron:build:win": "pnpm run version:patch && pnpm run build && electron-builder --win",
+    "electron:build:mac": "pnpm run version:patch && pnpm run build && electron-builder --mac",
+    "electron:build:linux": "pnpm run version:patch && pnpm run build && electron-builder --linux",
     "pack:win": "electron-builder --win --publish=never",
-    "dist:win": "pnpm run build && pnpm run pack:win",
-    "installer:win": "pnpm run build && electron-builder --win --publish=never --config.nsis.oneClick=false --config.nsis.allowToChangeInstallationDirectory=true"
+    "dist:win": "pnpm run version:patch && pnpm run build && pnpm run pack:win",
+    "installer:win": "pnpm run version:patch && pnpm run build && electron-builder --win --publish=never --config.nsis.oneClick=false --config.nsis.allowToChangeInstallationDirectory=true"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.12",

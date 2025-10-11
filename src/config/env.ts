@@ -1,8 +1,10 @@
 // 环境变量配置
+import { buildInfo } from './build-info'
+
 export const env = {
   // 应用配置
   APP_TITLE: import.meta.env.VITE_APP_TITLE || 'VisualVM 监控客户端',
-  APP_VERSION: import.meta.env.VITE_APP_VERSION || '1.0.0',
+  APP_VERSION: buildInfo.version,
   
   // API配置
   API_BASE_URL: import.meta.env.VITE_API_BASE_URL || '/',

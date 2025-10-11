@@ -2,7 +2,10 @@
   <div class="p-4 md:p-6 space-y-4 md:space-y-6 bg-background min-h-full">
     <!-- 顶部标题栏 -->
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
-      <h1 class="text-xl font-semibold">概述</h1>
+      <div class="flex items-center gap-4">
+        <h1 class="text-xl font-semibold">概述</h1>
+        <VersionInfo />
+      </div>
       <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4">
         <div class="flex items-center gap-2 text-sm">
           <Checkbox 
@@ -544,6 +547,8 @@ import ProcessStatusChart from '@/components/charts/ProcessStatusChart.vue'
 import { useProcessStore } from '@/stores/process'
 import { cpuApi, processApi } from '@/api'
 import { resolveApiBaseUrl } from '@/api'
+import { buildInfo } from '@/config/build-info'
+import VersionInfo from '@/components/VersionInfo.vue'
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
