@@ -1,969 +1,4 @@
-2025-10-08 00:00:21.467 [http-nio-8099-exec-9] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/jdbc.properties不存在
-2025-10-08 00:00:21.470 [http-nio-8099-exec-9] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/IO.properties不存在
-2025-10-08 00:00:21.470 [http-nio-8099-exec-2] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/jdbc.properties不存在
-2025-10-08 00:00:21.470 [http-nio-8099-exec-2] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/IO.properties不存在
-2025-10-08 00:03:51.127 [http-nio-8099-exec-5] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/jdbc.properties不存在
-2025-10-08 00:03:51.128 [http-nio-8099-exec-5] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/IO.properties不存在
-2025-10-08 00:03:51.282 [http-nio-8099-exec-8] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/jdbc.properties不存在
-2025-10-08 00:03:51.283 [http-nio-8099-exec-8] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/IO.properties不存在
-2025-10-08 00:06:47.691 [http-nio-8099-exec-3] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/jdbc.properties不存在
-2025-10-08 00:06:47.692 [http-nio-8099-exec-3] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/IO.properties不存在
-2025-10-08 00:06:47.704 [http-nio-8099-exec-5] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/jdbc.properties不存在
-2025-10-08 00:06:47.705 [http-nio-8099-exec-5] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/IO.properties不存在
-2025-10-08 00:08:32.172 [http-nio-8099-exec-2] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/jdbc.properties不存在
-2025-10-08 00:08:32.173 [http-nio-8099-exec-2] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/IO.properties不存在
-2025-10-08 00:08:32.175 [http-nio-8099-exec-8] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/jdbc.properties不存在
-2025-10-08 00:08:32.175 [http-nio-8099-exec-8] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/IO.properties不存在
-2025-10-08 00:08:32.178 [http-nio-8099-exec-6] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/jdbc.properties不存在
-2025-10-08 00:08:32.179 [http-nio-8099-exec-6] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/IO.properties不存在
-2025-10-08 00:10:12.762 [http-nio-8099-exec-1] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/jdbc.properties不存在
-2025-10-08 00:10:12.763 [http-nio-8099-exec-1] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/IO.properties不存在
-2025-10-08 00:10:12.775 [http-nio-8099-exec-5] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/jdbc.properties不存在
-2025-10-08 00:10:12.776 [http-nio-8099-exec-5] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/IO.properties不存在
-2025-10-08 00:10:25.682 [http-nio-8099-exec-5] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/jdbc.properties不存在
-2025-10-08 00:10:25.683 [http-nio-8099-exec-5] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/IO.properties不存在
-2025-10-08 00:10:25.758 [http-nio-8099-exec-6] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/jdbc.properties不存在
-2025-10-08 00:10:25.759 [http-nio-8099-exec-6] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/IO.properties不存在
-2025-10-08 00:10:47.394 [http-nio-8099-exec-8] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/jdbc.properties不存在
-2025-10-08 00:10:47.394 [http-nio-8099-exec-8] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/IO.properties不存在
-2025-10-08 00:10:47.410 [http-nio-8099-exec-7] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/jdbc.properties不存在
-2025-10-08 00:10:47.410 [http-nio-8099-exec-7] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/IO.properties不存在
-2025-10-08 00:10:47.422 [http-nio-8099-exec-5] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/jdbc.properties不存在
-2025-10-08 00:10:47.422 [http-nio-8099-exec-5] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/IO.properties不存在
-2025-10-08 00:23:51.018 [http-nio-8099-exec-8] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/jdbc.properties不存在
-2025-10-08 00:23:51.018 [http-nio-8099-exec-8] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/IO.properties不存在
-2025-10-08 00:23:51.033 [http-nio-8099-exec-9] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/jdbc.properties不存在
-2025-10-08 00:23:51.034 [http-nio-8099-exec-9] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/IO.properties不存在
-2025-10-08 00:23:51.047 [http-nio-8099-exec-10] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/jdbc.properties不存在
-2025-10-08 00:23:51.048 [http-nio-8099-exec-10] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/IO.properties不存在
-2025-10-08 00:24:05.685 [http-nio-8099-exec-5] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/jdbc.properties不存在
-2025-10-08 00:24:05.687 [http-nio-8099-exec-5] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/IO.properties不存在
-2025-10-08 00:24:05.747 [http-nio-8099-exec-3] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/jdbc.properties不存在
-2025-10-08 00:24:05.748 [http-nio-8099-exec-3] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/IO.properties不存在
-2025-10-08 00:25:45.986 [http-nio-8099-exec-1] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/jdbc.properties不存在
-2025-10-08 00:25:45.987 [http-nio-8099-exec-1] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/IO.properties不存在
-2025-10-08 00:25:45.988 [http-nio-8099-exec-7] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/jdbc.properties不存在
-2025-10-08 00:25:45.989 [http-nio-8099-exec-7] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/IO.properties不存在
-2025-10-08 00:25:45.993 [http-nio-8099-exec-9] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/jdbc.properties不存在
-2025-10-08 00:25:45.994 [http-nio-8099-exec-9] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/IO.properties不存在
-2025-10-08 00:25:46.074 [http-nio-8099-exec-4] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/jdbc.properties不存在
-2025-10-08 00:25:46.075 [http-nio-8099-exec-4] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/IO.properties不存在
-2025-10-08 00:25:46.134 [http-nio-8099-exec-3] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/jdbc.properties不存在
-2025-10-08 00:25:46.139 [http-nio-8099-exec-3] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/IO.properties不存在
-2025-10-08 00:25:46.324 [http-nio-8099-exec-5] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/jdbc.properties不存在
-2025-10-08 00:25:46.325 [http-nio-8099-exec-5] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/IO.properties不存在
-2025-10-08 00:25:46.332 [http-nio-8099-exec-10] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/jdbc.properties不存在
-2025-10-08 00:25:46.333 [http-nio-8099-exec-10] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/IO.properties不存在
-2025-10-08 00:25:46.359 [http-nio-8099-exec-8] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/jdbc.properties不存在
-2025-10-08 00:25:46.359 [http-nio-8099-exec-8] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/IO.properties不存在
-2025-10-08 00:25:46.380 [http-nio-8099-exec-7] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/jdbc.properties不存在
-2025-10-08 00:25:46.380 [http-nio-8099-exec-7] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/IO.properties不存在
-2025-10-08 00:25:46.559 [http-nio-8099-exec-9] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/jdbc.properties不存在
-2025-10-08 00:25:46.561 [http-nio-8099-exec-9] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/IO.properties不存在
-2025-10-08 00:25:46.584 [http-nio-8099-exec-1] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/jdbc.properties不存在
-2025-10-08 00:25:46.585 [http-nio-8099-exec-1] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/IO.properties不存在
-2025-10-08 00:25:46.602 [http-nio-8099-exec-4] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/jdbc.properties不存在
-2025-10-08 00:25:46.605 [http-nio-8099-exec-4] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/IO.properties不存在
-2025-10-08 00:25:46.769 [http-nio-8099-exec-8] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/jdbc.properties不存在
-2025-10-08 00:25:46.771 [http-nio-8099-exec-8] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/IO.properties不存在
-2025-10-08 00:25:46.786 [http-nio-8099-exec-3] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/jdbc.properties不存在
-2025-10-08 00:25:46.787 [http-nio-8099-exec-3] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/IO.properties不存在
-2025-10-08 00:25:46.805 [http-nio-8099-exec-1] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/jdbc.properties不存在
-2025-10-08 00:25:46.806 [http-nio-8099-exec-1] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/IO.properties不存在
-2025-10-08 00:26:18.778 [http-nio-8099-exec-1] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/jdbc.properties不存在
-2025-10-08 00:26:18.779 [http-nio-8099-exec-1] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/IO.properties不存在
-2025-10-08 00:26:18.780 [http-nio-8099-exec-2] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/jdbc.properties不存在
-2025-10-08 00:26:18.780 [http-nio-8099-exec-2] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/IO.properties不存在
-2025-10-08 00:26:18.786 [http-nio-8099-exec-8] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/jdbc.properties不存在
-2025-10-08 00:26:18.790 [http-nio-8099-exec-8] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/IO.properties不存在
-2025-10-08 00:26:18.799 [http-nio-8099-exec-3] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/jdbc.properties不存在
-2025-10-08 00:26:18.805 [http-nio-8099-exec-3] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/IO.properties不存在
-2025-10-08 00:26:18.829 [http-nio-8099-exec-4] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/jdbc.properties不存在
-2025-10-08 00:26:18.829 [http-nio-8099-exec-4] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/IO.properties不存在
-2025-10-08 00:26:18.849 [http-nio-8099-exec-7] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/jdbc.properties不存在
-2025-10-08 00:26:18.850 [http-nio-8099-exec-7] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/IO.properties不存在
-2025-10-08 00:26:18.871 [http-nio-8099-exec-8] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/jdbc.properties不存在
-2025-10-08 00:26:18.872 [http-nio-8099-exec-8] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/IO.properties不存在
-2025-10-08 00:26:18.940 [http-nio-8099-exec-5] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/jdbc.properties不存在
-2025-10-08 00:26:18.941 [http-nio-8099-exec-5] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/IO.properties不存在
-2025-10-08 00:26:18.980 [http-nio-8099-exec-6] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/jdbc.properties不存在
-2025-10-08 00:26:18.981 [http-nio-8099-exec-6] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/IO.properties不存在
-2025-10-08 00:26:49.330 [http-nio-8099-exec-2] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/jdbc.properties不存在
-2025-10-08 00:26:49.331 [http-nio-8099-exec-2] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/IO.properties不存在
-2025-10-08 00:26:49.341 [http-nio-8099-exec-7] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/jdbc.properties不存在
-2025-10-08 00:26:49.341 [http-nio-8099-exec-7] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/IO.properties不存在
-2025-10-08 00:30:34.396 [http-nio-8099-exec-1] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/jdbc.properties不存在
-2025-10-08 00:30:34.397 [http-nio-8099-exec-1] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/IO.properties不存在
-2025-10-08 00:30:34.408 [http-nio-8099-exec-9] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/jdbc.properties不存在
-2025-10-08 00:30:34.409 [http-nio-8099-exec-9] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/IO.properties不存在
-2025-10-08 00:30:34.418 [http-nio-8099-exec-5] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/jdbc.properties不存在
-2025-10-08 00:30:34.419 [http-nio-8099-exec-5] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/IO.properties不存在
-2025-10-08 00:30:36.458 [http-nio-8099-exec-9] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/jdbc.properties不存在
-2025-10-08 00:30:36.459 [http-nio-8099-exec-9] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/IO.properties不存在
-2025-10-08 00:30:36.495 [http-nio-8099-exec-6] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/jdbc.properties不存在
-2025-10-08 00:30:36.499 [http-nio-8099-exec-6] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/IO.properties不存在
-2025-10-08 00:30:36.531 [http-nio-8099-exec-1] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/jdbc.properties不存在
-2025-10-08 00:30:36.531 [http-nio-8099-exec-1] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/IO.properties不存在
-2025-10-08 00:30:52.812 [http-nio-8099-exec-4] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/jdbc.properties不存在
-2025-10-08 00:30:52.813 [http-nio-8099-exec-4] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/IO.properties不存在
-2025-10-08 00:30:52.833 [http-nio-8099-exec-1] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/jdbc.properties不存在
-2025-10-08 00:30:52.834 [http-nio-8099-exec-1] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/IO.properties不存在
-2025-10-08 00:31:01.252 [http-nio-8099-exec-10] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/jdbc.properties不存在
-2025-10-08 00:31:01.253 [http-nio-8099-exec-10] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/IO.properties不存在
-2025-10-08 00:31:01.330 [http-nio-8099-exec-8] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/jdbc.properties不存在
-2025-10-08 00:31:01.332 [http-nio-8099-exec-8] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/IO.properties不存在
-2025-10-08 00:36:00.983 [http-nio-8099-exec-5] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/jdbc.properties不存在
-2025-10-08 00:36:00.984 [http-nio-8099-exec-5] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/IO.properties不存在
-2025-10-08 00:36:00.996 [http-nio-8099-exec-8] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/jdbc.properties不存在
-2025-10-08 00:36:00.996 [http-nio-8099-exec-8] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/IO.properties不存在
-2025-10-08 00:36:01.004 [http-nio-8099-exec-9] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/jdbc.properties不存在
-2025-10-08 00:36:01.004 [http-nio-8099-exec-9] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/IO.properties不存在
-2025-10-08 00:36:26.596 [http-nio-8099-exec-8] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/jdbc.properties不存在
-2025-10-08 00:36:26.596 [http-nio-8099-exec-8] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/IO.properties不存在
-2025-10-08 00:36:26.620 [http-nio-8099-exec-4] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/jdbc.properties不存在
-2025-10-08 00:36:26.621 [http-nio-8099-exec-4] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/IO.properties不存在
-2025-10-08 00:36:49.715 [http-nio-8099-exec-8] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/jdbc.properties不存在
-2025-10-08 00:36:49.715 [http-nio-8099-exec-8] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/IO.properties不存在
-2025-10-08 00:36:49.725 [http-nio-8099-exec-10] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/jdbc.properties不存在
-2025-10-08 00:36:49.726 [http-nio-8099-exec-10] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/IO.properties不存在
-2025-10-08 00:37:00.330 [http-nio-8099-exec-5] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/jdbc.properties不存在
-2025-10-08 00:37:00.331 [http-nio-8099-exec-5] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/IO.properties不存在
-2025-10-08 00:37:00.398 [http-nio-8099-exec-2] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/jdbc.properties不存在
-2025-10-08 00:37:00.399 [http-nio-8099-exec-2] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/IO.properties不存在
-2025-10-08 00:39:30.570 [http-nio-8099-exec-2] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/jdbc.properties不存在
-2025-10-08 00:39:30.571 [http-nio-8099-exec-2] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/IO.properties不存在
-2025-10-08 00:39:30.581 [http-nio-8099-exec-10] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/jdbc.properties不存在
-2025-10-08 00:39:30.581 [http-nio-8099-exec-10] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/IO.properties不存在
-2025-10-08 00:39:46.087 [http-nio-8099-exec-8] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/jdbc.properties不存在
-2025-10-08 00:39:46.087 [http-nio-8099-exec-8] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/IO.properties不存在
-2025-10-08 00:39:46.120 [http-nio-8099-exec-9] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/jdbc.properties不存在
-2025-10-08 00:39:46.120 [http-nio-8099-exec-9] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/IO.properties不存在
-2025-10-09 09:30:49.987 [http-nio-8099-exec-3] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/code/money/visualvm-client/java/config/jdbc.properties不存在
-2025-10-09 09:30:49.989 [http-nio-8099-exec-3] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/code/money/visualvm-client/java/config/IO.properties不存在
-2025-10-09 09:30:50.062 [http-nio-8099-exec-2] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/code/money/visualvm-client/java/config/jdbc.properties不存在
-2025-10-09 09:30:50.064 [http-nio-8099-exec-2] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/code/money/visualvm-client/java/config/IO.properties不存在
-2025-10-09 09:32:57.954 [http-nio-8099-exec-7] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/code/money/visualvm-client/java/config/jdbc.properties不存在
-2025-10-09 09:32:57.955 [http-nio-8099-exec-7] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/code/money/visualvm-client/java/config/IO.properties不存在
-2025-10-09 09:32:57.984 [http-nio-8099-exec-4] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/code/money/visualvm-client/java/config/jdbc.properties不存在
-2025-10-09 09:32:57.985 [http-nio-8099-exec-4] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/code/money/visualvm-client/java/config/IO.properties不存在
-2025-10-09 09:38:29.467 [http-nio-8099-exec-4] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/code/money/visualvm-client/java/config/jdbc.properties不存在
-2025-10-09 09:38:29.468 [http-nio-8099-exec-4] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/code/money/visualvm-client/java/config/IO.properties不存在
-2025-10-09 09:38:29.855 [http-nio-8099-exec-1] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/code/money/visualvm-client/java/config/jdbc.properties不存在
-2025-10-09 09:38:29.855 [http-nio-8099-exec-1] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/code/money/visualvm-client/java/config/IO.properties不存在
-2025-10-09 09:43:42.759 [http-nio-8099-exec-5] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/code/money/visualvm-client/java/config/jdbc.properties不存在
-2025-10-09 09:43:42.760 [http-nio-8099-exec-5] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/code/money/visualvm-client/java/config/IO.properties不存在
-2025-10-09 09:43:42.793 [http-nio-8099-exec-7] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/code/money/visualvm-client/java/config/jdbc.properties不存在
-2025-10-09 09:43:42.794 [http-nio-8099-exec-7] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/code/money/visualvm-client/java/config/IO.properties不存在
-2025-10-09 09:45:30.303 [http-nio-8099-exec-1] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/code/money/visualvm-client/java/config/jdbc.properties不存在
-2025-10-09 09:45:30.306 [http-nio-8099-exec-1] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/code/money/visualvm-client/java/config/IO.properties不存在
-2025-10-09 09:45:30.346 [http-nio-8099-exec-6] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/code/money/visualvm-client/java/config/jdbc.properties不存在
-2025-10-09 09:45:30.347 [http-nio-8099-exec-6] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/code/money/visualvm-client/java/config/IO.properties不存在
-2025-10-09 09:45:34.043 [http-nio-8099-exec-6] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/code/money/visualvm-client/java/config/jdbc.properties不存在
-2025-10-09 09:45:34.044 [http-nio-8099-exec-6] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/code/money/visualvm-client/java/config/IO.properties不存在
-2025-10-09 09:45:34.112 [http-nio-8099-exec-7] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/code/money/visualvm-client/java/config/jdbc.properties不存在
-2025-10-09 09:45:34.113 [http-nio-8099-exec-7] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/code/money/visualvm-client/java/config/IO.properties不存在
-2025-10-09 10:03:07.918 [http-nio-8099-exec-10] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/code/money/visualvm-client/java/config/jdbc.properties不存在
-2025-10-09 10:03:07.919 [http-nio-8099-exec-10] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/code/money/visualvm-client/java/config/IO.properties不存在
-2025-10-09 10:03:07.920 [http-nio-8099-exec-9] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/code/money/visualvm-client/java/config/jdbc.properties不存在
-2025-10-09 10:03:07.921 [http-nio-8099-exec-9] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/code/money/visualvm-client/java/config/IO.properties不存在
-2025-10-09 10:03:53.608 [http-nio-8099-exec-7] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/code/money/visualvm-client/java/config/jdbc.properties不存在
-2025-10-09 10:03:53.609 [http-nio-8099-exec-7] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/code/money/visualvm-client/java/config/IO.properties不存在
-2025-10-09 10:03:53.620 [http-nio-8099-exec-8] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/code/money/visualvm-client/java/config/jdbc.properties不存在
-2025-10-09 10:03:53.621 [http-nio-8099-exec-8] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/code/money/visualvm-client/java/config/IO.properties不存在
-2025-10-09 10:11:21.253 [http-nio-8099-exec-3] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/code/money/visualvm-client/java/config/jdbc.properties不存在
-2025-10-09 10:11:21.254 [http-nio-8099-exec-3] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/code/money/visualvm-client/java/config/IO.properties不存在
-2025-10-09 10:11:21.265 [http-nio-8099-exec-2] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/code/money/visualvm-client/java/config/jdbc.properties不存在
-2025-10-09 10:11:21.266 [http-nio-8099-exec-2] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/code/money/visualvm-client/java/config/IO.properties不存在
-2025-10-09 10:11:53.391 [http-nio-8099-exec-9] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/code/money/visualvm-client/java/config/jdbc.properties不存在
-2025-10-09 10:11:53.391 [http-nio-8099-exec-9] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/code/money/visualvm-client/java/config/IO.properties不存在
-2025-10-09 10:11:53.406 [http-nio-8099-exec-7] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/code/money/visualvm-client/java/config/jdbc.properties不存在
-2025-10-09 10:11:53.406 [http-nio-8099-exec-7] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/code/money/visualvm-client/java/config/IO.properties不存在
-2025-10-09 10:12:26.629 [http-nio-8099-exec-10] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/code/money/visualvm-client/java/config/jdbc.properties不存在
-2025-10-09 10:12:26.630 [http-nio-8099-exec-10] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/code/money/visualvm-client/java/config/IO.properties不存在
-2025-10-09 10:12:26.643 [http-nio-8099-exec-1] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/code/money/visualvm-client/java/config/jdbc.properties不存在
-2025-10-09 10:12:26.643 [http-nio-8099-exec-1] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/code/money/visualvm-client/java/config/IO.properties不存在
-2025-10-09 10:12:27.911 [http-nio-8099-exec-9] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/code/money/visualvm-client/java/config/jdbc.properties不存在
-2025-10-09 10:12:27.912 [http-nio-8099-exec-9] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/code/money/visualvm-client/java/config/IO.properties不存在
-2025-10-09 10:12:27.994 [http-nio-8099-exec-7] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/code/money/visualvm-client/java/config/jdbc.properties不存在
-2025-10-09 10:12:27.994 [http-nio-8099-exec-7] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/code/money/visualvm-client/java/config/IO.properties不存在
-2025-10-09 10:18:58.419 [http-nio-8099-exec-10] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/code/money/visualvm-client/java/config/jdbc.properties不存在
-2025-10-09 10:18:58.420 [http-nio-8099-exec-10] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/code/money/visualvm-client/java/config/IO.properties不存在
-2025-10-09 10:18:58.439 [http-nio-8099-exec-4] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/code/money/visualvm-client/java/config/jdbc.properties不存在
-2025-10-09 10:18:58.440 [http-nio-8099-exec-4] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/code/money/visualvm-client/java/config/IO.properties不存在
-2025-10-09 10:21:30.666 [http-nio-8099-exec-10] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/code/money/visualvm-client/java/config/jdbc.properties不存在
-2025-10-09 10:21:30.667 [http-nio-8099-exec-10] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/code/money/visualvm-client/java/config/IO.properties不存在
-2025-10-09 10:21:31.035 [http-nio-8099-exec-7] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/code/money/visualvm-client/java/config/jdbc.properties不存在
-2025-10-09 10:21:31.036 [http-nio-8099-exec-7] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/code/money/visualvm-client/java/config/IO.properties不存在
-2025-10-09 11:03:45.533 [http-nio-8099-exec-2] ERROR com.cc.monitor.controller.MemoryController - 配置文件:D:/code/money/visualvm-client/java/config/jdbc.properties不存在
-2025-10-09 23:04:22.900 [http-nio-8099-exec-8] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/jdbc.properties不存在
-2025-10-09 23:04:22.903 [http-nio-8099-exec-8] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/IO.properties不存在
-2025-10-09 23:04:22.922 [http-nio-8099-exec-9] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/jdbc.properties不存在
-2025-10-09 23:04:22.929 [http-nio-8099-exec-9] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/IO.properties不存在
-2025-10-09 23:06:57.772 [http-nio-8099-exec-10] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/jdbc.properties不存在
-2025-10-09 23:06:57.774 [http-nio-8099-exec-10] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/IO.properties不存在
-2025-10-09 23:06:57.790 [http-nio-8099-exec-3] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/jdbc.properties不存在
-2025-10-09 23:06:57.791 [http-nio-8099-exec-3] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/IO.properties不存在
-2025-10-09 23:07:10.932 [http-nio-8099-exec-4] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/jdbc.properties不存在
-2025-10-09 23:07:10.936 [http-nio-8099-exec-4] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/IO.properties不存在
-2025-10-09 23:07:10.971 [http-nio-8099-exec-6] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/jdbc.properties不存在
-2025-10-09 23:07:10.972 [http-nio-8099-exec-6] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/IO.properties不存在
-2025-10-09 23:11:56.754 [http-nio-8099-exec-7] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/jdbc.properties不存在
-2025-10-09 23:11:56.757 [http-nio-8099-exec-7] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/IO.properties不存在
-2025-10-09 23:11:56.808 [http-nio-8099-exec-9] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/jdbc.properties不存在
-2025-10-09 23:11:56.810 [http-nio-8099-exec-9] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/IO.properties不存在
-2025-10-09 23:13:19.980 [http-nio-8099-exec-10] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/jdbc.properties不存在
-2025-10-09 23:13:19.982 [http-nio-8099-exec-10] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/IO.properties不存在
-2025-10-09 23:13:20.021 [http-nio-8099-exec-4] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/jdbc.properties不存在
-2025-10-09 23:13:20.023 [http-nio-8099-exec-4] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/IO.properties不存在
-2025-10-09 23:17:13.762 [http-nio-8099-exec-1] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/jdbc.properties不存在
-2025-10-09 23:17:13.765 [http-nio-8099-exec-1] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/IO.properties不存在
-2025-10-09 23:17:13.801 [http-nio-8099-exec-3] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/jdbc.properties不存在
-2025-10-09 23:17:13.802 [http-nio-8099-exec-3] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/IO.properties不存在
-2025-10-10 11:29:48.472 [http-nio-8099-exec-1] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/code/money/visualvm-client/java/config/jdbc.properties不存在
-2025-10-10 11:29:48.473 [http-nio-8099-exec-1] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/code/money/visualvm-client/java/config/IO.properties不存在
-2025-10-10 11:29:48.494 [http-nio-8099-exec-2] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/code/money/visualvm-client/java/config/jdbc.properties不存在
-2025-10-10 11:29:48.495 [http-nio-8099-exec-2] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/code/money/visualvm-client/java/config/IO.properties不存在
-2025-10-10 11:41:46.891 [http-nio-8099-exec-5] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/code/money/visualvm-client/java/config/jdbc.properties不存在
-2025-10-10 11:41:46.892 [http-nio-8099-exec-5] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/code/money/visualvm-client/java/config/IO.properties不存在
-2025-10-10 11:41:47.360 [http-nio-8099-exec-8] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/code/money/visualvm-client/java/config/jdbc.properties不存在
-2025-10-10 11:41:47.361 [http-nio-8099-exec-8] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/code/money/visualvm-client/java/config/IO.properties不存在
-2025-10-10 11:41:54.798 [http-nio-8099-exec-9] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/code/money/visualvm-client/java/config/jdbc.properties不存在
-2025-10-10 11:41:54.799 [http-nio-8099-exec-9] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/code/money/visualvm-client/java/config/IO.properties不存在
-2025-10-10 11:41:54.872 [http-nio-8099-exec-2] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/code/money/visualvm-client/java/config/jdbc.properties不存在
-2025-10-10 11:41:54.873 [http-nio-8099-exec-2] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/code/money/visualvm-client/java/config/IO.properties不存在
-2025-10-10 11:42:54.890 [http-nio-8099-exec-5] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/code/money/visualvm-client/java/config/jdbc.properties不存在
-2025-10-10 11:42:54.892 [http-nio-8099-exec-5] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/code/money/visualvm-client/java/config/IO.properties不存在
-2025-10-10 11:42:54.915 [http-nio-8099-exec-8] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/code/money/visualvm-client/java/config/jdbc.properties不存在
-2025-10-10 11:42:54.916 [http-nio-8099-exec-8] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/code/money/visualvm-client/java/config/IO.properties不存在
-2025-10-10 16:12:07.466 [http-nio-8099-exec-2] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/code/money/visualvm-client/java/config/jdbc.properties不存在
-2025-10-10 16:12:07.473 [http-nio-8099-exec-2] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/code/money/visualvm-client/java/config/IO.properties不存在
-2025-10-10 16:12:07.483 [http-nio-8099-exec-5] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/code/money/visualvm-client/java/config/jdbc.properties不存在
-2025-10-10 16:12:07.483 [http-nio-8099-exec-5] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/code/money/visualvm-client/java/config/IO.properties不存在
-2025-10-10 16:19:34.992 [http-nio-8099-exec-6] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/code/money/visualvm-client/java/config/jdbc.properties不存在
-2025-10-10 16:19:34.992 [http-nio-8099-exec-6] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/code/money/visualvm-client/java/config/IO.properties不存在
-2025-10-10 16:19:35.009 [http-nio-8099-exec-8] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/code/money/visualvm-client/java/config/jdbc.properties不存在
-2025-10-10 16:19:35.010 [http-nio-8099-exec-8] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/code/money/visualvm-client/java/config/IO.properties不存在
-2025-10-10 16:21:59.860 [http-nio-8099-exec-3] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/code/money/visualvm-client/java/config/jdbc.properties不存在
-2025-10-10 16:21:59.861 [http-nio-8099-exec-3] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/code/money/visualvm-client/java/config/IO.properties不存在
-2025-10-10 16:21:59.877 [http-nio-8099-exec-8] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/code/money/visualvm-client/java/config/jdbc.properties不存在
-2025-10-10 16:21:59.878 [http-nio-8099-exec-8] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/code/money/visualvm-client/java/config/IO.properties不存在
-2025-10-10 16:21:59.902 [http-nio-8099-exec-1] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/code/money/visualvm-client/java/config/jdbc.properties不存在
-2025-10-10 16:21:59.903 [http-nio-8099-exec-1] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/code/money/visualvm-client/java/config/IO.properties不存在
-2025-10-10 16:21:59.915 [http-nio-8099-exec-5] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/code/money/visualvm-client/java/config/jdbc.properties不存在
-2025-10-10 16:21:59.916 [http-nio-8099-exec-5] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/code/money/visualvm-client/java/config/IO.properties不存在
-2025-10-10 16:24:13.386 [http-nio-8099-exec-4] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/code/money/visualvm-client/java/config/jdbc.properties不存在
-2025-10-10 16:24:13.388 [http-nio-8099-exec-4] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/code/money/visualvm-client/java/config/IO.properties不存在
-2025-10-10 16:24:13.410 [http-nio-8099-exec-8] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/code/money/visualvm-client/java/config/jdbc.properties不存在
-2025-10-10 16:24:13.411 [http-nio-8099-exec-8] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/code/money/visualvm-client/java/config/IO.properties不存在
-2025-10-10 16:24:57.457 [http-nio-8099-exec-6] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/code/money/visualvm-client/java/config/jdbc.properties不存在
-2025-10-10 16:24:57.458 [http-nio-8099-exec-6] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/code/money/visualvm-client/java/config/IO.properties不存在
-2025-10-10 16:26:21.095 [http-nio-8099-exec-4] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/code/money/visualvm-client/java/config/jdbc.properties不存在
-2025-10-10 16:26:21.097 [http-nio-8099-exec-4] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/code/money/visualvm-client/java/config/IO.properties不存在
-2025-10-10 16:26:27.331 [http-nio-8099-exec-8] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/code/money/visualvm-client/java/config/jdbc.properties不存在
-2025-10-10 16:26:27.331 [http-nio-8099-exec-8] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/code/money/visualvm-client/java/config/IO.properties不存在
-2025-10-10 16:26:35.187 [http-nio-8099-exec-6] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/code/money/visualvm-client/java/config/jdbc.properties不存在
-2025-10-10 16:26:35.187 [http-nio-8099-exec-6] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/code/money/visualvm-client/java/config/IO.properties不存在
-2025-10-10 16:27:10.547 [http-nio-8099-exec-6] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/code/money/visualvm-client/java/config/jdbc.properties不存在
-2025-10-10 16:27:10.548 [http-nio-8099-exec-6] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/code/money/visualvm-client/java/config/IO.properties不存在
-2025-10-10 16:41:04.428 [http-nio-8099-exec-1] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/code/money/visualvm-client/java/config/jdbc.properties不存在
-2025-10-10 16:41:04.429 [http-nio-8099-exec-1] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/code/money/visualvm-client/java/config/IO.properties不存在
-2025-10-10 16:41:16.920 [http-nio-8099-exec-8] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/code/money/visualvm-client/java/config/jdbc.properties不存在
-2025-10-10 16:41:16.921 [http-nio-8099-exec-8] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/code/money/visualvm-client/java/config/IO.properties不存在
-2025-10-10 16:51:45.024 [http-nio-8099-exec-2] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/code/money/visualvm-client/java/config/jdbc.properties不存在
-2025-10-10 16:51:45.025 [http-nio-8099-exec-2] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/code/money/visualvm-client/java/config/IO.properties不存在
-2025-10-10 16:53:26.065 [http-nio-8099-exec-2] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/code/money/visualvm-client/java/config/jdbc.properties不存在
-2025-10-10 16:53:26.065 [http-nio-8099-exec-2] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/code/money/visualvm-client/java/config/IO.properties不存在
-2025-10-10 16:53:55.563 [http-nio-8099-exec-5] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/code/money/visualvm-client/java/config/jdbc.properties不存在
-2025-10-10 16:53:55.564 [http-nio-8099-exec-5] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/code/money/visualvm-client/java/config/IO.properties不存在
-2025-10-10 16:54:58.843 [http-nio-8099-exec-7] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/code/money/visualvm-client/java/config/jdbc.properties不存在
-2025-10-10 16:54:58.844 [http-nio-8099-exec-7] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/code/money/visualvm-client/java/config/IO.properties不存在
-2025-10-10 16:55:02.652 [http-nio-8099-exec-5] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/code/money/visualvm-client/java/config/jdbc.properties不存在
-2025-10-10 16:55:02.653 [http-nio-8099-exec-5] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/code/money/visualvm-client/java/config/IO.properties不存在
-2025-10-10 17:13:24.451 [http-nio-8099-exec-6] ERROR com.cc.monitor.service.impl.JvmOverviewServiceImpl - 获取进程信息失败
-com.sun.tools.attach.AttachNotSupportedException: Invalid process identifier
-	at jdk.attach/sun.tools.attach.HotSpotVirtualMachine.<init>(HotSpotVirtualMachine.java:69)
-	at jdk.attach/sun.tools.attach.VirtualMachineImpl.<init>(VirtualMachineImpl.java:48)
-	at jdk.attach/sun.tools.attach.AttachProviderImpl.attachVirtualMachine(AttachProviderImpl.java:69)
-	at jdk.attach/com.sun.tools.attach.VirtualMachine.attach(VirtualMachine.java:207)
-	at com.cc.monitor.service.impl.JvmOverviewServiceImpl.getLocalOverview(JvmOverviewServiceImpl.java:191)
-	at com.cc.monitor.controller.OverviewController.getLocalOverview(OverviewController.java:26)
-	at jdk.internal.reflect.GeneratedMethodAccessor140.invoke(Unknown Source)
-	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
-	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:190)
-	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:138)
-	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:106)
-	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:888)
-	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:793)
-	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
-	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1040)
-	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:943)
-	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1006)
-	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:898)
-	at javax.servlet.http.HttpServlet.service(HttpServlet.java:634)
-	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:883)
-	at javax.servlet.http.HttpServlet.service(HttpServlet.java:741)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:231)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
-	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
-	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
-	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
-	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
-	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:202)
-	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:96)
-	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:541)
-	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:139)
-	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92)
-	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
-	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:343)
-	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:367)
-	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:65)
-	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:860)
-	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1598)
-	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
-	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
-	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
-	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
-	at java.base/java.lang.Thread.run(Thread.java:834)
-2025-10-10 17:18:10.078 [http-nio-8099-exec-8] ERROR com.cc.monitor.service.impl.JvmOverviewServiceImpl - 获取进程信息失败
-com.sun.tools.attach.AttachNotSupportedException: Invalid process identifier
-	at jdk.attach/sun.tools.attach.HotSpotVirtualMachine.<init>(HotSpotVirtualMachine.java:69)
-	at jdk.attach/sun.tools.attach.VirtualMachineImpl.<init>(VirtualMachineImpl.java:48)
-	at jdk.attach/sun.tools.attach.AttachProviderImpl.attachVirtualMachine(AttachProviderImpl.java:69)
-	at jdk.attach/com.sun.tools.attach.VirtualMachine.attach(VirtualMachine.java:207)
-	at com.cc.monitor.service.impl.JvmOverviewServiceImpl.getLocalOverview(JvmOverviewServiceImpl.java:191)
-	at com.cc.monitor.controller.OverviewController.getLocalOverview(OverviewController.java:26)
-	at jdk.internal.reflect.GeneratedMethodAccessor140.invoke(Unknown Source)
-	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
-	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:190)
-	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:138)
-	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:106)
-	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:888)
-	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:793)
-	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
-	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1040)
-	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:943)
-	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1006)
-	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:898)
-	at javax.servlet.http.HttpServlet.service(HttpServlet.java:634)
-	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:883)
-	at javax.servlet.http.HttpServlet.service(HttpServlet.java:741)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:231)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
-	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
-	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
-	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
-	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
-	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:202)
-	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:96)
-	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:541)
-	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:139)
-	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92)
-	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
-	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:343)
-	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:367)
-	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:65)
-	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:860)
-	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1598)
-	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
-	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
-	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
-	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
-	at java.base/java.lang.Thread.run(Thread.java:834)
-2025-10-10 17:18:15.088 [http-nio-8099-exec-5] ERROR com.cc.monitor.service.impl.JvmOverviewServiceImpl - 获取进程信息失败
-com.sun.tools.attach.AttachNotSupportedException: Invalid process identifier
-	at jdk.attach/sun.tools.attach.HotSpotVirtualMachine.<init>(HotSpotVirtualMachine.java:69)
-	at jdk.attach/sun.tools.attach.VirtualMachineImpl.<init>(VirtualMachineImpl.java:48)
-	at jdk.attach/sun.tools.attach.AttachProviderImpl.attachVirtualMachine(AttachProviderImpl.java:69)
-	at jdk.attach/com.sun.tools.attach.VirtualMachine.attach(VirtualMachine.java:207)
-	at com.cc.monitor.service.impl.JvmOverviewServiceImpl.getLocalOverview(JvmOverviewServiceImpl.java:191)
-	at com.cc.monitor.controller.OverviewController.getLocalOverview(OverviewController.java:26)
-	at jdk.internal.reflect.GeneratedMethodAccessor140.invoke(Unknown Source)
-	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
-	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:190)
-	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:138)
-	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:106)
-	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:888)
-	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:793)
-	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
-	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1040)
-	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:943)
-	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1006)
-	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:898)
-	at javax.servlet.http.HttpServlet.service(HttpServlet.java:634)
-	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:883)
-	at javax.servlet.http.HttpServlet.service(HttpServlet.java:741)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:231)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
-	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
-	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
-	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
-	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
-	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:202)
-	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:96)
-	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:541)
-	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:139)
-	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92)
-	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
-	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:343)
-	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:367)
-	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:65)
-	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:860)
-	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1598)
-	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
-	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
-	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
-	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
-	at java.base/java.lang.Thread.run(Thread.java:834)
-2025-10-10 17:18:38.391 [http-nio-8099-exec-10] ERROR com.cc.monitor.service.impl.JvmOverviewServiceImpl - 获取进程信息失败
-com.sun.tools.attach.AttachNotSupportedException: Invalid process identifier
-	at jdk.attach/sun.tools.attach.HotSpotVirtualMachine.<init>(HotSpotVirtualMachine.java:69)
-	at jdk.attach/sun.tools.attach.VirtualMachineImpl.<init>(VirtualMachineImpl.java:48)
-	at jdk.attach/sun.tools.attach.AttachProviderImpl.attachVirtualMachine(AttachProviderImpl.java:69)
-	at jdk.attach/com.sun.tools.attach.VirtualMachine.attach(VirtualMachine.java:207)
-	at com.cc.monitor.service.impl.JvmOverviewServiceImpl.getLocalOverview(JvmOverviewServiceImpl.java:191)
-	at com.cc.monitor.controller.OverviewController.getLocalOverview(OverviewController.java:26)
-	at jdk.internal.reflect.GeneratedMethodAccessor140.invoke(Unknown Source)
-	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
-	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:190)
-	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:138)
-	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:106)
-	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:888)
-	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:793)
-	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
-	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1040)
-	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:943)
-	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1006)
-	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:898)
-	at javax.servlet.http.HttpServlet.service(HttpServlet.java:634)
-	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:883)
-	at javax.servlet.http.HttpServlet.service(HttpServlet.java:741)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:231)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
-	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
-	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
-	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
-	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
-	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:202)
-	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:96)
-	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:541)
-	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:139)
-	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92)
-	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
-	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:343)
-	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:367)
-	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:65)
-	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:860)
-	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1598)
-	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
-	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
-	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
-	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
-	at java.base/java.lang.Thread.run(Thread.java:834)
-2025-10-10 17:19:40.499 [http-nio-8099-exec-2] ERROR com.cc.monitor.service.impl.JvmOverviewServiceImpl - 获取进程信息失败
-com.sun.tools.attach.AttachNotSupportedException: Invalid process identifier
-	at jdk.attach/sun.tools.attach.HotSpotVirtualMachine.<init>(HotSpotVirtualMachine.java:69)
-	at jdk.attach/sun.tools.attach.VirtualMachineImpl.<init>(VirtualMachineImpl.java:48)
-	at jdk.attach/sun.tools.attach.AttachProviderImpl.attachVirtualMachine(AttachProviderImpl.java:69)
-	at jdk.attach/com.sun.tools.attach.VirtualMachine.attach(VirtualMachine.java:207)
-	at com.cc.monitor.service.impl.JvmOverviewServiceImpl.getLocalOverview(JvmOverviewServiceImpl.java:191)
-	at com.cc.monitor.controller.OverviewController.getLocalOverview(OverviewController.java:26)
-	at jdk.internal.reflect.GeneratedMethodAccessor140.invoke(Unknown Source)
-	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
-	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:190)
-	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:138)
-	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:106)
-	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:888)
-	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:793)
-	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
-	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1040)
-	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:943)
-	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1006)
-	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:898)
-	at javax.servlet.http.HttpServlet.service(HttpServlet.java:634)
-	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:883)
-	at javax.servlet.http.HttpServlet.service(HttpServlet.java:741)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:231)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
-	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
-	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
-	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
-	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
-	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:202)
-	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:96)
-	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:541)
-	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:139)
-	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92)
-	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
-	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:343)
-	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:367)
-	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:65)
-	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:860)
-	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1598)
-	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
-	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
-	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
-	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
-	at java.base/java.lang.Thread.run(Thread.java:834)
-2025-10-10 17:19:45.336 [http-nio-8099-exec-10] ERROR com.cc.monitor.service.impl.JvmOverviewServiceImpl - 获取进程信息失败
-com.sun.tools.attach.AttachNotSupportedException: Invalid process identifier
-	at jdk.attach/sun.tools.attach.HotSpotVirtualMachine.<init>(HotSpotVirtualMachine.java:69)
-	at jdk.attach/sun.tools.attach.VirtualMachineImpl.<init>(VirtualMachineImpl.java:48)
-	at jdk.attach/sun.tools.attach.AttachProviderImpl.attachVirtualMachine(AttachProviderImpl.java:69)
-	at jdk.attach/com.sun.tools.attach.VirtualMachine.attach(VirtualMachine.java:207)
-	at com.cc.monitor.service.impl.JvmOverviewServiceImpl.getLocalOverview(JvmOverviewServiceImpl.java:191)
-	at com.cc.monitor.controller.OverviewController.getLocalOverview(OverviewController.java:26)
-	at jdk.internal.reflect.GeneratedMethodAccessor140.invoke(Unknown Source)
-	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
-	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:190)
-	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:138)
-	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:106)
-	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:888)
-	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:793)
-	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
-	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1040)
-	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:943)
-	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1006)
-	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:898)
-	at javax.servlet.http.HttpServlet.service(HttpServlet.java:634)
-	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:883)
-	at javax.servlet.http.HttpServlet.service(HttpServlet.java:741)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:231)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
-	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
-	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
-	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
-	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
-	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:202)
-	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:96)
-	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:541)
-	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:139)
-	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92)
-	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
-	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:343)
-	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:367)
-	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:65)
-	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:860)
-	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1598)
-	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
-	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
-	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
-	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
-	at java.base/java.lang.Thread.run(Thread.java:834)
-2025-10-10 17:21:41.931 [http-nio-8099-exec-10] ERROR com.cc.monitor.service.impl.JvmOverviewServiceImpl - 获取进程信息失败
-com.sun.tools.attach.AttachNotSupportedException: Invalid process identifier
-	at jdk.attach/sun.tools.attach.HotSpotVirtualMachine.<init>(HotSpotVirtualMachine.java:69)
-	at jdk.attach/sun.tools.attach.VirtualMachineImpl.<init>(VirtualMachineImpl.java:48)
-	at jdk.attach/sun.tools.attach.AttachProviderImpl.attachVirtualMachine(AttachProviderImpl.java:69)
-	at jdk.attach/com.sun.tools.attach.VirtualMachine.attach(VirtualMachine.java:207)
-	at com.cc.monitor.service.impl.JvmOverviewServiceImpl.getLocalOverview(JvmOverviewServiceImpl.java:191)
-	at com.cc.monitor.controller.OverviewController.getLocalOverview(OverviewController.java:26)
-	at jdk.internal.reflect.GeneratedMethodAccessor140.invoke(Unknown Source)
-	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
-	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:190)
-	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:138)
-	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:106)
-	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:888)
-	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:793)
-	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
-	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1040)
-	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:943)
-	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1006)
-	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:898)
-	at javax.servlet.http.HttpServlet.service(HttpServlet.java:634)
-	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:883)
-	at javax.servlet.http.HttpServlet.service(HttpServlet.java:741)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:231)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
-	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
-	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
-	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
-	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
-	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:202)
-	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:96)
-	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:541)
-	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:139)
-	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92)
-	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
-	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:343)
-	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:367)
-	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:65)
-	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:860)
-	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1598)
-	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
-	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
-	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
-	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
-	at java.base/java.lang.Thread.run(Thread.java:834)
-2025-10-10 17:25:49.528 [http-nio-8099-exec-2] ERROR com.cc.monitor.service.impl.JvmOverviewServiceImpl - 获取进程信息失败
-com.sun.tools.attach.AttachNotSupportedException: Invalid process identifier
-	at jdk.attach/sun.tools.attach.HotSpotVirtualMachine.<init>(HotSpotVirtualMachine.java:69)
-	at jdk.attach/sun.tools.attach.VirtualMachineImpl.<init>(VirtualMachineImpl.java:48)
-	at jdk.attach/sun.tools.attach.AttachProviderImpl.attachVirtualMachine(AttachProviderImpl.java:69)
-	at jdk.attach/com.sun.tools.attach.VirtualMachine.attach(VirtualMachine.java:207)
-	at com.cc.monitor.service.impl.JvmOverviewServiceImpl.getLocalOverview(JvmOverviewServiceImpl.java:191)
-	at com.cc.monitor.controller.OverviewController.getLocalOverview(OverviewController.java:26)
-	at jdk.internal.reflect.GeneratedMethodAccessor140.invoke(Unknown Source)
-	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
-	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:190)
-	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:138)
-	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:106)
-	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:888)
-	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:793)
-	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
-	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1040)
-	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:943)
-	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1006)
-	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:898)
-	at javax.servlet.http.HttpServlet.service(HttpServlet.java:634)
-	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:883)
-	at javax.servlet.http.HttpServlet.service(HttpServlet.java:741)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:231)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
-	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
-	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
-	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
-	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
-	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:202)
-	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:96)
-	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:541)
-	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:139)
-	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92)
-	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
-	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:343)
-	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:367)
-	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:65)
-	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:860)
-	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1598)
-	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
-	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
-	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
-	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
-	at java.base/java.lang.Thread.run(Thread.java:834)
-2025-10-10 17:30:00.556 [http-nio-8099-exec-4] ERROR com.cc.monitor.service.impl.JvmOverviewServiceImpl - 获取进程信息失败
-com.sun.tools.attach.AttachNotSupportedException: Invalid process identifier
-	at jdk.attach/sun.tools.attach.HotSpotVirtualMachine.<init>(HotSpotVirtualMachine.java:69)
-	at jdk.attach/sun.tools.attach.VirtualMachineImpl.<init>(VirtualMachineImpl.java:48)
-	at jdk.attach/sun.tools.attach.AttachProviderImpl.attachVirtualMachine(AttachProviderImpl.java:69)
-	at jdk.attach/com.sun.tools.attach.VirtualMachine.attach(VirtualMachine.java:207)
-	at com.cc.monitor.service.impl.JvmOverviewServiceImpl.getLocalOverview(JvmOverviewServiceImpl.java:191)
-	at com.cc.monitor.controller.OverviewController.getLocalOverview(OverviewController.java:26)
-	at jdk.internal.reflect.GeneratedMethodAccessor140.invoke(Unknown Source)
-	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
-	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:190)
-	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:138)
-	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:106)
-	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:888)
-	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:793)
-	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
-	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1040)
-	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:943)
-	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1006)
-	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:898)
-	at javax.servlet.http.HttpServlet.service(HttpServlet.java:634)
-	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:883)
-	at javax.servlet.http.HttpServlet.service(HttpServlet.java:741)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:231)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
-	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
-	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
-	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
-	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
-	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:202)
-	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:96)
-	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:541)
-	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:139)
-	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92)
-	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
-	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:343)
-	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:367)
-	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:65)
-	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:860)
-	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1598)
-	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
-	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
-	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
-	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
-	at java.base/java.lang.Thread.run(Thread.java:834)
-2025-10-10 17:30:53.960 [http-nio-8099-exec-5] ERROR com.cc.monitor.service.impl.JvmOverviewServiceImpl - 获取进程信息失败
-com.sun.tools.attach.AttachNotSupportedException: Invalid process identifier
-	at jdk.attach/sun.tools.attach.HotSpotVirtualMachine.<init>(HotSpotVirtualMachine.java:69)
-	at jdk.attach/sun.tools.attach.VirtualMachineImpl.<init>(VirtualMachineImpl.java:48)
-	at jdk.attach/sun.tools.attach.AttachProviderImpl.attachVirtualMachine(AttachProviderImpl.java:69)
-	at jdk.attach/com.sun.tools.attach.VirtualMachine.attach(VirtualMachine.java:207)
-	at com.cc.monitor.service.impl.JvmOverviewServiceImpl.getLocalOverview(JvmOverviewServiceImpl.java:191)
-	at com.cc.monitor.controller.OverviewController.getLocalOverview(OverviewController.java:26)
-	at jdk.internal.reflect.GeneratedMethodAccessor140.invoke(Unknown Source)
-	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
-	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:190)
-	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:138)
-	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:106)
-	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:888)
-	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:793)
-	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
-	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1040)
-	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:943)
-	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1006)
-	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:898)
-	at javax.servlet.http.HttpServlet.service(HttpServlet.java:634)
-	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:883)
-	at javax.servlet.http.HttpServlet.service(HttpServlet.java:741)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:231)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
-	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
-	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
-	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
-	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
-	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:202)
-	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:96)
-	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:541)
-	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:139)
-	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92)
-	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
-	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:343)
-	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:367)
-	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:65)
-	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:860)
-	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1598)
-	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
-	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
-	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
-	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
-	at java.base/java.lang.Thread.run(Thread.java:834)
-2025-10-10 17:30:58.506 [http-nio-8099-exec-7] ERROR com.cc.monitor.service.impl.JvmOverviewServiceImpl - 获取进程信息失败
-com.sun.tools.attach.AttachNotSupportedException: Invalid process identifier
-	at jdk.attach/sun.tools.attach.HotSpotVirtualMachine.<init>(HotSpotVirtualMachine.java:69)
-	at jdk.attach/sun.tools.attach.VirtualMachineImpl.<init>(VirtualMachineImpl.java:48)
-	at jdk.attach/sun.tools.attach.AttachProviderImpl.attachVirtualMachine(AttachProviderImpl.java:69)
-	at jdk.attach/com.sun.tools.attach.VirtualMachine.attach(VirtualMachine.java:207)
-	at com.cc.monitor.service.impl.JvmOverviewServiceImpl.getLocalOverview(JvmOverviewServiceImpl.java:191)
-	at com.cc.monitor.controller.OverviewController.getLocalOverview(OverviewController.java:26)
-	at jdk.internal.reflect.GeneratedMethodAccessor140.invoke(Unknown Source)
-	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
-	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:190)
-	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:138)
-	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:106)
-	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:888)
-	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:793)
-	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
-	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1040)
-	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:943)
-	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1006)
-	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:898)
-	at javax.servlet.http.HttpServlet.service(HttpServlet.java:634)
-	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:883)
-	at javax.servlet.http.HttpServlet.service(HttpServlet.java:741)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:231)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
-	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
-	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
-	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
-	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
-	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:202)
-	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:96)
-	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:541)
-	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:139)
-	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92)
-	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
-	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:343)
-	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:367)
-	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:65)
-	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:860)
-	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1598)
-	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
-	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
-	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
-	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
-	at java.base/java.lang.Thread.run(Thread.java:834)
-2025-10-10 17:32:21.143 [http-nio-8099-exec-3] ERROR com.cc.monitor.service.impl.JvmOverviewServiceImpl - 获取进程信息失败
-com.sun.tools.attach.AttachNotSupportedException: Invalid process identifier
-	at jdk.attach/sun.tools.attach.HotSpotVirtualMachine.<init>(HotSpotVirtualMachine.java:69)
-	at jdk.attach/sun.tools.attach.VirtualMachineImpl.<init>(VirtualMachineImpl.java:48)
-	at jdk.attach/sun.tools.attach.AttachProviderImpl.attachVirtualMachine(AttachProviderImpl.java:69)
-	at jdk.attach/com.sun.tools.attach.VirtualMachine.attach(VirtualMachine.java:207)
-	at com.cc.monitor.service.impl.JvmOverviewServiceImpl.getLocalOverview(JvmOverviewServiceImpl.java:191)
-	at com.cc.monitor.controller.OverviewController.getLocalOverview(OverviewController.java:26)
-	at jdk.internal.reflect.GeneratedMethodAccessor140.invoke(Unknown Source)
-	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
-	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:190)
-	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:138)
-	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:106)
-	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:888)
-	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:793)
-	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
-	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1040)
-	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:943)
-	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1006)
-	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:898)
-	at javax.servlet.http.HttpServlet.service(HttpServlet.java:634)
-	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:883)
-	at javax.servlet.http.HttpServlet.service(HttpServlet.java:741)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:231)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
-	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
-	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
-	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
-	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
-	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:202)
-	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:96)
-	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:541)
-	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:139)
-	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92)
-	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
-	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:343)
-	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:367)
-	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:65)
-	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:860)
-	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1598)
-	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
-	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
-	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
-	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
-	at java.base/java.lang.Thread.run(Thread.java:834)
-2025-10-10 21:51:19.397 [http-nio-8099-exec-4] ERROR com.cc.monitor.service.impl.JvmOverviewServiceImpl - 获取进程信息失败
+2025-10-13 10:10:39.825 [http-nio-8099-exec-3] ERROR com.cc.monitor.service.impl.JvmOverviewServiceImpl - 获取进程信息失败
 com.sun.tools.attach.AttachNotSupportedException: Invalid process identifier
 	at jdk.attach/sun.tools.attach.HotSpotVirtualMachine.<init>(HotSpotVirtualMachine.java:69)
 	at jdk.attach/sun.tools.attach.VirtualMachineImpl.<init>(VirtualMachineImpl.java:48)
@@ -1020,15 +55,20 @@ com.sun.tools.attach.AttachNotSupportedException: Invalid process identifier
 	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
 	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
 	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
-	at java.base/java.lang.Thread.run(Thread.java:829)
-2025-10-10 21:51:20.241 [http-nio-8099-exec-7] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/jdbc.properties不存在
-2025-10-10 21:51:20.243 [http-nio-8099-exec-7] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/gitee/visualvm-client/java/config/IO.properties不存在
-2025-10-10 22:10:56.084 [http-nio-8099-exec-3] ERROR com.cc.monitor.service.impl.HeapServiceImpl - 分析失败: 
-org.eclipse.mat.SnapshotException: No parser registered for file 'heapdump_1545.hprof'
-	at org.eclipse.mat.parser.internal.SnapshotFactory.parse(SnapshotFactory.java:220)
-	at org.eclipse.mat.parser.internal.SnapshotFactory.openSnapshot(SnapshotFactory.java:106)
-	at com.cc.monitor.service.impl.HeapServiceImpl.analyse(HeapServiceImpl.java:41)
-	at com.cc.monitor.controller.HeapDumpController.analyse(HeapDumpController.java:81)
+	at java.base/java.lang.Thread.run(Thread.java:834)
+2025-10-13 10:10:40.993 [http-nio-8099-exec-6] ERROR com.cc.monitor.service.impl.JvmOverviewServiceImpl - 获取进程信息失败
+java.rmi.ConnectIOException: error during JRMP connection establishment; nested exception is: 
+	java.net.SocketException: Connection reset
+	at java.rmi/sun.rmi.transport.tcp.TCPChannel.createConnection(TCPChannel.java:300)
+	at java.rmi/sun.rmi.transport.tcp.TCPChannel.newConnection(TCPChannel.java:196)
+	at java.rmi/sun.rmi.server.UnicastRef.invoke(UnicastRef.java:132)
+	at java.management.rmi/javax.management.remote.rmi.RMIServerImpl_Stub.newClient(Unknown Source)
+	at java.management.rmi/javax.management.remote.rmi.RMIConnector.getConnection(RMIConnector.java:2105)
+	at java.management.rmi/javax.management.remote.rmi.RMIConnector.connect(RMIConnector.java:321)
+	at java.management/javax.management.remote.JMXConnectorFactory.connect(JMXConnectorFactory.java:270)
+	at java.management/javax.management.remote.JMXConnectorFactory.connect(JMXConnectorFactory.java:229)
+	at com.cc.monitor.service.impl.JvmOverviewServiceImpl.getLocalOverview(JvmOverviewServiceImpl.java:207)
+	at com.cc.monitor.controller.OverviewController.getLocalOverview(OverviewController.java:26)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
 	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
@@ -1078,13 +118,29 @@ org.eclipse.mat.SnapshotException: No parser registered for file 'heapdump_1545.
 	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
 	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
 	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
-	at java.base/java.lang.Thread.run(Thread.java:829)
-2025-10-10 22:11:00.995 [http-nio-8099-exec-6] ERROR com.cc.monitor.service.impl.HeapServiceImpl - 分析失败: 
-org.eclipse.mat.SnapshotException: No parser registered for file 'gc.hprof'
-	at org.eclipse.mat.parser.internal.SnapshotFactory.parse(SnapshotFactory.java:220)
-	at org.eclipse.mat.parser.internal.SnapshotFactory.openSnapshot(SnapshotFactory.java:106)
-	at com.cc.monitor.service.impl.HeapServiceImpl.analyse(HeapServiceImpl.java:41)
-	at com.cc.monitor.controller.HeapDumpController.analyse(HeapDumpController.java:81)
+	at java.base/java.lang.Thread.run(Thread.java:834)
+Caused by: java.net.SocketException: Connection reset
+	at java.base/java.net.SocketInputStream.read(SocketInputStream.java:186)
+	at java.base/java.net.SocketInputStream.read(SocketInputStream.java:140)
+	at java.base/java.io.BufferedInputStream.fill(BufferedInputStream.java:252)
+	at java.base/java.io.BufferedInputStream.read(BufferedInputStream.java:271)
+	at java.base/java.io.DataInputStream.readByte(DataInputStream.java:270)
+	at java.rmi/sun.rmi.transport.tcp.TCPChannel.createConnection(TCPChannel.java:239)
+	... 59 common frames omitted
+2025-10-13 10:10:43.042 [http-nio-8099-exec-5] ERROR com.cc.monitor.service.impl.MonitorServiceImpl - 分析进程失败
+java.rmi.ConnectException: Connection refused to host: 192.168.72.62; nested exception is: 
+	java.net.ConnectException: Connection refused: connect
+	at java.rmi/sun.rmi.transport.tcp.TCPEndpoint.newSocket(TCPEndpoint.java:623)
+	at java.rmi/sun.rmi.transport.tcp.TCPChannel.createConnection(TCPChannel.java:209)
+	at java.rmi/sun.rmi.transport.tcp.TCPChannel.newConnection(TCPChannel.java:196)
+	at java.rmi/sun.rmi.server.UnicastRef.invoke(UnicastRef.java:132)
+	at java.management.rmi/javax.management.remote.rmi.RMIServerImpl_Stub.newClient(Unknown Source)
+	at java.management.rmi/javax.management.remote.rmi.RMIConnector.getConnection(RMIConnector.java:2105)
+	at java.management.rmi/javax.management.remote.rmi.RMIConnector.connect(RMIConnector.java:321)
+	at java.management/javax.management.remote.JMXConnectorFactory.connect(JMXConnectorFactory.java:270)
+	at java.management/javax.management.remote.JMXConnectorFactory.connect(JMXConnectorFactory.java:229)
+	at com.cc.monitor.service.impl.MonitorServiceImpl.startMonitor(MonitorServiceImpl.java:249)
+	at com.cc.monitor.controller.MonitorController.startMonitoring(MonitorController.java:22)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
 	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
@@ -1134,14 +190,29 @@ org.eclipse.mat.SnapshotException: No parser registered for file 'gc.hprof'
 	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
 	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
 	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
-	at java.base/java.lang.Thread.run(Thread.java:829)
-2025-10-10 22:13:16.559 [http-nio-8099-exec-9] ERROR com.cc.monitor.controller.MemoryController - 配置文件:D:/gitee/visualvm-client/java/config/jdbc.properties不存在
-2025-10-10 22:14:49.160 [http-nio-8099-exec-5] ERROR com.cc.monitor.service.impl.HeapServiceImpl - 分析失败: 
-org.eclipse.mat.SnapshotException: No parser registered for file 'heapdump_1545.hprof'
-	at org.eclipse.mat.parser.internal.SnapshotFactory.parse(SnapshotFactory.java:220)
-	at org.eclipse.mat.parser.internal.SnapshotFactory.openSnapshot(SnapshotFactory.java:106)
-	at com.cc.monitor.service.impl.HeapServiceImpl.analyse(HeapServiceImpl.java:41)
-	at com.cc.monitor.controller.HeapDumpController.analyse(HeapDumpController.java:81)
+	at java.base/java.lang.Thread.run(Thread.java:834)
+Caused by: java.net.ConnectException: Connection refused: connect
+	at java.base/java.net.PlainSocketImpl.connect0(Native Method)
+	at java.base/java.net.PlainSocketImpl.socketConnect(PlainSocketImpl.java:101)
+	at java.base/java.net.AbstractPlainSocketImpl.doConnect(AbstractPlainSocketImpl.java:412)
+	at java.base/java.net.AbstractPlainSocketImpl.connectToAddress(AbstractPlainSocketImpl.java:255)
+	at java.base/java.net.AbstractPlainSocketImpl.connect(AbstractPlainSocketImpl.java:237)
+	at java.base/java.net.SocksSocketImpl.connect(SocksSocketImpl.java:392)
+	at java.base/java.net.Socket.connect(Socket.java:608)
+	at java.base/java.net.Socket.connect(Socket.java:557)
+	at java.base/java.net.Socket.<init>(Socket.java:453)
+	at java.base/java.net.Socket.<init>(Socket.java:230)
+	at java.rmi/sun.rmi.transport.tcp.TCPDirectSocketFactory.createSocket(TCPDirectSocketFactory.java:40)
+	at java.rmi/sun.rmi.transport.tcp.TCPEndpoint.newSocket(TCPEndpoint.java:617)
+	... 60 common frames omitted
+2025-10-13 10:10:43.053 [http-nio-8099-exec-8] ERROR com.cc.monitor.service.impl.JvmOverviewServiceImpl - 获取进程信息失败
+java.io.IOException: no such process
+	at jdk.attach/sun.tools.attach.VirtualMachineImpl.openProcess(Native Method)
+	at jdk.attach/sun.tools.attach.VirtualMachineImpl.<init>(VirtualMachineImpl.java:56)
+	at jdk.attach/sun.tools.attach.AttachProviderImpl.attachVirtualMachine(AttachProviderImpl.java:69)
+	at jdk.attach/com.sun.tools.attach.VirtualMachine.attach(VirtualMachine.java:207)
+	at com.cc.monitor.service.impl.JvmOverviewServiceImpl.getLocalOverview(JvmOverviewServiceImpl.java:191)
+	at com.cc.monitor.controller.OverviewController.getLocalOverview(OverviewController.java:26)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
 	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
@@ -1191,8 +262,246 @@ org.eclipse.mat.SnapshotException: No parser registered for file 'heapdump_1545.
 	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
 	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
 	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
-	at java.base/java.lang.Thread.run(Thread.java:829)
-2025-10-10 23:18:53.396 [http-nio-8099-exec-4] ERROR com.cc.monitor.service.impl.JvmOverviewServiceImpl - 获取进程信息失败
+	at java.base/java.lang.Thread.run(Thread.java:834)
+2025-10-13 10:10:43.064 [http-nio-8099-exec-9] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/code/money/visualvm-client/java/config/jdbc.properties不存在
+2025-10-13 10:10:43.065 [http-nio-8099-exec-9] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/code/money/visualvm-client/java/config/IO.properties不存在
+2025-10-13 10:10:43.070 [http-nio-8099-exec-9] ERROR o.a.catalina.core.ContainerBase.[Tomcat].[localhost].[/cvm].[dispatcherServlet] - Servlet.service() for servlet [dispatcherServlet] in context with path [/cvm] threw exception
+java.io.IOException: no such process
+	at jdk.attach/sun.tools.attach.VirtualMachineImpl.openProcess(Native Method)
+	at jdk.attach/sun.tools.attach.VirtualMachineImpl.<init>(VirtualMachineImpl.java:56)
+	at jdk.attach/sun.tools.attach.AttachProviderImpl.attachVirtualMachine(AttachProviderImpl.java:69)
+	at jdk.attach/com.sun.tools.attach.VirtualMachine.attach(VirtualMachine.java:207)
+	at com.cc.monitor.manager.CpuSamplingManager$CpuSampler.<init>(CpuSamplingManager.java:119)
+	at com.cc.monitor.manager.CpuSamplingManager.start(CpuSamplingManager.java:50)
+	at com.cc.monitor.controller.CpuMonitorController.start(CpuMonitorController.java:110)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:190)
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:138)
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:106)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:888)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:793)
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1040)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:943)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1006)
+	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:909)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:660)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:883)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:741)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:231)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:202)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:96)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:541)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:139)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:343)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:367)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:65)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:860)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1598)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.base/java.lang.Thread.run(Thread.java:834)
+2025-10-13 10:10:54.405 [http-nio-8099-exec-7] ERROR com.cc.monitor.service.impl.MonitorServiceImpl - 分析进程失败
+java.io.IOException: no such process
+	at jdk.attach/sun.tools.attach.VirtualMachineImpl.openProcess(Native Method)
+	at jdk.attach/sun.tools.attach.VirtualMachineImpl.<init>(VirtualMachineImpl.java:56)
+	at jdk.attach/sun.tools.attach.AttachProviderImpl.attachVirtualMachine(AttachProviderImpl.java:69)
+	at jdk.attach/com.sun.tools.attach.VirtualMachine.attach(VirtualMachine.java:207)
+	at com.cc.monitor.service.impl.MonitorServiceImpl.startMonitor(MonitorServiceImpl.java:231)
+	at com.cc.monitor.controller.MonitorController.startMonitoring(MonitorController.java:22)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:190)
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:138)
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:106)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:888)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:793)
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1040)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:943)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1006)
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:898)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:634)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:883)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:741)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:231)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:202)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:96)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:541)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:139)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:343)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:367)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:65)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:860)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1598)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.base/java.lang.Thread.run(Thread.java:834)
+2025-10-13 10:10:54.414 [http-nio-8099-exec-1] ERROR com.cc.monitor.service.impl.JvmOverviewServiceImpl - 获取进程信息失败
+java.io.IOException: no such process
+	at jdk.attach/sun.tools.attach.VirtualMachineImpl.openProcess(Native Method)
+	at jdk.attach/sun.tools.attach.VirtualMachineImpl.<init>(VirtualMachineImpl.java:56)
+	at jdk.attach/sun.tools.attach.AttachProviderImpl.attachVirtualMachine(AttachProviderImpl.java:69)
+	at jdk.attach/com.sun.tools.attach.VirtualMachine.attach(VirtualMachine.java:207)
+	at com.cc.monitor.service.impl.JvmOverviewServiceImpl.getLocalOverview(JvmOverviewServiceImpl.java:191)
+	at com.cc.monitor.controller.OverviewController.getLocalOverview(OverviewController.java:26)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:190)
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:138)
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:106)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:888)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:793)
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1040)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:943)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1006)
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:898)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:634)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:883)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:741)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:231)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:202)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:96)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:541)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:139)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:343)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:367)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:65)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:860)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1598)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.base/java.lang.Thread.run(Thread.java:834)
+2025-10-13 10:10:54.420 [http-nio-8099-exec-2] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/code/money/visualvm-client/java/config/jdbc.properties不存在
+2025-10-13 10:10:54.421 [http-nio-8099-exec-2] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/code/money/visualvm-client/java/config/IO.properties不存在
+2025-10-13 10:10:54.423 [http-nio-8099-exec-2] ERROR o.a.catalina.core.ContainerBase.[Tomcat].[localhost].[/cvm].[dispatcherServlet] - Servlet.service() for servlet [dispatcherServlet] in context with path [/cvm] threw exception
+java.io.IOException: no such process
+	at jdk.attach/sun.tools.attach.VirtualMachineImpl.openProcess(Native Method)
+	at jdk.attach/sun.tools.attach.VirtualMachineImpl.<init>(VirtualMachineImpl.java:56)
+	at jdk.attach/sun.tools.attach.AttachProviderImpl.attachVirtualMachine(AttachProviderImpl.java:69)
+	at jdk.attach/com.sun.tools.attach.VirtualMachine.attach(VirtualMachine.java:207)
+	at com.cc.monitor.manager.CpuSamplingManager$CpuSampler.<init>(CpuSamplingManager.java:119)
+	at com.cc.monitor.manager.CpuSamplingManager.start(CpuSamplingManager.java:50)
+	at com.cc.monitor.controller.CpuMonitorController.start(CpuMonitorController.java:110)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:190)
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:138)
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:106)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:888)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:793)
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1040)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:943)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1006)
+	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:909)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:660)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:883)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:741)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:231)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:202)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:96)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:541)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:139)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:343)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:367)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:65)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:860)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1598)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.base/java.lang.Thread.run(Thread.java:834)
+2025-10-13 10:11:31.663 [http-nio-8099-exec-4] ERROR com.cc.monitor.service.impl.JvmOverviewServiceImpl - 获取进程信息失败
 com.sun.tools.attach.AttachNotSupportedException: Invalid process identifier
 	at jdk.attach/sun.tools.attach.HotSpotVirtualMachine.<init>(HotSpotVirtualMachine.java:69)
 	at jdk.attach/sun.tools.attach.VirtualMachineImpl.<init>(VirtualMachineImpl.java:48)
@@ -1249,363 +558,8 @@ com.sun.tools.attach.AttachNotSupportedException: Invalid process identifier
 	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
 	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
 	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
-	at java.base/java.lang.Thread.run(Thread.java:829)
-2025-10-10 23:19:26.055 [http-nio-8099-exec-7] ERROR com.cc.monitor.service.impl.JvmOverviewServiceImpl - 获取进程信息失败
-com.sun.tools.attach.AttachNotSupportedException: Invalid process identifier
-	at jdk.attach/sun.tools.attach.HotSpotVirtualMachine.<init>(HotSpotVirtualMachine.java:69)
-	at jdk.attach/sun.tools.attach.VirtualMachineImpl.<init>(VirtualMachineImpl.java:48)
-	at jdk.attach/sun.tools.attach.AttachProviderImpl.attachVirtualMachine(AttachProviderImpl.java:69)
-	at jdk.attach/com.sun.tools.attach.VirtualMachine.attach(VirtualMachine.java:207)
-	at com.cc.monitor.service.impl.JvmOverviewServiceImpl.getLocalOverview(JvmOverviewServiceImpl.java:191)
-	at com.cc.monitor.controller.OverviewController.getLocalOverview(OverviewController.java:26)
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
-	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
-	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:190)
-	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:138)
-	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:106)
-	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:888)
-	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:793)
-	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
-	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1040)
-	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:943)
-	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1006)
-	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:898)
-	at javax.servlet.http.HttpServlet.service(HttpServlet.java:634)
-	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:883)
-	at javax.servlet.http.HttpServlet.service(HttpServlet.java:741)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:231)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
-	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
-	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
-	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
-	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
-	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:202)
-	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:96)
-	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:541)
-	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:139)
-	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92)
-	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
-	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:343)
-	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:367)
-	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:65)
-	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:860)
-	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1598)
-	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
-	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
-	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
-	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
-	at java.base/java.lang.Thread.run(Thread.java:829)
-2025-10-10 23:19:26.898 [http-nio-8099-exec-2] ERROR com.cc.monitor.service.impl.JvmOverviewServiceImpl - 获取进程信息失败
-com.sun.tools.attach.AttachNotSupportedException: Invalid process identifier
-	at jdk.attach/sun.tools.attach.HotSpotVirtualMachine.<init>(HotSpotVirtualMachine.java:69)
-	at jdk.attach/sun.tools.attach.VirtualMachineImpl.<init>(VirtualMachineImpl.java:48)
-	at jdk.attach/sun.tools.attach.AttachProviderImpl.attachVirtualMachine(AttachProviderImpl.java:69)
-	at jdk.attach/com.sun.tools.attach.VirtualMachine.attach(VirtualMachine.java:207)
-	at com.cc.monitor.service.impl.JvmOverviewServiceImpl.getLocalOverview(JvmOverviewServiceImpl.java:191)
-	at com.cc.monitor.controller.OverviewController.getLocalOverview(OverviewController.java:26)
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
-	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
-	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:190)
-	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:138)
-	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:106)
-	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:888)
-	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:793)
-	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
-	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1040)
-	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:943)
-	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1006)
-	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:898)
-	at javax.servlet.http.HttpServlet.service(HttpServlet.java:634)
-	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:883)
-	at javax.servlet.http.HttpServlet.service(HttpServlet.java:741)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:231)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
-	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
-	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
-	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
-	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
-	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:202)
-	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:96)
-	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:541)
-	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:139)
-	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92)
-	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
-	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:343)
-	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:367)
-	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:65)
-	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:860)
-	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1598)
-	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
-	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
-	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
-	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
-	at java.base/java.lang.Thread.run(Thread.java:829)
-2025-10-10 23:22:58.996 [http-nio-8099-exec-3] ERROR com.cc.monitor.service.impl.JvmOverviewServiceImpl - 获取进程信息失败
-com.sun.tools.attach.AttachNotSupportedException: Invalid process identifier
-	at jdk.attach/sun.tools.attach.HotSpotVirtualMachine.<init>(HotSpotVirtualMachine.java:69)
-	at jdk.attach/sun.tools.attach.VirtualMachineImpl.<init>(VirtualMachineImpl.java:48)
-	at jdk.attach/sun.tools.attach.AttachProviderImpl.attachVirtualMachine(AttachProviderImpl.java:69)
-	at jdk.attach/com.sun.tools.attach.VirtualMachine.attach(VirtualMachine.java:207)
-	at com.cc.monitor.service.impl.JvmOverviewServiceImpl.getLocalOverview(JvmOverviewServiceImpl.java:191)
-	at com.cc.monitor.controller.OverviewController.getLocalOverview(OverviewController.java:26)
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
-	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
-	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:190)
-	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:138)
-	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:106)
-	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:888)
-	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:793)
-	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
-	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1040)
-	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:943)
-	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1006)
-	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:898)
-	at javax.servlet.http.HttpServlet.service(HttpServlet.java:634)
-	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:883)
-	at javax.servlet.http.HttpServlet.service(HttpServlet.java:741)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:231)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
-	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
-	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
-	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
-	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
-	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:202)
-	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:96)
-	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:541)
-	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:139)
-	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92)
-	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
-	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:343)
-	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:367)
-	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:65)
-	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:860)
-	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1598)
-	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
-	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
-	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
-	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
-	at java.base/java.lang.Thread.run(Thread.java:829)
-2025-10-10 23:25:04.870 [http-nio-8099-exec-9] ERROR com.cc.monitor.service.impl.JvmOverviewServiceImpl - 获取进程信息失败
-com.sun.tools.attach.AttachNotSupportedException: Invalid process identifier
-	at jdk.attach/sun.tools.attach.HotSpotVirtualMachine.<init>(HotSpotVirtualMachine.java:69)
-	at jdk.attach/sun.tools.attach.VirtualMachineImpl.<init>(VirtualMachineImpl.java:48)
-	at jdk.attach/sun.tools.attach.AttachProviderImpl.attachVirtualMachine(AttachProviderImpl.java:69)
-	at jdk.attach/com.sun.tools.attach.VirtualMachine.attach(VirtualMachine.java:207)
-	at com.cc.monitor.service.impl.JvmOverviewServiceImpl.getLocalOverview(JvmOverviewServiceImpl.java:191)
-	at com.cc.monitor.controller.OverviewController.getLocalOverview(OverviewController.java:26)
-	at jdk.internal.reflect.GeneratedMethodAccessor87.invoke(Unknown Source)
-	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
-	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:190)
-	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:138)
-	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:106)
-	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:888)
-	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:793)
-	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
-	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1040)
-	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:943)
-	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1006)
-	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:898)
-	at javax.servlet.http.HttpServlet.service(HttpServlet.java:634)
-	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:883)
-	at javax.servlet.http.HttpServlet.service(HttpServlet.java:741)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:231)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
-	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
-	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
-	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
-	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
-	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:202)
-	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:96)
-	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:541)
-	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:139)
-	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92)
-	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
-	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:343)
-	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:367)
-	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:65)
-	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:860)
-	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1598)
-	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
-	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
-	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
-	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
-	at java.base/java.lang.Thread.run(Thread.java:829)
-2025-10-10 23:27:18.962 [http-nio-8099-exec-5] ERROR com.cc.monitor.service.impl.JvmOverviewServiceImpl - 获取进程信息失败
-com.sun.tools.attach.AttachNotSupportedException: Invalid process identifier
-	at jdk.attach/sun.tools.attach.HotSpotVirtualMachine.<init>(HotSpotVirtualMachine.java:69)
-	at jdk.attach/sun.tools.attach.VirtualMachineImpl.<init>(VirtualMachineImpl.java:48)
-	at jdk.attach/sun.tools.attach.AttachProviderImpl.attachVirtualMachine(AttachProviderImpl.java:69)
-	at jdk.attach/com.sun.tools.attach.VirtualMachine.attach(VirtualMachine.java:207)
-	at com.cc.monitor.service.impl.JvmOverviewServiceImpl.getLocalOverview(JvmOverviewServiceImpl.java:191)
-	at com.cc.monitor.controller.OverviewController.getLocalOverview(OverviewController.java:26)
-	at jdk.internal.reflect.GeneratedMethodAccessor87.invoke(Unknown Source)
-	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
-	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:190)
-	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:138)
-	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:106)
-	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:888)
-	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:793)
-	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
-	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1040)
-	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:943)
-	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1006)
-	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:898)
-	at javax.servlet.http.HttpServlet.service(HttpServlet.java:634)
-	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:883)
-	at javax.servlet.http.HttpServlet.service(HttpServlet.java:741)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:231)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
-	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
-	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
-	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
-	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
-	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:202)
-	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:96)
-	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:541)
-	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:139)
-	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92)
-	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
-	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:343)
-	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:367)
-	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:65)
-	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:860)
-	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1598)
-	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
-	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
-	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
-	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
-	at java.base/java.lang.Thread.run(Thread.java:829)
-2025-10-10 23:37:15.982 [http-nio-8099-exec-8] ERROR com.cc.monitor.service.impl.JvmOverviewServiceImpl - 获取进程信息失败
-com.sun.tools.attach.AttachNotSupportedException: Invalid process identifier
-	at jdk.attach/sun.tools.attach.HotSpotVirtualMachine.<init>(HotSpotVirtualMachine.java:69)
-	at jdk.attach/sun.tools.attach.VirtualMachineImpl.<init>(VirtualMachineImpl.java:48)
-	at jdk.attach/sun.tools.attach.AttachProviderImpl.attachVirtualMachine(AttachProviderImpl.java:69)
-	at jdk.attach/com.sun.tools.attach.VirtualMachine.attach(VirtualMachine.java:207)
-	at com.cc.monitor.service.impl.JvmOverviewServiceImpl.getLocalOverview(JvmOverviewServiceImpl.java:191)
-	at com.cc.monitor.controller.OverviewController.getLocalOverview(OverviewController.java:26)
-	at jdk.internal.reflect.GeneratedMethodAccessor87.invoke(Unknown Source)
-	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
-	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:190)
-	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:138)
-	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:106)
-	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:888)
-	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:793)
-	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
-	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1040)
-	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:943)
-	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1006)
-	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:898)
-	at javax.servlet.http.HttpServlet.service(HttpServlet.java:634)
-	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:883)
-	at javax.servlet.http.HttpServlet.service(HttpServlet.java:741)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:231)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
-	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
-	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
-	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
-	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
-	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:202)
-	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:96)
-	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:541)
-	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:139)
-	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92)
-	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
-	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:343)
-	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:367)
-	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:65)
-	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:860)
-	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1598)
-	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
-	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
-	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
-	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
-	at java.base/java.lang.Thread.run(Thread.java:829)
-2025-10-11 10:15:35.724 [main] ERROR org.springframework.boot.diagnostics.LoggingFailureAnalysisReporter - 
-
-***************************
-APPLICATION FAILED TO START
-***************************
-
-Description:
-
-Web server failed to start. Port 8099 was already in use.
-
-Action:
-
-Identify and stop the process that's listening on port 8099 or configure this application to listen on another port.
-
+	at java.base/java.lang.Thread.run(Thread.java:834)
+2025-10-13 10:11:32.932 [http-nio-8099-exec-8] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/code/money/visualvm-client/java/config/jdbc.properties不存在
+2025-10-13 10:11:32.933 [http-nio-8099-exec-8] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/code/money/visualvm-client/java/config/IO.properties不存在
+2025-10-13 10:12:37.322 [http-nio-8099-exec-5] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/code/money/visualvm-client/java/config/jdbc.properties不存在
+2025-10-13 10:12:37.322 [http-nio-8099-exec-5] ERROR com.cc.monitor.controller.CpuMonitorController - 配置文件:D:/code/money/visualvm-client/java/config/IO.properties不存在

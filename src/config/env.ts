@@ -24,7 +24,8 @@ export const env = {
   
   // 开发环境判断
   isDev: import.meta.env.DEV,
-  isProd: import.meta.env.PROD
+  isProd: import.meta.env.PROD,
+  isElectron: import.meta.env.VITE_IS_ELECTRON === 'true' || false
 }
 
 // 模拟数据延迟函数

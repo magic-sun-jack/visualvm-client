@@ -38,9 +38,9 @@
         </div>
       </div>
       <div class="flex space-x-3">
-        <!-- <Button @click="handleRetry" variant="default">
+        <Button @click="handleRetry" variant="default">
           重试启动
-        </Button> -->
+        </Button>
         <Button @click="handleExit" variant="outline">
           退出应用
         </Button>
