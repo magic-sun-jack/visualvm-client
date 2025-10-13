@@ -54,6 +54,23 @@ function createWindow() {
     }
   })
 
+  // 处理页面刷新事件
+  mainWindow.webContents.on('did-finish-load', () => {
+    console.log('页面加载完成，检查服务状态...')
+    
+    // 延迟一点时间确保前端组件已挂载
+    setTimeout(() => {
+      // 检查服务状态并通知前端
+      if (javaProcess && !javaProcess.killed) {
+        console.log('服务正在运行，通知前端')
+        mainWindow.webContents.send('java-service-status', { status: 'running' })
+      } else {
+        console.log('服务未运行，通知前端')
+        mainWindow.webContents.send('java-service-status', { status: 'stopped' })
+      }
+    }, 100)
+  })
+
   // 窗口准备好后显示
   mainWindow.once('ready-to-show', () => {
     mainWindow.show()
@@ -75,15 +92,28 @@ function createWindow() {
 app.whenReady().then(async () => {
   createWindow()
   
-  // 立即通知前端显示loading状态
-  mainWindow.webContents.send('java-service-status', { status: 'loading' })
-  
-  try {
-    await startJavaService()
-  } catch (error) {
-    console.error('Java服务启动失败:', error)
-    mainWindow.webContents.send('java-service-status', { status: 'error', message: error.message })
-  }
+  // 等待窗口完全加载后再启动服务（仅在首次启动时）
+  mainWindow.webContents.once('did-finish-load', async () => {
+    console.log('窗口首次加载完成，检查是否需要启动 Java 服务...')
+    
+    // 检查服务是否已经在运行
+    if (!javaProcess || javaProcess.killed) {
+      console.log('Java 服务未运行，开始启动...')
+      
+      // 立即通知前端显示loading状态
+      mainWindow.webContents.send('java-service-status', { status: 'loading' })
+      
+      try {
+        await startJavaService()
+      } catch (error) {
+        console.error('Java服务启动失败:', error)
+        mainWindow.webContents.send('java-service-status', { status: 'error', message: error.message })
+      }
+    } else {
+      console.log('Java 服务已在运行，通知前端')
+      mainWindow.webContents.send('java-service-status', { status: 'running' })
+    }
+  })
 
   // 在 macOS 上，当单击 dock 图标并且没有其他窗口打开时，
   // 通常在应用程序中重新创建窗口
@@ -206,16 +236,24 @@ async function startJavaService() {
   const maxAttempts = 30
   while (attempts < maxAttempts) {
     try {
-      await axios.get('http://localhost:8099/cvm/overview/getFilteredProcesses')
-      console.log('Java服务已就绪')
+      const response = await axios.get('http://localhost:8099/cvm/overview/getFilteredProcesses', {
+        timeout: 5000
+      })
+      console.log('Java服务已就绪，响应状态:', response.status)
       mainWindow.webContents.send('java-service-status', { status: 'running' })
       return true
     } catch (error) {
       attempts++
+      console.log(`服务启动检查失败 (${attempts}/${maxAttempts}):`, error.message)
       await new Promise(resolve => setTimeout(resolve, 1000))
     }
   }
-  throw new Error('Java服务启动超时')
+  
+  // 如果超时，发送错误状态
+  const errorMsg = 'Java服务启动超时'
+  console.error(errorMsg)
+  mainWindow.webContents.send('java-service-status', { status: 'error', message: errorMsg })
+  throw new Error(errorMsg)
 }
 
 // 停止 Java 服务
@@ -272,9 +310,20 @@ app.on('before-quit', (event) => {
 // 设置 IPC 通信
 ipcMain.handle('check-java-service', async () => {
   try {
-    const response = await axios.get('http://localhost:8080/health')
-    return { status: 'running' }
+    // 检查 Java 服务是否正在运行
+    if (javaProcess && !javaProcess.killed) {
+      // 尝试访问服务接口来确认服务是否真正可用
+      const response = await axios.get('http://localhost:8099/cvm/overview/getFilteredProcesses', {
+        timeout: 5000
+      })
+      console.log('Java 服务检查成功，状态码:', response.status)
+      return { status: 'running' }
+    } else {
+      console.log('Java 进程未运行')
+      return { status: 'stopped' }
+    }
   } catch (error) {
+    console.log('Java 服务检查失败:', error.message)
     return { status: 'stopped' }
   }
 })

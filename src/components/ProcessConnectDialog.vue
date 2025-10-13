@@ -1,6 +1,6 @@
 <template>
   <Dialog v-model:open="isOpen">
-    <DialogContent class="sm:max-w-[500px]">
+    <DialogContent class="sm:max-w-[650px]">
       <DialogHeader>
         <DialogTitle class="flex items-center gap-2">
           <Activity class="h-5 w-5" />
@@ -254,12 +254,12 @@ async function refreshLocalProcesses() {
   connectionError.value = ''
   
   try {
-    // const response = await processApi.getProcesses()
-    // if (response.success) {
-    //   localProcesses.value = response.data?.filter(process => !process.mainClass.includes('monitor-0.0.1-SNAPSHOT.jar')) || []
-    // } else {
-    //   connectionError.value = response.msg || '获取进程列表失败'
-    // }
+    const response = await processApi.getProcesses()
+    if (response.success) {
+      localProcesses.value = response.data?.filter(process => !process.mainClass.includes('monitor-0.0.1-SNAPSHOT.jar')) || []
+    } else {
+      connectionError.value = response.msg || '获取进程列表失败'
+    }
     await processStore.getFilteredProcesses()
   } catch (error) {
     console.error('获取本地进程失败:', error)

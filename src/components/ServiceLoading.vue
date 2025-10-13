@@ -50,13 +50,17 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted } from 'vue'
+import { onMounted, onUnmounted } from 'vue'
 import { useServiceStore } from '@/stores/service'
 import { Button } from '@/components/ui/button'
 import { AlertCircle } from 'lucide-vue-next'
 import { processApi } from '@/api';
 
 const serviceStore = useServiceStore()
+
+// 存储监听器引用，用于清理
+let statusListener: ((status: any) => void) | null = null
+let cleanupListener: (() => void) | null = null
 
 async function handleRetry() {
   serviceStore.setServiceStatus('loading')
@@ -82,30 +86,71 @@ function handleExit() {
   }
 }
 
-onMounted(() => {
-  // 监听服务状态变化
-  // @ts-ignore
-  if (window.electron) {
-    // @ts-ignore
-    window.electron.onJavaServiceStatus((status: { status: 'loading' | 'running' | 'stopped' | 'error', message?: string }) => {
+onMounted(async () => {
+  // 检测是否在 Electron 环境中
+  const isElectron = !!(window as any).electron
+  
+  if (isElectron) {
+    console.log('Electron 环境：设置服务状态监听')
+    
+    // 创建状态监听器
+    statusListener = (status: { status: 'loading' | 'running' | 'stopped' | 'error', message?: string }) => {
+      console.log('收到服务状态更新:', status)
       serviceStore.setServiceStatus(status.status, status.message)
-    })
-
-    // 检查服务状态
+    }
+    
+    // 监听服务状态变化
     // @ts-ignore
-    window.electron.checkJavaService()
+    cleanupListener = window.electron.onJavaServiceStatus(statusListener)
+
+    // 检查服务状态 - 使用异步方式确保状态正确更新
+    try {
+      console.log('检查 Java 服务状态...')
+      // @ts-ignore
+      const result = await window.electron.checkJavaService()
+      console.log('服务状态检查结果:', result)
+      
+      // 如果检查成功，说明服务正在运行
+      if (result && result.status === 'running') {
+        serviceStore.setServiceStatus('running')
+      } else {
+        // 如果服务未运行，尝试启动
+        console.log('服务未运行，尝试启动...')
+        serviceStore.setServiceStatus('loading')
+        // @ts-ignore
+        const startResult = await window.electron.startJavaService()
+        if (!startResult.success) {
+          serviceStore.setServiceStatus('error', startResult.error)
+        }
+      }
+    } catch (error) {
+      console.error('检查服务状态失败:', error)
+      serviceStore.setServiceStatus('error', '无法检查服务状态')
+    }
   } else {
     // 开发环境：模拟服务启动过程
     console.log('开发环境：模拟服务启动过程')
-    processApi.getProcesses().then((response) => {
+    try {
+      const response = await processApi.getProcesses()
       if (response.success) {
         serviceStore.setServiceStatus('running')
       } else {
         serviceStore.setServiceStatus('error', response.msg)
       }
-    }).catch((error) => {
-      serviceStore.setServiceStatus('loading')
-    })
+    } catch (error) {
+      console.error('开发环境服务检查失败:', error)
+      serviceStore.setServiceStatus('error', '开发环境服务不可用')
+    }
+  }
+})
+
+// 组件卸载时清理监听器
+onUnmounted(() => {
+  if (cleanupListener) {
+    console.log('清理服务状态监听器')
+    cleanupListener()
+    cleanupListener = null
+    statusListener = null
   }
 })
 </script>
