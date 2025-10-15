@@ -279,16 +279,38 @@ export const gcApi = {
   async getGCStats(pid: string): Promise<ApiResponse<any>> {
     return api.get('/cvm/gc/getGC', { params: { pid: pid }})
   }
-  // gcCollectors	gc集合
   // name	gc名称
   // collectionCount	GC执行次数
   // collectionTime	GC总耗时（ms）
-  // nonHeapMemoryUsage	堆内存使用情况（字节）
-  // heapMemoryUsage	非堆内存使用情况（字节）
+  // nonHeapMemoryUsage	非堆内存使用情况（字节）
+  // heapMemoryUsage	堆内存使用情况（字节）
+  // pendingFinalizationCount	等待 Finalize 的对象数量
   // init	JVM 初始化分配的内存大小（字节）
   // used	当前使用的内存（字节）
   // committed	JVM 已承诺可用的内存（操作系统已保证可用）（字节）
   // max	可用的最大内存（-1 表示未定义）（字节）
+  // memoryPools	内存池列表
+  // name	内存池名
+  // type	类型（HEAP / NON_HEAP）
+  // usage	当前使用量
+  // peakUsage	峰值使用量
+  // collectionUsage	GC 后使用量
+  // valid	是否仍有效
+  // gcCollectors	所有垃圾收集器列表
+  // name	收集器名称
+  // collectionCount	GC 执行次数
+  // collectionTime(ms)	GC 总耗时（毫秒）
+  // memoryPoolNames	// 管理的内存池名称
+  // id	GC ID
+  // startTime	开始时间
+  // endTime	结束时间
+  // duration	耗时
+  // memoryUsageBeforeGc	GC 前内存使用
+  // memoryUsageAfterGc	GC 后内存使用
+  // gcThreads	获取与 GC 相关的线程信息
+  // threadId	线程 ID
+  // threadName	线程名称
+  // threadState	线程状态
 };
 
 // 线程分析相关API

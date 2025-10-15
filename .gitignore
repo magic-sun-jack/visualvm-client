@@ -34,8 +34,8 @@ java/logs/
 *.swo
 
 # 环境变量文件
-.env
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
+# .env
+# .env.local
+# .env.development.local
+# .env.test.local
+# .env.production.local

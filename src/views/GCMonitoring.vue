@@ -323,13 +323,14 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import ServiceLoading from '@/components/ServiceLoading.vue'
 import GCTrendChart from '@/components/charts/GCTrendChart.vue'
 import { useProcessStore } from '@/stores/process'
+import { gcApi } from '@/api'
 
 const processStore = useProcessStore()
 
 // 接口定义
 interface AppInfo {
   name: string
-  pid: number
+  pid: string
 }
 
 interface MemorySpace {
@@ -618,8 +619,16 @@ function generateMockData() {
   gcTrendData.value = trendData.reverse()
 }
 
+const getGCStatsFn = async () => {
+  const response = await gcApi.getGCStats(appInfo.pid)
+  if (response.success) {
+    console.log(response.data)
+  }
+}
+
 // 生命周期
 onMounted(() => {
+  getGCStatsFn()
   generateMockData()
   
   // 模拟实时数据更新
