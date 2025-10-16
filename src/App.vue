@@ -4,9 +4,11 @@
     <ServiceLoading />
     
     <!-- 主应用界面 - 只在服务运行或停止时显示 -->
-    <Layout v-if="serviceStore.serviceStatus === 'running' || serviceStore.serviceStatus === 'stopped'">
-      <RouterView />
-    </Layout>
+    <TooltipProvider>
+      <Layout v-if="serviceStore.serviceStatus === 'running' || serviceStore.serviceStatus === 'stopped'">
+        <RouterView />
+      </Layout>
+    </TooltipProvider>
   </div>
 </template>
 
@@ -14,6 +16,7 @@
 import Layout from '@/components/Layout.vue'
 import ServiceLoading from '@/components/ServiceLoading.vue'
 import { useServiceStore } from '@/stores/service'
+import { TooltipProvider } from '@/components/ui/tooltip'
 
 const serviceStore = useServiceStore()
 </script>

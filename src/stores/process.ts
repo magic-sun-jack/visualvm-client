@@ -39,7 +39,7 @@ export const useProcessStore = defineStore('process', () => {
       error.value = null
       const response = await processApi.getProcesses()
       if (response.areSuccess) {
-        processes.value = response.data.filter(process => !process.mainClass.includes('monitor-0.0.1-SNAPSHOT.jar'))?.map(process => ({
+        processes.value = response.data?.map(process => ({
           ...process,
           status: 'stopped'
         })) || []

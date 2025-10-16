@@ -57,5 +57,15 @@
       "command": "git pull gitee main",
       "cwd": "${workspaceFolder}"
     }
+  ],
+  "compounds": [
+    {
+      "name": "Start Dev + Java (Windows)",
+      "configurations": [
+        "Run Dev",
+        "Start Java Service (Windows)"
+      ],
+      "stopAll": true
+    }
   ]
 }

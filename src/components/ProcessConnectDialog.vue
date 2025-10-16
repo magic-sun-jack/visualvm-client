@@ -256,7 +256,7 @@ async function refreshLocalProcesses() {
   try {
     const response = await processApi.getProcesses()
     if (response.success) {
-      localProcesses.value = response.data?.filter(process => !process.mainClass.includes('monitor-0.0.1-SNAPSHOT.jar')) || []
+      localProcesses.value = response.data || []
     } else {
       connectionError.value = response.msg || '获取进程列表失败'
     }

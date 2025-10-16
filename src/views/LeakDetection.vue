@@ -1,5 +1,5 @@
 <template>
-  <div class="max-w-7xl mx-auto p-6">
+  <div class="mx-auto p-6">
     <!-- 页面标题 -->
     <h1 class="text-2xl font-bold text-gray-900 dark:text-white mb-8">GC监控</h1>
     <!-- 表格区域 -->
@@ -8,8 +8,8 @@
         <TableHeader>
           <TableRow class="bg-gray-50 dark:bg-gray-700">
             <TableHead class="px-3 py-2 text-left font-semibold">类名</TableHead>
-            <TableHead class="px-3 py-2 text-left font-semibold whitespace-nowrap">对象数</TableHead>
-            <TableHead class="px-3 py-2 text-left font-semibold whitespace-nowrap">被引用对象数</TableHead>
+            <TableHead class="px-3 py-2 text-left font-semibold whitespace-nowrap w-32">对象数</TableHead>
+            <TableHead class="px-3 py-2 text-left font-semibold whitespace-nowrap w-32">被引用对象数</TableHead>
             <TableHead class="px-3 py-2 text-right font-semibold whitespace-nowrap">引用浅堆</TableHead>
           </TableRow>
         </TableHeader>
@@ -27,7 +27,7 @@
                 </div>
               </div>
             </TableCell>
-            <TableCell class="px-3 py-2 text-right align-top whitespace-nowrap">
+            <TableCell class="px-3 py-2 text-right align-top whitespace-nowrap w-32">
               <div class="flex items-center gap-2 justify-between">
                 <span class="inline-block w-4 h-4 rounded-full bg-primary/80"></span>
                 <div>
@@ -38,7 +38,7 @@
                 </div>
               </div>
             </TableCell>
-            <TableCell class="px-3 py-2 text-right align-top whitespace-nowrap">
+            <TableCell class="px-3 py-2 text-right align-top whitespace-nowrap w-32">
               <div class="flex items-center gap-2 justify-between">
                 <span class="inline-block w-4 h-4 bg-gray-300 rounded"></span>
                 <div>
