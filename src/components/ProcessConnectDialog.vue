@@ -40,13 +40,13 @@
               </div>
             </div>
 
-            <div v-else-if="localProcesses.length === 0" class="flex items-center justify-center py-8">
+            <div v-else-if="processStore.processes.length === 0" class="flex items-center justify-center py-8">
               <p class="text-sm text-muted-foreground">未找到 Java 进程</p>
             </div>
 
             <div
               v-else
-              v-for="process in localProcesses"
+              v-for="process in processStore.processes"
               :key="process.pid"
               :class="[
                 'p-3 rounded-lg border cursor-pointer transition-colors',
@@ -58,16 +58,16 @@
             >
               <div class="flex items-center justify-between">
                 <div class="flex-1">
-                  <h4 class="text-sm font-medium">{{ process.displayName }}</h4>
-                  <p class="text-xs text-muted-foreground">PID: {{ process.pid }}</p>
+                  <p class="text-xs text-muted-foreground">{{ process.displayName }}</p>
+                  <h4 class="text-sm font-medium py-2">PID: {{ process.pid }}</h4>
                   <p class="text-xs text-muted-foreground">{{ process.mainClass }}</p>
                 </div>
                 <div class="flex items-center gap-2">
                   <Badge 
-                    :variant="true ? 'default' : 'secondary'"
+                    :variant="process.status === 'running' ? 'default' : 'secondary'"
                     class="text-xs"
                   >
-                    {{ true ? '运行中' : '已停止' }}
+                    {{ process.status === 'running' ? '运行中' : '已停止' }}
                   </Badge>
                 </div>
               </div>
@@ -223,7 +223,6 @@ const isConnecting = ref(false)
 const connectionError = ref<string>('')
 
 // 本地进程相关
-const localProcesses = ref<JavaProcessListDetail[]>([])
 const selectedLocalProcess = ref<JavaProcessListDetail | null>(null)
 
 // 远程连接表单
@@ -254,17 +253,10 @@ async function refreshLocalProcesses() {
   connectionError.value = ''
   
   try {
-    const response = await processApi.getProcesses()
-    if (response.success) {
-      localProcesses.value = response.data || []
-    } else {
-      connectionError.value = response.msg || '获取进程列表失败'
-    }
     await processStore.getFilteredProcesses()
   } catch (error) {
     console.error('获取本地进程失败:', error)
     connectionError.value = '获取进程列表失败'
-    localProcesses.value = []
   } finally {
     isLoadingLocal.value = false
   }
@@ -364,7 +356,7 @@ onMounted(() => {
     refreshLocalProcesses()
   }
   if (!processStore.currentProcess) {
-    processStore.getLocalOverview(processStore.currentProcess?.pid || '')
+    processStore.getLocalOverview(processStore.currentProcess?.pid)
   }
 })
 </script>

@@ -131,7 +131,7 @@ export const useProcessStore = defineStore('process', () => {
     error.value = null
   }
 
-  function setCurrentProcess(process: ProcessDetail | null) {
+  function setCurrentProcess(process: ProcessDetail) {
     currentProcess.value = process
   }
 

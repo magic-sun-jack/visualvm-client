@@ -277,9 +277,12 @@ async function startProcess(id: string) {
   // 这里需要实现启动已停止进程的逻辑
   const process = processStore.processes.find(p => p.pid === id)
   if (process) {
-    processStore.setCurrentProcess(process)
     const result = await processStore.startProcess(process)
     if (result) {
+      processStore.setCurrentProcess({
+        ...process,
+        status: 'running'
+      })
       refreshProcesses()
     }
   }

@@ -1,7 +1,13 @@
 <template>
   <div class="p-4">
     <h2 class="text-lg font-bold mb-4">线程监控</h2>
-    
+    <div class="flex items-center gap-2">
+      <Checkbox v-model="showStateDistribution" label="线程可视化" />
+      <label for="showStateDistribution" class="flex items-center gap-2 cursor-pointer">
+        <span class="text-sm">显示状态分布</span>
+      </label>
+    </div>
+
     <!-- Loading状态 -->
     <div v-if="loading" class="flex items-center justify-center py-12">
       <div class="flex flex-col items-center gap-4">
@@ -10,7 +16,7 @@
       </div>
     </div>
 
-    <div>
+    <div v-if="showStateDistribution">
       <!-- 统计信息 -->
       <div v-if="hasStats" class="mb-6 grid grid-cols-2 md:grid-cols-4 gap-4">
         <div class="bg-blue-50 dark:bg-blue-900/20 p-3 rounded-lg">
@@ -61,8 +67,7 @@
                   ID
                   <span class="text-gray-400">
                     <svg v-if="sortField !== 'threadId'" class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
-                      <path d="M5 8l5-5 5 5H5z"/>
-                      <path d="M5 12l5 5 5-5H5z"/>
+                      <path d="M5 8l5-5 5 5H5z"/><path d="M5 12l5 5 5-5H5z"/>
                     </svg>
                     <svg v-else-if="sortOrder === 'asc'" class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
                       <path d="M5 8l5-5 5 5H5z"/>
@@ -247,9 +252,10 @@ import { threadApi } from '@/api'
 import { useProcessStore } from '@/stores/process'
 import { ref, onMounted, computed } from 'vue'
 import { Button } from '@/components/ui/button'
+import { Checkbox } from '@/components/ui/checkbox'
 
 const processStore = useProcessStore()
-
+const showStateDistribution = ref(true)
 // 定义数据类型
 interface ThreadStats {
   liveThreads: number
@@ -352,16 +358,21 @@ function getStateBadgeClass(state: string): string {
 
 // 获取线程列表数据
 async function getThreadListFn() {
-  loading.value = true
-  try {
-    const response = await threadApi.getThreadList(processStore.currentProcess?.pid || '1')
-    if (response.areSuccess && response.data) {
-      stats.value = response.data.stats
-      threads.value = response.data.threads
+  if (processStore.currentProcess?.pid) {
+    loading.value = true
+    try {
+      const response = await threadApi.getThreadList(processStore.currentProcess?.pid)
+      if (response.areSuccess && response.data) {
+        stats.value = response.data.stats
+        threads.value = response.data.threads
+      }
+    } catch (error) {
+      console.error('获取线程列表失败:', error)
+    } finally {
+      loading.value = false
     }
-  } catch (error) {
-    console.error('获取线程列表失败:', error)
-  } finally {
+  } else {
+    console.error('进程ID不存在')
     loading.value = false
   }
 }
