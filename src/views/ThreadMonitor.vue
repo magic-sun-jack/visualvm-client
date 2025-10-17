@@ -1,68 +1,191 @@
 <template>
   <div class="p-4">
     <h2 class="text-lg font-bold mb-4">线程监控</h2>
-    <div class="mb-2 flex gap-8">
-      <span>Live threads: <b>31</b></span>
-      <span>Daemon threads: <b>27</b></span>
+    
+    <!-- 统计信息 -->
+    <div v-if="stats" class="mb-6 grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div class="bg-blue-50 dark:bg-blue-900/20 p-3 rounded-lg">
+        <div class="text-sm text-blue-600 dark:text-blue-400">活跃线程</div>
+        <div class="text-xl font-bold text-blue-800 dark:text-blue-200">{{ stats.liveThreads }}</div>
+      </div>
+      <div class="bg-green-50 dark:bg-green-900/20 p-3 rounded-lg">
+        <div class="text-sm text-green-600 dark:text-green-400">守护线程</div>
+        <div class="text-xl font-bold text-green-800 dark:text-green-200">{{ stats.daemonThreads }}</div>
+      </div>
+      <div class="bg-orange-50 dark:bg-orange-900/20 p-3 rounded-lg">
+        <div class="text-sm text-orange-600 dark:text-orange-400">峰值线程</div>
+        <div class="text-xl font-bold text-orange-800 dark:text-orange-200">{{ stats.peakThreads }}</div>
+      </div>
+      <div class="bg-purple-50 dark:bg-purple-900/20 p-3 rounded-lg">
+        <div class="text-sm text-purple-600 dark:text-purple-400">总启动线程</div>
+        <div class="text-xl font-bold text-purple-800 dark:text-purple-200">{{ stats.totalStartedThreads }}</div>
+      </div>
     </div>
-    <div class="overflow-x-auto bg-white rounded shadow">
-      <table class="min-w-[900px] w-full text-xs">
+
+    <!-- 线程状态分布 -->
+    <div v-if="stats?.stateDistributionPercent" class="mb-6">
+      <h3 class="text-md font-semibold mb-3">线程状态分布</h3>
+      <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+        <div v-for="(percent, state) in stats.stateDistributionPercent" :key="state" 
+             class="flex items-center justify-between p-2 bg-gray-50 dark:bg-gray-800 rounded">
+          <span class="text-sm">{{ getStateDisplayName(state) }}</span>
+          <div class="flex items-center gap-2">
+            <div class="w-20 bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+              <div :class="getStateColor(state)" 
+                   class="h-2 rounded-full transition-all duration-300" 
+                   :style="{ width: `${percent}%` }"></div>
+            </div>
+            <span class="text-sm font-medium w-12 text-right">{{ percent.toFixed(1) }}%</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 线程列表 -->
+    <div class="overflow-x-auto bg-white dark:bg-gray-800 rounded shadow">
+      <table class="min-w-[1200px] w-full text-xs">
         <thead>
-          <tr class="bg-gray-100">
-            <th class="px-2 py-1 text-left">Name</th>
-            <th class="px-2 py-1 text-left">Timeline</th>
-            <th class="px-2 py-1 text-right">Running</th>
-            <th class="px-2 py-1 text-right">Total</th>
+          <tr class="bg-gray-100 dark:bg-gray-700">
+            <th class="px-3 py-2 text-left">ID</th>
+            <th class="px-3 py-2 text-left">线程名</th>
+            <th class="px-3 py-2 text-center">状态</th>
+            <th class="px-3 py-2 text-center">守护线程</th>
+            <th class="px-3 py-2 text-right">阻塞次数</th>
+            <th class="px-3 py-2 text-right">等待次数</th>
+            <th class="px-3 py-2 text-right">CPU时间(ms)</th>
+            <th class="px-3 py-2 text-right">CPU使用率</th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(thread, idx) in threads" :key="thread.name" class="border-b last:border-b-0">
-            <td class="px-2 py-1 whitespace-nowrap">{{ thread.name }}</td>
-            <td class="px-2 py-1">
-              <div class="flex items-center gap-1">
-                <div v-for="(state, i) in thread.timeline" :key="i" :class="['h-3 w-8 rounded', stateColor(state)]"></div>
-              </div>
+          <tr v-for="thread in threads" :key="thread.threadId" 
+              class="border-b last:border-b-0 hover:bg-gray-50 dark:hover:bg-gray-700">
+            <td class="px-3 py-2 font-mono">{{ thread.threadId }}</td>
+            <td class="px-3 py-2 whitespace-nowrap max-w-xs truncate" :title="thread.threadName">
+              {{ thread.threadName }}
             </td>
-            <td class="px-2 py-1 text-right">{{ thread.running }}</td>
-            <td class="px-2 py-1 text-right">{{ thread.total }}</td>
+            <td class="px-3 py-2 text-center">
+              <span :class="getStateBadgeClass(thread.threadState)" class="px-2 py-1 rounded-full text-xs">
+                {{ getStateDisplayName(thread.threadState) }}
+              </span>
+            </td>
+            <td class="px-3 py-2 text-center">
+              <span :class="thread.daemon ? 'text-orange-600 dark:text-orange-400' : 'text-blue-600 dark:text-blue-400'">
+                {{ thread.daemon ? '是' : '否' }}
+              </span>
+            </td>
+            <td class="px-3 py-2 text-right font-mono">{{ thread.blockedCount }}</td>
+            <td class="px-3 py-2 text-right font-mono">{{ thread.waitedCount }}</td>
+            <td class="px-3 py-2 text-right font-mono">{{ thread.cpuTimeDeltaMs.toFixed(2) }}</td>
+            <td class="px-3 py-2 text-right font-mono">{{ thread.cpuPercent.toFixed(2) }}%</td>
           </tr>
         </tbody>
       </table>
     </div>
-    <div class="flex gap-4 mt-4 text-xs">
-      <div class="flex items-center gap-1"><span class="h-3 w-5 rounded bg-green-400"></span>Running</div>
-      <div class="flex items-center gap-1"><span class="h-3 w-5 rounded bg-yellow-400"></span>Wait</div>
-      <div class="flex items-center gap-1"><span class="h-3 w-5 rounded bg-orange-400"></span>Park</div>
-      <div class="flex items-center gap-1"><span class="h-3 w-5 rounded bg-blue-400"></span>Sleeping</div>
-      <div class="flex items-center gap-1"><span class="h-3 w-5 rounded bg-gray-400"></span>Monitor</div>
+
+    <!-- 图例 -->
+    <div class="flex flex-wrap gap-4 mt-4 text-xs" v-if="stats?.stateDistributionPercent">
+      <div class="flex items-center gap-1" v-for="(percent, state) in stats.stateDistributionPercent" :key="state"><span class="h-3 w-5 rounded" :class="getStateColor(state)"></span>{{ getStateDisplayName(state) }}</div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-// 静态mock数据，后续可替换为API数据
-const threads = [
-  { name: '_jprofiler_sampler', timeline: ['Running','Running','Running','Running','Running'], running: '895,981 ms', total: '895,981 ms' },
-  { name: 'Attach Listener', timeline: ['Running','Running','Running','Running','Running'], running: '895,981 ms', total: '895,981 ms' },
-  { name: 'Catalina-utility-1', timeline: ['Park','Park','Park','Park','Park'], running: '0 ms', total: '895,981 ms' },
-  { name: 'Cleaner-0', timeline: ['Park','Park','Park','Park','Park'], running: '0 ms', total: '895,981 ms' },
-  { name: 'container-0', timeline: ['Running','Running','Running','Running','Running'], running: '895,981 ms', total: '895,981 ms' },
-  { name: 'DestroyJavaVM', timeline: ['Running','Running','Running','Running','Running'], running: '895,981 ms', total: '895,981 ms' },
-  { name: 'Finalizer', timeline: ['Park','Park','Park','Park','Park'], running: '0 ms', total: '895,981 ms' },
-  { name: 'http-nio-30780-exec-1', timeline: ['Park','Park','Park','Park','Park'], running: '0 ms', total: '895,981 ms' },
-  { name: 'JFR Periodic Tasks', timeline: ['Running','Running','Running','Running','Running'], running: '895,981 ms', total: '895,981 ms' },
-]
+import { threadApi } from '@/api'
+import { useProcessStore } from '@/stores/process'
+import { ref, onMounted } from 'vue'
 
-function stateColor(state: string) {
-  switch(state) {
-    case 'Running': return 'bg-green-400';
-    case 'Wait': return 'bg-yellow-400';
-    case 'Park': return 'bg-orange-400';
-    case 'Sleeping': return 'bg-blue-400';
-    case 'Monitor': return 'bg-gray-400';
-    default: return 'bg-gray-200';
+const processStore = useProcessStore()
+
+// 定义数据类型
+interface ThreadStats {
+  liveThreads: number
+  daemonThreads: number
+  peakThreads: number
+  totalStartedThreads: number
+  stateDistributionPercent: {
+    NEW: number
+    RUNNABLE: number
+    BLOCKED: number
+    WAITING: number
+    TIMED_WAITING: number
+    TERMINATED: number
+  }
+  sampleMillis: number
+  cpuProcessor: number
+}
+
+interface Thread {
+  threadId: number
+  threadName: string
+  threadState: string
+  blockedCount: number
+  waitedCount: number
+  blockedTimeMs: number
+  waitedTimeMs: number
+  cpuTimeDeltaMs: number
+  cpuPercent: number
+  daemon: boolean
+}
+
+// 响应式数据
+const stats = ref<ThreadStats | null>(null)
+const threads = ref<Thread[]>([])
+
+// 状态显示名称映射
+function getStateDisplayName(state: string): string {
+  const stateMap: Record<string, string> = {
+    'NEW': '新建',
+    'RUNNABLE': '可运行',
+    'BLOCKED': '阻塞',
+    'WAITING': '等待',
+    'TIMED_WAITING': '限时等待',
+    'TERMINATED': '终止'
+  }
+  return stateMap[state] || state
+}
+
+// 状态颜色映射
+function getStateColor(state: string): string {
+  const colorMap: Record<string, string> = {
+    'NEW': 'bg-blue-400',
+    'RUNNABLE': 'bg-green-400',
+    'BLOCKED': 'bg-red-400',
+    'WAITING': 'bg-yellow-400',
+    'TIMED_WAITING': 'bg-orange-400',
+    'TERMINATED': 'bg-gray-400'
+  }
+  return colorMap[state] || 'bg-gray-200'
+}
+
+// 状态徽章样式
+function getStateBadgeClass(state: string): string {
+  const badgeMap: Record<string, string> = {
+    'NEW': 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200',
+    'RUNNABLE': 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200',
+    'BLOCKED': 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200',
+    'WAITING': 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200',
+    'TIMED_WAITING': 'bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200',
+    'TERMINATED': 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200'
+  }
+  return badgeMap[state] || 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200'
+}
+
+// 获取线程列表数据
+async function getThreadListFn() {
+  try {
+    const response = await threadApi.getThreadList(processStore.currentProcess?.pid || '1')
+    if (response.areSuccess && response.data) {
+      stats.value = response.data.stats
+      threads.value = response.data.threads
+    }
+  } catch (error) {
+    console.error('获取线程列表失败:', error)
   }
 }
+
+onMounted(() => {
+  getThreadListFn()
+})
 </script>
 
 <style scoped>

@@ -280,7 +280,7 @@ function handleProcessConnected(process: JavaProcessListDetail) {
   // 刷新进程列表
   processStore.getFilteredProcesses()
   // 可以导航到进程监控页面
-  router.push(`/processes`)
+  router.push(`/dashboard`)
 }
 
 // 组件挂载时：使用本地模拟流每300ms更新
