@@ -55,18 +55,154 @@
         <table class="min-w-[1200px] w-full text-xs">
           <thead>
             <tr class="bg-gray-100 dark:bg-gray-700">
-              <th class="px-3 py-2 text-left">ID</th>
-              <th class="px-3 py-2 text-left">线程名</th>
-              <th class="px-3 py-2 text-center">状态</th>
-              <th class="px-3 py-2 text-center">守护线程</th>
-              <th class="px-3 py-2 text-right">阻塞次数</th>
-              <th class="px-3 py-2 text-right">等待次数</th>
-              <th class="px-3 py-2 text-right">CPU时间(ms)</th>
-              <th class="px-3 py-2 text-right">CPU使用率</th>
+              <th class="px-3 py-2 text-left cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-600 select-none" 
+                  @click="sortBy('threadId')">
+                <div class="flex items-center gap-1">
+                  ID
+                  <span class="text-gray-400">
+                    <svg v-if="sortField !== 'threadId'" class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M5 8l5-5 5 5H5z"/>
+                      <path d="M5 12l5 5 5-5H5z"/>
+                    </svg>
+                    <svg v-else-if="sortOrder === 'asc'" class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M5 8l5-5 5 5H5z"/>
+                    </svg>
+                    <svg v-else class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M5 12l5 5 5-5H5z"/>
+                    </svg>
+                  </span>
+                </div>
+              </th>
+              <th class="px-3 py-2 text-left cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-600 select-none" 
+                  @click="sortBy('threadName')">
+                <div class="flex items-center gap-1">
+                  线程名
+                  <span class="text-gray-400">
+                    <svg v-if="sortField !== 'threadName'" class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M5 8l5-5 5 5H5z"/>
+                      <path d="M5 12l5 5 5-5H5z"/>
+                    </svg>
+                    <svg v-else-if="sortOrder === 'asc'" class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M5 8l5-5 5 5H5z"/>
+                    </svg>
+                    <svg v-else class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M5 12l5 5 5-5H5z"/>
+                    </svg>
+                  </span>
+                </div>
+              </th>
+              <th class="px-3 py-2 text-center cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-600 select-none" 
+                  @click="sortBy('threadState')">
+                <div class="flex items-center justify-center gap-1">
+                  状态
+                  <span class="text-gray-400">
+                    <svg v-if="sortField !== 'threadState'" class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M5 8l5-5 5 5H5z"/>
+                      <path d="M5 12l5 5 5-5H5z"/>
+                    </svg>
+                    <svg v-else-if="sortOrder === 'asc'" class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M5 8l5-5 5 5H5z"/>
+                    </svg>
+                    <svg v-else class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M5 12l5 5 5-5H5z"/>
+                    </svg>
+                  </span>
+                </div>
+              </th>
+              <th class="px-3 py-2 text-center cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-600 select-none" 
+                  @click="sortBy('daemon')">
+                <div class="flex items-center justify-center gap-1">
+                  守护线程
+                  <span class="text-gray-400">
+                    <svg v-if="sortField !== 'daemon'" class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M5 8l5-5 5 5H5z"/>
+                      <path d="M5 12l5 5 5-5H5z"/>
+                    </svg>
+                    <svg v-else-if="sortOrder === 'asc'" class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M5 8l5-5 5 5H5z"/>
+                    </svg>
+                    <svg v-else class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M5 12l5 5 5-5H5z"/>
+                    </svg>
+                  </span>
+                </div>
+              </th>
+              <th class="px-3 py-2 text-right cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-600 select-none" 
+                  @click="sortBy('blockedCount')">
+                <div class="flex items-center justify-end gap-1">
+                  阻塞次数
+                  <span class="text-gray-400">
+                    <svg v-if="sortField !== 'blockedCount'" class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M5 8l5-5 5 5H5z"/>
+                      <path d="M5 12l5 5 5-5H5z"/>
+                    </svg>
+                    <svg v-else-if="sortOrder === 'asc'" class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M5 8l5-5 5 5H5z"/>
+                    </svg>
+                    <svg v-else class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M5 12l5 5 5-5H5z"/>
+                    </svg>
+                  </span>
+                </div>
+              </th>
+              <th class="px-3 py-2 text-right cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-600 select-none" 
+                  @click="sortBy('waitedCount')">
+                <div class="flex items-center justify-end gap-1">
+                  等待次数
+                  <span class="text-gray-400">
+                    <svg v-if="sortField !== 'waitedCount'" class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M5 8l5-5 5 5H5z"/>
+                      <path d="M5 12l5 5 5-5H5z"/>
+                    </svg>
+                    <svg v-else-if="sortOrder === 'asc'" class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M5 8l5-5 5 5H5z"/>
+                    </svg>
+                    <svg v-else class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M5 12l5 5 5-5H5z"/>
+                    </svg>
+                  </span>
+                </div>
+              </th>
+              <th class="px-3 py-2 text-right cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-600 select-none" 
+                  @click="sortBy('cpuTimeDeltaMs')">
+                <div class="flex items-center justify-end gap-1">
+                  CPU时间(ms)
+                  <span class="text-gray-400">
+                    <svg v-if="sortField !== 'cpuTimeDeltaMs'" class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M5 8l5-5 5 5H5z"/>
+                      <path d="M5 12l5 5 5-5H5z"/>
+                    </svg>
+                    <svg v-else-if="sortOrder === 'asc'" class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M5 8l5-5 5 5H5z"/>
+                    </svg>
+                    <svg v-else class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M5 12l5 5 5-5H5z"/>
+                    </svg>
+                  </span>
+                </div>
+              </th>
+              <th class="px-3 py-2 text-right cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-600 select-none" 
+                  @click="sortBy('cpuPercent')">
+                <div class="flex items-center justify-end gap-1">
+                  CPU使用率
+                  <span class="text-gray-400">
+                    <svg v-if="sortField !== 'cpuPercent'" class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M5 8l5-5 5 5H5z"/>
+                      <path d="M5 12l5 5 5-5H5z"/>
+                    </svg>
+                    <svg v-else-if="sortOrder === 'asc'" class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M5 8l5-5 5 5H5z"/>
+                    </svg>
+                    <svg v-else class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M5 12l5 5 5-5H5z"/>
+                    </svg>
+                  </span>
+                </div>
+              </th>
             </tr>
           </thead>
           <tbody>
-            <tr v-for="thread in threads" :key="thread.threadId" 
+            <tr v-for="thread in sortedThreads" :key="thread.threadId" 
                 class="border-b last:border-b-0 hover:bg-gray-50 dark:hover:bg-gray-700">
               <td class="px-3 py-2 font-mono">{{ thread.threadId }}</td>
               <td class="px-3 py-2 whitespace-nowrap max-w-xs truncate" :title="thread.threadName">
@@ -100,6 +236,7 @@
     <div v-if="!loading && !hasStats" class="flex items-center justify-center py-12">
       <div class="text-center">
         <p class="text-gray-500 dark:text-gray-400">暂无线程数据</p>
+        <Button variant="outline" size="sm" class="mt-4" @click="getThreadListFn">刷新</Button>
       </div>
     </div>
   </div>
@@ -109,6 +246,7 @@
 import { threadApi } from '@/api'
 import { useProcessStore } from '@/stores/process'
 import { ref, onMounted, computed } from 'vue'
+import { Button } from '@/components/ui/button'
 
 const processStore = useProcessStore()
 
@@ -148,10 +286,30 @@ const loading = ref(false)
 const stats = ref<ThreadStats | null>(null)
 const threads = ref<Thread[]>([])
 
+// 排序相关
+const sortField = ref('threadId')
+const sortOrder = ref<'asc' | 'desc'>('asc')
+
 // 计算属性
 const hasStats = computed(() => stats.value !== null)
 const hasStateDistribution = computed(() => stats.value?.stateDistributionPercent !== undefined)
 const hasThreads = computed(() => threads.value.length > 0)
+
+// 排序后的线程列表
+const sortedThreads = computed(() => {
+  return [...threads.value].sort((a, b) => {
+    const aValue = a[sortField.value as keyof Thread]
+    const bValue = b[sortField.value as keyof Thread]
+
+    if (aValue && bValue && aValue < bValue) {
+      return sortOrder.value === 'asc' ? -1 : 1
+    }
+    if (aValue && bValue && aValue > bValue) {
+      return sortOrder.value === 'asc' ? 1 : -1
+    }
+    return 0
+  })
+})
 
 // 状态显示名称映射
 function getStateDisplayName(state: string): string {
@@ -160,7 +318,7 @@ function getStateDisplayName(state: string): string {
     'RUNNABLE': '可运行',
     'BLOCKED': '阻塞',
     'WAITING': '等待',
-    'TIMED_WAITING': '限时等待',
+    'TIMED_WAITING': '定时等待',
     'TERMINATED': '终止'
   }
   return stateMap[state] || state
@@ -205,6 +363,16 @@ async function getThreadListFn() {
     console.error('获取线程列表失败:', error)
   } finally {
     loading.value = false
+  }
+}
+
+// 排序函数
+function sortBy(field: string) {
+  if (sortField.value === field) {
+    sortOrder.value = sortOrder.value === 'asc' ? 'desc' : 'asc'
+  } else {
+    sortField.value = field
+    sortOrder.value = 'asc'
   }
 }
 
