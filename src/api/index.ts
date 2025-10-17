@@ -28,9 +28,9 @@ export function resolveApiBaseUrl(): string {
       return isHttp ? explicit : 'http://localhost:8099'
     }
     // 非 Electron：优先使用明确设置的值，否则走 Vite 代理
-    return hasExplicit ? explicit : '/'
+    return hasExplicit ? explicit : 'http://localhost:8099'
   } catch {
-    return '/'
+    return 'http://localhost:8099'
   }
 }
 

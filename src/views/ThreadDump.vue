@@ -142,7 +142,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import Button from '@/components/ui/button/Button.vue'
 import Card from '@/components/ui/card/Card.vue'
 import CardHeader from '@/components/ui/card/CardHeader.vue'
@@ -150,6 +150,12 @@ import CardTitle from '@/components/ui/card/CardTitle.vue'
 import CardDescription from '@/components/ui/card/CardDescription.vue'
 import CardContent from '@/components/ui/card/CardContent.vue'
 import CardFooter from '@/components/ui/card/CardFooter.vue'
+import { threadApi } from '@/api'
+import { useProcessStore } from '@/stores/process'
+
+const processStore = useProcessStore()
+
+const threadDump = ref<any>(null)
 
 interface HprofHeaderSummary {
   format: string
@@ -315,6 +321,20 @@ function formatBytes(size: number): string {
 function formatDate(ms: number): string {
   return new Date(ms).toLocaleString()
 }
+
+async function getThreadDump() {
+  if (!processStore.currentProcess?.pid) return
+  const response = await threadApi.getThreadDump(processStore.currentProcess.pid)
+  if (response.areSuccess) {
+    threadDump.value = response.data
+  } else {
+    console.error('获取线程转储失败:', response.msg)
+  }
+}
+
+onMounted(() => {
+  getThreadDump()
+})
 </script>
 
 <style scoped>

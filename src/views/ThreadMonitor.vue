@@ -1,11 +1,18 @@
 <template>
   <div class="p-4">
-    <h2 class="text-lg font-bold mb-4">线程监控</h2>
-    <div class="flex items-center gap-2">
-      <Checkbox v-model="showStateDistribution" label="线程可视化" />
-      <label for="showStateDistribution" class="flex items-center gap-2 cursor-pointer">
-        <span class="text-sm">显示状态分布</span>
-      </label>
+    <div class="flex items-center justify-between gap-2 mb-4">
+      <h2 class="text-lg font-bold mb-4">线程监控</h2>
+      <div class="flex items-center justify-between gap-2 mb-4">
+        <Checkbox v-model="showStateDistribution" label="线程可视化" />
+        <label for="showStateDistribution" class="flex items-center gap-2 cursor-pointer">
+          <span class="text-sm">显示状态分布</span>
+        </label>
+        <Button variant="link" size="sm" @click="getThreadDump">线程转储</Button>
+        <Switch v-model="isActive" label="自动刷新" />
+        <label for="isActive" class="flex items-center gap-2 cursor-pointer">
+          <span class="text-sm">自动刷新</span>
+        </label>
+      </div>
     </div>
 
     <!-- Loading状态 -->
@@ -16,26 +23,27 @@
       </div>
     </div>
 
-    <div v-if="showStateDistribution">
-      <!-- 统计信息 -->
-      <div v-if="hasStats" class="mb-6 grid grid-cols-2 md:grid-cols-4 gap-4">
-        <div class="bg-blue-50 dark:bg-blue-900/20 p-3 rounded-lg">
-          <div class="text-sm text-blue-600 dark:text-blue-400">活跃线程</div>
-          <div class="text-xl font-bold text-blue-800 dark:text-blue-200">{{ stats?.liveThreads }}</div>
-        </div>
-        <div class="bg-green-50 dark:bg-green-900/20 p-3 rounded-lg">
-          <div class="text-sm text-green-600 dark:text-green-400">守护线程</div>
-          <div class="text-xl font-bold text-green-800 dark:text-green-200">{{ stats?.daemonThreads }}</div>
-        </div>
-        <div class="bg-orange-50 dark:bg-orange-900/20 p-3 rounded-lg">
-          <div class="text-sm text-orange-600 dark:text-orange-400">峰值线程</div>
-          <div class="text-xl font-bold text-orange-800 dark:text-orange-200">{{ stats?.peakThreads }}</div>
-        </div>
-        <div class="bg-purple-50 dark:bg-purple-900/20 p-3 rounded-lg">
-          <div class="text-sm text-purple-600 dark:text-purple-400">总启动线程</div>
-          <div class="text-xl font-bold text-purple-800 dark:text-purple-200">{{ stats?.totalStartedThreads }}</div>
-        </div>
+    <!-- 统计信息 -->
+    <div v-if="hasStats" class="mb-6 grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div class="bg-blue-50 dark:bg-blue-900/20 p-3 rounded-lg">
+        <div class="text-sm text-blue-600 dark:text-blue-400">活跃线程</div>
+        <div class="text-xl font-bold text-blue-800 dark:text-blue-200">{{ stats?.liveThreads }}</div>
       </div>
+      <div class="bg-green-50 dark:bg-green-900/20 p-3 rounded-lg">
+        <div class="text-sm text-green-600 dark:text-green-400">守护线程</div>
+        <div class="text-xl font-bold text-green-800 dark:text-green-200">{{ stats?.daemonThreads }}</div>
+      </div>
+      <div class="bg-orange-50 dark:bg-orange-900/20 p-3 rounded-lg">
+        <div class="text-sm text-orange-600 dark:text-orange-400">峰值线程</div>
+        <div class="text-xl font-bold text-orange-800 dark:text-orange-200">{{ stats?.peakThreads }}</div>
+      </div>
+      <div class="bg-purple-50 dark:bg-purple-900/20 p-3 rounded-lg">
+        <div class="text-sm text-purple-600 dark:text-purple-400">总启动线程</div>
+        <div class="text-xl font-bold text-purple-800 dark:text-purple-200">{{ stats?.totalStartedThreads }}</div>
+      </div>
+    </div>
+
+    <div v-if="showStateDistribution">
 
       <!-- 线程状态分布 -->
       <div v-if="hasStateDistribution" class="mb-6">
@@ -250,9 +258,12 @@
 <script setup lang="ts">
 import { threadApi } from '@/api'
 import { useProcessStore } from '@/stores/process'
-import { ref, onMounted, computed } from 'vue'
+import { ref, onMounted, onUnmounted, computed, watch } from 'vue'
+import { useIntervalFn } from '@vueuse/core'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
+import { Switch } from '@/components/ui/switch'
+import router from '@/router'
 
 const processStore = useProcessStore()
 const showStateDistribution = ref(true)
@@ -356,24 +367,22 @@ function getStateBadgeClass(state: string): string {
   return badgeMap[state] || 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200'
 }
 
-// 获取线程列表数据
-async function getThreadListFn() {
-  if (processStore.currentProcess?.pid) {
-    loading.value = true
-    try {
-      const response = await threadApi.getThreadList(processStore.currentProcess?.pid)
-      if (response.areSuccess && response.data) {
-        stats.value = response.data.stats
-        threads.value = response.data.threads
-      }
-    } catch (error) {
-      console.error('获取线程列表失败:', error)
-    } finally {
-      loading.value = false
+// 获取线程列表数据（可控是否展示loading）
+async function getThreadListFn(showLoading: boolean = true) {
+  const pid = processStore.currentProcess?.pid
+  if (!pid) return
+
+  if (showLoading) loading.value = true
+  try {
+    const response = await threadApi.getThreadList(pid)
+    if (response.areSuccess && response.data) {
+      stats.value = response.data.stats
+      threads.value = response.data.threads
     }
-  } else {
-    console.error('进程ID不存在')
-    loading.value = false
+  } catch (error) {
+    console.error('获取线程列表失败:', error)
+  } finally {
+    if (showLoading) loading.value = false
   }
 }
 
@@ -387,8 +396,25 @@ function sortBy(field: string) {
   }
 }
 
+async function getThreadDump() {
+  router.push('/threads/dump')
+}
+
+// 1s 定时刷新（仅数据更新不出现loading）
+const { pause, resume, isActive } = useIntervalFn(() => {
+  if (!loading.value) getThreadListFn(false)
+}, 1000, { immediate: false })
+
+watch(isActive, () => {
+  isActive.value ? resume() : pause()
+}, { immediate: true })
+
 onMounted(() => {
-  getThreadListFn()
+  getThreadListFn(true).finally(() => resume())
+})
+
+onUnmounted(() => {
+  pause()
 })
 </script>
 

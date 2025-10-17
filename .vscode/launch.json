@@ -2,6 +2,13 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "type": "java",
+      "name": "DeadlockExample",
+      "request": "launch",
+      "mainClass": "DeadlockExample",
+      "projectName": "visualvm-client_821123a9"
+    },
+    {
       "type": "node-terminal",
       "request": "launch",
       "name": "Run Local",
