@@ -141,7 +141,7 @@ const router = createRouter({
 
 router.beforeEach((to, _from, next) => {
   try {
-    document.title = `VisualVM - ${to.meta.title || "监控客户端"}`;
+    document.title = `优速YouSpeed - ${to.meta.title || "监控客户端"}`;
     console.log("路由跳转到:", to.path, to.name);
     next();
   } catch (error) {

@@ -58,9 +58,9 @@
             >
               <div class="flex items-center justify-between">
                 <div class="flex-1">
-                  <p class="text-xs text-muted-foreground">{{ process.displayName }}</p>
+                  <p class="text-xs text-muted-foreground" style="word-break: break-word;">{{ process.displayName }}</p>
                   <h4 class="text-sm font-medium py-2">PID: {{ process.pid }}</h4>
-                  <p class="text-xs text-muted-foreground">{{ process.mainClass }}</p>
+                  <p class="text-xs text-muted-foreground" style="word-break: break-word;">{{ process.mainClass }}</p>
                 </div>
                 <div class="flex items-center gap-2">
                   <Badge 

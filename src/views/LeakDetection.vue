@@ -3,59 +3,45 @@
     <!-- 页面标题 -->
     <h1 class="text-2xl font-bold text-gray-900 dark:text-white mb-8">GC监控</h1>
     <!-- 表格区域 -->
-    <div class="overflow-x-auto bg-white dark:bg-gray-800 border border-gray-200 rounded shadow">
-      <Table class="min-w-[900px] w-full text-xs">
-        <TableHeader>
-          <TableRow class="bg-gray-50 dark:bg-gray-700">
-            <TableHead class="px-3 py-2 text-left font-semibold">类名</TableHead>
-            <TableHead class="px-3 py-2 text-left font-semibold whitespace-nowrap w-32">对象数</TableHead>
-            <TableHead class="px-3 py-2 text-left font-semibold whitespace-nowrap w-32">被引用对象数</TableHead>
-            <TableHead class="px-3 py-2 text-right font-semibold whitespace-nowrap">引用浅堆</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          <TableRow v-for="(row, idx) in rows" :key="row.className"
-            :class="idx === -1 ? 'bg-primary text-white' : idx % 2 === 1 ? 'bg-gray-50 dark:bg-gray-900' : ''">
-            <TableCell class="px-3 py-2 text-left whitespace-nowrap">
-              <div class="flex items-center gap-2">
-                <span class="inline-block w-4 h-4 rounded-full bg-primary/80"></span>
-                <div>
-                  <a href="#" class="font-medium underline hover:text-primary-700">{{ row.className }}</a>
-                  <div v-if="row.objectsLink" class="text-xs underline text-primary-700 leading-tight">
-                    <a href="#">{{ row.objectsLink }}</a>
-                  </div>
+    <Card>
+      <CardHeader>
+        <CardDescription>当前内存中的主要对象分布情况</CardDescription>
+      </CardHeader>
+      <CardContent>
+        <Table class="min-w-[900px] w-full text-xs">
+          <TableHeader>
+            <TableRow>
+              <TableHead>类名</TableHead>
+              <TableHead>对象数</TableHead>
+              <TableHead>被引用对象数</TableHead>
+              <TableHead>引用浅堆</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            <TableRow v-for="(row, idx) in rows" :key="row.className">
+              <TableCell class="font-medium">
+                <a href="#" class="underline hover:text-primary-700">{{ row.className }}</a>
+                <div v-if="row.objectsLink" class="text-xs underline text-primary-700 leading-tight">
+                  <a href="#">{{ row.objectsLink }}</a>
                 </div>
-              </div>
-            </TableCell>
-            <TableCell class="px-3 py-2 text-right align-top whitespace-nowrap w-32">
-              <div class="flex items-center gap-2 justify-between">
-                <span class="inline-block w-4 h-4 rounded-full bg-primary/80"></span>
-                <div>
-                  <span class="font-bold">{{ row.objects }}</span>
-                  <div v-if="row.objectsLink" class="text-xs underline text-primary-700 leading-tight">
-                    <a href="#">{{ row.objectsLink }}</a>
-                  </div>
+              </TableCell>
+              <TableCell>
+                <Badge variant="default">{{ row.objects }}</Badge>
+              </TableCell>
+              <TableCell>
+                <Badge variant="secondary">{{ row.referencedObjects }}</Badge>
+                <div v-if="row.referencedObjectsLink" class="text-xs underline text-primary-700 leading-tight">
+                  <a href="#">{{ row.referencedObjectsLink }}</a>
                 </div>
-              </div>
-            </TableCell>
-            <TableCell class="px-3 py-2 text-right align-top whitespace-nowrap w-32">
-              <div class="flex items-center gap-2 justify-between">
-                <span class="inline-block w-4 h-4 bg-gray-300 rounded"></span>
-                <div>
-                  <span class="font-bold">{{ row.referencedObjects }}</span>
-                  <div v-if="row.referencedObjectsLink" class="text-xs underline text-primary-700 leading-tight">
-                    <a href="#">{{ row.referencedObjectsLink }}</a>
-                  </div>
-                </div>
-              </div>
-            </TableCell>
-            <TableCell class="px-3 py-2 text-right align-top whitespace-nowrap">
-              <span :class="idx === 0 ? 'font-bold text-white' : 'font-bold text-primary-700'">{{ row.shallowHeap }}</span>
-            </TableCell>
-          </TableRow>
-        </TableBody>
-      </Table>
-    </div>
+              </TableCell>
+              <TableCell>
+                <Badge variant="outline">{{ row.shallowHeap }}</Badge>
+              </TableCell>
+            </TableRow>
+          </TableBody>
+        </Table>
+      </CardContent>
+    </Card>
   </div>
 </template>
 
@@ -66,6 +52,12 @@ import TableBody from '@/components/ui/table/TableBody.vue';
 import TableRow from '@/components/ui/table/TableRow.vue';
 import TableHead from '@/components/ui/table/TableHead.vue';
 import TableCell from '@/components/ui/table/TableCell.vue';
+import Card from '@/components/ui/card/Card.vue';
+import CardHeader from '@/components/ui/card/CardHeader.vue';
+import CardContent from '@/components/ui/card/CardContent.vue';
+import CardTitle from '@/components/ui/card/CardTitle.vue';
+import {CardDescription} from '@/components/ui';
+
 import { ref } from 'vue';
 
 const rows = ref([
