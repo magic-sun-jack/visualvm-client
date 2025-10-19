@@ -234,9 +234,10 @@ async function startJavaService() {
   // 等待服务启动
   let attempts = 0
   const maxAttempts = 30
+  const JAVA_API_BASE_URL = process.env.JAVA_API_BASE_URL || 'http://localhost:8099';
   while (attempts < maxAttempts) {
     try {
-      const response = await axios.get('http://localhost:8099/cvm/overview/getFilteredProcesses', {
+      const response = await axios.get(`${JAVA_API_BASE_URL}/cvm/overview/getFilteredProcesses`, {
         timeout: 5000
       })
       console.log('Java服务已就绪，响应状态:', response.status)
@@ -310,10 +311,11 @@ app.on('before-quit', (event) => {
 // 设置 IPC 通信
 ipcMain.handle('check-java-service', async () => {
   try {
+    const JAVA_API_BASE_URL = process.env.JAVA_API_BASE_URL || 'http://localhost:8099';
     // 检查 Java 服务是否正在运行
     if (javaProcess && !javaProcess.killed) {
       // 尝试访问服务接口来确认服务是否真正可用
-      const response = await axios.get('http://localhost:8099/cvm/overview/getFilteredProcesses', {
+      const response = await axios.get(`${JAVA_API_BASE_URL}/cvm/overview/getFilteredProcesses`, {
         timeout: 5000
       })
       console.log('Java 服务检查成功，状态码:', response.status)

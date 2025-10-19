@@ -508,7 +508,7 @@
               text: '已用',
               value: ''
             }, {
-              text: '剩余',
+              text: '最大',
               value: ''
             }]" :key="flagObj.text" class="text-xs text-gray-500">{{ flagObj.text }}: {{ flagObj.value }}</div>
           </div>
@@ -521,6 +521,21 @@
         <!-- 类监控卡片 -->
         <div class="bg-white rounded shadow p-4 flex flex-col">
           <div class="font-bold mb-2">类</div>
+          <div class="grid grid-cols-2 gap-x-4 gap-y-1 mb-2">
+            <div v-for="flagObj in [{
+              text: '总加载',
+              value: ''
+            }, {
+              text: '分享加载',
+              value: ''
+            }, {
+              text: '总卸载',
+              value: ''
+            }, {
+              text: '分享卸载',
+              value: ''
+            }]" :key="flagObj.text" class="text-xs text-gray-500">{{ flagObj.text }}: {{ flagObj.value }}</div>
+          </div>
           <!-- 图表插槽 -->
           <div class="flex-1 min-h-[220px]">
             <!-- <ProcessStatusChart :processes="availableProcesses" /> -->
@@ -530,6 +545,21 @@
         <!-- 线程监控卡片 -->
         <div class="bg-white rounded shadow p-4 flex flex-col">
           <div class="font-bold mb-2">线程</div>
+          <div class="grid grid-cols-2 gap-x-4 gap-y-1 mb-2">
+            <div v-for="flagObj in [{
+              text: 'Live',
+              value: ''
+            }, {
+              text: 'Daemon',
+              value: ''
+            }, {
+              text: 'Live Peak',
+              value: ''
+            }, {
+              text: 'Total started',
+              value: ''
+            }]" :key="flagObj.text" class="text-xs text-gray-500">{{ flagObj.text }}: {{ flagObj.value }}</div>
+          </div>
           <!-- 图表插槽 -->
           <div class="flex-1 min-h-[220px]">
             <!-- <ProcessStatusChart :processes="availableProcesses" /> -->
@@ -739,8 +769,7 @@ async function cpuStart() {
     console.error('CPU分析启动异常:', error)
   })
   // 使用正确的 API 基础 URL 来创建 EventSource
-  const baseUrl = resolveApiBaseUrl()
-  const eventSourceUrl = `${baseUrl}/cvm/cpu/stream?pid=${selectedPid.value}&refreshPeriod=${5000}`
+  const eventSourceUrl = `/cvm/cpu/stream?pid=${selectedPid.value}&refreshPeriod=${5000}`
   const es = new EventSource(eventSourceUrl);
   es.onmessage = (event) => {
     // 处理 event.data

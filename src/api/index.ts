@@ -176,12 +176,6 @@ export const processApi = {
   async getProcessMemory(id: string): Promise<ApiResponse<any>> {
     return api.get(`/cvm/processes/${id}/memory`)
   },
-
-  // 获取进程CPU使用情况
-  async getProcessCpu(id: string): Promise<ApiResponse<any>> {
-    // 与Postman集合对齐：GET /cpu/stream?pid=...
-    return api.get(`/cvm/cpu/stream`, { params: { pid: id } })
-  },
 }
 
 // 数据库分析相关API
@@ -458,14 +452,6 @@ export const cpuApi = {
   async stopCpuProfiling(pid: string): Promise<ApiResponse<void>> {
     return api.post(`/cvm/cpu/stop?pid=${pid}`)
   },
-
-  async getCpuProfileData(pid: string, refreshPeriod: number = 5000): Promise<ApiResponse<CpuStream>> {
-    return api.get(`/cvm/cpu/stream`, { 
-      params: { pid, refreshPeriod }, 
-      headers: { 'Content-Type': 'text/event-stream;charset=UTF-8' },
-      // responseType: 'text'
-    })
-  }
 }
 
 export const configApi = {

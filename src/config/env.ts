@@ -9,6 +9,7 @@ export const env = {
   // API配置
   API_BASE_URL: import.meta.env.VITE_API_BASE_URL || '/',
   API_TIMEOUT: Number(import.meta.env.VITE_API_TIMEOUT) || 30000,
+  JAVA_API_BASE_URL: import.meta.env.VITE_JAVA_API_BASE_URL || 'http://localhost:8099',
   
   // 模拟数据配置
   USE_MOCK_DATA: import.meta.env.VITE_USE_MOCK_DATA === 'true' || false,
