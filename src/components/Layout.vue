@@ -275,10 +275,10 @@ function openProcessConnectDialog() {
   showProcessConnectDialog.value = true
 }
 
-function handleProcessConnected(process: JavaProcessListDetail) {
-  console.log('进程连接成功:', process)
+function handleProcessConnected(pid: string) {
+  console.log('进程连接成功:', pid)
+  processStore.getLocalOverview(pid)
   // 刷新进程列表
-  processStore.getFilteredProcesses()
   // 可以导航到进程监控页面
   router.push(`/dashboard`)
 }

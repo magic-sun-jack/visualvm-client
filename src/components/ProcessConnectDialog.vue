@@ -211,7 +211,7 @@ interface Props {
 
 interface Emits {
   (e: 'update:open', value: boolean): void
-  (e: 'process-connected', process: JavaProcessListDetail): void
+  (e: 'process-connected', pid: string): void
 }
 
 const props = defineProps<Props>()
@@ -283,7 +283,8 @@ async function connect() {
       } as any)
 
       if (response.success) {
-        emit('process-connected', selectedLocalProcess.value)
+        processStore.setCurrentProcess(selectedLocalProcess.value)
+        emit('process-connected', selectedLocalProcess.value.pid)
         closeDialog()
       } else {
         connectionError.value = response.msg || '连接进程失败'
@@ -311,7 +312,7 @@ async function connect() {
         } as any)
 
         if (startResponse.success) {
-          emit('process-connected', response.data.pid)
+          // emit('process-connected', response.data.pid)
           closeDialog()
         } else {
           connectionError.value = startResponse.msg || '启动远程监控失败'
