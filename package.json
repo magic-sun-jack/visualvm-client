@@ -1,6 +1,6 @@
 {
   "name": "youspeed-client",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "优速YouSpeed数据监控前端客户端",
   "type": "module",
   "main": "electron/main.js",
@@ -89,7 +89,7 @@
       }
     ],
     "win": {
-      "icon": "public/icon.svg",
+      "icon": "public/icon.ico",
       "target": [
         {
           "target": "nsis",
@@ -108,7 +108,7 @@
       "shortcutName": "优速YouSpeed"
     },
     "mac": {
-      "icon": "public/icon.svg",
+      "icon": "public/icon.ico",
       "target": [
         {
           "target": "dmg",
@@ -120,7 +120,7 @@
       ]
     },
     "linux": {
-      "icon": "public/icon.svg",
+      "icon": "public/icon.ico",
       "target": [
         {
           "target": "AppImage",
