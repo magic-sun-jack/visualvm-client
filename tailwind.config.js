@@ -119,7 +119,7 @@ export default {
   		},
   		fontFamily: {
   			sans: [
-  				'Inter',
+  				'var(--font-sans)',
   				'ui-sans-serif',
   				'system-ui',
   				'-apple-system',
@@ -132,7 +132,7 @@ export default {
   				'sans-serif'
   			],
   			mono: [
-  				'JetBrains Mono',
+  				'var(--font-mono)',
   				'ui-monospace',
   				'SFMono-Regular',
   				'Menlo',
@@ -141,6 +141,15 @@ export default {
   				'Liberation Mono',
   				'Courier New',
   				'monospace'
+  			],
+  			serif: [
+  				'var(--font-serif)',
+  				'ui-serif',
+  				'Georgia',
+  				'Cambria',
+  				'Times New Roman',
+  				'Times',
+  				'serif'
   			]
   		},
   		fontSize: {

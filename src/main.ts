@@ -3,6 +3,7 @@ import { createPinia } from 'pinia'
 import router from './router'
 import App from './App.vue'
 import './style.css'
+import { useTheme } from './stores/theme'
 
 // 在开发环境中禁用Vue DevTools的自动集成
 if (import.meta.env.DEV) {
@@ -53,6 +54,10 @@ app.config.warnHandler = (msg, _instance, trace) => {
 
 app.use(createPinia())
 app.use(router)
+
+// 初始化主题系统
+const { initializeTheme } = useTheme()
+initializeTheme()
 
 // 安全地挂载应用
 try {
