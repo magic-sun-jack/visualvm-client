@@ -7,7 +7,7 @@
         <div class="mr-4 flex">
           <RouterLink to="/dashboard" class="mr-6 flex items-center space-x-2">
             <div class="h-6 w-6 rounded-lg flex items-center justify-center">
-              <img src="/icon.svg" alt="logo" class="h-8 w-8" />
+              <img src="/icon.png" alt="logo" class="h-8 w-8" />
             </div>
             <span class="font-bold sm:inline-block">优速YouSpeed</span>
           </RouterLink>
