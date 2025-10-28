@@ -769,7 +769,8 @@ async function cpuStart() {
     console.error('CPU分析启动异常:', error)
   })
   // 使用正确的 API 基础 URL 来创建 EventSource
-  const eventSourceUrl = `/cvm/cpu/stream?pid=${selectedPid.value}&refreshPeriod=${5000}`
+  const baseUrl = resolveApiBaseUrl()
+  const eventSourceUrl = `${baseUrl}/cvm/cpu/stream?pid=${selectedPid.value}&refreshPeriod=${5000}`
   const es = new EventSource(eventSourceUrl);
   es.onmessage = (event) => {
     // 处理 event.data
