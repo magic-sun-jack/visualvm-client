@@ -16,7 +16,7 @@ let javaProcess = null
 function createWindow() {
   // 创建浏览器窗口
   mainWindow = new BrowserWindow({
-    fullscreen: true,
+    fullscreen: false,
     minWidth: 1440,
     minHeight: 720,
     webPreferences: {
@@ -30,6 +30,9 @@ function createWindow() {
     titleBarStyle: 'default',
     show: false // 先不显示，等加载完成后再显示
   })
+
+  // 最大化窗口以占据屏幕可用区域（非全屏）
+  mainWindow.maximize()
 
   // 加载应用
   if (isDev) {
