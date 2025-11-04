@@ -9,7 +9,7 @@
             <div class="h-8 w-8 rounded-lg flex items-center justify-center">
               <img src="/icon.png" alt="logo" class="h-8 w-8" />
             </div>
-            <span class="font-bold sm:inline-block">优速YouSpeed</span>
+            <!-- <span class="font-bold sm:inline-block">优速YouSpeed</span> -->
           </RouterLink>
         </div>
 
