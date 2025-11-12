@@ -9,7 +9,7 @@
             <div class="h-8 w-8 rounded-lg flex items-center justify-center">
               <img src="/icon.png" alt="logo" class="h-8 w-8" />
             </div>
-            <!-- <span class="font-bold sm:inline-block">优速YouSpeed</span> -->
+            <span class="font-bold sm:inline-block">优速YouSpeed</span>
           </RouterLink>
         </div>
 
@@ -69,9 +69,9 @@
       <aside class="hidden lg:block w-64 border-r bg-muted/40 min-h-[calc(100vh-3.5rem)]">
         <nav class="space-y-2">
           <div class="px-3 py-2">
-            <div class="flex items-center mb-2 px-4 text-lg font-semibold tracking-tight">
+            <!-- <div class="flex items-center mb-2 px-4 text-lg font-semibold tracking-tight">
               <Monitor class="mr-2 h-5 w-5" />
-            </div>
+            </div> -->
             <div class="space-y-1">
               <!-- 渲染导航项目 -->
               <template v-for="(item, index) in navigationItems" :key="item?.name || index">
@@ -277,7 +277,7 @@ function openProcessConnectDialog() {
 
 function handleProcessConnected(pid: string) {
   console.log('进程连接成功:', pid)
-  processStore.getLocalOverview(pid)
+  // 注意：getLocalOverview 已经在 ProcessConnectDialog 中调用，这里不需要重复调用
   // 刷新进程列表
   // 可以导航到进程监控页面
   router.push(`/dashboard`)

@@ -283,7 +283,8 @@ async function connect() {
       } as any)
 
       if (response.success) {
-        processStore.setCurrentProcess(selectedLocalProcess.value)
+        // 获取进程详情并设置当前进程
+        await processStore.getLocalOverview(selectedLocalProcess.value.pid)
         emit('process-connected', selectedLocalProcess.value.pid)
         closeDialog()
       } else {
@@ -312,7 +313,9 @@ async function connect() {
         } as any)
 
         if (startResponse.success) {
-          // emit('process-connected', response.data.pid)
+          // 获取远程进程详情并设置当前进程
+          await processStore.getLocalOverview(response.data.pid)
+          emit('process-connected', response.data.pid)
           closeDialog()
         } else {
           connectionError.value = startResponse.msg || '启动远程监控失败'
@@ -355,9 +358,6 @@ watch(isOpen, (newValue) => {
 onMounted(() => {
   if (props.open) {
     refreshLocalProcesses()
-  }
-  if (!processStore.currentProcess) {
-    processStore.getLocalOverview(processStore.currentProcess?.pid)
   }
 })
 </script>

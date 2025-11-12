@@ -639,8 +639,14 @@ const availableProcesses = computed(() => {
   return []
 })
 
-// 当前进程数据
+// 当前进程数据 - 优先使用 store 中的 currentProcess，否则使用本地 processDetails
 const currentProcess = computed((): JavaProcessDetail | null => {
+  // 优先使用 store 中的 currentProcess
+  if (processStore.currentProcess) {
+    return processStore.currentProcess as JavaProcessDetail
+  }
+  
+  // 否则使用本地 processDetails
   if (processDetails.value) {
     return processDetails.value
   }
@@ -756,6 +762,18 @@ watch(() => availableProcesses.value, (newProcesses) => {
   }
 }, { immediate: true })
 
+// 监听当前进程变化，当连接新进程时自动更新数据
+watch(() => processStore.currentProcess, (newProcess) => {
+  if (newProcess?.pid) {
+    const newPid = newProcess.pid.toString()
+    // 如果 pid 发生变化，更新 selectedPid 并重新获取数据
+    if (selectedPid.value !== newPid) {
+      selectedPid.value = newPid
+      handlePidChange()
+    }
+  }
+}, { immediate: true })
+
 const cpuData = ref()
 
 async function cpuStart() {
@@ -783,8 +801,11 @@ async function cpuStart() {
 
 // 组件挂载时初始化
 onMounted(async () => {
-  // 如果有可用进程，加载第一个进程的详细信息
-  if (availableProcesses.value.length > 0) {
+  // 优先使用 store 中的 currentProcess
+  if (processStore.currentProcess?.pid) {
+    selectedPid.value = processStore.currentProcess.pid.toString()
+  } else if (availableProcesses.value.length > 0) {
+    // 如果没有 currentProcess，使用第一个可用进程
     selectedPid.value = availableProcesses.value[0].pid.toString()
   }
 })
