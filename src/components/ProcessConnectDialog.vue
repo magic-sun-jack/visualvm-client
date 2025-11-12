@@ -287,12 +287,10 @@ async function connect() {
     if (activeTab.value === 'local' && selectedLocalProcess.value) {
       // 连接本地进程 - 启动监控
       const response = await processApi.startProcess({
-        pid: selectedLocalProcess.value.pid,
-        host: undefined,
-        port: undefined
-      } as any)
+        pid: selectedLocalProcess.value.pid
+      })
 
-      if (response.success) {
+      if (response.areSuccess || response.success) {
         // 获取进程详情并设置当前进程
         await processStore.getLocalOverview(selectedLocalProcess.value.pid)
         emit('process-connected', selectedLocalProcess.value.pid)
@@ -314,15 +312,13 @@ async function connect() {
 
       const response = await processApi.getRemoteProcess(host, port, username, password)
       
-      if (response.success) {
+      if (response.areSuccess || response.success) {
         // 启动远程监控
         const startResponse = await processApi.startProcess({
-          pid: response.data.pid,
-          host: host,
-          port: port
-        } as any)
+          pid: response.data.pid
+        })
 
-        if (startResponse.success) {
+        if (startResponse.areSuccess || startResponse.success) {
           // 获取远程进程详情并设置当前进程
           await processStore.getLocalOverview(response.data.pid)
           emit('process-connected', response.data.pid)

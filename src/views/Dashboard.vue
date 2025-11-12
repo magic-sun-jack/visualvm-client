@@ -713,7 +713,11 @@ async function getSaveDataFn(pid: string) {
   await processApi.startProcess({
     pid: pid
   }).then(response => {
-    saveDataInfo.value = response.data
+    if (response.areSuccess || response.success) {
+      saveDataInfo.value = response.data
+    } else {
+      errorMessage.value = response.msg || '启动进程失败'
+    }
   }).catch(error => {
     errorMessage.value = '启动进程失败'
     console.error('启动进程异常:', error)

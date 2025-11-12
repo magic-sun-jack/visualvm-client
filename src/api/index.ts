@@ -11,7 +11,8 @@ import type {
   ApiResponse,
   JavaProcessDetail,
   JavaProcessListDetail,
-  CpuStream
+  CpuStream,
+  GCStatsInfo
 } from '@/types'
 import { env, mockDelay, debugLog, errorLog } from '@/config/env'
 import { mockDataGenerator, mockDataCache } from './mockData'

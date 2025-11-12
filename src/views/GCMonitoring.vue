@@ -11,6 +11,19 @@
       <ServiceLoading />
     </div>
 
+    <!-- 错误提示 -->
+    <div v-if="errorMessage" class="mb-6 p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg">
+      <p class="text-sm text-red-600 dark:text-red-400">{{ errorMessage }}</p>
+    </div>
+
+    <!-- 加载状态 -->
+    <div v-if="isLoading" class="mb-6 p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
+      <div class="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
+        <div class="h-4 w-4 animate-spin rounded-full border-2 border-primary border-t-transparent"></div>
+        正在加载GC统计数据...
+      </div>
+    </div>
+
     <!-- 应用信息 -->
     <div class="mb-6 p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
       <div class="flex items-center justify-between">
@@ -120,7 +133,7 @@
           <div class="text-2xl font-bold text-blue-600 dark:text-blue-400">
             {{ gcStats.totalCollections }}
           </div>
-          <div class="text-xs text-gray-500 mt-1">最后原因: {{ gcStats.lastCause }}</div>
+          <div class="text-xs text-gray-500 mt-1">GC名称: {{ gcStats.gcName || '-' }}</div>
         </CardContent>
       </Card>
 
@@ -132,7 +145,7 @@
           <div class="text-2xl font-bold text-green-600 dark:text-green-400">
             {{ formatTime(gcStats.totalTime) }}
           </div>
-          <div class="text-xs text-gray-500 mt-1">{{ gcStats.totalCollections }}次收集</div>
+          <div class="text-xs text-gray-500 mt-1">平均: {{ formatTime(gcStats.averageTime) }}</div>
         </CardContent>
       </Card>
 
@@ -144,7 +157,7 @@
           <div class="text-2xl font-bold text-purple-600 dark:text-purple-400">
             {{ formatTime(compileStats.totalTime) }}
           </div>
-          <div class="text-xs text-gray-500 mt-1">{{ compileStats.totalCompiles }}次编译</div>
+          <div class="text-xs text-gray-500 mt-1">编译器: {{ gcStatsData?.compileTime.name || '-' }}</div>
         </CardContent>
       </Card>
 
@@ -241,17 +254,23 @@
         <CardContent>
           <div class="space-y-4">
             <div class="flex justify-between items-center">
-              <span class="text-sm">回收效率</span>
-              <span class="text-sm font-bold text-green-600">{{ gcStats.efficiency }}%</span>
+              <span class="text-sm">堆内存使用</span>
+              <span class="text-sm font-bold text-green-600">
+                {{ formatBytes(gcStatsData?.heapOverview.heapUsed || 0) }} / {{ formatBytes(gcStatsData?.heapOverview.heapMax || 0) }}
+              </span>
             </div>
             <div class="w-full bg-gray-200 rounded-full h-2">
               <div 
                 class="bg-green-500 h-2 rounded-full transition-all duration-300"
-                :style="{ width: `${gcStats.efficiency}%` }"
+                :style="{ 
+                  width: gcStatsData?.heapOverview.heapMax 
+                    ? `${((gcStatsData.heapOverview.heapUsed / gcStatsData.heapOverview.heapMax) * 100)}%` 
+                    : '0%' 
+                }"
               ></div>
             </div>
             <div class="text-xs text-gray-500">
-              基于回收内存量与总内存使用量的比例
+              非堆内存: {{ formatBytes(gcStatsData?.heapOverview.nonHeapUsed || 0) }} / {{ formatBytes(gcStatsData?.heapOverview.nonHeapMax || 0) }}
             </div>
           </div>
         </CardContent>
@@ -316,7 +335,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, onMounted, onUnmounted } from 'vue'
+import { ref, reactive, onMounted, onUnmounted, computed, watch } from 'vue'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
@@ -324,6 +343,7 @@ import ServiceLoading from '@/components/ServiceLoading.vue'
 import GCTrendChart from '@/components/charts/GCTrendChart.vue'
 import { useProcessStore } from '@/stores/process'
 import { gcApi } from '@/api'
+import type { GCStatsInfo } from '@/types'
 
 const processStore = useProcessStore()
 
@@ -391,69 +411,123 @@ interface GCTrendData {
 }
 
 // 响应式数据
-const appInfo = reactive<AppInfo>({
-  name: 'org.springframework.boot.loader.launch.JarLauncher',
-  pid: 14460
+const refreshRate = ref(5000)
+const isLoading = ref(false)
+const errorMessage = ref<string>('')
+const gcStatsData = ref<GCStatsInfo | null>(null)
+
+// 计算属性：内存空间数据
+const metaspace = computed(() => {
+  if (!gcStatsData.value) {
+    return { used: 0, max: 0, percentage: 0 }
+  }
+  const ms = gcStatsData.value.memorySpaces.metaspace
+  const percentage = ms.max > 0 ? (ms.used / ms.max) * 100 : 0
+  return {
+    used: ms.used,
+    max: ms.max,
+    percentage
+  }
 })
 
-const refreshRate = ref(1000)
+const oldGen = computed(() => {
+  if (!gcStatsData.value) {
+    return { used: 0, max: 0, percentage: 0 }
+  }
+  const old = gcStatsData.value.memorySpaces.old
+  const percentage = old.max > 0 ? (old.used / old.max) * 100 : 0
+  return {
+    used: old.used,
+    max: old.max,
+    percentage
+  }
+})
 
-const metaspace = reactive<MemorySpace>({
+const eden = computed(() => {
+  if (!gcStatsData.value) {
+    return { used: 0, max: 0, percentage: 0 }
+  }
+  const edenSpace = gcStatsData.value.memorySpaces.eden
+  const percentage = edenSpace.max > 0 ? (edenSpace.used / edenSpace.max) * 100 : 0
+  return {
+    used: edenSpace.used,
+    max: edenSpace.max,
+    percentage
+  }
+})
+
+const survivor0 = computed(() => {
+  if (!gcStatsData.value) {
+    return { used: 0, max: 0, percentage: 0 }
+  }
+  const s0 = gcStatsData.value.memorySpaces.survivor0
+  const percentage = s0.max > 0 ? (s0.used / s0.max) * 100 : 0
+  return {
+    used: s0.used,
+    max: s0.max,
+    percentage
+  }
+})
+
+// Survivor1 接口中没有，保留为空
+const survivor1 = computed(() => ({
   used: 0,
   max: 0,
   percentage: 0
+}))
+
+// 计算属性：从接口数据中提取GC统计信息
+const gcStats = computed(() => {
+  if (!gcStatsData.value) {
+    return {
+      totalCollections: 0,
+      totalTime: 0,
+      averageTime: 0,
+      frequency: 0,
+      efficiency: 0,
+      gcName: ''
+    }
+  }
+  
+  const collectionCount = gcStatsData.value.gcInfo.collectionCount
+  const totalTime = gcStatsData.value.totalGCTime
+  const averageTime = collectionCount > 0 ? totalTime / collectionCount : 0
+  
+  return {
+    totalCollections: collectionCount,
+    totalTime: totalTime,
+    averageTime: averageTime,
+    frequency: 0, // 需要根据时间计算
+    efficiency: 0, // 需要根据回收量计算
+    gcName: gcStatsData.value.gcInfo.name
+  }
 })
 
-const oldGen = reactive<MemorySpace>({
-  used: 0,
-  max: 0,
-  percentage: 0
+// 计算属性：编译统计
+const compileStats = computed(() => {
+  if (!gcStatsData.value) {
+    return { totalCompiles: 0, totalTime: 0 }
+  }
+  return {
+    totalCompiles: 0, // 接口中没有这个字段
+    totalTime: gcStatsData.value.compileTime.totalCompilationTime
+  }
 })
 
-const eden = reactive<MemorySpace>({
-  used: 0,
-  max: 0,
-  percentage: 0
-})
-
-const survivor0 = reactive<MemorySpace>({
-  used: 0,
-  max: 0,
-  percentage: 0
-})
-
-const survivor1 = reactive<MemorySpace>({
-  used: 0,
-  max: 0,
-  percentage: 0
-})
-
-const gcStats = reactive<GCStats>({
-  totalCollections: 0,
-  totalTime: 0,
-  averageTime: 0,
-  frequency: 0,
-  efficiency: 0,
-  lastCause: ''
-})
-
-const compileStats = reactive<CompileStats>({
-  totalCompiles: 0,
-  totalTime: 0
-})
-
-const classLoaderStats = reactive<ClassLoaderStats>({
+// 计算属性：类加载统计（接口中没有，保留为空）
+const classLoaderStats = computed(() => ({
   loaded: 0,
   unloaded: 0,
   totalTime: 0
-})
+}))
 
-const histogramParams = reactive<HistogramParams>({
+// 直方图参数（接口中没有，保留默认值）
+const histogramParams = computed(() => ({
   tenuringThreshold: 15,
   maxTenuringThreshold: 15,
   desiredSurvivorSize: 0,
   currentSurvivorSize: 0
-})
+}))
 
 const objectAgeHistogram = ref<number[]>(new Array(16).fill(0))
 
@@ -513,131 +587,59 @@ function getGCTypeVariant(type: string): 'default' | 'secondary' | 'destructive'
   }
 }
 
-// 模拟数据生成
-function generateMockData() {
-  // 生成内存空间数据
-  const generateMemorySpace = (maxMB: number, usedPercentage: number) => {
-    const max = maxMB * 1024 * 1024
-    const used = max * (usedPercentage / 100)
-    return {
-      used,
-      max,
-      percentage: usedPercentage
-    }
+// 获取GC统计数据
+async function getGCStatsFn() {
+  const pid = processStore.currentProcess?.pid
+  if (!pid) {
+    errorMessage.value = '未选择进程，请先连接进程'
+    return
   }
 
-  // 根据图片中的数据生成内存空间
-  Object.assign(metaspace, generateMemorySpace(57.875, 97.5)) // 56.405M / 57.875M
-  Object.assign(oldGen, generateMemorySpace(59, 69.8)) // 41.164M / 59M
-  Object.assign(eden, generateMemorySpace(87, 92.0)) // 80M / 87M
-  Object.assign(survivor0, generateMemorySpace(1, 0)) // 0 / 1M
-  Object.assign(survivor1, generateMemorySpace(1, 6.5)) // 66.461K / 1M
-
-  // 生成GC统计数据
-  gcStats.totalCollections = 53
-  gcStats.totalTime = 470.910
-  gcStats.averageTime = gcStats.totalTime / gcStats.totalCollections
-  gcStats.frequency = Math.floor(Math.random() * 20) + 5
-  gcStats.efficiency = Math.floor(Math.random() * 30) + 70
-  gcStats.lastCause = 'G1 Evacuation Pause'
-
-  // 生成编译统计
-  compileStats.totalCompiles = 11502
-  compileStats.totalTime = 16112
-
-  // 生成类加载统计
-  classLoaderStats.loaded = 11331
-  classLoaderStats.unloaded = 299
-  classLoaderStats.totalTime = 3852
-
-  // 生成直方图参数
-  histogramParams.desiredSurvivorSize = 5767168
-  histogramParams.currentSurvivorSize = 0
-
-  // 生成对象年龄直方图数据（根据图片中的分布）
-  const histogramData = [85, 92, 78, 0, 88, 95, 0, 0, 0, 0, 82, 90, 0, 87, 93, 89]
-  objectAgeHistogram.value = histogramData
-
-  // 生成GC类型统计
-  const total = gcStats.totalCollections
-  gcTypes.value.forEach((type) => {
-    let count = 0
-    switch (type.name) {
-      case 'Young GC':
-        count = Math.floor(total * 0.7)
-        break
-      case 'Old GC':
-        count = Math.floor(total * 0.2)
-        break
-      case 'Full GC':
-        count = Math.floor(total * 0.05)
-        break
-      case 'Mixed GC':
-        count = Math.floor(total * 0.05)
-        break
-    }
-    type.count = count
-    type.percentage = Math.round((count / total) * 100)
-  })
-
-  // 生成GC记录
-  const records: GCRecord[] = []
-  const now = Date.now()
-  const types = ['Young GC', 'Old GC', 'Full GC', 'Mixed GC']
-  const reasons = ['G1 Evacuation Pause', 'Allocation Failure', 'System.gc()', 'Concurrent Mode Failure']
-
-  for (let i = 0; i < 20; i++) {
-    const type = types[Math.floor(Math.random() * types.length)]
-    const beforeMemory = Math.floor(Math.random() * 8000) + 2000
-    const reclaimedMemory = Math.floor(Math.random() * beforeMemory * 0.8)
-    const afterMemory = beforeMemory - reclaimedMemory
-    
-    records.push({
-      id: `gc-${i}`,
-      timestamp: now - (i * 30000), // 每30秒一条记录
-      type,
-      duration: Math.floor(Math.random() * 500) + 10,
-      beforeMemory,
-      afterMemory,
-      reclaimedMemory,
-      reason: reasons[Math.floor(Math.random() * reasons.length)]
-    })
-  }
+  isLoading.value = true
+  errorMessage.value = ''
   
-  gcRecords.value = records
-
-  // 生成趋势数据
-  const trendData: GCTrendData[] = []
-  for (let i = 0; i < 60; i++) {
-    trendData.push({
-      timestamp: now - (i * 30000),
-      duration: Math.floor(Math.random() * 200) + 5,
-      type: types[Math.floor(Math.random() * types.length)]
-    })
+  try {
+    const response = await gcApi.getGCStats(pid)
+    if (response.areSuccess || response.success) {
+      gcStatsData.value = response.data
+    } else {
+      errorMessage.value = response.msg || '获取GC统计数据失败'
+    }
+  } catch (error) {
+    console.error('获取GC统计数据失败:', error)
+    errorMessage.value = '获取GC统计数据失败'
+  } finally {
+    isLoading.value = false
   }
-  
-  gcTrendData.value = trendData.reverse()
 }
 
-const getGCStatsFn = async () => {
-  const response = await gcApi.getGCStats(appInfo.pid)
-  if (response.success) {
-    console.log(response.data)
+// 监听当前进程变化
+watch(() => processStore.currentProcess?.pid, (newPid) => {
+  if (newPid) {
+    getGCStatsFn()
   }
-}
+}, { immediate: true })
+
+// 定时刷新数据
+let refreshInterval: ReturnType<typeof setInterval> | null = null
 
 // 生命周期
 onMounted(() => {
-  getGCStatsFn()
-  generateMockData()
+  if (processStore.currentProcess?.pid) {
+    getGCStatsFn()
+  }
   
-  // 模拟实时数据更新
-  const interval = setInterval(() => {
-    generateMockData()
-  }, 5000)
+  // 定时刷新数据
+  refreshInterval = setInterval(() => {
+    if (processStore.currentProcess?.pid) {
+      getGCStatsFn()
+    }
+  }, refreshRate.value)
   
   onUnmounted(() => {
-    clearInterval(interval)
+    if (refreshInterval) {
+      clearInterval(refreshInterval)
+    }
   })
 })
 </script>
