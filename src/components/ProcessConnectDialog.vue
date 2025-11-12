@@ -133,6 +133,16 @@
                   -Dcom.sun.management.jmxremote.authenticate=false<br/>
                   -Dcom.sun.management.jmxremote.ssl=false
                 </code>
+                <br/>
+                <br/>
+                如果需要用户名密码：<br/>
+                <code class="text-xs bg-muted px-1 rounded">
+                  -Dcom.sun.management.jmxremote.password.file=/Users/yc/614/monitor/jmxremote.password<br/>
+                  -Dcom.sun.management.jmxremote.access.file=/Users/yc/614/monitor/jmxremote.access
+                  -XX:+UnlockCommercialFeatures
+                  -XX:+FlightRecorder
+                  -XX:FlightRecorderOptions=stackdepth=1024
+                </code>
               </AlertDescription>
             </Alert>
           </div>

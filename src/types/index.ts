@@ -22,16 +22,38 @@ export interface non_heap_memory_interface {
   max: number // 最大可用
 }
 
+export interface metaspace_interface {
+  used_bytes: number // Metaspace 已使用内存（字节）
+  committed_bytes: number // Metaspace 已承诺内存（字节）
+  init_bytes: number // Metaspace 初始分配内存（字节）
+  max_bytes: number // Metaspace 最大可用内存（字节）
+}
+
+export interface thread_interface {
+  daemon_thread_count: number // 当前守护线程数
+  thread_count: number // 当前活动线程总数
+  total_started_thread_count: number // JVM 启动以来线程总数
+  peak_thread_count: number // JVM 启动以来线程峰值数
+}
+
+export interface class_interface {
+  loaded_class_count: number // 当前已加载类的数量
+  unloaded_class_count: number // 当前已卸载类的数量
+  total_loaded_class_count: number // JVM 启动以来已加载类的总数
+}
+
 // Java进程信息
 export interface JavaProcessInfo {
-  daemon_thread_count: number	//	当前守护线程数量
-  heap_memory:  heap_memory_interface	//	堆内存使用情况
-  non_heap_memory: non_heap_memory_interface // 非堆内存使用情况
-  uptime_ms: number	//	JVM 启动时间，单位毫秒（JVM 运行时长）
-  loaded_class_count: number	//	当前已加载类的数量
-  process_cpu_load: number	//	当前 JVM 进程 CPU 使用率
-  system_cpu_load: number	//	系统整体 CPU 使用率
-  thread_count: number	//	当前活动线程总数
+  heap_memory: heap_memory_interface
+  non_heap_memory: non_heap_memory_interface
+  uptime_ms: number
+  gc_total_count: number
+  process_cpu_load: number
+  metaspace: metaspace_interface
+  system_cpu_load: number
+  thread: thread_interface
+  class: class_interface
+  gc_activity_percent: number
 }
 
 // Java进程List信息
@@ -106,6 +128,56 @@ export interface SystemPropertiesInterface {
   "java.rmi.server.randomIDs": string,
   "sun.io.unicode.encoding": string,
   "java.class.version": string
+}
+
+export interface GCStatsInfo {
+  // 单位
+  compileTime: {
+    name: string // 编译器名称
+    totalCompilationTime: number // 编译器总编译时间
+  }
+  gcInfo: {
+    name: string // GC 名称
+    collectionCount: number // GC 执行次数
+    collectionTime: number // 单个 GC 耗时
+  }
+  totalGCTime: number // 所有 GC 总耗时
+  heapOverview: {
+    heapUsed: number // 堆当前已使用内存
+    heapInit: number // 堆初始分配内存
+    heapCommitted: number // 堆已提交内存
+    heapMax: number // 堆最大可用内存
+    nonHeapUsed: number // 非堆当前已使用内存
+    nonHeapInit: number // 非堆初始分配内存
+    nonHeapCommitted: number // 非堆已提交内存
+    nonHeapMax: number // 非堆最大可用内存
+  }
+  memorySpaces: {
+    metaspace: {
+      used: number // 元空间已使用内存
+      init: number // 元空间初始内存
+      committed: number // 元空间已提交内存
+      max: number // 元空间最大可用内存
+    }
+    old: {
+      used: number // 老年代已使用内存
+      init: number // 老年代初始内存
+      committed: number // 老年代已提交内存
+      max: number // 老年代最大可用内存
+    }
+    eden: {
+      used: number // Eden 区已使用内存
+      init: number // Eden 区初始内存
+      committed: number // Eden 区已提交内存
+      max: number // Eden 区最大可用内存
+    }
+    survivor0: {
+      used: number // Survivor0 区已使用内存
+      init: number // Survivor0 区初始内存
+      committed: number // Survivor0 区已提交内存
+      max: number // Survivor0 区最大可用内存
+    }
+  }
 }
 
 export interface JavaProcessDetail {
