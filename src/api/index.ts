@@ -12,7 +12,9 @@ import type {
   JavaProcessDetail,
   JavaProcessListDetail,
   CpuStream,
-  GCStatsInfo
+  GCStatsInfo,
+  ThreadListData,
+  ThreadListResponse
 } from '@/types'
 import { env, mockDelay, debugLog, errorLog } from '@/config/env'
 import { mockDataGenerator, mockDataCache } from './mockData'
@@ -27,6 +29,8 @@ export function resolveApiBaseUrl(): string {
     const isElectronUA = typeof window !== 'undefined' && window.navigator && window.navigator.userAgent.includes('Electron')
     if (isElectronUA || isFileProtocol) {
       return isHttp ? explicit : 'http://localhost:8099'
+    } else {
+      return 'http://localhost:3300'
     }
     // 非 Electron：优先使用明确设置的值，否则走 Vite 代理
     return hasExplicit ? explicit : '/'
@@ -279,24 +283,8 @@ export const gcApi = {
 // 线程分析相关API
 export const threadApi = {
   // 获取pid线程列表
-  async getThreadList(pid: string): Promise<ApiResponse<any>> {
+  async getThreadList(pid: string): Promise<ThreadListResponse> {
     return api.get(`/cvm/thread/monitorThreads`, { params: { pid } })
-    // liveThreads	存活的线程数
-    // daemonThreads	守护的线程数
-    // peakThreads	峰值线程数
-    // totalStartedThreads	启动的总线程数
-    // stateDistributionPercent	线程状态占比
-    // sampleMillis	采样间隔
-    // cpuProcessor	可用的处理器数
-    // threadName	线程名
-    // threadState	线程状态
-    // blockedCount	线程进入 BLOCKED 状态的总次数
-    // waitedCount	线程处于 WAITING 或 TIMED_WAITING 状态的总次数
-    // blockedTimeMs	线程进入 BLOCKED 状态的大致累积经过时间（以毫秒为单位）
-    // waitedTimeMs	线程处于 WAITING 或 TIMED_WAITING 状态的大致累积经过时间（以毫秒为单位）
-    // cpuTimeDeltaMs	cpu 时间增量
-    // cpuPercent	cpu占比
-    // daemon	是否是守护线程
   },
 
   // 获取pid线程分析Tree（死锁等信息）

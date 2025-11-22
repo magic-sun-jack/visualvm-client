@@ -383,3 +383,52 @@ export interface CpuStream {
     refreshPeriod: number // 数据返回频率
   }
 }
+
+// 线程状态分布百分比
+export interface ThreadStateDistributionPercent {
+  NEW: number // 新建状态占比
+  RUNNABLE: number // 可运行状态占比
+  BLOCKED: number // 阻塞状态占比
+  WAITING: number // 等待状态占比
+  TIMED_WAITING: number // 定时等待状态占比
+  TERMINATED: number // 终止状态占比
+}
+
+// 线程统计信息
+export interface ThreadStats {
+  liveThreads: number // 存活的线程数
+  daemonThreads: number // 守护的线程数
+  peakThreads: number // 峰值线程数
+  totalStartedThreads: number // 启动的总线程数
+  stateDistributionPercent: ThreadStateDistributionPercent // 线程状态占比
+  sampleMillis: number // 采样间隔（毫秒）
+  cpuProcessor: number // 可用的处理器数
+}
+
+// 线程详细信息
+export interface ThreadDetailInfo {
+  threadId: number // 线程ID
+  threadName: string // 线程名
+  threadState: 'NEW' | 'RUNNABLE' | 'BLOCKED' | 'WAITING' | 'TIMED_WAITING' | 'TERMINATED' // 线程状态
+  blockedCount: number // 线程进入 BLOCKED 状态的总次数
+  waitedCount: number // 线程处于 WAITING 或 TIMED_WAITING 状态的总次数
+  blockedTimeMs: number // 线程进入 BLOCKED 状态的大致累积经过时间（以毫秒为单位）
+  waitedTimeMs: number // 线程处于 WAITING 或 TIMED_WAITING 状态的大致累积经过时间（以毫秒为单位）
+  cpuTimeDeltaMs: number // CPU 时间增量（毫秒）
+  cpuPercent: number // CPU 使用百分比
+  daemon: boolean // 是否为守护线程
+}
+
+// 线程列表响应数据
+export interface ThreadListData {
+  stats: ThreadStats // 线程统计信息
+  threads: ThreadDetailInfo[] // 线程列表
+}
+
+// 线程列表 API 响应
+export interface ThreadListResponse {
+  status: number // 状态码
+  msg: string | null // 消息
+  data: ThreadListData // 数据
+  areSuccess: boolean // 是否成功
+}

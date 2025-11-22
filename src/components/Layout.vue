@@ -66,7 +66,9 @@
 
     <div class="flex">
       <!-- 侧边栏 -->
-      <aside class="hidden lg:block w-64 border-r bg-muted/40 min-h-[calc(100vh-3.5rem)]">
+      <aside
+        class="sidebar-fixed hidden lg:block fixed left-0 top-14 w-64 h-[calc(100vh-3.5rem)] border-r bg-muted/40 overflow-y-auto z-40"
+      >
         <nav class="space-y-2">
           <div class="px-3 py-2">
             <!-- <div class="flex items-center mb-2 px-4 text-lg font-semibold tracking-tight">
@@ -142,7 +144,7 @@
       </aside>
 
       <!-- 主内容区域 -->
-      <main class="flex-1 p-2">
+      <main class="flex-1 p-2 lg:ml-64 transition-all duration-300">
         <!-- <Breadcrumb /> -->
         <slot />
       </main>
@@ -288,5 +290,27 @@ processStore.getFilteredProcesses()
 </script>
 
 <style scoped>
-/* 自定义图标样式 - 使用更现代的图标 */
+/* 侧边栏固定定位和动画效果 */
+.sidebar-fixed {
+  animation: slideInFromLeft 0.4s ease-out;
+  will-change: transform;
+}
+
+@keyframes slideInFromLeft {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* 确保侧边栏在滚动时保持固定 */
+@media (min-width: 1024px) {
+  .sidebar-fixed {
+    position: fixed;
+  }
+}
 </style>

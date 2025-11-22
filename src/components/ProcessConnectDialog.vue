@@ -332,7 +332,7 @@ async function connect() {
     }
   } catch (error) {
     console.error('连接失败:', error)
-    connectionError.value = '连接失败，请检查网络和配置'
+    connectionError.value = (error as Error).message || '连接失败，请检查网络和配置'
   } finally {
     isConnecting.value = false
   }

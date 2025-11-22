@@ -7,7 +7,7 @@
         <VersionInfo />
       </div>
       <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4">
-        <div class="flex items-center gap-2 text-sm">
+        <div class="flex items-center gap-2 text-sm hidden">
           <Checkbox 
             v-model="savedDataEnabled"
             id="saved-data"
@@ -493,7 +493,7 @@
           </div>
           <!-- 图表插槽 -->
           <div class="flex-1 min-h-[220px]">
-            <MemoryTrendChart :data="cpuData?.result || []" :field="'selfTimePercent'" :maxDataPoints="20" :updateInterval="2000" :unit="'%'" />
+            <MemoryTrendChart :data="cpuData?.result || []" :field="'totalTimeMs'" :maxDataPoints="20" :updateInterval="2000" :unit="'%'" />
           </div>
           <div class="text-xs text-gray-500 mt-2">CPU usage / GC activity</div>
         </div>
@@ -562,7 +562,7 @@
           </div>
           <!-- 图表插槽 -->
           <div class="flex-1 min-h-[220px]">
-            <!-- <ProcessStatusChart :processes="availableProcesses" /> -->
+            <MemoryTrendChart :data="threadData || []" :field="['liveThreads', 'daemonThreads']" :updateInterval="1000"  />
           </div>
           <div class="text-xs text-gray-500 mt-2">Live threads / Daemon threads</div>
         </div>
@@ -575,7 +575,7 @@ import { ref, computed, onMounted, watch } from 'vue'
 import MemoryTrendChart from '@/components/charts/MemoryTrendChart.vue'
 import ProcessStatusChart from '@/components/charts/ProcessStatusChart.vue'
 import { useProcessStore } from '@/stores/process'
-import { cpuApi, processApi } from '@/api'
+import { cpuApi, memoryApi, processApi, threadApi } from '@/api'
 import { resolveApiBaseUrl } from '@/api'
 import { buildInfo } from '@/config/build-info'
 import VersionInfo from '@/components/VersionInfo.vue'
@@ -603,12 +603,13 @@ import {
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 import type { JavaProcessDetail, SystemPropertiesInterface, JavaProcessInfo } from '@/types'
 import { useStatisticsStore } from '@/stores/statistics'
+import type { ThreadStats } from '@/types'
 
 const processStore = useProcessStore()
 const activeTab = ref('jvm-arguments')
 
 // UI 状态
-const savedDataEnabled = ref(true)
+const savedDataEnabled = ref(false)
 const detailInfoEnabled = ref(true)
 const selectedPid = ref<string>('')
 const isRefreshing = ref(false)
@@ -726,12 +727,15 @@ async function getSaveDataFn(pid: string) {
   })
 }
 
-
 // 处理PID变化
 async function handlePidChange() {
   await getSaveDataFn(selectedPid.value)
   await getDetailInfoEnabled(selectedPid.value)
   cpuStart()
+  memoryStart()
+  threadData.value = []
+  threadStart()
+
   // 使用模拟数据替代不存在的API接口
   // setMockJvmArguments()
   // setMockSystemProperties()
@@ -779,7 +783,6 @@ watch(() => processStore.currentProcess, (newProcess) => {
 }, { immediate: true })
 
 const cpuData = ref()
-
 async function cpuStart() {
   await cpuApi.startCpuProfiling(selectedPid.value).then((response) => {
     if (response.areSuccess) {
@@ -801,6 +804,53 @@ async function cpuStart() {
   es.onerror = () => {
     // 处理错误
   };
+}
+
+const memoryData = ref()
+async function memoryStart() {
+  await memoryApi.getMemoryStats({
+    pid: selectedPid.value,
+    refresh: 5000,
+    filterType: 'include',
+    filter: 'jdbc'
+  }).then((response) => {
+    if (response.areSuccess) {
+      console.log('内存分析启动成功:', response.data)
+      // memoryData.value = response.data
+    } else {
+      console.error('内存分析启动失败:', response.msg)
+    }
+  }).catch((error) => {
+    console.error('内存分析启动异常:', error)
+  })
+  const baseUrl = resolveApiBaseUrl()
+  const eventSourceUrl = `${baseUrl}/cvm/memory/stream?pid=${selectedPid.value}&refreshPeriod=${5000}`
+  const es = new EventSource(eventSourceUrl);
+  es.onmessage = (event) => {
+    // 处理 event.data
+    memoryData.value = JSON.parse(event.data);
+  };
+  es.onerror = () => {
+    // 处理错误
+  };
+}
+
+const threadData = ref<ThreadStats[]>([])
+async function threadStart() {
+  await threadApi.getThreadList(selectedPid.value).then((response) => {
+    if (response.areSuccess) {
+      console.log('线程分析启动成功:', response.data)
+      threadData.value = [response.data?.stats] || []
+    } else {
+      console.error('线程分析启动失败:', response.msg)
+    }
+  }).catch((error) => {
+    console.error('线程分析启动异常:', error)
+  }).finally(() => {
+    setTimeout(() => {
+      threadStart()
+    }, 1000)
+  })
 }
 
 // 组件挂载时初始化
