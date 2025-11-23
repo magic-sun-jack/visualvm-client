@@ -124,106 +124,221 @@
     </Card>
 
     <!-- GC概览卡片 -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-      <Card class="bg-white dark:bg-gray-800">
-        <CardHeader class="pb-2">
-          <CardTitle class="text-sm font-medium text-gray-600 dark:text-gray-400">compileTime</CardTitle>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+      <!-- 编译时间统计 -->
+      <Card class="bg-white dark:bg-gray-800 shadow-sm hover:shadow-md transition-shadow duration-200 border border-gray-200 dark:border-gray-700">
+        <CardHeader class="pb-3">
+          <CardTitle class="text-sm font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wide">编译时间</CardTitle>
         </CardHeader>
-        <CardContent>
-          <div class="text-2xl font-bold text-green-600 dark:text-green-400">
-            {{ gcStatsData?.compileTime.totalCompilationTime }}
+        <CardContent class="space-y-2">
+          <div class="text-3xl font-bold text-emerald-600 dark:text-emerald-400">
+            {{ gcStatsData?.compileTime.totalCompilationTime || 0 }}
           </div>
-          <div class="text-xs text-gray-500 mt-1">name: {{ gcStatsData?.compileTime.name }}</div>
-        </CardContent>
-      </Card>
-      <Card class="bg-white dark:bg-gray-800">
-        <CardHeader class="pb-2">
-          <CardTitle class="text-sm font-medium text-gray-600 dark:text-gray-400">classLoaderTime</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div class="text-xs text-gray-500 mt-1 text-left">已加载类数:{{ gcStatsData?.classLoaderTime.loadedClassCount }}</div>
-          <div class="text-xs text-gray-500 mt-1 text-left">已卸载类数:{{ gcStatsData?.classLoaderTime.unloadedClassCount }}</div>
-          <div class="text-xs text-gray-500 mt-1 text-left">总加载类数:{{ gcStatsData?.classLoaderTime.totalLoadedClassCount }}</div>
-          <div class="text-2xl font-bold text-green-600 dark:text-green-400">
-            时间:{{ formatTime(gcStatsData?.classLoaderTime.classLoaderTotalTimeMs, true) }}
+          <div class="flex items-center gap-2 pt-2 border-t border-gray-100 dark:border-gray-700">
+            <span class="text-xs font-medium text-gray-500 dark:text-gray-400">编译器:</span>
+            <span class="text-xs text-gray-700 dark:text-gray-300 font-mono">{{ gcStatsData?.compileTime.name || '-' }}</span>
           </div>
-        </CardContent>
-      </Card>
-      <Card class="bg-white dark:bg-gray-800">
-        <CardHeader class="pb-2">
-          <CardTitle class="text-sm font-medium text-gray-600 dark:text-gray-400">总GC次数</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div class="text-2xl font-bold text-blue-600 dark:text-blue-400">
-            {{ gcStats.totalCollections }}
-          </div>
-          <div class="text-xs text-gray-500 mt-1">GC名称: {{ gcStats.name || '-' }}</div>
-          <div class="text-2xl font-bold text-green-600 dark:text-green-400">
-            时间: {{ gcStats.totalTime }}
-          </div>
-
         </CardContent>
       </Card>
 
-      <Card class="bg-white dark:bg-gray-800">
-        <CardHeader class="pb-2">
-          <CardTitle class="text-sm font-medium text-gray-600 dark:text-gray-400">eden</CardTitle>
+      <!-- 类加载器统计 -->
+      <Card class="bg-white dark:bg-gray-800 shadow-sm hover:shadow-md transition-shadow duration-200 border border-gray-200 dark:border-gray-700">
+        <CardHeader class="pb-3">
+          <CardTitle class="text-sm font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wide">类加载器</CardTitle>
         </CardHeader>
-        <CardContent>
-          <div class="text-2xl font-bold text-purple-600 dark:text-purple-400">
-            {{ formatBytes(gcStatsData?.memorySpaces.eden.used) }}
+        <CardContent class="space-y-3">
+          <div class="grid grid-cols-3 gap-2 text-xs">
+            <div class="space-y-1">
+              <div class="text-gray-500 dark:text-gray-400 font-medium">已加载</div>
+              <div class="text-gray-900 dark:text-gray-100 font-semibold">{{ gcStatsData?.classLoaderTime.loadedClassCount || 0 }}</div>
+            </div>
+            <div class="space-y-1">
+              <div class="text-gray-500 dark:text-gray-400 font-medium">已卸载</div>
+              <div class="text-gray-900 dark:text-gray-100 font-semibold">{{ gcStatsData?.classLoaderTime.unloadedClassCount || 0 }}</div>
+            </div>
+            <div class="space-y-1">
+              <div class="text-gray-500 dark:text-gray-400 font-medium">总计</div>
+              <div class="text-gray-900 dark:text-gray-100 font-semibold">{{ gcStatsData?.classLoaderTime.totalLoadedClassCount || 0 }}</div>
+            </div>
           </div>
-          <div class="text-xs text-gray-500 mt-1">committed: {{ formatBytes(gcStatsData?.memorySpaces.eden.committed) }}</div>
-          <div class="text-xs text-gray-500 mt-1">max: {{ formatBytes(gcStatsData?.memorySpaces.eden.max) }}</div>
-          <div class="text-xs text-gray-500 mt-1">init: {{ formatBytes(gcStatsData?.memorySpaces.eden.init) }}</div>
+          <div class="pt-2 border-t border-gray-100 dark:border-gray-700">
+            <div class="text-xs text-gray-500 dark:text-gray-400 mb-1">总耗时</div>
+            <div class="text-xl font-bold text-emerald-600 dark:text-emerald-400">
+              {{ formatTime(gcStatsData?.classLoaderTime.classLoaderTotalTimeMs, true) }}
+            </div>
+          </div>
         </CardContent>
       </Card>
-      <Card class="bg-white dark:bg-gray-800">
-        <CardHeader class="pb-2">
-          <CardTitle class="text-sm font-medium text-gray-600 dark:text-gray-400">survivor0</CardTitle>
+
+      <!-- GC统计 -->
+      <Card class="bg-white dark:bg-gray-800 shadow-sm hover:shadow-md transition-shadow duration-200 border border-gray-200 dark:border-gray-700">
+        <CardHeader class="pb-3">
+          <CardTitle class="text-sm font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wide">GC统计</CardTitle>
         </CardHeader>
-        <CardContent>
-          <div class="text-2xl font-bold text-purple-600 dark:text-purple-400">
-            {{ formatBytes(gcStatsData?.memorySpaces.survivor0.used) }}
+        <CardContent class="space-y-3">
+          <div>
+            <div class="text-xs text-gray-500 dark:text-gray-400 mb-1">总次数</div>
+            <div class="text-3xl font-bold text-blue-600 dark:text-blue-400">
+              {{ gcStats.totalCollections }}
+            </div>
           </div>
-          <div class="text-xs text-gray-500 mt-1">committed/max: {{ formatBytes(gcStatsData?.memorySpaces.survivor0.committed) }} / {{ formatBytes(gcStatsData?.memorySpaces.survivor0.max) }}</div>
-          <div class="text-xs text-gray-500 mt-1">init: {{ formatBytes(gcStatsData?.memorySpaces.survivor0.init) }}</div>
+          <div class="pt-2 border-t border-gray-100 dark:border-gray-700 space-y-2">
+            <div>
+              <div class="text-xs text-gray-500 dark:text-gray-400 mb-1">GC名称</div>
+              <div class="text-sm font-medium text-gray-700 dark:text-gray-300 truncate">{{ gcStats.name || '-' }}</div>
+            </div>
+            <div>
+              <div class="text-xs text-gray-500 dark:text-gray-400 mb-1">总耗时</div>
+              <div class="text-lg font-bold text-emerald-600 dark:text-emerald-400">
+                {{ formatTime(gcStats.totalTime) }}
+              </div>
+            </div>
+          </div>
         </CardContent>
       </Card>
-      <Card class="bg-white dark:bg-gray-800">
-        <CardHeader class="pb-2">
-          <CardTitle class="text-sm font-medium text-gray-600 dark:text-gray-400">survivor1</CardTitle>
+
+      <!-- Eden空间 -->
+      <Card class="bg-white dark:bg-gray-800 shadow-sm hover:shadow-md transition-shadow duration-200 border border-gray-200 dark:border-gray-700">
+        <CardHeader class="pb-3">
+          <CardTitle class="text-sm font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wide">Eden空间</CardTitle>
         </CardHeader>
-        <CardContent>
-          <div class="text-2xl font-bold text-purple-600 dark:text-purple-400">
-            {{ formatBytes(gcStatsData?.memorySpaces.survivor1?.used || 0) }}
+        <CardContent class="space-y-3">
+          <div>
+            <div class="text-xs text-gray-500 dark:text-gray-400 mb-1">已使用</div>
+            <div class="text-2xl font-bold text-purple-600 dark:text-purple-400">
+              {{ formatBytes(gcStatsData?.memorySpaces.eden.used) }}
+            </div>
           </div>
-          <div class="text-xs text-gray-500 mt-1">committed/max: {{ formatBytes(gcStatsData?.memorySpaces.survivor1?.committed || 0) }} / {{ formatBytes(gcStatsData?.memorySpaces.survivor1?.max || 0) }}</div>
-          <div class="text-xs text-gray-500 mt-1">init: {{ formatBytes(gcStatsData?.memorySpaces.survivor1?.init || 0) }}</div>
+          <div class="pt-2 border-t border-gray-100 dark:border-gray-700 space-y-1.5">
+            <div class="flex justify-between items-center text-xs">
+              <span class="text-gray-500 dark:text-gray-400">已提交</span>
+              <span class="text-gray-700 dark:text-gray-300 font-mono">{{ formatBytes(gcStatsData?.memorySpaces.eden.committed) }}</span>
+            </div>
+            <div class="flex justify-between items-center text-xs">
+              <span class="text-gray-500 dark:text-gray-400">最大值</span>
+              <span class="text-gray-700 dark:text-gray-300 font-mono">{{ formatBytes(gcStatsData?.memorySpaces.eden.max) }}</span>
+            </div>
+            <div class="flex justify-between items-center text-xs">
+              <span class="text-gray-500 dark:text-gray-400">初始值</span>
+              <span class="text-gray-700 dark:text-gray-300 font-mono">{{ formatBytes(gcStatsData?.memorySpaces.eden.init) }}</span>
+            </div>
+          </div>
         </CardContent>
       </Card>
-      <Card class="bg-white dark:bg-gray-800">
-        <CardHeader class="pb-2">
-          <CardTitle class="text-sm font-medium text-gray-600 dark:text-gray-400">old</CardTitle>
+
+      <!-- Survivor0空间 -->
+      <Card class="bg-white dark:bg-gray-800 shadow-sm hover:shadow-md transition-shadow duration-200 border border-gray-200 dark:border-gray-700">
+        <CardHeader class="pb-3">
+          <CardTitle class="text-sm font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wide">Survivor0空间</CardTitle>
         </CardHeader>
-        <CardContent>
-          <div class="text-2xl font-bold text-purple-600 dark:text-purple-400">
-            {{ formatBytes(gcStatsData?.memorySpaces.old.used) }}
+        <CardContent class="space-y-3">
+          <div>
+            <div class="text-xs text-gray-500 dark:text-gray-400 mb-1">已使用</div>
+            <div class="text-2xl font-bold text-purple-600 dark:text-purple-400">
+              {{ formatBytes(gcStatsData?.memorySpaces.survivor0.used) }}
+            </div>
           </div>
-          <div class="text-xs text-gray-500 mt-1">committed/max: {{ formatBytes(gcStatsData?.memorySpaces.old.committed) }} / {{ formatBytes(gcStatsData?.memorySpaces.old.max) }}</div>
-          <div class="text-xs text-gray-500 mt-1">init: {{ formatBytes(gcStatsData?.memorySpaces.old.init) }}</div>
+          <div class="pt-2 border-t border-gray-100 dark:border-gray-700 space-y-1.5">
+            <div class="flex justify-between items-center text-xs">
+              <span class="text-gray-500 dark:text-gray-400">已提交</span>
+              <span class="text-gray-700 dark:text-gray-300 font-mono">{{ formatBytes(gcStatsData?.memorySpaces.survivor0.committed) }}</span>
+            </div>
+            <div class="flex justify-between items-center text-xs">
+              <span class="text-gray-500 dark:text-gray-400">最大值</span>
+              <span class="text-gray-700 dark:text-gray-300 font-mono">{{ formatBytes(gcStatsData?.memorySpaces.survivor0.max) }}</span>
+            </div>
+            <div class="flex justify-between items-center text-xs">
+              <span class="text-gray-500 dark:text-gray-400">初始值</span>
+              <span class="text-gray-700 dark:text-gray-300 font-mono">{{ formatBytes(gcStatsData?.memorySpaces.survivor0.init) }}</span>
+            </div>
+          </div>
         </CardContent>
       </Card>
-      <Card class="bg-white dark:bg-gray-800">
-        <CardHeader class="pb-2">
-          <CardTitle class="text-sm font-medium text-gray-600 dark:text-gray-400">metaspace</CardTitle>
+
+      <!-- Survivor1空间 -->
+      <Card class="bg-white dark:bg-gray-800 shadow-sm hover:shadow-md transition-shadow duration-200 border border-gray-200 dark:border-gray-700">
+        <CardHeader class="pb-3">
+          <CardTitle class="text-sm font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wide">Survivor1空间</CardTitle>
         </CardHeader>
-        <CardContent>
-          <div class="text-2xl font-bold text-purple-600 dark:text-purple-400">
-            {{ formatBytes(gcStatsData?.memorySpaces.metaspace.used) }}
+        <CardContent class="space-y-3">
+          <div>
+            <div class="text-xs text-gray-500 dark:text-gray-400 mb-1">已使用</div>
+            <div class="text-2xl font-bold text-purple-600 dark:text-purple-400">
+              {{ formatBytes(gcStatsData?.memorySpaces.survivor1?.used || 0) }}
+            </div>
           </div>
-          <div class="text-xs text-gray-500 mt-1">committed/max: {{ formatBytes(gcStatsData?.memorySpaces.metaspace.committed) }} / {{ formatBytes(gcStatsData?.memorySpaces.metaspace.max) }}</div>
-          <div class="text-xs text-gray-500 mt-1">init: {{ formatBytes(gcStatsData?.memorySpaces.metaspace.init) }}</div>
+          <div class="pt-2 border-t border-gray-100 dark:border-gray-700 space-y-1.5">
+            <div class="flex justify-between items-center text-xs">
+              <span class="text-gray-500 dark:text-gray-400">已提交</span>
+              <span class="text-gray-700 dark:text-gray-300 font-mono">{{ formatBytes(gcStatsData?.memorySpaces.survivor1?.committed || 0) }}</span>
+            </div>
+            <div class="flex justify-between items-center text-xs">
+              <span class="text-gray-500 dark:text-gray-400">最大值</span>
+              <span class="text-gray-700 dark:text-gray-300 font-mono">{{ formatBytes(gcStatsData?.memorySpaces.survivor1?.max || 0) }}</span>
+            </div>
+            <div class="flex justify-between items-center text-xs">
+              <span class="text-gray-500 dark:text-gray-400">初始值</span>
+              <span class="text-gray-700 dark:text-gray-300 font-mono">{{ formatBytes(gcStatsData?.memorySpaces.survivor1?.init || 0) }}</span>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      <!-- Old空间 -->
+      <Card class="bg-white dark:bg-gray-800 shadow-sm hover:shadow-md transition-shadow duration-200 border border-gray-200 dark:border-gray-700">
+        <CardHeader class="pb-3">
+          <CardTitle class="text-sm font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wide">Old空间</CardTitle>
+        </CardHeader>
+        <CardContent class="space-y-3">
+          <div>
+            <div class="text-xs text-gray-500 dark:text-gray-400 mb-1">已使用</div>
+            <div class="text-2xl font-bold text-purple-600 dark:text-purple-400">
+              {{ formatBytes(gcStatsData?.memorySpaces.old.used) }}
+            </div>
+          </div>
+          <div class="pt-2 border-t border-gray-100 dark:border-gray-700 space-y-1.5">
+            <div class="flex justify-between items-center text-xs">
+              <span class="text-gray-500 dark:text-gray-400">已提交</span>
+              <span class="text-gray-700 dark:text-gray-300 font-mono">{{ formatBytes(gcStatsData?.memorySpaces.old.committed) }}</span>
+            </div>
+            <div class="flex justify-between items-center text-xs">
+              <span class="text-gray-500 dark:text-gray-400">最大值</span>
+              <span class="text-gray-700 dark:text-gray-300 font-mono">{{ formatBytes(gcStatsData?.memorySpaces.old.max) }}</span>
+            </div>
+            <div class="flex justify-between items-center text-xs">
+              <span class="text-gray-500 dark:text-gray-400">初始值</span>
+              <span class="text-gray-700 dark:text-gray-300 font-mono">{{ formatBytes(gcStatsData?.memorySpaces.old.init) }}</span>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      <!-- Metaspace空间 -->
+      <Card class="bg-white dark:bg-gray-800 shadow-sm hover:shadow-md transition-shadow duration-200 border border-gray-200 dark:border-gray-700">
+        <CardHeader class="pb-3">
+          <CardTitle class="text-sm font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wide">Metaspace空间</CardTitle>
+        </CardHeader>
+        <CardContent class="space-y-3">
+          <div>
+            <div class="text-xs text-gray-500 dark:text-gray-400 mb-1">已使用</div>
+            <div class="text-2xl font-bold text-purple-600 dark:text-purple-400">
+              {{ formatBytes(gcStatsData?.memorySpaces.metaspace.used) }}
+            </div>
+          </div>
+          <div class="pt-2 border-t border-gray-100 dark:border-gray-700 space-y-1.5">
+            <div class="flex justify-between items-center text-xs">
+              <span class="text-gray-500 dark:text-gray-400">已提交</span>
+              <span class="text-gray-700 dark:text-gray-300 font-mono">{{ formatBytes(gcStatsData?.memorySpaces.metaspace.committed) }}</span>
+            </div>
+            <div class="flex justify-between items-center text-xs">
+              <span class="text-gray-500 dark:text-gray-400">最大值</span>
+              <span class="text-gray-700 dark:text-gray-300 font-mono">{{ formatBytes(gcStatsData?.memorySpaces.metaspace.max) }}</span>
+            </div>
+            <div class="flex justify-between items-center text-xs">
+              <span class="text-gray-500 dark:text-gray-400">初始值</span>
+              <span class="text-gray-700 dark:text-gray-300 font-mono">{{ formatBytes(gcStatsData?.memorySpaces.metaspace.init) }}</span>
+            </div>
+          </div>
         </CardContent>
       </Card>
     </div>
