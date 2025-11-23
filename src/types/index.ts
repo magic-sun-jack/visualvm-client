@@ -130,52 +130,70 @@ export interface SystemPropertiesInterface {
   "java.class.version": string
 }
 
+// GC 统计信息接口，根据 @Untitled-3 (4-65) 完善，补全 survivor1 支持及完善注释
 export interface GCStatsInfo {
-  // 单位
+  // 编译器信息
   compileTime: {
     name: string // 编译器名称
-    totalCompilationTime: number // 编译器总编译时间
+    totalCompilationTime: number // 编译器总编译时间(ms)
   }
-  gcInfo: {
-    name: string // GC 名称
+  // 类加载器统计信息
+  classLoaderTime: {
+    classLoaderTotalTimeMs: number // 类加载器累计加载用时(ms)
+    loadedClassCount: number // 已加载类数
+    unloadedClassCount: number // 已卸载类数
+    totalLoadedClassCount: number // 历史累计加载类数
+  }
+  // 垃圾回收器统计信息数组（支持多 GC）
+  gcInfo: Array<{
+    name: string        // GC 名称，如 "G1 Young Generation"
     collectionCount: number // GC 执行次数
-    collectionTime: number // 单个 GC 耗时
-  }
-  totalGCTime: number // 所有 GC 总耗时
+    collectionTime: number  // GC 总耗时(ms)
+  }>
+  // 所有 GC 总耗时(ms)
+  totalGCTime: number
+  // 堆/非堆总览
   heapOverview: {
-    heapUsed: number // 堆当前已使用内存
-    heapInit: number // 堆初始分配内存
-    heapCommitted: number // 堆已提交内存
-    heapMax: number // 堆最大可用内存
-    nonHeapUsed: number // 非堆当前已使用内存
-    nonHeapInit: number // 非堆初始分配内存
+    heapUsed: number        // 堆已使用内存
+    heapInit: number        // 堆初始分配内存
+    heapCommitted: number   // 堆已提交内存
+    heapMax: number         // 堆最大可用内存
+    nonHeapUsed: number     // 非堆已使用内存
+    nonHeapInit: number     // 非堆初始分配内存
     nonHeapCommitted: number // 非堆已提交内存
-    nonHeapMax: number // 非堆最大可用内存
+    nonHeapMax: number      // 非堆最大可用内存
   }
+  // 堆内各内存空间
   memorySpaces: {
     metaspace: {
-      used: number // 元空间已使用内存
-      init: number // 元空间初始内存
-      committed: number // 元空间已提交内存
-      max: number // 元空间最大可用内存
-    }
-    old: {
-      used: number // 老年代已使用内存
-      init: number // 老年代初始内存
-      committed: number // 老年代已提交内存
-      max: number // 老年代最大可用内存
+      init: number
+      committed: number
+      max: number
+      used: number
     }
     eden: {
-      used: number // Eden 区已使用内存
-      init: number // Eden 区初始内存
-      committed: number // Eden 区已提交内存
-      max: number // Eden 区最大可用内存
+      init: number
+      committed: number
+      max: number
+      used: number
+    }
+    old: {
+      init: number
+      committed: number
+      max: number
+      used: number
     }
     survivor0: {
-      used: number // Survivor0 区已使用内存
-      init: number // Survivor0 区初始内存
-      committed: number // Survivor0 区已提交内存
-      max: number // Survivor0 区最大可用内存
+      init: number
+      committed: number
+      max: number
+      used: number
+    }
+    survivor1?: { // 新增 survivor1 区间支持，部分虚拟机有此 Key
+      init: number
+      committed: number
+      max: number
+      used: number
     }
   }
 }

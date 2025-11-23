@@ -127,49 +127,103 @@
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
       <Card class="bg-white dark:bg-gray-800">
         <CardHeader class="pb-2">
+          <CardTitle class="text-sm font-medium text-gray-600 dark:text-gray-400">compileTime</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div class="text-2xl font-bold text-green-600 dark:text-green-400">
+            {{ gcStatsData?.compileTime.totalCompilationTime }}
+          </div>
+          <div class="text-xs text-gray-500 mt-1">name: {{ gcStatsData?.compileTime.name }}</div>
+        </CardContent>
+      </Card>
+      <Card class="bg-white dark:bg-gray-800">
+        <CardHeader class="pb-2">
+          <CardTitle class="text-sm font-medium text-gray-600 dark:text-gray-400">classLoaderTime</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div class="text-xs text-gray-500 mt-1 text-left">已加载类数:{{ gcStatsData?.classLoaderTime.loadedClassCount }}</div>
+          <div class="text-xs text-gray-500 mt-1 text-left">已卸载类数:{{ gcStatsData?.classLoaderTime.unloadedClassCount }}</div>
+          <div class="text-xs text-gray-500 mt-1 text-left">总加载类数:{{ gcStatsData?.classLoaderTime.totalLoadedClassCount }}</div>
+          <div class="text-2xl font-bold text-green-600 dark:text-green-400">
+            时间:{{ formatTime(gcStatsData?.classLoaderTime.classLoaderTotalTimeMs, true) }}
+          </div>
+        </CardContent>
+      </Card>
+      <Card class="bg-white dark:bg-gray-800">
+        <CardHeader class="pb-2">
           <CardTitle class="text-sm font-medium text-gray-600 dark:text-gray-400">总GC次数</CardTitle>
         </CardHeader>
         <CardContent>
           <div class="text-2xl font-bold text-blue-600 dark:text-blue-400">
             {{ gcStats.totalCollections }}
           </div>
-          <div class="text-xs text-gray-500 mt-1">GC名称: {{ gcStats.gcName || '-' }}</div>
-        </CardContent>
-      </Card>
-
-      <Card class="bg-white dark:bg-gray-800">
-        <CardHeader class="pb-2">
-          <CardTitle class="text-sm font-medium text-gray-600 dark:text-gray-400">总GC时间</CardTitle>
-        </CardHeader>
-        <CardContent>
+          <div class="text-xs text-gray-500 mt-1">GC名称: {{ gcStats.name || '-' }}</div>
           <div class="text-2xl font-bold text-green-600 dark:text-green-400">
-            {{ formatTime(gcStats.totalTime) }}
+            时间: {{ gcStats.totalTime }}
           </div>
-          <div class="text-xs text-gray-500 mt-1">平均: {{ formatTime(gcStats.averageTime) }}</div>
+
         </CardContent>
       </Card>
 
       <Card class="bg-white dark:bg-gray-800">
         <CardHeader class="pb-2">
-          <CardTitle class="text-sm font-medium text-gray-600 dark:text-gray-400">编译时间</CardTitle>
+          <CardTitle class="text-sm font-medium text-gray-600 dark:text-gray-400">eden</CardTitle>
         </CardHeader>
         <CardContent>
           <div class="text-2xl font-bold text-purple-600 dark:text-purple-400">
-            {{ formatTime(compileStats.totalTime) }}
+            {{ formatBytes(gcStatsData?.memorySpaces.eden.used) }}
           </div>
-          <div class="text-xs text-gray-500 mt-1">编译器: {{ gcStatsData?.compileTime.name || '-' }}</div>
+          <div class="text-xs text-gray-500 mt-1">committed: {{ formatBytes(gcStatsData?.memorySpaces.eden.committed) }}</div>
+          <div class="text-xs text-gray-500 mt-1">max: {{ formatBytes(gcStatsData?.memorySpaces.eden.max) }}</div>
+          <div class="text-xs text-gray-500 mt-1">init: {{ formatBytes(gcStatsData?.memorySpaces.eden.init) }}</div>
         </CardContent>
       </Card>
-
       <Card class="bg-white dark:bg-gray-800">
         <CardHeader class="pb-2">
-          <CardTitle class="text-sm font-medium text-gray-600 dark:text-gray-400">类加载时间</CardTitle>
+          <CardTitle class="text-sm font-medium text-gray-600 dark:text-gray-400">survivor0</CardTitle>
         </CardHeader>
         <CardContent>
-          <div class="text-2xl font-bold text-indigo-600 dark:text-indigo-400">
-            {{ formatTime(classLoaderStats.totalTime) }}
+          <div class="text-2xl font-bold text-purple-600 dark:text-purple-400">
+            {{ formatBytes(gcStatsData?.memorySpaces.survivor0.used) }}
           </div>
-          <div class="text-xs text-gray-500 mt-1">{{ classLoaderStats.loaded }}加载, {{ classLoaderStats.unloaded }}卸载</div>
+          <div class="text-xs text-gray-500 mt-1">committed/max: {{ formatBytes(gcStatsData?.memorySpaces.survivor0.committed) }} / {{ formatBytes(gcStatsData?.memorySpaces.survivor0.max) }}</div>
+          <div class="text-xs text-gray-500 mt-1">init: {{ formatBytes(gcStatsData?.memorySpaces.survivor0.init) }}</div>
+        </CardContent>
+      </Card>
+      <Card class="bg-white dark:bg-gray-800">
+        <CardHeader class="pb-2">
+          <CardTitle class="text-sm font-medium text-gray-600 dark:text-gray-400">survivor1</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div class="text-2xl font-bold text-purple-600 dark:text-purple-400">
+            {{ formatBytes(gcStatsData?.memorySpaces.survivor1?.used || 0) }}
+          </div>
+          <div class="text-xs text-gray-500 mt-1">committed/max: {{ formatBytes(gcStatsData?.memorySpaces.survivor1?.committed || 0) }} / {{ formatBytes(gcStatsData?.memorySpaces.survivor1?.max || 0) }}</div>
+          <div class="text-xs text-gray-500 mt-1">init: {{ formatBytes(gcStatsData?.memorySpaces.survivor1?.init || 0) }}</div>
+        </CardContent>
+      </Card>
+      <Card class="bg-white dark:bg-gray-800">
+        <CardHeader class="pb-2">
+          <CardTitle class="text-sm font-medium text-gray-600 dark:text-gray-400">old</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div class="text-2xl font-bold text-purple-600 dark:text-purple-400">
+            {{ formatBytes(gcStatsData?.memorySpaces.old.used) }}
+          </div>
+          <div class="text-xs text-gray-500 mt-1">committed/max: {{ formatBytes(gcStatsData?.memorySpaces.old.committed) }} / {{ formatBytes(gcStatsData?.memorySpaces.old.max) }}</div>
+          <div class="text-xs text-gray-500 mt-1">init: {{ formatBytes(gcStatsData?.memorySpaces.old.init) }}</div>
+        </CardContent>
+      </Card>
+      <Card class="bg-white dark:bg-gray-800">
+        <CardHeader class="pb-2">
+          <CardTitle class="text-sm font-medium text-gray-600 dark:text-gray-400">metaspace</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div class="text-2xl font-bold text-purple-600 dark:text-purple-400">
+            {{ formatBytes(gcStatsData?.memorySpaces.metaspace.used) }}
+          </div>
+          <div class="text-xs text-gray-500 mt-1">committed/max: {{ formatBytes(gcStatsData?.memorySpaces.metaspace.committed) }} / {{ formatBytes(gcStatsData?.memorySpaces.metaspace.max) }}</div>
+          <div class="text-xs text-gray-500 mt-1">init: {{ formatBytes(gcStatsData?.memorySpaces.metaspace.init) }}</div>
         </CardContent>
       </Card>
     </div>
@@ -485,11 +539,11 @@ const gcStats = computed(() => {
       averageTime: 0,
       frequency: 0,
       efficiency: 0,
-      gcName: ''
+      name: ''
     }
   }
   
-  const collectionCount = gcStatsData.value.gcInfo.collectionCount
+  const collectionCount = gcStatsData.value.gcInfo.reduce((sum, item) => sum + item.collectionCount, 0)
   const totalTime = gcStatsData.value.totalGCTime
   const averageTime = collectionCount > 0 ? totalTime / collectionCount : 0
   
@@ -499,7 +553,7 @@ const gcStats = computed(() => {
     averageTime: averageTime,
     frequency: 0, // 需要根据时间计算
     efficiency: 0, // 需要根据回收量计算
-    gcName: gcStatsData.value.gcInfo.name
+    name: gcStatsData.value.gcInfo.map(item => item.name).join(',')
   }
 })
 
@@ -542,14 +596,20 @@ const gcRecords = ref<GCRecord[]>([])
 const gcTrendData = ref<GCTrendData[]>([])
 
 // 工具函数
-function formatTime(milliseconds: number): string {
-  if (milliseconds < 1000) {
+function formatTime(milliseconds?: number, isMs: boolean = false): string {
+  if (!milliseconds) {
+    return '0ms'
+  }
+  if (isMs) {
     return `${milliseconds.toFixed(1)}ms`
   }
   return `${(milliseconds / 1000).toFixed(2)}s`
 }
 
-function formatBytes(bytes: number): string {
+function formatBytes(bytes?: number): string {
+  if (!bytes) {
+    return '0B'
+  }
   const units = ['B', 'KB', 'MB', 'GB', 'TB']
   let size = bytes
   let unitIndex = 0
