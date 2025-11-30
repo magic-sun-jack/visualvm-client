@@ -12,15 +12,15 @@
       </CardHeader>
       <CardContent class="space-y-4">
         <div class="flex items-center gap-3">
-          <input
+          <Input
+            ref="fileInputRef"
             type="file"
-            accept=".txt,.log,.threaddump,.dump"
+            accept=".hprof,.threaddump,.dump,.txt,.log,.log.gz"
             @change="onFileChange"
-            class="block w-full text-sm text-gray-900 border border-gray-300 rounded cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600"
           />
           <Button variant="secondary" size="sm" @click="clearSelection" :disabled="!selectedFile">清除</Button>
+          <Button variant="outline" size="sm" @click="readFile" :disabled="!selectedFile || isReading">读取文件</Button>
         </div>
-
         <div v-if="selectedFile" class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
           <div>
             <div class="text-muted-foreground">文件名</div>
@@ -46,7 +46,6 @@
         </div>
       </CardContent>
       <CardFooter class="flex justify-end gap-2">
-        <Button variant="outline" @click="readFile" :disabled="!selectedFile || isReading">读取文件</Button>
       </CardFooter>
     </Card>
 
@@ -74,7 +73,7 @@
             <div v-if="showLineNumbers" class="absolute left-0 top-0 bottom-0 w-12 bg-gray-100 dark:bg-gray-800 border-r border-gray-300 dark:border-gray-700 text-right pr-2 text-gray-500 text-xs select-none">
               <div v-for="n in fileLines" :key="n" class="leading-6">{{ n }}</div>
             </div>
-            <div :class="{ 'ml-14': showLineNumbers }">
+            <div>
               <div class="leading-6 pl-2" v-for="line in fileContent.split('\n')" :key="line">
                 {{ line }}
               </div>
@@ -97,15 +96,19 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import Button from '@/components/ui/button/Button.vue'
+import Input from '@/components/ui/input/Input.vue'
 import Card from '@/components/ui/card/Card.vue'
 import CardHeader from '@/components/ui/card/CardHeader.vue'
 import CardTitle from '@/components/ui/card/CardTitle.vue'
 import CardDescription from '@/components/ui/card/CardDescription.vue'
 import CardContent from '@/components/ui/card/CardContent.vue'
 import CardFooter from '@/components/ui/card/CardFooter.vue'
+import { threadApi } from '@/api'
+import router from '@/router'
 
+const fileInputRef = ref<HTMLInputElement | null>(null)
 const selectedFile = ref<File | null>(null)
 const isReading = ref(false)
 const readError = ref<string | null>(null)
@@ -119,14 +122,22 @@ const fileLines = computed(() => {
   return fileContent.value.split('\n').length
 })
 
+function triggerFileSelect() {
+  fileInputRef.value?.click()
+}
+
 function onFileChange(e: Event) {
   const input = e.target as HTMLInputElement
   selectedFile.value = input.files && input.files[0] ? input.files[0] : null
   resetState()
+  readFile()
 }
 
 function clearSelection() {
   selectedFile.value = null
+  if (fileInputRef.value) {
+    fileInputRef.value.value = ''
+  }
   resetState()
 }
 
@@ -188,6 +199,15 @@ function formatBytes(size: number): string {
   const i = Math.floor(Math.log(size) / Math.log(k))
   return `${(size / Math.pow(k, i)).toFixed(2)} ${units[i]}`
 }
+
+onMounted(() => {
+  const pid = router.currentRoute.value.query.pid as string
+  if (pid) {
+    threadApi.getThreadDump(pid).then((response) => {
+      fileContent.value = response.data || '2232323'
+    })
+  }
+})
 </script>
 
 <style scoped>

@@ -1,13 +1,13 @@
 <template>
-  <div class="p-4">
-    <div class="flex items-center justify-between gap-2 mb-4">
+  <div class="p-4 h-[calc(100vh-3.5rem)] flex flex-col overflow-hidden">
+    <div class="flex items-center justify-between gap-2 mb-4 flex-shrink-0">
       <h2 class="text-lg font-bold mb-4">线程监控</h2>
       <div class="flex items-center justify-between gap-2 mb-4">
         <Checkbox v-model="showStateDistribution" label="线程可视化" />
         <label for="showStateDistribution" class="flex items-center gap-2 cursor-pointer">
           <span class="text-sm">显示状态分布</span>
         </label>
-        <Button variant="link" size="sm" @click="getThreadDump">线程转储</Button>
+        <Button variant="outline" size="sm" @click="getThreadDump">线程转储</Button>
         <Switch v-model="isActive" label="自动刷新" />
         <label for="isActive" class="flex items-center gap-2 cursor-pointer">
           <span class="text-sm">自动刷新</span>
@@ -16,7 +16,7 @@
     </div>
 
     <!-- Loading状态 -->
-    <div v-if="loading" class="flex items-center justify-center py-12">
+    <div v-if="loading" class="flex-1 flex items-center justify-center">
       <div class="flex flex-col items-center gap-4">
         <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
         <p class="text-gray-600 dark:text-gray-400">正在加载线程数据...</p>
@@ -24,7 +24,7 @@
     </div>
 
     <!-- 统计信息 -->
-    <div v-if="hasStats" class="mb-6 grid grid-cols-2 md:grid-cols-4 gap-4">
+    <div v-if="hasStats" class="mb-6 grid grid-cols-2 md:grid-cols-4 gap-4 flex-shrink-0">
       <div class="bg-blue-50 dark:bg-blue-900/20 p-3 rounded-lg">
         <div class="text-sm text-blue-600 dark:text-blue-400">活跃线程</div>
         <div class="text-xl font-bold text-blue-800 dark:text-blue-200">{{ stats?.liveThreads }}</div>
@@ -43,10 +43,9 @@
       </div>
     </div>
 
-    <div v-if="showStateDistribution">
-
+    <div v-if="showStateDistribution" class="flex-1 flex flex-col min-h-0">
       <!-- 线程状态分布 -->
-      <div v-if="hasStateDistribution" class="mb-6">
+      <div v-if="hasStateDistribution" class="mb-6 flex-shrink-0">
         <h3 class="text-md font-semibold mb-3">线程状态分布</h3>
         <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
           <div v-for="[state, percent] in Object.entries(stats?.stateDistributionPercent || {})" :key="state" 
@@ -65,7 +64,8 @@
       </div>
 
       <!-- 线程列表 -->
-      <div v-if="hasThreads" class="overflow-x-auto bg-white dark:bg-gray-800 rounded shadow">
+      <div v-if="hasThreads" class="flex-1 min-h-0 overflow-hidden bg-white dark:bg-gray-800 rounded shadow flex flex-col">
+        <div class="overflow-auto flex-1">
         <table class="min-w-[1200px] w-full text-xs">
           <thead>
             <tr class="bg-gray-100 dark:bg-gray-700">
@@ -238,18 +238,19 @@
             </tr>
           </tbody>
         </table>
+        </div>
       </div>
 
       <!-- 图例 -->
-      <div v-if="hasStateDistribution" class="flex flex-wrap gap-4 mt-4 text-xs">
+      <div v-if="hasStateDistribution" class="flex flex-wrap gap-4 mt-4 text-xs flex-shrink-0">
         <div class="flex items-center gap-1" v-for="[state] in Object.entries(stats?.stateDistributionPercent || {})" :key="state"><span class="h-3 w-5 rounded" :class="getStateColor(state)"></span>{{ getStateDisplayName(state) }}</div>
       </div>
     </div>
     <!-- 空状态 -->
-    <div v-if="!loading && !hasStats" class="flex items-center justify-center py-12">
+    <div v-if="!loading && !hasStats" class="flex-1 flex items-center justify-center">
       <div class="text-center">
-        <p class="text-gray-500 dark:text-gray-400">暂无线程数据</p>
-        <Button variant="outline" size="sm" class="mt-4" @click="getThreadListFn">刷新</Button>
+        <p class="text-gray-500 dark:text-gray-400 mb-4">暂无线程数据</p>
+        <Button variant="outline" size="sm" @click="getThreadListFn">刷新</Button>
       </div>
     </div>
   </div>
@@ -397,7 +398,7 @@ function sortBy(field: string) {
 }
 
 async function getThreadDump() {
-  router.push('/threads/dump')
+  router.push('/threads/dump?pid=' + processStore.currentProcess?.pid)
 }
 
 // 轮询控制
