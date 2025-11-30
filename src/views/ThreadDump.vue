@@ -2,7 +2,7 @@
   <div class="p-6 space-y-6">
     <div>
       <h2 class="text-2xl font-bold">线程转储文件查看</h2>
-      <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">选择本地线程转储文件（.txt, .log 等），直接读取并显示文件内容</p>
+      <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">选择本地线程转储文件（.hprof 等），直接读取并显示文件内容</p>
     </div>
 
     <Card class="bg-white dark:bg-gray-800">

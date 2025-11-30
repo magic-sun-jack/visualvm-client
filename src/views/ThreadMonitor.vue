@@ -1,13 +1,13 @@
 <template>
-  <div class="p-4 h-[calc(100vh-3.5rem)] flex flex-col overflow-hidden">
+  <div class="p-4 flex flex-col overflow-hidden">
     <div class="flex items-center justify-between gap-2 mb-4 flex-shrink-0">
       <h2 class="text-lg font-bold mb-4">线程监控</h2>
       <div class="flex items-center justify-between gap-2 mb-4">
+        <Button variant="outline" size="sm" @click="getThreadDump">线程转储</Button>
         <Checkbox v-model="showStateDistribution" label="线程可视化" />
         <label for="showStateDistribution" class="flex items-center gap-2 cursor-pointer">
           <span class="text-sm">显示状态分布</span>
         </label>
-        <Button variant="outline" size="sm" @click="getThreadDump">线程转储</Button>
         <Switch v-model="isActive" label="自动刷新" />
         <label for="isActive" class="flex items-center gap-2 cursor-pointer">
           <span class="text-sm">自动刷新</span>
@@ -43,7 +43,7 @@
       </div>
     </div>
 
-    <div v-if="showStateDistribution" class="flex-1 flex flex-col min-h-0">
+    <div v-if="showStateDistribution && (hasStateDistribution || hasThreads)" class="flex-1 flex flex-col min-h-0">
       <!-- 线程状态分布 -->
       <div v-if="hasStateDistribution" class="mb-6 flex-shrink-0">
         <h3 class="text-md font-semibold mb-3">线程状态分布</h3>

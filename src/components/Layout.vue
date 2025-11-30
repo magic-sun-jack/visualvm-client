@@ -38,7 +38,7 @@
           </Button>
 
           <!-- 刷新按钮 -->
-          <Button
+          <!-- <Button
             variant="outline"
             size="sm"
             @click="refreshData"
@@ -50,7 +50,7 @@
               class="animate-spin -ml-1 mr-2 h-4 w-4"
             />
             {{ isRefreshing ? '刷新中...' : '刷新' }}
-          </Button>
+          </Button> -->
 
           <!-- 主题切换 -->
           <ThemeToggle />

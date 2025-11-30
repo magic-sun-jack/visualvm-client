@@ -58,7 +58,7 @@ const routes: RouteRecordRaw[] = [
       {
         path: "leak",
         name: "LeakDetection",
-        component: LeakDetection,
+        component: MemoryLeak,
         meta: { title: "内存泄漏检测", icon: ShieldAlert },
       },
     ],

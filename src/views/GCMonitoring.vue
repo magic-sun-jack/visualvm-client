@@ -344,7 +344,7 @@
     </div>
 
     <!-- 对象年龄直方图 -->
-    <Card class="bg-white dark:bg-gray-800 mb-8">
+    <Card class="bg-white dark:bg-gray-800 mb-8 hidden">
       <CardHeader>
         <CardTitle class="text-lg font-semibold">对象年龄直方图</CardTitle>
         <CardDescription>显示对象在survivor空间中的年龄分布</CardDescription>

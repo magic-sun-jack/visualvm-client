@@ -35,13 +35,13 @@
             </Button>
           </div>
         </div>
-        <Button @click="refreshData" :disabled="isLoading">
+        <Button @click="refreshData" :disabled="isLoading || !filePath">
           <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
           </svg>
           刷新数据
         </Button>
-        <Button variant="outline" @click="exportReport">
+        <Button variant="outline" @click="exportReport" :disabled="!filePath">
           <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
           </svg>
@@ -54,62 +54,65 @@
     <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
       <Card>
         <CardContent class="p-6 text-center">
-          <p class="text-sm text-muted-foreground">总内存使用</p>
-          <p class="text-2xl font-bold text-foreground">{{ formatMemory(totalMemoryUsage) }}</p>
+          <p class="text-sm text-muted-foreground">活跃线程</p>
+          <p class="text-2xl font-bold text-blue-600">{{ threadStats?.liveThreads || 0 }}</p>
         </CardContent>
       </Card>
       <Card>
         <CardContent class="p-6 text-center">
-          <p class="text-sm text-muted-foreground">堆内存使用</p>
-          <p class="text-2xl font-bold text-blue-600">{{ formatMemory(heapMemoryUsage) }}</p>
+          <p class="text-sm text-muted-foreground">守护线程</p>
+          <p class="text-2xl font-bold text-green-600">{{ threadStats?.daemonThreads || 0 }}</p>
         </CardContent>
       </Card>
       <Card>
         <CardContent class="p-6 text-center">
-          <p class="text-sm text-muted-foreground">非堆内存</p>
-          <p class="text-2xl font-bold text-green-600">{{ formatMemory(nonHeapMemoryUsage) }}</p>
+          <p class="text-sm text-muted-foreground">峰值线程</p>
+          <p class="text-2xl font-bold text-orange-600">{{ threadStats?.peakThreads || 0 }}</p>
         </CardContent>
       </Card>
       <Card>
         <CardContent class="p-6 text-center">
-          <p class="text-sm text-muted-foreground">可疑对象</p>
-          <p class="text-2xl font-bold text-yellow-600">{{ suspiciousObjectsCount }}</p>
+          <p class="text-sm text-muted-foreground">总启动线程</p>
+          <p class="text-2xl font-bold text-purple-600">{{ threadStats?.totalStartedThreads || 0 }}</p>
         </CardContent>
       </Card>
     </div>
 
-    <!-- 内存趋势图 -->
-    <Card>
+    <!-- 线程状态分布 -->
+    <Card v-if="threadStats?.stateDistributionPercent">
       <CardHeader>
-        <CardTitle>内存使用趋势</CardTitle>
+        <CardTitle>线程状态分布</CardTitle>
       </CardHeader>
       <CardContent>
-        <div class="h-64">
-          <div class="flex items-center justify-center h-full text-muted-foreground">
-            内存趋势图表组件待实现
+        <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+          <div v-for="[state, percent] in Object.entries(threadStats.stateDistributionPercent)" :key="state" 
+              class="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-800 rounded">
+            <span class="text-sm font-medium">{{ getStateDisplayName(state) }}</span>
+            <div class="flex items-center gap-2">
+              <div class="w-24 bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                <div :class="getStateColor(state)" 
+                    class="h-2 rounded-full transition-all duration-300" 
+                    :style="{ width: `${percent}%` }"></div>
+              </div>
+              <span class="text-sm font-medium w-12 text-right">{{ (percent as number).toFixed(1) }}%</span>
+            </div>
           </div>
         </div>
       </CardContent>
     </Card>
 
-    <!-- 可疑对象列表 -->
+    <!-- 线程列表 -->
     <Card>
       <CardHeader>
         <div class="flex items-center justify-between">
-          <CardTitle>可疑对象分析</CardTitle>
+          <CardTitle>线程列表</CardTitle>
           <div class="flex items-center space-x-2">
             <Input
               v-model="searchQuery"
               type="text"
-              placeholder="搜索类名..."
+              placeholder="搜索线程名..."
               class="w-64"
             />
-            <Select v-model="severityFilter" class="w-32" placeholder="选择级别">
-              <option value="">全部级别</option>
-              <option value="high">高</option>
-              <option value="medium">中</option>
-              <option value="low">低</option>
-            </Select>
           </div>
         </div>
       </CardHeader>
@@ -118,8 +121,8 @@
           <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
         </div>
 
-        <div v-else-if="filteredObjects.length === 0" class="text-center py-8 text-muted-foreground">
-          没有找到可疑对象
+        <div v-else-if="filteredThreads.length === 0" class="text-center py-8 text-muted-foreground">
+          没有找到线程数据
         </div>
 
         <div v-else class="overflow-x-auto">
@@ -127,43 +130,60 @@
             <thead class="bg-muted/50">
               <tr>
                 <th class="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">
-                  类名
+                  线程ID
                 </th>
                 <th class="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">
-                  实例数量
+                  线程名
                 </th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">
-                  内存占用
+                <th class="px-6 py-3 text-center text-xs font-medium text-muted-foreground uppercase tracking-wider">
+                  状态
                 </th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">
-                  风险级别
+                <th class="px-6 py-3 text-center text-xs font-medium text-muted-foreground uppercase tracking-wider">
+                  守护线程
                 </th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">
-                  操作
+                <th class="px-6 py-3 text-right text-xs font-medium text-muted-foreground uppercase tracking-wider">
+                  阻塞次数
+                </th>
+                <th class="px-6 py-3 text-right text-xs font-medium text-muted-foreground uppercase tracking-wider">
+                  等待次数
+                </th>
+                <th class="px-6 py-3 text-right text-xs font-medium text-muted-foreground uppercase tracking-wider">
+                  CPU时间(ms)
+                </th>
+                <th class="px-6 py-3 text-right text-xs font-medium text-muted-foreground uppercase tracking-wider">
+                  CPU使用率
                 </th>
               </tr>
             </thead>
             <tbody class="bg-background divide-y divide-border">
-              <tr v-for="obj in filteredObjects" :key="obj.className" class="hover:bg-muted/50">
-                <td class="px-6 py-4 whitespace-nowrap">
-                  <div class="text-sm font-medium text-foreground">{{ obj.className }}</div>
-                  <div class="text-xs text-muted-foreground">{{ obj.package }}</div>
+              <tr v-for="thread in filteredThreads" :key="thread.threadId" class="hover:bg-muted/50">
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-mono text-foreground">
+                  {{ thread.threadId }}
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap text-sm text-foreground">
-                  {{ obj.instanceCount }}
+                  {{ thread.threadName }}
                 </td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-foreground">
-                  {{ formatMemory(obj.memoryUsage) }}
-                </td>
-                <td class="px-6 py-4 whitespace-nowrap">
-                  <Badge :variant="getSeverityVariant(obj.severity)">
-                    {{ getSeverityText(obj.severity) }}
+                <td class="px-6 py-4 whitespace-nowrap text-center">
+                  <Badge :variant="getStateBadgeVariant(thread.threadState)">
+                    {{ getStateDisplayName(thread.threadState) }}
                   </Badge>
                 </td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                  <Button variant="ghost" size="sm" @click="viewObjectDetails(obj)">
-                    详情
-                  </Button>
+                <td class="px-6 py-4 whitespace-nowrap text-center text-sm">
+                  <span :class="thread.daemon ? 'text-orange-600 dark:text-orange-400' : 'text-blue-600 dark:text-blue-400'">
+                    {{ thread.daemon ? '是' : '否' }}
+                  </span>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-mono text-foreground">
+                  {{ thread.blockedCount }}
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-mono text-foreground">
+                  {{ thread.waitedCount }}
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-mono text-foreground">
+                  {{ thread.cpuTimeDeltaMs.toFixed(2) }}
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-mono text-foreground">
+                  {{ thread.cpuPercent.toFixed(2) }}%
                 </td>
               </tr>
             </tbody>
@@ -176,61 +196,60 @@
 
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
-import { Button, Card, CardHeader, CardTitle, CardContent, Input, Badge, Select } from '@/components/ui'
+import { Button, Card, CardHeader, CardTitle, CardContent, Input, Badge } from '@/components/ui'
 import { memoryApi } from '@/api'
+
+// 定义数据类型
+interface ThreadStats {
+  liveThreads: number
+  daemonThreads: number
+  peakThreads: number
+  totalStartedThreads: number
+  stateDistributionPercent: {
+    NEW: number
+    RUNNABLE: number
+    BLOCKED: number
+    WAITING: number
+    TIMED_WAITING: number
+    TERMINATED: number
+  }
+  sampleMillis: number
+  cpuProcessor: number
+}
+
+interface Thread {
+  threadId: number
+  threadName: string
+  threadState: string
+  blockedCount: number
+  waitedCount: number
+  blockedTimeMs: number
+  waitedTimeMs: number
+  cpuTimeDeltaMs: number
+  cpuPercent: number
+  daemon: boolean
+}
 
 // 响应式数据
 const isLoading = ref(false)
 const searchQuery = ref('')
-const severityFilter = ref('')
 const fileInputRef = ref<HTMLInputElement | null>(null)
 const selectedFile = ref<File | null>(null)
 const filePath = ref<string>('')
 
-// 模拟数据
-const totalMemoryUsage = ref(2.5 * 1024 * 1024 * 1024) // 2.5GB
-const heapMemoryUsage = ref(1.8 * 1024 * 1024 * 1024) // 1.8GB
-const nonHeapMemoryUsage = ref(0.7 * 1024 * 1024 * 1024) // 0.7GB
-const suspiciousObjectsCount = ref(15)
-
-const suspiciousObjects = ref([
-  {
-    className: 'String',
-    package: 'java.lang',
-    instanceCount: 1250000,
-    memoryUsage: 250 * 1024 * 1024, // 250MB
-    severity: 'medium'
-  },
-  {
-    className: 'HashMap$Node',
-    package: 'java.util',
-    instanceCount: 85000,
-    memoryUsage: 180 * 1024 * 1024, // 180MB
-    severity: 'high'
-  },
-  {
-    className: 'ArrayList',
-    package: 'java.util',
-    instanceCount: 45000,
-    memoryUsage: 120 * 1024 * 1024, // 120MB
-    severity: 'low'
-  }
-])
+const threadStats = ref<ThreadStats | null>(null)
+const threads = ref<Thread[]>([])
 
 // 计算属性
-const filteredObjects = computed(() => {
-  let filtered = suspiciousObjects.value
+const filteredThreads = computed(() => {
+  let filtered = threads.value
 
   if (searchQuery.value) {
     const query = searchQuery.value.toLowerCase()
-    filtered = filtered.filter(obj => 
-      obj.className.toLowerCase().includes(query) ||
-      obj.package.toLowerCase().includes(query)
+    filtered = filtered.filter(thread => 
+      thread.threadName.toLowerCase().includes(query) ||
+      thread.threadId.toString().includes(query)
     )
-  }
-
-  if (severityFilter.value) {
-    filtered = filtered.filter(obj => obj.severity === severityFilter.value)
   }
 
   return filtered
@@ -241,13 +260,53 @@ function triggerFileSelect() {
   fileInputRef.value?.click()
 }
 
-function handleFileSelect(event: Event) {
+async function handleFileSelect(event: Event) {
   const target = event.target as HTMLInputElement
   const file = target.files?.[0]
   if (file) {
     selectedFile.value = file
-    // 将文件名填充到路径输入框，用户可以补充完整路径
-    filePath.value = file.name
+    
+    // 尝试获取文件的真实路径
+    let path = ''
+    
+    // 在 Electron 环境中，尝试使用 Electron API 获取真实路径
+    if ((window as any).electron && (window as any).electron.getFilePath) {
+      try {
+        // 如果 Electron 提供了获取文件路径的 API
+        path = await (window as any).electron.getFilePath(file)
+      } catch (error) {
+        console.warn('无法通过 Electron API 获取文件路径:', error)
+      }
+    }
+    
+    // 如果 Electron API 不可用，尝试从 input.value 获取
+    if (!path && target.value) {
+      // 在 Windows 上，路径可能包含 C:\fakepath\ 前缀（浏览器安全机制）
+      // 在 Linux/Mac 上，可能直接是路径或文件名
+      path = target.value
+      
+      // 移除浏览器添加的假路径前缀
+      if (path.startsWith('C:\\fakepath\\')) {
+        path = path.replace('C:\\fakepath\\', '')
+      }
+      
+      // 如果路径不包含目录分隔符，说明只获取到了文件名
+      if (!path.includes('\\') && !path.includes('/')) {
+        path = file.name
+      }
+    }
+    
+    // 尝试使用 webkitRelativePath（如果文件是通过目录选择器选择的）
+    if (!path && file.webkitRelativePath) {
+      path = file.webkitRelativePath
+    }
+    
+    // 如果以上方法都失败，使用文件名
+    if (!path) {
+      path = file.name
+    }
+    
+    filePath.value = path
   }
 }
 
@@ -277,17 +336,13 @@ async function analyzeMemoryLeak() {
 
   isLoading.value = true
   try {
-    const response = await memoryApi.getMemoryLeakAnalysis(filePath.value)
+    const response = await memoryApi.getMemoryLeakAnalysis(`${filePath.value}`)
     
-    if (response.areSuccess || response.success) {
       // 处理分析结果
       if (response.data) {
         // 更新数据
         updateAnalysisData(response.data)
       }
-    } else {
-      console.error('内存泄漏分析失败:', response.msg)
-    }
   } catch (error) {
     console.error('内存泄漏分析失败:', error)
   } finally {
@@ -297,20 +352,51 @@ async function analyzeMemoryLeak() {
 
 function updateAnalysisData(data: any) {
   // 根据接口返回的数据更新界面
-  // 这里需要根据实际接口返回的数据结构来更新
-  if (data.totalMemoryUsage) {
-    totalMemoryUsage.value = data.totalMemoryUsage
+  if (data.stats) {
+    threadStats.value = data.stats
   }
-  if (data.heapMemoryUsage) {
-    heapMemoryUsage.value = data.heapMemoryUsage
+  if (data.threads && Array.isArray(data.threads)) {
+    threads.value = data.threads
   }
-  if (data.nonHeapMemoryUsage) {
-    nonHeapMemoryUsage.value = data.nonHeapMemoryUsage
+}
+
+// 状态显示名称映射
+function getStateDisplayName(state: string): string {
+  const stateMap: Record<string, string> = {
+    'NEW': '新建',
+    'RUNNABLE': '可运行',
+    'BLOCKED': '阻塞',
+    'WAITING': '等待',
+    'TIMED_WAITING': '定时等待',
+    'TERMINATED': '终止'
   }
-  if (data.suspiciousObjects) {
-    suspiciousObjects.value = data.suspiciousObjects
-    suspiciousObjectsCount.value = data.suspiciousObjects.length
+  return stateMap[state] || state
+}
+
+// 状态颜色映射
+function getStateColor(state: string): string {
+  const colorMap: Record<string, string> = {
+    'NEW': 'bg-blue-400',
+    'RUNNABLE': 'bg-green-400',
+    'BLOCKED': 'bg-red-400',
+    'WAITING': 'bg-yellow-400',
+    'TIMED_WAITING': 'bg-orange-400',
+    'TERMINATED': 'bg-gray-400'
   }
+  return colorMap[state] || 'bg-gray-200'
+}
+
+// 状态徽章样式
+function getStateBadgeVariant(state: string): 'default' | 'secondary' | 'destructive' | 'outline' {
+  const badgeMap: Record<string, 'default' | 'secondary' | 'destructive' | 'outline'> = {
+    'NEW': 'outline',
+    'RUNNABLE': 'default',
+    'BLOCKED': 'destructive',
+    'WAITING': 'secondary',
+    'TIMED_WAITING': 'secondary',
+    'TERMINATED': 'outline'
+  }
+  return badgeMap[state] || 'outline'
 }
 
 async function refreshData() {
@@ -328,38 +414,9 @@ function exportReport() {
   console.log('导出内存泄漏分析报告')
 }
 
-function viewObjectDetails(obj: any) {
-  console.log('查看对象详情:', obj)
-}
-
-function getSeverityText(severity: string): string {
-  const severityMap = {
-    high: '高',
-    medium: '中',
-    low: '低'
-  }
-  return severityMap[severity as keyof typeof severityMap] || severity
-}
-
-function getSeverityVariant(severity: string): 'default' | 'secondary' | 'destructive' | 'outline' {
-  const variantMap: Record<string, 'default' | 'secondary' | 'destructive' | 'outline'> = {
-    high: 'destructive',
-    medium: 'default',
-    low: 'secondary'
-  }
-  return variantMap[severity] || 'outline'
-}
-
-function formatMemory(bytes: number): string {
-  if (bytes === 0) return '0 B'
-  const k = 1024
-  const sizes = ['B', 'KB', 'MB', 'GB']
-  const i = Math.floor(Math.log(bytes) / Math.log(k))
-  return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i]
-}
-
 // 组件挂载时初始化
 onMounted(() => {
   refreshData()
 })
 </script>
+
