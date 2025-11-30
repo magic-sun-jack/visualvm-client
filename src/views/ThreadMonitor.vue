@@ -259,7 +259,6 @@
 import { threadApi } from '@/api'
 import { useProcessStore } from '@/stores/process'
 import { ref, onMounted, onUnmounted, computed, watch } from 'vue'
-import { useIntervalFn } from '@vueuse/core'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Switch } from '@/components/ui/switch'
@@ -267,6 +266,7 @@ import router from '@/router'
 
 const processStore = useProcessStore()
 const showStateDistribution = ref(true)
+const isActive = ref(true)
 // 定义数据类型
 interface ThreadStats {
   liveThreads: number
@@ -400,21 +400,80 @@ async function getThreadDump() {
   router.push('/threads/dump')
 }
 
-// 1s 定时刷新（仅数据更新不出现loading）
-const { pause, resume, isActive } = useIntervalFn(() => {
-  if (!loading.value) getThreadListFn(false)
-}, 1000, { immediate: false })
+// 轮询控制
+const threadPollingEnabled = ref(false)
+let threadPollingTimer: ReturnType<typeof setInterval> | null = null
+let isThreadRequesting = ref(false)
 
-watch(isActive, () => {
-  isActive.value ? resume() : pause()
-}, { immediate: true })
+// 队列方式执行 getThreadListFn，确保上一个请求完成后再执行下一个
+let pendingThreadRequest = Promise.resolve()
+
+function queueGetThreadListFn(showLoading: boolean = false) {
+  if (isThreadRequesting.value) return pendingThreadRequest
+  
+  isThreadRequesting.value = true
+  pendingThreadRequest = pendingThreadRequest
+    .then(async () => {
+      if (processStore.currentProcess?.pid && threadPollingEnabled.value) {
+        await getThreadListFn(showLoading)
+      }
+    })
+    .catch(async () => {
+      if (processStore.currentProcess?.pid && threadPollingEnabled.value) {
+        await getThreadListFn(showLoading)
+      }
+    })
+    .finally(() => {
+      isThreadRequesting.value = false
+    })
+  
+  return pendingThreadRequest
+}
+
+// 启动轮询
+function startThreadPolling() {
+  if (threadPollingTimer || !isActive.value) return
+  
+  threadPollingEnabled.value = true
+  // 立即执行一次（带loading）
+  getThreadListFn(true).finally(() => {
+    // 然后每1秒执行一次（不带loading）
+    if (isActive.value) {
+      threadPollingTimer = setInterval(() => {
+        if (processStore.currentProcess?.pid && threadPollingEnabled.value && isActive.value) {
+          queueGetThreadListFn(false)
+        }
+      }, 1000)
+    }
+  })
+}
+
+// 停止轮询
+function stopThreadPolling() {
+  threadPollingEnabled.value = false
+  if (threadPollingTimer) {
+    clearInterval(threadPollingTimer)
+    threadPollingTimer = null
+  }
+}
+
+// 监听 isActive 变化，控制轮询
+watch(isActive, (newValue) => {
+  if (newValue) {
+    startThreadPolling()
+  } else {
+    stopThreadPolling()
+  }
+}, { immediate: false })
 
 onMounted(() => {
-  getThreadListFn(true).finally(() => resume())
+  if (isActive.value) {
+    startThreadPolling()
+  }
 })
 
 onUnmounted(() => {
-  pause()
+  stopThreadPolling()
 })
 </script>
 

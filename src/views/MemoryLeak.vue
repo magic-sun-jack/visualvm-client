@@ -4,7 +4,38 @@
     <div class="flex items-center justify-between">
       <h1 class="text-2xl font-bold text-foreground">内存泄漏分析</h1>
       <div class="flex space-x-3">
-        <Button @click="refreshData">
+        <div class="flex items-center space-x-2">
+          <input
+            ref="fileInputRef"
+            type="file"
+            accept=".hprof,.heap"
+            class="hidden"
+            @change="handleFileSelect"
+          />
+          <Button variant="outline" @click="triggerFileSelect">
+            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+            </svg>
+            选择文件
+          </Button>
+          <Input
+            v-model="filePath"
+            type="text"
+            placeholder="输入文件路径（选择文件后将自动填充文件名）"
+            class="w-64"
+            @input="handleFilePathInput"
+            @keyup.enter="analyzeMemoryLeak"
+          />
+          <div v-if="selectedFile" class="flex items-center space-x-2 text-sm text-muted-foreground">
+            <span class="max-w-xs truncate">{{ selectedFile.name }}</span>
+            <Button variant="ghost" size="sm" @click="clearFile">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+              </svg>
+            </Button>
+          </div>
+        </div>
+        <Button @click="refreshData" :disabled="isLoading">
           <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
           </svg>
@@ -146,11 +177,15 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
 import { Button, Card, CardHeader, CardTitle, CardContent, Input, Badge, Select } from '@/components/ui'
+import { memoryApi } from '@/api'
 
 // 响应式数据
 const isLoading = ref(false)
 const searchQuery = ref('')
 const severityFilter = ref('')
+const fileInputRef = ref<HTMLInputElement | null>(null)
+const selectedFile = ref<File | null>(null)
+const filePath = ref<string>('')
 
 // 模拟数据
 const totalMemoryUsage = ref(2.5 * 1024 * 1024 * 1024) // 2.5GB
@@ -202,11 +237,91 @@ const filteredObjects = computed(() => {
 })
 
 // 方法
-function refreshData() {
+function triggerFileSelect() {
+  fileInputRef.value?.click()
+}
+
+function handleFileSelect(event: Event) {
+  const target = event.target as HTMLInputElement
+  const file = target.files?.[0]
+  if (file) {
+    selectedFile.value = file
+    // 将文件名填充到路径输入框，用户可以补充完整路径
+    filePath.value = file.name
+  }
+}
+
+function handleFilePathInput() {
+  // 输入文件路径时，如果路径与选中的文件名不一致，清除文件选择
+  if (filePath.value && selectedFile.value && filePath.value !== selectedFile.value.name) {
+    selectedFile.value = null
+    if (fileInputRef.value) {
+      fileInputRef.value.value = ''
+    }
+  }
+}
+
+function clearFile() {
+  selectedFile.value = null
+  filePath.value = ''
+  if (fileInputRef.value) {
+    fileInputRef.value.value = ''
+  }
+}
+
+async function analyzeMemoryLeak() {
+  if (!filePath.value) {
+    console.warn('请输入文件路径')
+    return
+  }
+
   isLoading.value = true
-  setTimeout(() => {
+  try {
+    const response = await memoryApi.getMemoryLeakAnalysis(filePath.value)
+    
+    if (response.areSuccess || response.success) {
+      // 处理分析结果
+      if (response.data) {
+        // 更新数据
+        updateAnalysisData(response.data)
+      }
+    } else {
+      console.error('内存泄漏分析失败:', response.msg)
+    }
+  } catch (error) {
+    console.error('内存泄漏分析失败:', error)
+  } finally {
     isLoading.value = false
-  }, 1000)
+  }
+}
+
+function updateAnalysisData(data: any) {
+  // 根据接口返回的数据更新界面
+  // 这里需要根据实际接口返回的数据结构来更新
+  if (data.totalMemoryUsage) {
+    totalMemoryUsage.value = data.totalMemoryUsage
+  }
+  if (data.heapMemoryUsage) {
+    heapMemoryUsage.value = data.heapMemoryUsage
+  }
+  if (data.nonHeapMemoryUsage) {
+    nonHeapMemoryUsage.value = data.nonHeapMemoryUsage
+  }
+  if (data.suspiciousObjects) {
+    suspiciousObjects.value = data.suspiciousObjects
+    suspiciousObjectsCount.value = data.suspiciousObjects.length
+  }
+}
+
+async function refreshData() {
+  if (selectedFile.value || filePath.value) {
+    await analyzeMemoryLeak()
+  } else {
+    isLoading.value = true
+    setTimeout(() => {
+      isLoading.value = false
+    }, 1000)
+  }
 }
 
 function exportReport() {
@@ -227,12 +342,12 @@ function getSeverityText(severity: string): string {
 }
 
 function getSeverityVariant(severity: string): 'default' | 'secondary' | 'destructive' | 'outline' {
-  const variantMap = {
+  const variantMap: Record<string, 'default' | 'secondary' | 'destructive' | 'outline'> = {
     high: 'destructive',
     medium: 'default',
     low: 'secondary'
   }
-  return variantMap[severity as keyof typeof variantMap] || 'outline'
+  return variantMap[severity] || 'outline'
 }
 
 function formatMemory(bytes: number): string {

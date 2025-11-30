@@ -62,14 +62,14 @@
                   <h4 class="text-sm font-medium py-2">PID: {{ process.pid }}</h4>
                   <p class="text-xs text-muted-foreground" style="word-break: break-word;">{{ process.mainClass }}</p>
                 </div>
-                <div class="flex items-center gap-2">
+                <!-- <div class="flex items-center gap-2">
                   <Badge 
                     :variant="process.status === 'running' ? 'default' : 'secondary'"
                     class="text-xs"
                   >
                     {{ process.status === 'running' ? '运行中' : '已停止' }}
                   </Badge>
-                </div>
+                </div> -->
               </div>
             </div>
           </div>

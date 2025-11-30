@@ -277,7 +277,7 @@
                   </div>
                 </TableCell>
               </TableRow>
-              <TableRow>
+              <!-- <TableRow>
                 <TableCell class="font-medium">JVM标志？？</TableCell>
                 <TableCell class="text-muted-foreground">
                   <div class="group relative pr-8" @dblclick="handleDblclickCopy($event, formatArguments(currentProcess?.jvm_args) || '-')">
@@ -304,7 +304,7 @@
                     </Button>
                   </div>
                 </TableCell>
-              </TableRow>
+              </TableRow> -->
             </TableBody>
           </Table>
         </div>
@@ -571,7 +571,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import { ref, computed, onMounted, watch } from 'vue'
+import { ref, computed, onMounted, onUnmounted, watch } from 'vue'
 import MemoryTrendChart from '@/components/charts/MemoryTrendChart.vue'
 import ProcessStatusChart from '@/components/charts/ProcessStatusChart.vue'
 import { useProcessStore } from '@/stores/process'
@@ -727,18 +727,74 @@ async function getSaveDataFn(pid: string) {
   })
 }
 
+// 轮询控制
+const threadPollingEnabled = ref(false)
+let threadPollingTimer: ReturnType<typeof setInterval> | null = null
+let isThreadRequesting = ref(false)
+
+// 队列方式执行 threadStart，确保上一个请求完成后再执行下一个
+let pendingThreadRequest = Promise.resolve()
+
+function queueThreadStart() {
+  if (isThreadRequesting.value) return pendingThreadRequest
+  
+  isThreadRequesting.value = true
+  pendingThreadRequest = pendingThreadRequest
+    .then(async () => {
+      if (selectedPid.value && threadPollingEnabled.value) {
+        await threadStart()
+      }
+    })
+    .catch(async () => {
+      if (selectedPid.value && threadPollingEnabled.value) {
+        await threadStart()
+      }
+    })
+    .finally(() => {
+      isThreadRequesting.value = false
+    })
+  
+  return pendingThreadRequest
+}
+
+// 启动轮询
+function startThreadPolling() {
+  if (threadPollingTimer) return
+  
+  threadPollingEnabled.value = true
+  // 立即执行一次
+  queueThreadStart()
+  
+  // 然后每1秒执行一次
+  threadPollingTimer = setInterval(() => {
+    if (selectedPid.value && threadPollingEnabled.value) {
+      queueThreadStart()
+    }
+  }, 1000)
+}
+
+// 停止轮询
+function stopThreadPolling() {
+  threadPollingEnabled.value = false
+  if (threadPollingTimer) {
+    clearInterval(threadPollingTimer)
+    threadPollingTimer = null
+  }
+}
+
 // 处理PID变化
 async function handlePidChange() {
+  // 先停止旧的轮询
+  stopThreadPolling()
+  
   await getSaveDataFn(selectedPid.value)
   await getDetailInfoEnabled(selectedPid.value)
   cpuStart()
   memoryStart()
   threadData.value = []
-  threadStart()
-
-  // 使用模拟数据替代不存在的API接口
-  // setMockJvmArguments()
-  // setMockSystemProperties()
+  
+  // 启动新的轮询
+  startThreadPolling()
 }
 
 // 刷新进程列表
@@ -837,6 +893,8 @@ async function memoryStart() {
 
 const threadData = ref<ThreadStats[]>([])
 async function threadStart() {
+  if (!selectedPid.value) return
+  
   await threadApi.getThreadList(selectedPid.value).then((response) => {
     if (response.areSuccess) {
       console.log('线程分析启动成功:', response.data)
@@ -846,10 +904,6 @@ async function threadStart() {
     }
   }).catch((error) => {
     console.error('线程分析启动异常:', error)
-  }).finally(() => {
-    setTimeout(() => {
-      threadStart()
-    }, 1000)
   })
 }
 
@@ -862,5 +916,10 @@ onMounted(async () => {
     // 如果没有 currentProcess，使用第一个可用进程
     selectedPid.value = availableProcesses.value[0].pid.toString()
   }
+})
+
+// 组件卸载时停止轮询
+onUnmounted(() => {
+  stopThreadPolling()
 })
 </script>

@@ -26,6 +26,8 @@ import {
   ShieldAlert,
   Trello,
 } from "lucide-vue-next";
+import ThreadMonitor from "@/views/ThreadMonitor.vue";
+import ThreadDump from "@/views/ThreadDump.vue";
 
 const routes: RouteRecordRaw[] = [
   {
@@ -69,13 +71,13 @@ const routes: RouteRecordRaw[] = [
       {
         path: "monitor",
         name: "ThreadMonitor",
-        component: () => import("@/views/ThreadMonitor.vue"),
+        component: ThreadMonitor,
         meta: { title: "线程监控", icon: Activity },
       },
       {
         path: "dump",
         name: "ThreadDump",
-        component: () => import("@/views/ThreadDump.vue"),
+        component: ThreadDump,
         meta: { title: "线程Dump", icon: FileText },
       },
     ],

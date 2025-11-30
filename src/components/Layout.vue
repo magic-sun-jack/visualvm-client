@@ -249,6 +249,17 @@ function isParentActive(item: any) {
   return item.children.some((child: any) => route.path === child.path)
 }
 
+// 初始化时展开所有有子菜单的父级菜单
+function initializeExpandedMenus() {
+  navigationItems.value.forEach(item => {
+    if (item && item.children && item.children.length > 0) {
+      if (!expandedMenus.value.includes(item.path)) {
+        expandedMenus.value.push(item.path)
+      }
+    }
+  })
+}
+
 // 监听路由变化，自动展开包含当前路由的父级菜单
 watch(() => route.path, (newPath) => {
   navigationItems.value.forEach(item => {
@@ -259,6 +270,11 @@ watch(() => route.path, (newPath) => {
       }
     }
   })
+}, { immediate: true })
+
+// 监听导航项变化，初始化展开状态
+watch(navigationItems, () => {
+  initializeExpandedMenus()
 }, { immediate: true })
 
 console.log(navigationItems.value, routes)

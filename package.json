@@ -3,7 +3,7 @@
   "version": "1.0.12",
   "description": "优速YouSpeed数据监控前端客户端",
   "type": "module",
-  "author": "MagicBen",
+  "author": "magic-sun-jack",
   "main": "electron/main.js",
   "homepage": "./",
   "scripts": {

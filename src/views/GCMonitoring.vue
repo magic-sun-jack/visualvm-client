@@ -392,7 +392,7 @@
     </Card>
 
     <!-- GC类型统计和内存回收效率 -->
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+    <!-- <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
       <Card class="bg-white dark:bg-gray-800">
         <CardHeader>
           <CardTitle class="text-lg font-semibold">GC类型统计</CardTitle>
@@ -444,10 +444,10 @@
           </div>
         </CardContent>
       </Card>
-    </div>
+    </div> -->
 
     <!-- GC时间趋势图 -->
-    <Card class="bg-white dark:bg-gray-800 mb-8">
+    <!-- <Card class="bg-white dark:bg-gray-800 mb-8">
       <CardHeader>
         <CardTitle class="text-lg font-semibold">GC时间趋势</CardTitle>
         <CardDescription>最近30分钟的GC执行时间变化</CardDescription>
@@ -457,10 +457,10 @@
           <GCTrendChart :data="gcTrendData" />
         </div>
       </CardContent>
-    </Card>
+    </Card> -->
 
     <!-- GC详细信息表格 -->
-    <Card class="bg-white dark:bg-gray-800">
+    <!-- <Card class="bg-white dark:bg-gray-800">
       <CardHeader>
         <CardTitle class="text-lg font-semibold">GC详细信息</CardTitle>
         <CardDescription>最近的GC事件记录</CardDescription>
@@ -499,7 +499,7 @@
           </Table>
         </div>
       </CardContent>
-    </Card>
+    </Card> -->
   </div>
 </template>
 
@@ -788,10 +788,21 @@ async function getGCStatsFn() {
   }
 }
 
+// 上个请求发完再请求下一个
+let pendingGCStatsRequest = Promise.resolve()
+
+function queueGetGCStatsFn() {
+  // 保证上一个getGCStatsFn执行完再执行下一个
+  pendingGCStatsRequest = pendingGCStatsRequest
+    .then(() => getGCStatsFn())
+    .catch(() => getGCStatsFn())
+  return pendingGCStatsRequest
+}
+
 // 监听当前进程变化
 watch(() => processStore.currentProcess?.pid, (newPid) => {
   if (newPid) {
-    getGCStatsFn()
+    queueGetGCStatsFn()
   }
 }, { immediate: true })
 
@@ -801,21 +812,23 @@ let refreshInterval: ReturnType<typeof setInterval> | null = null
 // 生命周期
 onMounted(() => {
   if (processStore.currentProcess?.pid) {
-    getGCStatsFn()
+    queueGetGCStatsFn()
   }
   
-  // 定时刷新数据
+  // 定时刷新数据，确保上一个请求完成后再发送下一个
   refreshInterval = setInterval(() => {
-    if (processStore.currentProcess?.pid) {
-      getGCStatsFn()
+    if (processStore.currentProcess?.pid && !isLoading.value) {
+      queueGetGCStatsFn()
     }
   }, refreshRate.value)
-  
-  onUnmounted(() => {
-    if (refreshInterval) {
-      clearInterval(refreshInterval)
-    }
-  })
+})
+
+onUnmounted(() => {
+  // 确保清除定时器
+  if (refreshInterval) {
+    clearInterval(refreshInterval)
+    refreshInterval = null
+  }
 })
 </script>
 
