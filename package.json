@@ -1,6 +1,6 @@
 {
   "name": "youspeed-client",
-  "version": "1.0.12",
+  "version": "1.0.13",
   "description": "优速YouSpeed数据监控前端客户端",
   "type": "module",
   "author": "magic-sun-jack",
