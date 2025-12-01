@@ -499,24 +499,45 @@
         </div>
         <!-- 内存监控卡片 -->
         <div class="bg-white rounded shadow p-4 flex flex-col">
-          <div class="font-bold mb-2">内存</div>
+          <div class="font-bold mb-2">堆内存</div>
           <div class="grid grid-cols-2 gap-x-4 gap-y-1 mb-2">
             <div v-for="flagObj in [{
               text: '大小',
-              value: ''
+              value: saveDataInfo?.heap_memory?.init || 0
             }, {
               text: '已用',
-              value: ''
+              value: saveDataInfo?.heap_memory?.used || 0
             }, {
               text: '最大',
-              value: ''
+              value: saveDataInfo?.heap_memory?.max || 0
             }]" :key="flagObj.text" class="text-xs text-gray-500">{{ flagObj.text }}: {{ flagObj.value }}</div>
           </div>
           <!-- 图表插槽 -->
           <div class="flex-1 min-h-[220px]">
-            <!-- <MemoryTrendChart :processes="availableProcesses" :maxDataPoints="30" :updateInterval="2000" /> -->
+            <MemoryTrendChart :data="saveDataInfo?.heap_memory || []" :field="['init_bytes', 'max_bytes']" :maxDataPoints="20" :updateInterval="2000" :unit="'B'" />
           </div>
-          <div class="text-xs text-gray-500 mt-2">Heap / Metaspace</div>
+          <div class="text-xs text-gray-500 mt-2">Heap Size / Used heap</div>
+        </div>
+        <!-- 内存监控卡片 -->
+        <div class="bg-white rounded shadow p-4 flex flex-col">
+          <div class="font-bold mb-2">堆内存</div>
+          <div class="grid grid-cols-2 gap-x-4 gap-y-1 mb-2">
+            <div v-for="flagObj in [{
+              text: '大小',
+              value: saveDataInfo?.metaspace?.init_bytes || 0
+            }, {
+              text: '已用',
+              value: saveDataInfo?.metaspace?.used_bytes || 0
+            }, {
+              text: '最大',
+              value: saveDataInfo?.metaspace?.max_bytes || 0
+            }]" :key="flagObj.text" class="text-xs text-gray-500">{{ flagObj.text }}: {{ flagObj.value }}</div>
+          </div>
+          <!-- 图表插槽 -->
+          <div class="flex-1 min-h-[220px]">
+            <MemoryTrendChart :data="saveDataInfo?.metaspace || []" :field="['init_bytes', 'used_bytes']" :maxDataPoints="20" :updateInterval="2000" :unit="'B'" />
+          </div>
+          <div class="text-xs text-gray-500 mt-2"></div>
         </div>
         <!-- 类监控卡片 -->
         <div class="bg-white rounded shadow p-4 flex flex-col">
@@ -524,23 +545,20 @@
           <div class="grid grid-cols-2 gap-x-4 gap-y-1 mb-2">
             <div v-for="flagObj in [{
               text: '总加载',
-              value: ''
+              value: saveDataInfo?.class?.total_loaded_class_count || 0
             }, {
-              text: '分享加载',
-              value: ''
+              text: '加载类数量',
+              value: saveDataInfo?.class?.loaded_class_count || 0
             }, {
-              text: '总卸载',
-              value: ''
-            }, {
-              text: '分享卸载',
-              value: ''
+              text: '卸载类数量',
+              value: saveDataInfo?.class?.unloaded_class_count || 0
             }]" :key="flagObj.text" class="text-xs text-gray-500">{{ flagObj.text }}: {{ flagObj.value }}</div>
           </div>
           <!-- 图表插槽 -->
           <div class="flex-1 min-h-[220px]">
-            <!-- <ProcessStatusChart :processes="availableProcesses" /> -->
+            <MemoryTrendChart :data="saveDataInfo?.class || []" :field="['total_loaded_class_count', 'loaded_class_count', 'unloaded_class_count']" :maxDataPoints="20" :updateInterval="2000" :unit="'%'" />
           </div>
-          <div class="text-xs text-gray-500 mt-2">Total loaded / Shared loaded classes</div>
+          <div class="text-xs text-gray-500 mt-2">总加载类数量 / 加载类数量 / 卸载类数量</div>
         </div>
         <!-- 线程监控卡片 -->
         <div class="bg-white rounded shadow p-4 flex flex-col">
@@ -742,11 +760,13 @@ function queueThreadStart() {
   pendingThreadRequest = pendingThreadRequest
     .then(async () => {
       if (selectedPid.value && threadPollingEnabled.value) {
+        getSaveDataFn(selectedPid.value)
         await threadStart()
       }
     })
     .catch(async () => {
       if (selectedPid.value && threadPollingEnabled.value) {
+        getSaveDataFn(selectedPid.value)
         await threadStart()
       }
     })

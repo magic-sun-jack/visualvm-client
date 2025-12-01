@@ -8,7 +8,7 @@ export interface ProcessOverview {
   threadCount: number           // 线程数
 }
 
-export interface heap_memory_interface {
+export interface heap_memory_interface { // 堆内存使用情况
   init: number // 初始大小
   used: number // 已用
   committed: number // 承诺大小
