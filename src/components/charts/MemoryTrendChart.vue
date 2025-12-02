@@ -16,7 +16,7 @@ interface Props {
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  maxDataPoints: 50,
+  maxDataPoints: 10,
   updateInterval: 1000,
   incremental: true
 })
@@ -259,9 +259,11 @@ function handleResize() {
 onMounted(() => {
   initChart()
   // 根据配置的间隔刷新数据
-  intervalId = window.setInterval(() => {
-    updateChart()
-  }, props.updateInterval)
+  if (props.updateInterval) {
+    intervalId = window.setInterval(() => {
+      updateChart()
+    }, props.updateInterval)
+  }
   window.addEventListener('resize', handleResize)
 })
 

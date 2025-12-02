@@ -493,7 +493,7 @@
           </div>
           <!-- 图表插槽 -->
           <div class="flex-1 min-h-[220px]">
-            <MemoryTrendChart :data="cpuData?.result || []" :field="'totalTimeMs'" :maxDataPoints="20" :updateInterval="2000" :unit="'%'" />
+            <MemoryTrendChart :data="cpuData?.result || []" :field="'totalTimeMs'" />
           </div>
           <div class="text-xs text-gray-500 mt-2">CPU usage / GC activity</div>
         </div>
@@ -502,19 +502,22 @@
           <div class="font-bold mb-2">堆内存</div>
           <div class="grid grid-cols-2 gap-x-4 gap-y-1 mb-2">
             <div v-for="flagObj in [{
-              text: '大小',
+              text: '初始大小',
               value: saveDataInfo?.heap_memory?.init || 0
             }, {
-              text: '已用',
+              text: '已使用',
               value: saveDataInfo?.heap_memory?.used || 0
             }, {
-              text: '最大',
+              text: '最大可用',
               value: saveDataInfo?.heap_memory?.max || 0
+            }, {
+              text: '承诺大小',
+              value: saveDataInfo?.heap_memory?.committed || 0
             }]" :key="flagObj.text" class="text-xs text-gray-500">{{ flagObj.text }}: {{ flagObj.value }}</div>
           </div>
           <!-- 图表插槽 -->
           <div class="flex-1 min-h-[220px]">
-            <MemoryTrendChart :data="saveDataInfo?.heap_memory || []" :field="['init_bytes', 'max_bytes']" :maxDataPoints="20" :updateInterval="2000" :unit="'B'" />
+            <MemoryTrendChart :data="[saveDataInfo?.heap_memory] || []" :field="['init', 'max']" :unit="'B'" />
           </div>
           <div class="text-xs text-gray-500 mt-2">Heap Size / Used heap</div>
         </div>
@@ -523,19 +526,19 @@
           <div class="font-bold mb-2">堆内存</div>
           <div class="grid grid-cols-2 gap-x-4 gap-y-1 mb-2">
             <div v-for="flagObj in [{
-              text: '大小',
-              value: saveDataInfo?.metaspace?.init_bytes || 0
+              text: '初始大小',
+              value: saveDataInfo?.metaspace?.metaspace_init_bytes || 0
             }, {
-              text: '已用',
-              value: saveDataInfo?.metaspace?.used_bytes || 0
+              text: '已使用',
+              value: saveDataInfo?.metaspace?.metaspace_used_bytes || 0
             }, {
-              text: '最大',
-              value: saveDataInfo?.metaspace?.max_bytes || 0
+              text: '承诺大小',
+              value: saveDataInfo?.metaspace?.metaspace_committed_bytes || 0
             }]" :key="flagObj.text" class="text-xs text-gray-500">{{ flagObj.text }}: {{ flagObj.value }}</div>
           </div>
           <!-- 图表插槽 -->
           <div class="flex-1 min-h-[220px]">
-            <MemoryTrendChart :data="saveDataInfo?.metaspace || []" :field="['init_bytes', 'used_bytes']" :maxDataPoints="20" :updateInterval="2000" :unit="'B'" />
+            <MemoryTrendChart :data="[saveDataInfo?.metaspace] || []" :field="['metaspace_init_bytes', 'metaspace_used_bytes']" :unit="'B'" />
           </div>
           <div class="text-xs text-gray-500 mt-2"></div>
         </div>
@@ -556,7 +559,7 @@
           </div>
           <!-- 图表插槽 -->
           <div class="flex-1 min-h-[220px]">
-            <MemoryTrendChart :data="saveDataInfo?.class || []" :field="['total_loaded_class_count', 'loaded_class_count', 'unloaded_class_count']" :maxDataPoints="20" :updateInterval="2000" :unit="'%'" />
+            <MemoryTrendChart :data="[saveDataInfo?.class] || []" :field="['total_loaded_class_count', 'loaded_class_count', 'unloaded_class_count']" />
           </div>
           <div class="text-xs text-gray-500 mt-2">总加载类数量 / 加载类数量 / 卸载类数量</div>
         </div>
@@ -580,7 +583,7 @@
           </div>
           <!-- 图表插槽 -->
           <div class="flex-1 min-h-[220px]">
-            <MemoryTrendChart :data="threadData || []" :field="['liveThreads', 'daemonThreads']" :updateInterval="1000"  />
+            <MemoryTrendChart :data="threadData || []" :field="['liveThreads', 'daemonThreads']"   />
           </div>
           <div class="text-xs text-gray-500 mt-2">Live threads / Daemon threads</div>
         </div>
@@ -593,7 +596,7 @@ import { ref, computed, onMounted, onUnmounted, watch } from 'vue'
 import MemoryTrendChart from '@/components/charts/MemoryTrendChart.vue'
 import ProcessStatusChart from '@/components/charts/ProcessStatusChart.vue'
 import { useProcessStore } from '@/stores/process'
-import { cpuApi, memoryApi, processApi, threadApi } from '@/api'
+import { cpuApi, memoryApi, processApi, threadApi, gcApi } from '@/api'
 import { resolveApiBaseUrl } from '@/api'
 import { buildInfo } from '@/config/build-info'
 import VersionInfo from '@/components/VersionInfo.vue'
@@ -619,7 +622,7 @@ import {
   Check
 } from 'lucide-vue-next'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
-import type { JavaProcessDetail, SystemPropertiesInterface, JavaProcessInfo } from '@/types'
+import type { JavaProcessDetail, SystemPropertiesInterface, JavaProcessInfo, heap_memory_interface, GCStatsInfo } from '@/types'
 import { useStatisticsStore } from '@/stores/statistics'
 import type { ThreadStats } from '@/types'
 
@@ -745,6 +748,17 @@ async function getSaveDataFn(pid: string) {
   })
 }
 
+
+const gcStatsData = ref<GCStatsInfo>()
+async function getGCStatsFn(pid: string) {
+  if (!pid) return
+  await gcApi.getGCStats(pid).then(response => {
+    if (response.areSuccess) {
+      console.log('GC分析启动成功:', response.data)
+      gcStatsData.value = response.data
+    }
+  })
+}
 // 轮询控制
 const threadPollingEnabled = ref(false)
 let threadPollingTimer: ReturnType<typeof setInterval> | null = null
@@ -753,25 +767,33 @@ let isThreadRequesting = ref(false)
 // 队列方式执行 threadStart，确保上一个请求完成后再执行下一个
 let pendingThreadRequest = Promise.resolve()
 
-function queueThreadStart() {
+async function queueFnList() {
+  if (selectedPid.value && threadPollingEnabled.value) {
+    await getSaveDataFn(selectedPid.value)
+    await getGCStatsFn(selectedPid.value)
+  }
+  await threadStart()
+}
+async function queueThreadStart() {
   if (isThreadRequesting.value) return pendingThreadRequest
   
   isThreadRequesting.value = true
   pendingThreadRequest = pendingThreadRequest
     .then(async () => {
       if (selectedPid.value && threadPollingEnabled.value) {
-        getSaveDataFn(selectedPid.value)
-        await threadStart()
+        // getSaveDataFn(selectedPid.value)
+        // await threadStart()
       }
     })
     .catch(async () => {
       if (selectedPid.value && threadPollingEnabled.value) {
-        getSaveDataFn(selectedPid.value)
-        await threadStart()
+        // getSaveDataFn(selectedPid.value)
+        // await threadStart()
       }
     })
-    .finally(() => {
+    .finally(async () => {
       isThreadRequesting.value = false
+      await queueFnList()
     })
   
   return pendingThreadRequest

@@ -23,10 +23,10 @@ export interface non_heap_memory_interface {
 }
 
 export interface metaspace_interface {
-  used_bytes: number // Metaspace 已使用内存（字节）
-  committed_bytes: number // Metaspace 已承诺内存（字节）
-  init_bytes: number // Metaspace 初始分配内存（字节）
-  max_bytes: number // Metaspace 最大可用内存（字节）
+  metaspace_used_bytes: number // Metaspace 已使用内存（字节）
+  metaspace_committed_bytes: number // Metaspace 已承诺内存（字节）
+  metaspace_init_bytes: number // Metaspace 初始分配内存（字节）
+  metaspace_max_bytes: number // Metaspace 最大可用内存（字节）
 }
 
 export interface thread_interface {
