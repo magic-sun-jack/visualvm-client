@@ -735,10 +735,10 @@ async function getSaveDataFn(pid: string) {
     if (response.areSuccess || response.success) {
       saveDataInfo.value = response.data
     } else {
-      errorMessage.value = response.msg || '启动进程失败'
+      // errorMessage.value = response.msg || '启动进程失败'
     }
   }).catch(error => {
-    errorMessage.value = '启动进程失败'
+    // errorMessage.value = '启动进程失败'
     console.error('启动进程异常:', error)
   }).finally(() => {
     saveDataLoading.value = false
@@ -833,9 +833,29 @@ async function refreshProcesses() {
 }
 
 // 监听selectedPid变化
-watch(selectedPid, (newPid) => {
+watch(selectedPid, (newPid, oldPid) => {
   if (newPid) {
     handlePidChange()
+  }
+  if (oldPid && oldPid !== newPid) {
+    memoryApi.stopMemory().then((response) => {
+      if (response.areSuccess) {
+        console.log('停止内存分析成功:', response.data)
+      } else {
+        console.error('停止内存分析失败:', response.msg)
+      }
+    }).catch((error) => {
+      console.error('停止内存分析异常:', error)
+    })
+    cpuApi.stopCpuProfiling(oldPid).then((response) => {
+      if (response.areSuccess) {
+        console.log('停止CPU分析成功:', response.data)
+      } else {
+        console.error('停止CPU分析失败:', response.msg)
+      }
+    }).catch((error) => {
+      console.error('停止CPU分析异常:', error)
+    })
   }
 }, { immediate: false })
 
