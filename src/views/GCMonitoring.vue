@@ -256,7 +256,7 @@
       </Card>
 
       <!-- Survivor1空间 -->
-      <Card class="bg-white dark:bg-gray-800 shadow-sm hover:shadow-md transition-shadow duration-200 border border-gray-200 dark:border-gray-700">
+      <!-- <Card class="bg-white dark:bg-gray-800 shadow-sm hover:shadow-md transition-shadow duration-200 border border-gray-200 dark:border-gray-700">
         <CardHeader class="pb-3">
           <CardTitle class="text-sm font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wide">Survivor1空间</CardTitle>
         </CardHeader>
@@ -282,7 +282,7 @@
             </div>
           </div>
         </CardContent>
-      </Card>
+      </Card> -->
 
       <!-- Old空间 -->
       <Card class="bg-white dark:bg-gray-800 shadow-sm hover:shadow-md transition-shadow duration-200 border border-gray-200 dark:border-gray-700">

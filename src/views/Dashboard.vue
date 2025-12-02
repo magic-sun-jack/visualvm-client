@@ -483,19 +483,25 @@
         <div class="bg-white rounded shadow p-4 flex flex-col">
           <div class="font-bold mb-2">CPU</div>
           <div class="grid grid-cols-2 gap-x-4 gap-y-1 mb-2">
-            <div v-for="flagObj in [{
-              text: 'CPU使用',
-              value: ''
-            }, {
-              text: 'GC活动',
-              value: ''
-            }]" :key="flagObj.text" class="text-xs text-gray-500">{{ flagObj.text }}: {{ flagObj.value }}</div>
+            <div v-for="flagObj in []" :key="flagObj.text" class="text-xs text-gray-500">{{ flagObj.text }}: {{ flagObj.value }}</div>
           </div>
           <!-- 图表插槽 -->
           <div class="flex-1 min-h-[220px]">
             <MemoryTrendChart :data="cpuData?.result || []" :field="'totalTimeMs'" />
           </div>
-          <div class="text-xs text-gray-500 mt-2">CPU usage / GC activity</div>
+          <div class="text-xs text-gray-500 mt-2">CPU使用</div>
+        </div>
+        <div class="bg-white rounded shadow p-4 flex flex-col">
+          <div class="font-bold mb-2">GC</div>
+          <div class="grid grid-cols-2 gap-x-4 gap-y-1 mb-2">
+            <div v-for="flagObj in [
+             ]" :key="flagObj.text" class="text-xs text-gray-500">{{ flagObj.text }}: {{ flagObj.value }}</div>
+          </div>
+          <!-- 图表插槽 -->
+          <div class="flex-1 min-h-[220px]">
+            <MemoryTrendChart :data="[gcStatsData] || []" :field="'totalGCTime'" />
+          </div>
+          <div class="text-xs text-gray-500 mt-2">GC活动</div>
         </div>
         <!-- 内存监控卡片 -->
         <div class="bg-white rounded shadow p-4 flex flex-col">
@@ -503,23 +509,23 @@
           <div class="grid grid-cols-2 gap-x-4 gap-y-1 mb-2">
             <div v-for="flagObj in [{
               text: '初始大小',
-              value: saveDataInfo?.heap_memory?.init || 0
+              value: formatBytesToMB(saveDataInfo?.heap_memory?.init || 0)
             }, {
               text: '已使用',
-              value: saveDataInfo?.heap_memory?.used || 0
+              value: formatBytesToMB(saveDataInfo?.heap_memory?.used || 0)
             }, {
               text: '最大可用',
-              value: saveDataInfo?.heap_memory?.max || 0
+              value: formatBytesToMB(saveDataInfo?.heap_memory?.max || 0)
             }, {
               text: '承诺大小',
-              value: saveDataInfo?.heap_memory?.committed || 0
+              value: formatBytesToMB(saveDataInfo?.heap_memory?.committed || 0)
             }]" :key="flagObj.text" class="text-xs text-gray-500">{{ flagObj.text }}: {{ flagObj.value }}</div>
           </div>
           <!-- 图表插槽 -->
           <div class="flex-1 min-h-[220px]">
             <MemoryTrendChart :data="[saveDataInfo?.heap_memory] || []" :field="['init', 'max']" :unit="'B'" />
           </div>
-          <div class="text-xs text-gray-500 mt-2">Heap Size / Used heap</div>
+          <div class="text-xs text-gray-500 mt-2">堆大小 / 已使用堆</div>
         </div>
         <!-- 内存监控卡片 -->
         <div class="bg-white rounded shadow p-4 flex flex-col">
@@ -527,20 +533,20 @@
           <div class="grid grid-cols-2 gap-x-4 gap-y-1 mb-2">
             <div v-for="flagObj in [{
               text: '初始大小',
-              value: saveDataInfo?.metaspace?.metaspace_init_bytes || 0
+              value: formatBytesToMB(saveDataInfo?.metaspace?.metaspace_init_bytes || 0)
             }, {
               text: '已使用',
-              value: saveDataInfo?.metaspace?.metaspace_used_bytes || 0
+              value: formatBytesToMB(saveDataInfo?.metaspace?.metaspace_used_bytes || 0)
             }, {
               text: '承诺大小',
-              value: saveDataInfo?.metaspace?.metaspace_committed_bytes || 0
+              value: formatBytesToMB(saveDataInfo?.metaspace?.metaspace_committed_bytes || 0)
             }]" :key="flagObj.text" class="text-xs text-gray-500">{{ flagObj.text }}: {{ flagObj.value }}</div>
           </div>
           <!-- 图表插槽 -->
           <div class="flex-1 min-h-[220px]">
             <MemoryTrendChart :data="[saveDataInfo?.metaspace] || []" :field="['metaspace_init_bytes', 'metaspace_used_bytes']" :unit="'B'" />
           </div>
-          <div class="text-xs text-gray-500 mt-2"></div>
+          <div class="text-xs text-gray-500 mt-2">元空间大小 / 已使用元空间</div>
         </div>
         <!-- 类监控卡片 -->
         <div class="bg-white rounded shadow p-4 flex flex-col">
@@ -568,24 +574,24 @@
           <div class="font-bold mb-2">线程</div>
           <div class="grid grid-cols-2 gap-x-4 gap-y-1 mb-2">
             <div v-for="flagObj in [{
-              text: 'Live',
-              value: ''
+              text: '活跃线程',
+              value: threadData?.liveThreads || 0
             }, {
-              text: 'Daemon',
-              value: ''
+              text: '守护线程',
+              value: threadData?.daemonThreads || 0
             }, {
-              text: 'Live Peak',
-              value: ''
+              text: '峰值线程',
+              value: threadData?.peakThreads || 0
             }, {
-              text: 'Total started',
-              value: ''
+              text: '总启动线程',
+              value: threadData?.totalStartedThreads || 0
             }]" :key="flagObj.text" class="text-xs text-gray-500">{{ flagObj.text }}: {{ flagObj.value }}</div>
           </div>
           <!-- 图表插槽 -->
           <div class="flex-1 min-h-[220px]">
-            <MemoryTrendChart :data="threadData || []" :field="['liveThreads', 'daemonThreads']"   />
+            <MemoryTrendChart :data="[threadData] || []" :field="['liveThreads', 'daemonThreads']"   />
           </div>
-          <div class="text-xs text-gray-500 mt-2">Live threads / Daemon threads</div>
+          <div class="text-xs text-gray-500 mt-2">活跃线程 / 守护线程</div>
         </div>
       </div>
     </div>
@@ -676,6 +682,12 @@ const currentProcess = computed((): JavaProcessDetail | null => {
   // 默认空进程数据
   return null
 })
+
+// B转MB
+function formatBytesToMB(bytes: number): string {
+  if (bytes === 0) return '0 MB'
+  return `${(bytes / 1024 / 1024).toFixed(2)} MB`
+}
 
 // 格式化参数
 function formatArguments(args: string[] | string | null | undefined): string {
@@ -953,14 +965,14 @@ async function memoryStart() {
   };
 }
 
-const threadData = ref<ThreadStats[]>([])
+const threadData = ref<ThreadStats>()
 async function threadStart() {
   if (!selectedPid.value) return
   
   await threadApi.getThreadList(selectedPid.value).then((response) => {
     if (response.areSuccess) {
       console.log('线程分析启动成功:', response.data)
-      threadData.value = [response.data?.stats] || []
+      threadData.value = response.data?.stats
     } else {
       console.error('线程分析启动失败:', response.msg)
     }

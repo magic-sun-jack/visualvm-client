@@ -204,7 +204,14 @@ onMounted(() => {
   const pid = router.currentRoute.value.query.pid as string
   if (pid) {
     threadApi.getThreadDump(pid).then((response) => {
-      fileContent.value = response.data || '2232323'
+      if (response.areSuccess) {
+        fileContent.value = response.data
+      } else {
+        fileContent.value = response.msg
+      }
+    }).catch(error => {
+      console.error('获取线程转储文件失败:', error)
+      fileContent.value = error instanceof Error ? error.message : String(error)
     })
   }
 })

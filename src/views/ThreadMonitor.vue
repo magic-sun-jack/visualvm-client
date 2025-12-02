@@ -62,10 +62,16 @@
           </div>
         </div>
       </div>
-
+      <!-- 过滤线程列表条件 -->
+      <div class="flex items-center gap-2 mb-4">
+        <Input v-model="searchThreadName" @keyup.enter="searchThreadFn" clearable type="text" size="sm" placeholder="搜索线程名..." class="w-64" />
+        <Button variant="outline" size="sm" @click="searchThreadFn">
+          <SearchIcon class="w-4 h-4" />
+        </Button>
+      </div>
       <!-- 线程列表 -->
       <div v-if="hasThreads" class="flex-1 min-h-0 overflow-hidden bg-white dark:bg-gray-800 rounded shadow flex flex-col">
-        <div class="overflow-auto flex-1">
+        <div class="overflow-auto flex-1 max-h-[800px]">
         <table class="min-w-[1200px] w-full text-xs">
           <thead>
             <tr class="bg-gray-100 dark:bg-gray-700">
@@ -260,14 +266,17 @@
 import { threadApi } from '@/api'
 import { useProcessStore } from '@/stores/process'
 import { ref, onMounted, onUnmounted, computed, watch } from 'vue'
+import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Switch } from '@/components/ui/switch'
 import router from '@/router'
+import { SearchIcon } from 'lucide-vue-next'
 
 const processStore = useProcessStore()
 const showStateDistribution = ref(true)
 const isActive = ref(true)
+const searchThreadName = ref('')
 // 定义数据类型
 interface ThreadStats {
   liveThreads: number
@@ -368,6 +377,15 @@ function getStateBadgeClass(state: string): string {
   return badgeMap[state] || 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200'
 }
 
+// 搜索线程
+function searchThreadFn() {
+  if (!searchThreadName.value) {
+    threads.value = threads.value
+    return
+  }
+  threads.value = threads.value.filter(thread => thread.threadName.includes(searchThreadName.value))
+}
+
 // 获取线程列表数据（可控是否展示loading）
 async function getThreadListFn(showLoading: boolean = true) {
   const pid = processStore.currentProcess?.pid
@@ -379,6 +397,7 @@ async function getThreadListFn(showLoading: boolean = true) {
     if (response.areSuccess && response.data) {
       stats.value = response.data.stats
       threads.value = response.data.threads
+      searchThreadFn()
     }
   } catch (error) {
     console.error('获取线程列表失败:', error)
