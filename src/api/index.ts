@@ -18,6 +18,7 @@ import type {
 } from '@/types'
 import { env, mockDelay, debugLog, errorLog } from '@/config/env'
 import { mockDataGenerator, mockDataCache } from './mockData'
+import { useProcessStore } from '@/stores/process'
 
 // 计算基础地址：在 Electron 或 file:// 协议下，强制使用本地后端以避免 file:/// 请求
 export function resolveApiBaseUrl(): string {
@@ -79,6 +80,55 @@ api.interceptors.request.use(
       }
     } catch {}
 
+    // 远程连接时，在 /cvm 后添加 /remote，并将 pid 参数改为 id（排除 ProcessConnectDialog 中的接口）
+    try {
+      const urlPath = (config.url || '').toString()
+      // 需要排除的接口（ProcessConnectDialog 中使用的接口）
+      const excludedPaths = [
+        '/cvm/remote/getRemote',
+        '/cvm/overview/getFilteredProcesses',
+        '/cvm/monitor/start',
+        '/cvm/overview/getLocalOverview'
+      ]
+      
+      // 检查是否是排除的接口
+      const isExcluded = excludedPaths.some(path => urlPath.includes(path))
+      
+      // 如果是远程连接且不是排除的接口，且路径包含 /cvm
+      if (!isExcluded && urlPath.includes('/cvm')) {
+        try {
+          const processStore = useProcessStore()
+          if (processStore.isRemoteConnection) {
+            // 将 /cvm 替换为 /cvm/remote
+            let newUrl = urlPath.replace('/cvm', '/cvm/remote')
+            
+            // 将 query string 中的 pid 改为 id（如 ?pid=123 或 &pid=123）
+            newUrl = newUrl.replace(/([?&])pid=/g, '$1id=')
+            
+            config.url = newUrl
+            
+            // 将 params 中的 pid 改为 id
+            if (config.params && typeof config.params === 'object' && !(config.params instanceof URLSearchParams) && 'pid' in config.params) {
+              const pidValue = config.params.pid
+              delete config.params.pid
+              config.params.id = pidValue
+            }
+            
+            // 处理 URLSearchParams 的情况
+            if (config.params instanceof URLSearchParams) {
+              if (config.params.has('pid')) {
+                const pidValue = config.params.get('pid')
+                config.params.delete('pid')
+                config.params.set('id', pidValue || '')
+              }
+            }
+          }
+        } catch (storeError) {
+          // 如果 store 未初始化，忽略
+        }
+      }
+    } catch {}
+
     debugLog('API请求:', config.method?.toUpperCase(), config.url, config.data)
     // 可以在这里添加认证token等
     return config
@@ -132,13 +182,10 @@ export const processApi = {
   -Dcom.sun.management.jmxremote.ssl=false
    */
   async getRemoteProcess(host: string, port: number, username?: string, password?: string, authenticate?: boolean, ssl?: boolean): Promise<ApiResponse<JavaProcessDetail>> {
-    
-    
     const params: any = { host, port }
     if (username) params.username = username
     if (password) params.password = password
-    
-    return api.get(`/cvm/overview/getRemoteOverview`, { params })
+    return api.get(`/cvm/remote/addRemote`, { params })
   },
 
   // 获取pid进程监视信息
@@ -413,10 +460,20 @@ export const cpuApi = {
 
 export const configApi = {
   // 获取场景配置
-  async getScenarioConfig(): Promise<ApiResponse<any>> {
-    return api.get('/cvm/config/getConfig')
+  // ["common",
+  // "IO",
+  // "Socket"
+  // "RPC",
+  // "pool",
+  // "ORM",
+  // "jdbc",
+  // "serialize",
+  // "NoSql",
+  // "RMI",
+  // "HTTP"]
+  async getScenarioConfig(): Promise<ApiResponse<string[]>> {
+    // 接口现在直接返回字符串数组
+    return api.get('/cvm/config/getConfig');
   }
 }
-
-
 export default api

@@ -19,6 +19,7 @@ export const useProcessStore = defineStore('process', () => {
   const isLoading = ref(false)
   const error = ref<string | null>(null)
   const isLive = ref(false)
+  const isRemoteConnection = ref(false)
   let wsClient: ReconnectingWebSocketClient | null = null
 
   // 计算属性
@@ -135,6 +136,10 @@ export const useProcessStore = defineStore('process', () => {
     currentProcess.value = process
   }
 
+  function setRemoteConnection(isRemote: boolean) {
+    isRemoteConnection.value = isRemote
+  }
+
   function stopLiveUpdates() {
     wsClient?.close()
     wsClient = null
@@ -158,6 +163,7 @@ export const useProcessStore = defineStore('process', () => {
     isLoading,
     error,
     isLive,
+    isRemoteConnection,
     
     // 计算属性
     runningProcesses,
@@ -172,6 +178,7 @@ export const useProcessStore = defineStore('process', () => {
     restartProcess,
     clearError,
     setCurrentProcess,
+    setRemoteConnection,
     stopLiveUpdates,
   }
 })

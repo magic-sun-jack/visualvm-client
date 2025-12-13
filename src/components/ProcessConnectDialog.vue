@@ -203,7 +203,6 @@ import {
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { Badge } from '@/components/ui/badge'
 import {
   Activity,
   RefreshCw,
@@ -286,6 +285,9 @@ async function connect() {
   try {
     if (activeTab.value === 'local' && selectedLocalProcess.value) {
       // 连接本地进程 - 启动监控
+      // 设置为本地连接
+      processStore.setRemoteConnection(false)
+      
       const response = await processApi.startProcess({
         pid: selectedLocalProcess.value.pid
       })
@@ -313,6 +315,9 @@ async function connect() {
       const response = await processApi.getRemoteProcess(host, port, username, password)
       
       if (response.areSuccess || response.success) {
+        // 设置为远程连接
+        processStore.setRemoteConnection(true)
+        
         // 启动远程监控
         const startResponse = await processApi.startProcess({
           pid: response.data.pid
@@ -325,6 +330,8 @@ async function connect() {
           closeDialog()
         } else {
           connectionError.value = startResponse.msg || '启动远程监控失败'
+          // 连接失败时重置远程连接状态
+          processStore.setRemoteConnection(false)
         }
       } else {
         connectionError.value = response.msg || '连接远程JVM失败'
