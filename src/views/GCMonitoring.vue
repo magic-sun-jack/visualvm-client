@@ -580,7 +580,7 @@ interface GCTrendData {
 }
 
 // 响应式数据
-const refreshRate = ref(5000)
+const refreshRate = ref(useProcessStore().refreshPeriod || 5000)
 const isLoading = ref(false)
 const errorMessage = ref<string>('')
 const gcStatsData = ref<GCStatsInfo | null>(null)

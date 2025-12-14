@@ -267,17 +267,38 @@ export const memoryApi = {
   // 开始pid进程内存分析
   async getMemoryStats({
     pid,
-    refresh = 5000,
+    refresh,
     filterType = "include",
     filter = [],
   }: {
     pid: string; // 进程ID
-    refresh: number; // 刷新频率，单位毫秒
-    filterType: string; // 过滤类型，include或exclude
-    filter: string[]; // 场景过滤
+    refresh?: number; // 刷新频率，单位毫秒（可选，优先使用 store 中的值）
+    filterType?: string; // 过滤类型，include或exclude
+    filter?: string[]; // 场景过滤
   }): Promise<ApiResponse<any>> {
+    // 优先从全局 store 读取 refreshPeriod，如果没有则使用传入的参数或默认值
+    let finalRefresh = refresh
+    let finalFilterType = filterType
+    try {
+      const processStore = useProcessStore()
+      if (processStore.refreshPeriod) {
+        finalRefresh = processStore.refreshPeriod
+      }
+      if (processStore.filterType) {
+        finalFilterType = processStore.filterType
+      }
+    } catch (error) {
+      // 如果 store 未初始化，使用传入的参数或默认值
+    }
+    // 如果都没有，使用默认值
+    if (!finalRefresh) {
+      finalRefresh = 5000
+    }
+    if (!finalFilterType) {
+      finalFilterType = 'include'
+    }
     return api.post(
-      `/cvm/memory/start?pid=${pid}&refresh=${refresh}&filter=${filter.join(',')}&filterType=${filterType}`
+      `/cvm/memory/start?pid=${pid}&refresh=${finalRefresh}&filter=${filter.join(',')}&filterType=${finalFilterType}`
     );
   },
 
@@ -449,12 +470,15 @@ export const scenarioApi = {
     } catch (error) {
       // 如果 store 未初始化，使用传入的参数
     }
-    if (finalRefreshPeriod !== undefined && finalRefreshPeriod !== null) {
-      params.refreshPeriod = finalRefreshPeriod
+    // 如果都没有，使用默认值
+    if (finalRefreshPeriod === undefined || finalRefreshPeriod === null) {
+      finalRefreshPeriod = 5000
     }
-    if (finalFilterType) {
-      params.filterType = finalFilterType
+    if (!finalFilterType) {
+      finalFilterType = 'include'
     }
+    params.refreshPeriod = finalRefreshPeriod
+    params.filterType = finalFilterType
     return api.post(`/cvm/scenario/${scenario}/${pid}/start`, params)
   },
 
@@ -465,8 +489,29 @@ export const scenarioApi = {
 }
 
 export const cpuApi = {
-  async startCpuProfiling(pid: string, refreshPeriod: number = 1000, filterType: string = 'include', filter?: string[]): Promise<ApiResponse<void>> {
-    return api.post(`/cvm/cpu/start?pid=${pid}&filterType=${filterType}&filter=${filter?.join(',')}&refreshPeriod=${refreshPeriod}`)
+  async startCpuProfiling(pid: string, refreshPeriod?: number, filterType?: string, filter?: string[]): Promise<ApiResponse<void>> {
+    // 优先从全局 store 读取 refreshPeriod，如果没有则使用传入的参数或默认值
+    let finalRefreshPeriod = refreshPeriod
+    let finalFilterType = filterType
+    try {
+      const processStore = useProcessStore()
+      if (processStore.refreshPeriod) {
+        finalRefreshPeriod = processStore.refreshPeriod
+      }
+      if (processStore.filterType) {
+        finalFilterType = processStore.filterType
+      }
+    } catch (error) {
+      // 如果 store 未初始化，使用传入的参数或默认值
+    }
+    // 如果都没有，使用默认值
+    if (!finalRefreshPeriod) {
+      finalRefreshPeriod = 1000
+    }
+    if (!finalFilterType) {
+      finalFilterType = 'include'
+    }
+    return api.post(`/cvm/cpu/start?pid=${pid}&filterType=${finalFilterType}&filter=${filter?.join(',')}&refreshPeriod=${finalRefreshPeriod}`)
   },
 
   async stopCpuProfiling(pid: string): Promise<ApiResponse<void>> {
