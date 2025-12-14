@@ -13,6 +13,7 @@ interface Props {
   updateInterval?: number // 更新间隔（毫秒）
   incremental?: boolean // 是否增量更新
   unit?: string // 单位符串，如 'MB', 'GB', '%'
+  sourceUnit?: string // 原始数据单位，如 'B'（字节），如果指定且与 unit 不同，会自动转换
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -45,7 +46,26 @@ function getFieldValue(obj: any, field: string): number {
     value = value?.[key]
     if (value === undefined) return 0
   }
-  return typeof value === 'number' ? value : Number(value) || 0
+  let numValue = typeof value === 'number' ? value : Number(value) || 0
+  
+  // 如果指定了 sourceUnit 且与 unit 不同，进行单位转换
+  if (props.sourceUnit && props.unit) {
+    if (props.sourceUnit === 'B' && props.unit === 'MB') {
+      // 字节转 MB
+      numValue = numValue / (1024 * 1024)
+    } else if (props.sourceUnit === 'B' && props.unit === 'GB') {
+      // 字节转 GB
+      numValue = numValue / (1024 * 1024 * 1024)
+    } else if (props.sourceUnit === 'MB' && props.unit === 'GB') {
+      // MB 转 GB
+      numValue = numValue / 1024
+    } else if (props.sourceUnit === 'KB' && props.unit === 'MB') {
+      // KB 转 MB
+      numValue = numValue / 1024
+    }
+  }
+  
+  return numValue
 }
 
 // 生成初始时间序列数据
@@ -191,7 +211,16 @@ function initChart() {
       type: 'value',
       axisLabel: {
         formatter: function(value: number) {
-          return value + (props.unit ? ' ' + props.unit : '')
+          // 格式化数值，保留适当的小数位
+          let formattedValue = value
+          if (props.unit === 'MB' || props.unit === 'GB') {
+            formattedValue = Number(value.toFixed(2))
+          } else if (props.unit === '%') {
+            formattedValue = Number(value.toFixed(1))
+          } else {
+            formattedValue = Number(value.toFixed(0))
+          }
+          return formattedValue + (props.unit ? ' ' + props.unit : '')
         },
         fontSize: 10
       }

@@ -139,7 +139,7 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue'
 import { Card, CardContent, CardHeader, CardTitle, Button, Select } from '@/components/ui'
-import { scenarioApi } from '@/api'
+import { scenarioApi, configApi } from '@/api'
 import MetricSparkline from './MetricSparkline.vue'
 import RealtimeChart from './RealtimeChart.vue'
 import type { MonitoringMetric } from '@/types'
@@ -155,12 +155,25 @@ const isMonitoring = ref(false)
 const loading = ref(false)
 const config = ref<any>(null)
 const metrics = ref<MonitoringMetric[]>([])
+const scenarioOptions = ref<Array<{ value: string; label: string }>>([])
 
-const scenarioOptions = [
-  { value: 'database', label: '数据库监控' },
-  { value: 'io', label: 'IO监控' },
-  { value: 'http', label: 'HTTP监控' }
-]
+// 场景名称到中文标签的映射
+const scenarioLabelMap: Record<string, string> = {
+  'common': '通用监控',
+  'IO': 'IO监控',
+  'Socket': 'Socket监控',
+  'RPC': 'RPC监控',
+  'pool': '连接池监控',
+  'ORM': 'ORM监控',
+  'jdbc': 'JDBC监控',
+  'serialize': '序列化监控',
+  'NoSql': 'NoSQL监控',
+  'RMI': 'RMI监控',
+  'HTTP': 'HTTP监控',
+  'database': '数据库监控',
+  'io': 'IO监控',
+  'http': 'HTTP监控'
+}
 
 let metricsIntervalId: number | null = null
 
@@ -286,10 +299,45 @@ async function toggleMonitoring() {
   }
 }
 
+// 加载场景配置选项
+async function loadScenarioOptions() {
+  try {
+    const response = await configApi.getScenarioConfig()
+    if (response.success && response.data && Array.isArray(response.data)) {
+      scenarioOptions.value = response.data.map(scenario => {
+        // 保持原始场景值，但转换为小写以匹配 API 路径
+        const scenarioValue = scenario.toLowerCase()
+        return {
+          value: scenarioValue,
+          label: scenarioLabelMap[scenario] || scenarioLabelMap[scenarioValue] || scenario
+        }
+      })
+      
+      // 如果有选项，默认选择第一个
+      if (scenarioOptions.value.length > 0) {
+        selectedScenario.value = scenarioOptions.value[0].value
+        // 只有在有选中进程时才加载场景数据
+        if (props.selectedProcess) {
+          handleScenarioChange(scenarioOptions.value[0].value)
+        }
+      }
+    } else {
+      // 如果返回数据格式不正确，使用默认选项
+      throw new Error('Invalid response data')
+    }
+  } catch (error) {
+    console.error('Failed to load scenario options:', error)
+    // 如果接口失败，使用默认选项
+    scenarioOptions.value = []
+    if (scenarioOptions.value.length > 0 && props.selectedProcess) {
+      selectedScenario.value = scenarioOptions.value[0].value
+      handleScenarioChange(scenarioOptions.value[0].value)
+    }
+  }
+}
+
 onMounted(() => {
-  // 默认选择数据库监控
-  selectedScenario.value = 'database'
-  handleScenarioChange('database')
+  loadScenarioOptions()
 })
 
 onUnmounted(() => {

@@ -523,13 +523,13 @@
           </div>
           <!-- 图表插槽 -->
           <div class="flex-1 min-h-[220px]">
-            <MemoryTrendChart :data="[saveDataInfo?.heap_memory] || []" :field="['init', 'max']" :unit="'B'" />
+            <MemoryTrendChart :data="[saveDataInfo?.heap_memory] || []" :field="['init', 'max']" :unit="'MB'" :sourceUnit="'B'" />
           </div>
           <div class="text-xs text-gray-500 mt-2">堆大小 / 已使用堆</div>
         </div>
         <!-- 内存监控卡片 -->
         <div class="bg-white rounded shadow p-4 flex flex-col">
-          <div class="font-bold mb-2">堆内存</div>
+          <div class="font-bold mb-2">元空间</div>
           <div class="grid grid-cols-2 gap-x-4 gap-y-1 mb-2">
             <div v-for="flagObj in [{
               text: '初始大小',
@@ -544,7 +544,7 @@
           </div>
           <!-- 图表插槽 -->
           <div class="flex-1 min-h-[220px]">
-            <MemoryTrendChart :data="[saveDataInfo?.metaspace] || []" :field="['metaspace_init_bytes', 'metaspace_used_bytes']" :unit="'B'" />
+            <MemoryTrendChart :data="[saveDataInfo?.metaspace] || []" :field="['metaspace_init_bytes', 'metaspace_used_bytes']" :unit="'MB'" :sourceUnit="'B'" />
           </div>
           <div class="text-xs text-gray-500 mt-2">元空间大小 / 已使用元空间</div>
         </div>

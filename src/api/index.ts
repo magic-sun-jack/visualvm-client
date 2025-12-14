@@ -203,14 +203,6 @@ export const processApi = {
       msg: '接口不存在',
       data: undefined
     }
-    // if (env.USE_MOCK_DATA) {
-    //   await mockDelay(800)
-    //   const process = mockDataCache.getProcessById(id)
-    //   if (process) {
-    //     process.status = 'stopped'
-    //   }
-    //   return mockDataGenerator.generateApiResponse(undefined as any, true, '进程已停止')
-    // }
     // return api.post(`/cvm/processes/${id}/stop`)
   },
 
@@ -305,8 +297,8 @@ export const memoryApi = {
   },
 
   // 停止pid进程内存分析
-  async stopMemory(): Promise<ApiResponse<any>> {
-    return api.post(`/cvm/memory/stop?pid=14758`)
+  async stopMemory(pid: string): Promise<ApiResponse<any>> {
+    return api.post(`/cvm/memory/stop?pid=${pid}`)
   },
 
   // 导出指定pid进程的heapdump文件
