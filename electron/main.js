@@ -1,4 +1,5 @@
-import { app, BrowserWindow, Menu, shell, ipcMain } from 'electron'
+import { app, BrowserWindow, Menu, shell, ipcMain, dialog } from 'electron'
+import os from 'os'
 import path from 'path'
 import { fileURLToPath } from 'url'
 import { dirname } from 'path'
@@ -356,6 +357,40 @@ ipcMain.handle('exit-app', () => {
   console.log('收到退出应用请求，正在停止Java服务...')
   stopJavaService()
   app.quit()
+})
+
+// 处理文件选择对话框
+ipcMain.on('open-file-dialog-for-file', async (event) => {
+  try {
+    const platform = os.platform()
+    let result
+    
+    if (platform === 'linux' || platform === 'win32') {
+      result = await dialog.showOpenDialog(mainWindow, {
+        properties: ['openFile'],
+        filters: [
+          { name: 'Heap Dump Files', extensions: ['hprof', 'heap'] },
+          { name: 'All Files', extensions: ['*'] }
+        ]
+      })
+    } else {
+      // macOS
+      result = await dialog.showOpenDialog(mainWindow, {
+        properties: ['openFile', 'openDirectory'],
+        filters: [
+          { name: 'Heap Dump Files', extensions: ['hprof', 'heap'] },
+          { name: 'All Files', extensions: ['*'] }
+        ]
+      })
+    }
+    
+    if (result && !result.canceled && result.filePaths && result.filePaths.length > 0) {
+      event.sender.send('selected-file', result.filePaths[0])
+    }
+  } catch (error) {
+    console.error('打开文件对话框失败:', error)
+    event.sender.send('selected-file', null)
+  }
 })
 
 // 设置应用菜单

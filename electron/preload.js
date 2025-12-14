@@ -30,5 +30,19 @@ contextBridge.exposeInMainWorld('electron', {
     ipcRenderer.removeAllListeners('java-service-status')
     statusListeners.clear()
   },
-  exitApp: () => ipcRenderer.invoke('exit-app')
+  exitApp: () => ipcRenderer.invoke('exit-app'),
+  // 打开文件选择对话框
+  openFileDialog: () => {
+    ipcRenderer.send('open-file-dialog-for-file')
+  },
+  // 监听文件选择结果
+  onFileSelected: (callback) => {
+    const listener = (_, path) => callback(path)
+    ipcRenderer.on('selected-file', listener)
+    
+    // 返回清理函数
+    return () => {
+      ipcRenderer.removeListener('selected-file', listener)
+    }
+  }
 })
