@@ -269,15 +269,15 @@ export const memoryApi = {
     pid,
     refresh = 5000,
     filterType = "include",
-    filter = "jdbc",
+    filter = [],
   }: {
     pid: string; // 进程ID
     refresh: number; // 刷新频率，单位毫秒
     filterType: string; // 过滤类型，include或exclude
-    filter: string; // 场景过滤	否
+    filter: string[]; // 场景过滤
   }): Promise<ApiResponse<any>> {
     return api.post(
-      `/cvm/memory/start?pid=${pid}&refresh=${refresh}&filter=${filter}&filterType=${filterType}`
+      `/cvm/memory/start?pid=${pid}&refresh=${refresh}&filter=${filter.join(',')}&filterType=${filterType}`
     );
   },
 
@@ -430,10 +430,30 @@ export const scenarioApi = {
   },
 
   // 启动场景监控
-  async startScenarioMonitoring(pid: string, scenario: string, filter?: string): Promise<ApiResponse<void>> {
+  async startScenarioMonitoring(pid: string, scenario: string, filter?: string, refreshPeriod?: number, filterType?: 'include' | 'exclude'): Promise<ApiResponse<void>> {
     const params: any = {}
     if (filter) {
       params.filter = filter
+    }
+    // 优先从全局 store 读取 refreshPeriod，如果没有则使用传入的参数
+    let finalRefreshPeriod = refreshPeriod
+    let finalFilterType = filterType
+    try {
+      const processStore = useProcessStore()
+      if (processStore.refreshPeriod) {
+        finalRefreshPeriod = processStore.refreshPeriod
+      }
+      if (processStore.filterType) {
+        finalFilterType = processStore.filterType
+      }
+    } catch (error) {
+      // 如果 store 未初始化，使用传入的参数
+    }
+    if (finalRefreshPeriod !== undefined && finalRefreshPeriod !== null) {
+      params.refreshPeriod = finalRefreshPeriod
+    }
+    if (finalFilterType) {
+      params.filterType = finalFilterType
     }
     return api.post(`/cvm/scenario/${scenario}/${pid}/start`, params)
   },
@@ -445,8 +465,8 @@ export const scenarioApi = {
 }
 
 export const cpuApi = {
-  async startCpuProfiling(pid: string, refreshPeriod: number = 1000): Promise<ApiResponse<void>> {
-    return api.post(`/cvm/cpu/start?pid=${pid}&filterType=include&filter=jdbc,IO&refreshPeriod=${refreshPeriod}`)
+  async startCpuProfiling(pid: string, refreshPeriod: number = 1000, filterType: string = 'include', filter?: string[]): Promise<ApiResponse<void>> {
+    return api.post(`/cvm/cpu/start?pid=${pid}&filterType=${filterType}&filter=${filter?.join(',')}&refreshPeriod=${refreshPeriod}`)
   },
 
   async stopCpuProfiling(pid: string): Promise<ApiResponse<void>> {

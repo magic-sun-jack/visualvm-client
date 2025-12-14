@@ -937,7 +937,7 @@ const isCpuStarted = ref(false)
 async function cpuStart() {
   if (!selectedPid.value) return
   
-  await cpuApi.startCpuProfiling(selectedPid.value).then((response) => {
+  await cpuApi.startCpuProfiling(selectedPid.value, processStore.refreshPeriod || 1000, 'include', processStore.selectedScenarios).then((response) => {
     if (response.areSuccess) {
       console.log('CPU分析启动成功:', response.data)
       isCpuStarted.value = true
@@ -1004,7 +1004,7 @@ async function memoryStart() {
     pid: selectedPid.value,
     refresh: 5000,
     filterType: 'include',
-    filter: 'jdbc'
+    filter: processStore.selectedScenarios
   }).then((response) => {
     if (response.areSuccess) {
       console.log('内存分析启动成功:', response.data)

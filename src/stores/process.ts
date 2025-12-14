@@ -20,6 +20,9 @@ export const useProcessStore = defineStore('process', () => {
   const error = ref<string | null>(null)
   const isLive = ref(false)
   const isRemoteConnection = ref(false)
+  const selectedScenarios = ref<string[]>(['common'])
+  const refreshPeriod = ref<number>(5000)
+  const filterType = ref<'include' | 'exclude'>('include')
   let wsClient: ReconnectingWebSocketClient | null = null
 
   // 计算属性
@@ -140,6 +143,18 @@ export const useProcessStore = defineStore('process', () => {
     isRemoteConnection.value = isRemote
   }
 
+  function setSelectedScenarios(scenarios: string[]) {
+    selectedScenarios.value = scenarios
+  }
+
+  function setRefreshPeriod(period: number) {
+    refreshPeriod.value = period
+  }
+
+  function setFilterType(type: 'include' | 'exclude') {
+    filterType.value = type
+  }
+
   function stopLiveUpdates() {
     wsClient?.close()
     wsClient = null
@@ -164,6 +179,9 @@ export const useProcessStore = defineStore('process', () => {
     error,
     isLive,
     isRemoteConnection,
+    selectedScenarios,
+    refreshPeriod,
+    filterType,
     
     // 计算属性
     runningProcesses,
@@ -179,6 +197,9 @@ export const useProcessStore = defineStore('process', () => {
     clearError,
     setCurrentProcess,
     setRemoteConnection,
+    setSelectedScenarios,
+    setRefreshPeriod,
+    setFilterType,
     stopLiveUpdates,
   }
 })

@@ -1,11 +1,11 @@
 <template>
   <div class="p-6">
     <div class="mb-6">
-      <h1 class="text-2xl font-bold mb-2">场景监控</h1>
+      <h1 class="text-2xl font-bold mb-2">数据库监控</h1>
       <p class="text-muted-foreground">针对不同场景进行性能监控，支持数据库、IO、HTTP等场景的实时监控和增量数据更新</p>
     </div>
     
-    <div class="mb-4">
+    <!-- <div class="mb-4">
       <Card>
         <CardHeader>
           <CardTitle class="text-base">选择进程</CardTitle>
@@ -21,7 +21,7 @@
           </Select>
         </CardContent>
       </Card>
-    </div>
+    </div> -->
     
     <ScenarioMonitoringComponent 
       v-if="selectedProcessId"

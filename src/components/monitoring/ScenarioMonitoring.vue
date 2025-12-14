@@ -3,28 +3,9 @@
     <Card class="h-full">
       <CardHeader>
         <CardTitle>场景监控</CardTitle>
-        <div class="flex items-center gap-2 ml-auto">
-          <Select 
-            v-model="selectedScenario" 
-            :options="scenarioOptions"
-            placeholder="选择监控场景"
-            class="w-40"
-            @update:modelValue="(value: any) => handleScenarioChange(String(value))"
-          >
-          </Select>
-          <Button
-            :variant="isMonitoring ? 'destructive' : 'default'"
-            size="sm"
-            @click="toggleMonitoring"
-            :disabled="!selectedScenario || !selectedProcess"
-          >
-            {{ isMonitoring ? '停止监控' : '开始监控' }}
-          </Button>
-        </div>
       </CardHeader>
-      
       <CardContent>
-        <div v-if="!selectedScenario" class="text-center py-8 text-muted-foreground">
+        <div v-if="!selectedScenarios.length" class="text-center py-8 text-muted-foreground">
           请选择一个监控场景
         </div>
         
@@ -40,54 +21,79 @@
         
         <div v-else class="space-y-6">
           <!-- 配置信息 -->
-          <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+          <div class="grid grid-cols-1 lg:grid-cols-1 gap-4">
             <Card>
               <CardHeader>
                 <CardTitle class="text-base">监控配置</CardTitle>
               </CardHeader>
               <CardContent>
-                <div class="space-y-2 text-sm">
-                  <div class="flex justify-between">
-                    <span class="text-muted-foreground">状态:</span>
-                    <span :class="config?.enabled ? 'text-green-600' : 'text-red-600'">
-                      {{ config?.enabled ? '已启用' : '已禁用' }}
-                    </span>
-                  </div>
-                  <div class="flex justify-between">
-                    <span class="text-muted-foreground">采样间隔:</span>
-                    <span>{{ config?.samplingInterval }}ms</span>
-                  </div>
-                  <div class="flex justify-between">
-                    <span class="text-muted-foreground">最大样本数:</span>
-                    <span>{{ config?.maxSamples }}</span>
-                  </div>
-                  <div v-if="selectedScenario === 'database'" class="flex justify-between">
-                    <span class="text-muted-foreground">慢查询阈值:</span>
-                    <span>{{ config?.slowQueryThreshold }}ms</span>
+                <div class="flex items-center gap-4 flex-wrap">
+                  <div
+                    v-for="option in scenarioOptions"
+                    :key="option.value"
+                    class="flex items-center gap-2"
+                  >
+                    <Checkbox
+                      :id="`scenario-${option.value}`"
+                      :model-value="selectedScenarios.includes(option.value)"
+                      @update:model-value="(value: boolean | 'indeterminate') => {
+                        const checked = value === true
+                        handleScenarioToggle(option.value, checked)
+                      }"
+                    />
+                    <label
+                      :for="`scenario-${option.value}`"
+                      class="text-sm font-medium leading-none cursor-pointer select-none"
+                    >
+                      {{ option.label }}
+                    </label>
                   </div>
                 </div>
-              </CardContent>
-            </Card>
-            
-            <Card>
-              <CardHeader>
-                <CardTitle class="text-base">监控包路径</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div class="space-y-1 text-xs">
-                  <div v-for="pkg in config?.packages?.slice(0, 5)" :key="pkg" class="truncate">
-                    {{ pkg }}
+                <div class="space-y-2 text-sm mt-5">
+                  <div class="flex items-center gap-2">
+                    <label for="refreshPeriod" class="text-muted-foreground whitespace-nowrap">采样间隔 (ms):</label>
+                    <Input
+                      id="refreshPeriod"
+                      v-model.number="refreshPeriod"
+                      type="number"
+                      min="100"
+                      step="100"
+                      class="w-32"
+                      :disabled="isMonitoring"
+                    />
                   </div>
-                  <div v-if="config?.packages?.length > 5" class="text-muted-foreground">
-                    还有 {{ config.packages.length - 5 }} 个包...
-                  </div>
+                </div>
+                <div class="flex items-center gap-2">
+                  <label for="filterType" class="text-muted-foreground whitespace-nowrap">过滤类型</label>
+                  <RadioGroup
+                    id="filterType"
+                    :model-value="filterType"
+                    @update:model-value="(val: string) => {
+                      if (val === 'include' || val === 'exclude') {
+                        filterType = val
+                      }
+                    }"
+                  >
+                    <RadioGroupItem value="include">包含</RadioGroupItem>
+                    <RadioGroupItem value="exclude">排除</RadioGroupItem>
+                  </RadioGroup>
                 </div>
               </CardContent>
             </Card>
           </div>
+          <!-- <div class="flex items-center gap-2 ml-auto">
+            <Button
+              :variant="isMonitoring ? 'destructive' : 'default'"
+              size="sm"
+              @click="toggleMonitoring"
+              :disabled="!selectedScenarios || !selectedProcess"
+            >
+              {{ isMonitoring ? '停止监控' : '开始监控' }}
+            </Button>
+          </div> -->
           
           <!-- 指标展示 -->
-          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" v-if="metrics.length > 0">
             <Card v-for="metric in metrics" :key="metric.name">
               <CardHeader class="pb-2">
                 <CardTitle class="text-sm font-medium">{{ metric.name }}</CardTitle>
@@ -123,9 +129,9 @@
             <CardContent>
               <div class="h-64">
                 <RealtimeChart 
-                  :scenario="selectedScenario"
+                  :scenario="selectedScenarios.join(',')"
                   :processId="selectedProcess"
-                  :interval="1000"
+                  :interval="refreshPeriod"
                 />
               </div>
             </CardContent>
@@ -137,9 +143,10 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from 'vue'
-import { Card, CardContent, CardHeader, CardTitle, Button, Select } from '@/components/ui'
+import { ref, onMounted, onUnmounted, watch } from 'vue'
+import { Card, CardContent, CardHeader, CardTitle, Checkbox, Input, RadioGroup, RadioGroupItem } from '@/components/ui'
 import { scenarioApi, configApi } from '@/api'
+import { useProcessStore } from '@/stores/process'
 import MetricSparkline from './MetricSparkline.vue'
 import RealtimeChart from './RealtimeChart.vue'
 import type { MonitoringMetric } from '@/types'
@@ -149,8 +156,13 @@ interface Props {
 }
 
 const props = defineProps<Props>()
+const processStore = useProcessStore()
 
-const selectedScenario = ref<string>('common')
+// 从全局 store 读取初始值，如果没有则使用默认值
+const selectedScenarios = ref<string[]>(processStore.selectedScenarios.length > 0 ? [...processStore.selectedScenarios] : ['common'])
+const refreshPeriod = ref<number>(processStore.refreshPeriod || 5000)
+const filterType = ref<'include' | 'exclude'>(processStore.filterType || 'include')
+
 const isMonitoring = ref(false)
 const loading = ref(false)
 const config = ref<any>(null)
@@ -195,7 +207,37 @@ function formatValue(value: number, unit: string): string {
   }
 }
 
-// 处理场景切换
+// 处理场景切换（checkbox 选中/取消选中）
+function handleScenarioToggle(scenarioValue: string, checked: boolean) {
+  if (checked) {
+    // 选中：添加到数组
+    if (!selectedScenarios.value.includes(scenarioValue)) {
+      selectedScenarios.value.push(scenarioValue)
+    }
+  } else {
+    // 取消选中：从数组移除，但至少保留一个
+    if (selectedScenarios.value.length > 1) {
+      const index = selectedScenarios.value.indexOf(scenarioValue)
+      if (index > -1) {
+        selectedScenarios.value.splice(index, 1)
+      }
+    } else {
+      // 如果只有一个，不允许取消选中
+      console.warn('至少需要选择一个监控场景')
+      return
+    }
+  }
+  
+  // 同步到全局 store
+  processStore.setSelectedScenarios([...selectedScenarios.value])
+  
+  // 如果正在监控，需要重新启动监控以应用新的场景选择
+  if (isMonitoring.value && props.selectedProcess) {
+    toggleMonitoring()
+  }
+}
+
+// 处理场景切换（用于加载配置和指标）
 async function handleScenarioChange(scenario: string) {
   if (!props.selectedProcess) return
   
@@ -271,12 +313,12 @@ async function loadScenarioMetrics(scenario: string) {
 
 // 切换监控状态
 async function toggleMonitoring() {
-  if (!props.selectedProcess || !selectedScenario.value) return
+  if (!props.selectedProcess || !selectedScenarios.value.length) return
   
   try {
     if (isMonitoring.value) {
       // 停止监控
-      await scenarioApi.stopScenarioMonitoring(props.selectedProcess, selectedScenario.value)
+      await scenarioApi.stopScenarioMonitoring(props.selectedProcess, selectedScenarios.value.join(','))
       isMonitoring.value = false
       
       // 停止指标更新
@@ -285,14 +327,16 @@ async function toggleMonitoring() {
         metricsIntervalId = null
       }
     } else {
-      // 开始监控，使用 selectedScenario 作为 filter
-      await scenarioApi.startScenarioMonitoring(props.selectedProcess, selectedScenario.value, selectedScenario.value)
+      // 开始监控，使用 selectedScenarios 作为 filter，refreshPeriod 作为刷新周期，filterType 作为过滤类型
+      await scenarioApi.startScenarioMonitoring(props.selectedProcess, selectedScenarios.value.join(','), selectedScenarios.value.join(','), refreshPeriod.value, filterType.value)
       isMonitoring.value = true
       
       // 开始定时更新指标
       metricsIntervalId = window.setInterval(() => {
-        loadScenarioMetrics(selectedScenario.value)
-      }, 5000) // 每5秒更新一次指标
+        if (selectedScenarios.value.length > 0) {
+          loadScenarioMetrics(selectedScenarios.value[0])
+        }
+      }, refreshPeriod.value)
     }
   } catch (error) {
     console.error('Failed to toggle monitoring:', error)
@@ -316,10 +360,10 @@ async function loadScenarioOptions() {
       // 如果有选项，优先选择 common，否则选择第一个
       if (scenarioOptions.value.length > 0) {
         const commonOption = scenarioOptions.value.find(opt => opt.value === 'common')
-        selectedScenario.value = commonOption ? 'common' : scenarioOptions.value[0].value
+        selectedScenarios.value = commonOption ? processStore.selectedScenarios : ['common']
         // 只有在有选中进程时才加载场景数据
         if (props.selectedProcess) {
-          handleScenarioChange(selectedScenario.value)
+          handleScenarioChange(selectedScenarios.value.join(','))
         }
       }
     } else {
@@ -331,11 +375,32 @@ async function loadScenarioOptions() {
     // 如果接口失败，使用默认选项
     scenarioOptions.value = []
     // 保持默认值为 common
-    if (props.selectedProcess && selectedScenario.value) {
-      handleScenarioChange(selectedScenario.value)
+    if (props.selectedProcess && selectedScenarios.value.length) {
+      handleScenarioChange(selectedScenarios.value.join(','))
     }
   }
 }
+
+// 监听 refreshPeriod 变化，同步到全局 store
+watch(refreshPeriod, (newValue) => {
+  if (newValue && newValue > 0) {
+    processStore.setRefreshPeriod(newValue)
+  }
+}, { immediate: true })
+
+// 监听 selectedScenarios 变化，同步到全局 store
+watch(selectedScenarios, (newValue) => {
+  if (newValue && newValue.length > 0) {
+    processStore.setSelectedScenarios([...newValue])
+  }
+}, { deep: true, immediate: true })
+
+// 监听 filterType 变化，同步到全局 store
+watch(filterType, (newValue) => {
+  if (newValue) {
+    processStore.setFilterType(newValue)
+  }
+}, { immediate: true })
 
 onMounted(() => {
   loadScenarioOptions()
