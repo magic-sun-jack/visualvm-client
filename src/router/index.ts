@@ -117,7 +117,7 @@ const routes: RouteRecordRaw[] = [
     path: "/shadcn-showcase",
     name: "ShadcnShowcase",
     component: ShadcnShowcase,
-    meta: { title: "shadcn-vue 完整展示", show: true },
+    meta: { title: "shadcn-vue 完整展示", show: false },
   },
   // 兜底：未知路径重定向到仪表板，避免 RouterView 为空
   // { path: '/:pathMatch(.*)*', redirect: '/dashboard' }

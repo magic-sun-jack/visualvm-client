@@ -63,19 +63,26 @@
                     />
                   </div>
                 </div>
-                <div class="flex items-center gap-2">
-                  <label for="filterType" class="text-muted-foreground whitespace-nowrap">过滤类型</label>
+                <div class="flex items-center gap-2 mt-5">
+                  <Label for="filterType" class="text-muted-foreground whitespace-nowrap">过滤类型:</Label>
                   <RadioGroup
                     id="filterType"
                     :model-value="filterType"
+                    class="flex items-center gap-4"
                     @update:model-value="(val: string) => {
                       if (val === 'include' || val === 'exclude') {
                         filterType = val
                       }
                     }"
                   >
-                    <RadioGroupItem value="include">包含</RadioGroupItem>
-                    <RadioGroupItem value="exclude">排除</RadioGroupItem>
+                    <div class="flex items-center gap-2">
+                      <RadioGroupItem value="include" id="filter-include" />
+                      <Label for="filter-include" class="text-sm font-normal cursor-pointer">包含</Label>
+                    </div>
+                    <div class="flex items-center gap-2">
+                      <RadioGroupItem value="exclude" id="filter-exclude" />
+                      <Label for="filter-exclude" class="text-sm font-normal cursor-pointer">排除</Label>
+                    </div>
                   </RadioGroup>
                 </div>
               </CardContent>
@@ -144,7 +151,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted, watch } from 'vue'
-import { Card, CardContent, CardHeader, CardTitle, Checkbox, Input, RadioGroup, RadioGroupItem } from '@/components/ui'
+import { Card, CardContent, CardHeader, CardTitle, Checkbox, Input, RadioGroup, RadioGroupItem, Label } from '@/components/ui'
 import { scenarioApi, configApi } from '@/api'
 import { useProcessStore } from '@/stores/process'
 import MetricSparkline from './MetricSparkline.vue'
