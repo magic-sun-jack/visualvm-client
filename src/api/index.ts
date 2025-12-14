@@ -430,8 +430,12 @@ export const scenarioApi = {
   },
 
   // 启动场景监控
-  async startScenarioMonitoring(pid: string, scenario: string): Promise<ApiResponse<void>> {
-    return api.post(`/cvm/scenario/${scenario}/${pid}/start`)
+  async startScenarioMonitoring(pid: string, scenario: string, filter?: string): Promise<ApiResponse<void>> {
+    const params: any = {}
+    if (filter) {
+      params.filter = filter
+    }
+    return api.post(`/cvm/scenario/${scenario}/${pid}/start`, params)
   },
 
   // 停止场景监控
@@ -465,7 +469,14 @@ export const configApi = {
   // "HTTP"]
   async getScenarioConfig(): Promise<ApiResponse<string[]>> {
     // 接口现在直接返回字符串数组
-    return api.get('/cvm/config/getConfig');
+    return {
+      areSuccess: true,
+      success: true,
+      code: 200,
+      msg: 'success',
+      data: ['common', 'IO', 'Socket', 'RPC', 'pool', 'ORM', 'jdbc', 'serialize', 'NoSql', 'RMI', 'HTTP']
+    }
+    // return api.get('/cvm/config/getConfig');
   }
 }
 export default api

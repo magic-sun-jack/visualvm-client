@@ -86,7 +86,7 @@ const routes: RouteRecordRaw[] = [
     path: "/database",
     name: "DatabaseAnalysis",
     component: DatabaseAnalysis,
-    meta: { title: "数据库", icon: Database },
+    meta: { title: "数据库", icon: Database, show: false },
   },
   {
     path: "/processes",
@@ -110,14 +110,14 @@ const routes: RouteRecordRaw[] = [
     path: "/scenario",
     name: "ScenarioMonitoring",
     component: ScenarioMonitoring,
-    meta: { title: "场景监控", show: false },
+    meta: { title: "数据库监控", icon: Database, show: true },
   },
 
   {
     path: "/shadcn-showcase",
     name: "ShadcnShowcase",
     component: ShadcnShowcase,
-    meta: { title: "shadcn-vue 完整展示", show: true },
+    meta: { title: "shadcn-vue 完整展示", show: false },
   },
   // 兜底：未知路径重定向到仪表板，避免 RouterView 为空
   // { path: '/:pathMatch(.*)*', redirect: '/dashboard' }

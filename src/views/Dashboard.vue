@@ -872,24 +872,42 @@ watch(selectedPid, (newPid, oldPid) => {
     handlePidChange()
   }
   if (oldPid && oldPid !== newPid) {
-    memoryApi.stopMemory().then((response) => {
-      if (response.areSuccess) {
-        console.log('停止内存分析成功:', response.data)
-      } else {
-        console.error('停止内存分析失败:', response.msg)
+    // PID 变化时，停止之前的内存分析
+    if (isMemoryStarted.value) {
+      memoryApi.stopMemory(oldPid).then((response) => {
+        if (response.areSuccess) {
+          console.log('停止内存分析成功:', response.data)
+        } else {
+          console.error('停止内存分析失败:', response.msg)
+        }
+      }).catch((error) => {
+        console.error('停止内存分析异常:', error)
+      })
+      // 关闭之前的 EventSource
+      if (memoryEventSource) {
+        memoryEventSource.close()
+        memoryEventSource = null
       }
-    }).catch((error) => {
-      console.error('停止内存分析异常:', error)
-    })
-    cpuApi.stopCpuProfiling(oldPid).then((response) => {
-      if (response.areSuccess) {
-        console.log('停止CPU分析成功:', response.data)
-      } else {
-        console.error('停止CPU分析失败:', response.msg)
+      isMemoryStarted.value = false
+    }
+    // PID 变化时，停止之前的CPU分析
+    if (isCpuStarted.value) {
+      cpuApi.stopCpuProfiling(oldPid).then((response) => {
+        if (response.areSuccess) {
+          console.log('停止CPU分析成功:', response.data)
+        } else {
+          console.error('停止CPU分析失败:', response.msg)
+        }
+      }).catch((error) => {
+        console.error('停止CPU分析异常:', error)
+      })
+      // 关闭之前的 EventSource
+      if (cpuEventSource) {
+        cpuEventSource.close()
+        cpuEventSource = null
       }
-    }).catch((error) => {
-      console.error('停止CPU分析异常:', error)
-    })
+      isCpuStarted.value = false
+    }
   }
 }, { immediate: false })
 
@@ -913,31 +931,75 @@ watch(() => processStore.currentProcess, (newProcess) => {
 }, { immediate: true })
 
 const cpuData = ref()
+let cpuEventSource: EventSource | null = null
+const isCpuStarted = ref(false)
+
 async function cpuStart() {
+  if (!selectedPid.value) return
+  
   await cpuApi.startCpuProfiling(selectedPid.value).then((response) => {
     if (response.areSuccess) {
       console.log('CPU分析启动成功:', response.data)
+      isCpuStarted.value = true
     } else {
       console.error('CPU分析启动失败:', response.msg)
+      isCpuStarted.value = false
     }
   }).catch((error) => {
     console.error('CPU分析启动异常:', error)
+    isCpuStarted.value = false
   })
+  
+  // 关闭之前的 EventSource（如果存在）
+  if (cpuEventSource) {
+    cpuEventSource.close()
+    cpuEventSource = null
+  }
+  
   // 使用正确的 API 基础 URL 来创建 EventSource
   const baseUrl = resolveApiBaseUrl()
   const eventSourceUrl = `${baseUrl}/cvm/cpu/stream?pid=${selectedPid.value}&refreshPeriod=${5000}`
-  const es = new EventSource(eventSourceUrl);
-  es.onmessage = (event) => {
+  cpuEventSource = new EventSource(eventSourceUrl)
+  cpuEventSource.onmessage = (event) => {
     // 处理 event.data
     cpuData.value = JSON.parse(event.data);
   };
-  es.onerror = () => {
+  cpuEventSource.onerror = () => {
     // 处理错误
   };
 }
 
+// 停止CPU分析
+async function cpuStop() {
+  if (!selectedPid.value || !isCpuStarted.value) return
+  
+  try {
+    await cpuApi.stopCpuProfiling(selectedPid.value).then((response) => {
+      if (response.areSuccess) {
+        console.log('CPU分析停止成功')
+      } else {
+        console.error('CPU分析停止失败:', response.msg)
+      }
+    }).catch((error) => {
+      console.error('CPU分析停止异常:', error)
+    })
+  } finally {
+    isCpuStarted.value = false
+    // 关闭 EventSource
+    if (cpuEventSource) {
+      cpuEventSource.close()
+      cpuEventSource = null
+    }
+  }
+}
+
 const memoryData = ref()
+let memoryEventSource: EventSource | null = null
+const isMemoryStarted = ref(false)
+
 async function memoryStart() {
+  if (!selectedPid.value) return
+  
   await memoryApi.getMemoryStats({
     pid: selectedPid.value,
     refresh: 5000,
@@ -946,23 +1008,57 @@ async function memoryStart() {
   }).then((response) => {
     if (response.areSuccess) {
       console.log('内存分析启动成功:', response.data)
+      isMemoryStarted.value = true
       // memoryData.value = response.data
     } else {
       console.error('内存分析启动失败:', response.msg)
+      isMemoryStarted.value = false
     }
   }).catch((error) => {
     console.error('内存分析启动异常:', error)
+    isMemoryStarted.value = false
   })
+  
+  // 关闭之前的 EventSource（如果存在）
+  if (memoryEventSource) {
+    memoryEventSource.close()
+    memoryEventSource = null
+  }
+  
   const baseUrl = resolveApiBaseUrl()
   const eventSourceUrl = `${baseUrl}/cvm/memory/stream?pid=${selectedPid.value}&refreshPeriod=${5000}`
-  const es = new EventSource(eventSourceUrl);
-  es.onmessage = (event) => {
+  memoryEventSource = new EventSource(eventSourceUrl)
+  memoryEventSource.onmessage = (event) => {
     // 处理 event.data
     memoryData.value = JSON.parse(event.data);
   };
-  es.onerror = () => {
+  memoryEventSource.onerror = () => {
     // 处理错误
   };
+}
+
+// 停止内存分析
+async function memoryStop() {
+  if (!selectedPid.value || !isMemoryStarted.value) return
+  
+  try {
+    await memoryApi.stopMemory(selectedPid.value).then((response) => {
+      if (response.areSuccess) {
+        console.log('内存分析停止成功')
+      } else {
+        console.error('内存分析停止失败:', response.msg)
+      }
+    }).catch((error) => {
+      console.error('内存分析停止异常:', error)
+    })
+  } finally {
+    isMemoryStarted.value = false
+    // 关闭 EventSource
+    if (memoryEventSource) {
+      memoryEventSource.close()
+      memoryEventSource = null
+    }
+  }
 }
 
 const threadData = ref<ThreadStats>()
@@ -992,8 +1088,10 @@ onMounted(async () => {
   }
 })
 
-// 组件卸载时停止轮询
+// 组件卸载时停止轮询、内存分析和CPU分析
 onUnmounted(() => {
   stopThreadPolling()
+  memoryStop()
+  cpuStop()
 })
 </script>

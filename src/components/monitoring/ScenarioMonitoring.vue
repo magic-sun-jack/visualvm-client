@@ -10,8 +10,8 @@
             placeholder="选择监控场景"
             class="w-40"
             @update:modelValue="(value: any) => handleScenarioChange(String(value))"
-          />
-          
+          >
+          </Select>
           <Button
             :variant="isMonitoring ? 'destructive' : 'default'"
             size="sm"
@@ -150,7 +150,7 @@ interface Props {
 
 const props = defineProps<Props>()
 
-const selectedScenario = ref<string>('')
+const selectedScenario = ref<string>('common')
 const isMonitoring = ref(false)
 const loading = ref(false)
 const config = ref<any>(null)
@@ -285,8 +285,8 @@ async function toggleMonitoring() {
         metricsIntervalId = null
       }
     } else {
-      // 开始监控
-      await scenarioApi.startScenarioMonitoring(props.selectedProcess, selectedScenario.value)
+      // 开始监控，使用 selectedScenario 作为 filter
+      await scenarioApi.startScenarioMonitoring(props.selectedProcess, selectedScenario.value, selectedScenario.value)
       isMonitoring.value = true
       
       // 开始定时更新指标
@@ -313,12 +313,13 @@ async function loadScenarioOptions() {
         }
       })
       
-      // 如果有选项，默认选择第一个
+      // 如果有选项，优先选择 common，否则选择第一个
       if (scenarioOptions.value.length > 0) {
-        selectedScenario.value = scenarioOptions.value[0].value
+        const commonOption = scenarioOptions.value.find(opt => opt.value === 'common')
+        selectedScenario.value = commonOption ? 'common' : scenarioOptions.value[0].value
         // 只有在有选中进程时才加载场景数据
         if (props.selectedProcess) {
-          handleScenarioChange(scenarioOptions.value[0].value)
+          handleScenarioChange(selectedScenario.value)
         }
       }
     } else {
@@ -329,9 +330,9 @@ async function loadScenarioOptions() {
     console.error('Failed to load scenario options:', error)
     // 如果接口失败，使用默认选项
     scenarioOptions.value = []
-    if (scenarioOptions.value.length > 0 && props.selectedProcess) {
-      selectedScenario.value = scenarioOptions.value[0].value
-      handleScenarioChange(scenarioOptions.value[0].value)
+    // 保持默认值为 common
+    if (props.selectedProcess && selectedScenario.value) {
+      handleScenarioChange(selectedScenario.value)
     }
   }
 }

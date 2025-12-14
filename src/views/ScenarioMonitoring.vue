@@ -17,7 +17,8 @@
             placeholder="请选择要监控的Java进程"
             class="w-full max-w-md"
             @update:modelValue="handleProcessChange"
-          />
+          >
+          </Select>
         </CardContent>
       </Card>
     </div>
@@ -39,39 +40,61 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, watch } from 'vue'
 import { Card, CardContent, CardHeader, CardTitle, Select } from '@/components/ui'
 import ScenarioMonitoringComponent from '@/components/monitoring/ScenarioMonitoring.vue'
-import { processApi } from '@/api'
-import type { JavaProcess } from '@/types'
+import { useProcessStore } from '@/stores/process'
+import type { JavaProcessListDetail } from '@/types'
 
-const processes = ref<JavaProcess[]>([])
+const processStore = useProcessStore()
+
+const processes = ref<JavaProcessListDetail[]>([])
 const selectedProcessId = ref<string>('')
 
-const processOptions = computed(() => 
+const processOptions = computed(() =>   
   processes.value.map(process => ({
-    value: process.id,
-    label: `${process.name} (PID: ${process.pid})`
+    value: process.pid,
+    label: `${process.displayName || process.mainClass || 'Unknown'} (PID: ${process.pid})`
   }))
 )
 
 async function loadProcesses() {
   try {
-    const response = await processApi.getProcesses()
-    if (response.success) {
-      processes.value = response.data.filter(p => p.status === 'running')
-    }
+    await processStore.getFilteredProcesses()
+    processes.value = processStore.processes
   } catch (error) {
     console.error('Failed to load processes:', error)
   }
 }
 
-function handleProcessChange(value: string | number) {
+function handleProcessChange(value: any) {
+  if (value === null || value === undefined) {
+    selectedProcessId.value = ''
+    return
+  }
   const processId = String(value)
+  selectedProcessId.value = processId
   console.log('Selected process:', processId)
 }
 
+// 监听当前进程变化，自动更新 selectedProcessId
+watch(() => processStore.currentProcess, (newProcess) => {
+  if (newProcess?.pid) {
+    const newPid = newProcess.pid.toString()
+    if (selectedProcessId.value !== newPid) {
+      selectedProcessId.value = newPid
+    }
+  }
+}, { immediate: true })
+
 onMounted(() => {
   loadProcesses()
+  // 优先使用 store 中的 currentProcess
+  if (processStore.currentProcess?.pid) {
+    selectedProcessId.value = processStore.currentProcess.pid.toString()
+  } else if (processStore.processes.length > 0) {
+    // 如果没有 currentProcess，使用第一个可用进程
+    selectedProcessId.value = processStore.processes[0].pid.toString()
+  }
 })
 </script>
