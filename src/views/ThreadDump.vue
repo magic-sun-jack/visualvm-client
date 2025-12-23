@@ -74,7 +74,7 @@
               <div v-for="n in fileLines" :key="n" class="leading-6">{{ n }}</div>
             </div>
             <div>
-              <div class="leading-6 pl-2" v-for="line in fileContent.split('\n')" :key="line">
+              <div class="leading-6 pl-2" v-for="line in fileContent" :key="line">
                 {{ line }}
               </div>
             </div>
@@ -119,7 +119,7 @@ const contentContainer = ref<HTMLElement | null>(null)
 
 const fileLines = computed(() => {
   if (!fileContent.value) return 0
-  return fileContent.value.split('\n').length
+  return fileContent.value?.length
 })
 
 function triggerFileSelect() {

@@ -417,6 +417,7 @@ function sortBy(field: string) {
 }
 
 async function getThreadDump() {
+  debugger
   router.push('/threads/dump?pid=' + processStore.currentProcess?.pid)
 }
 
