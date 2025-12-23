@@ -277,8 +277,8 @@
                   </div>
                 </TableCell>
               </TableRow>
-              <!-- <TableRow>
-                <TableCell class="font-medium">JVM标志？？</TableCell>
+              <TableRow>
+                <TableCell class="font-medium">JVM标志</TableCell>
                 <TableCell class="text-muted-foreground">
                   <div class="group relative pr-8" @dblclick="handleDblclickCopy($event, formatArguments(currentProcess?.jvm_args) || '-')">
                     <TooltipProvider>
@@ -304,7 +304,7 @@
                     </Button>
                   </div>
                 </TableCell>
-              </TableRow> -->
+              </TableRow>
             </TableBody>
           </Table>
         </div>

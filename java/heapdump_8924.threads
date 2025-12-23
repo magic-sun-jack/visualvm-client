@@ -1,0 +1,56 @@
+Thread 0x60ba06450
+  at java.lang.Thread.sleep(J)V (Native Method)
+  at java.lang.Thread.sleep(JI)V (Thread.java:339)
+  at java.util.concurrent.TimeUnit.sleep(J)V (TimeUnit.java:446)
+  at demo.MathGame.main([Ljava/lang/String;)V (MathGame.java:17)
+
+  locals:
+    objecId=0x60bace8a0, line=2
+    objecId=0x60b00e470, line=3
+    objecId=0x60b00f018, line=3
+
+Thread 0x60ba087b0
+  at java.lang.ref.Reference.waitForReferencePendingList()V (Native Method)
+  at java.lang.ref.Reference.processPendingReferences()V (Reference.java:241)
+  at java.lang.ref.Reference$ReferenceHandler.run()V (Reference.java:213)
+
+  locals:
+    objecId=0x60ba087b0, line=2
+
+Thread 0x60ba08d68
+  at java.lang.Object.wait(J)V (Native Method)
+  at java.lang.ref.ReferenceQueue.remove(J)Ljava/lang/ref/Reference; (ReferenceQueue.java:155)
+  at java.lang.ref.ReferenceQueue.remove()Ljava/lang/ref/Reference; (ReferenceQueue.java:176)
+  at java.lang.ref.Finalizer$FinalizerThread.run()V (Finalizer.java:170)
+
+  locals:
+    objecId=0x60ba08ca0, line=1
+    objecId=0x60ba08cc0, line=1
+    objecId=0x60ba08ca0, line=2
+    objecId=0x60ba08d68, line=3
+    objecId=0x60ba6e9f0, line=3
+
+Thread 0x60ba6ead8
+
+  locals:
+
+Thread 0x60ba6ecc0
+
+  locals:
+
+Thread 0x60baca050
+  at java.lang.Object.wait(J)V (Native Method)
+  at java.lang.ref.ReferenceQueue.remove(J)Ljava/lang/ref/Reference; (ReferenceQueue.java:155)
+  at jdk.internal.ref.CleanerImpl.run()V (CleanerImpl.java:148)
+  at java.lang.Thread.run()V (Thread.java:834)
+  at jdk.internal.misc.InnocuousThread.run()V (InnocuousThread.java:134)
+
+  locals:
+    objecId=0x60bac95e0, line=1
+    objecId=0x60bac9600, line=1
+    objecId=0x60bac95c0, line=2
+    objecId=0x60baca050, line=2
+    objecId=0x60baca050, line=2
+    objecId=0x60baca050, line=3
+    objecId=0x60baca050, line=4
+

@@ -370,9 +370,11 @@ async function analyData() {
 function exportReport() {
   console.log('导出内存泄漏分析报告')
   // 截取目录路径作为output参数
+  console.log('filePath.value', filePath.value)
   const dirPath = filePath.value
-    ? filePath.value.substring(0, filePath.value.lastIndexOf('/'))
-    : '';
+  ? filePath.value.replace(/\\/g, '/').replace(/\/[^/]*$/, '')
+  : ''
+  console.log('dirPath', dirPath)
   memoryApi.exportHeapDump({
     pid: processStore.currentProcess?.pid || '',
     output: dirPath
@@ -392,16 +394,16 @@ let fileSelectCleanup: (() => void) | null = null
 
 // 启动自动刷新
 function startAutoRefresh() {
-  if (!filePath.value || isAutoRefresh.value) return
+  // if (!filePath.value || isAutoRefresh.value) return
   
-  stopAutoRefresh()
-  isAutoRefresh.value = true
+  // stopAutoRefresh()
+  // isAutoRefresh.value = true
   
-  autoRefreshTimer = window.setInterval(() => {
-    if (filePath.value) {
-      analyzeMemoryLeak()
-    }
-  }, processStore.refreshPeriod || 5000)
+  // autoRefreshTimer = window.setInterval(() => {
+  //   if (filePath.value) {
+  //     analyzeMemoryLeak()
+  //   }
+  // }, processStore.refreshPeriod || 5000)
 }
 
 // 停止自动刷新

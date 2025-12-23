@@ -122,7 +122,7 @@
               </div>
             </div>
 
-            <Alert>
+            <!-- <Alert>
               <Info class="h-4 w-4" />
               <AlertTitle>远程JVM配置</AlertTitle>
               <AlertDescription>
@@ -144,7 +144,7 @@
                   -XX:FlightRecorderOptions=stackdepth=1024
                 </code>
               </AlertDescription>
-            </Alert>
+            </Alert> -->
           </div>
         </TabsContent>
       </Tabs>
