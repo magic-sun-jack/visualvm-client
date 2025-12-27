@@ -87,7 +87,22 @@ export const useProcessStore = defineStore('process', () => {
         status: 'stopped',
         isRemote: true
       }))
-      processes.value = [...processes.value, ...remoteProcessList]
+      
+      // 使用 Map 去重，避免重复添加相同的进程（基于 pid）
+      const processMap = new Map<string, Process>()
+      
+      // 先添加本地进程
+      processes.value.forEach(process => {
+        processMap.set(process.pid, process)
+      })
+      
+      // 再添加远程进程（如果已存在则覆盖）
+      remoteProcessList.forEach(process => {
+        processMap.set(process.pid, process)
+      })
+      
+      // 更新进程列表
+      processes.value = Array.from(processMap.values())
     } catch (err) {
       error.value = err instanceof Error ? err.message : '获取进程列表失败'
     } finally {

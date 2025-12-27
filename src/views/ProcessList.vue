@@ -53,20 +53,9 @@
             <div class="flex items-center justify-between">
               <div class="flex-1 min-w-0">
                 <div class="flex items-center gap-2 mb-1">
-                  <p class="text-sm font-medium truncate">{{ process.displayName }}</p>
-                  <Badge 
-                    v-if="process.isRemote" 
-                    variant="secondary" 
-                    class="text-xs bg-red-500 text-white"
-                  >
-                    远程
-                  </Badge>
-                  <Badge 
-                    v-else
-                    variant="secondary" 
-                    class="text-xs bg-green-500 text-white"
-                  >
-                    本地
+                  <p class="text-sm font-medium truncate max-w-[700px]">{{ process.displayName }}</p>
+                  <Badge :class="process.isRemote ? 'bg-red-500 text-white' : 'bg-green-500 text-white'">
+                    {{ process.isRemote ? '远程' : '本地' }}
                   </Badge>
                   <!-- <Badge 
                     :variant="process.status === 'running' ? 'default' : 'secondary'"
