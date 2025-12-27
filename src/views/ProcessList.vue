@@ -86,10 +86,8 @@ import { Button } from '@/components/ui/button'
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import { Badge } from '@/components/ui/badge'
 import { RefreshCw, AlertCircle } from 'lucide-vue-next'
-import { useRouter } from 'vue-router'
 
 const processStore = useProcessStore()
-const router = useRouter()
 
 // 所有进程列表（本地+远程）
 const allProcessesList = computed(() => {
@@ -125,19 +123,23 @@ async function selectProcess(process: any) {
   
   const pid = process.pid.toString()
   
-  // 如果是远程进程，设置远程连接状态
-  if (process.isRemote) {
-    processStore.setRemoteConnection(true)
-    // 使用 getRemoteOverview 获取远程进程详情
-    await processStore.getRemoteOverview(pid)
-  } else {
-    processStore.setRemoteConnection(false)
-    // 使用 getLocalOverview 获取本地进程详情
-    await processStore.getLocalOverview(pid)
+  // 使用标签页管理器打开新标签页
+  const { tabManager } = await import('@/utils/tabManager')
+  const newWindow = tabManager.openProcessTab(pid, process.isRemote)
+  if (newWindow) {
+    // 通过 postMessage 传递进程信息（延迟发送以确保新标签页已加载）
+    setTimeout(() => {
+      try {
+        newWindow.postMessage({
+          type: 'set_process',
+          pid,
+          isRemote: process.isRemote
+        }, window.location.origin)
+      } catch (error) {
+        console.error('发送消息失败:', error)
+      }
+    }, 500)
   }
-  
-  // 跳转到概览页面
-  router.push('/dashboard')
 }
 
 // 组件挂载时加载所有进程

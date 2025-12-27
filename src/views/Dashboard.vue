@@ -483,7 +483,7 @@
         <div class="bg-white rounded shadow p-4 flex flex-col">
           <div class="font-bold mb-2">CPU</div>
           <div class="grid grid-cols-2 gap-x-4 gap-y-1 mb-2">
-            <div v-for="flagObj in []" :key="flagObj.text" class="text-xs text-gray-500">{{ flagObj.text }}: {{ flagObj.value }}</div>
+            <!-- CPU 监控数据占位 -->
           </div>
           <!-- 图表插槽 -->
           <div class="flex-1 min-h-[220px]">
@@ -494,8 +494,7 @@
         <div class="bg-white rounded shadow p-4 flex flex-col">
           <div class="font-bold mb-2">GC</div>
           <div class="grid grid-cols-2 gap-x-4 gap-y-1 mb-2">
-            <div v-for="flagObj in [
-             ]" :key="flagObj.text" class="text-xs text-gray-500">{{ flagObj.text }}: {{ flagObj.value }}</div>
+            <!-- GC 监控数据占位 -->
           </div>
           <!-- 图表插槽 -->
           <div class="flex-1 min-h-[220px]">
@@ -599,6 +598,8 @@
 </template>
 <script setup lang="ts">
 import { ref, computed, onMounted, onUnmounted, watch } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import { useTabVisibility } from '@/composables/useTabVisibility'
 import MemoryTrendChart from '@/components/charts/MemoryTrendChart.vue'
 import ProcessStatusChart from '@/components/charts/ProcessStatusChart.vue'
 import { useProcessStore } from '@/stores/process'
@@ -633,7 +634,12 @@ import { useStatisticsStore } from '@/stores/statistics'
 import type { ThreadStats } from '@/types'
 
 const processStore = useProcessStore()
+const route = useRoute()
+const router = useRouter()
 const activeTab = ref('jvm-arguments')
+
+// 标签页可见性管理
+const { isActive, isPaused, shouldPause, getRequestController } = useTabVisibility()
 
 // UI 状态
 const savedDataEnabled = ref(false)
@@ -641,6 +647,7 @@ const detailInfoEnabled = ref(true)
 const selectedPid = ref<string>('')
 const isRefreshing = ref(false)
 const isLoadingDetails = ref(false)
+const isInitializingFromUrl = ref(false) // 标志：是否正在从 URL 初始化
 const isLoadingJvmArgs = ref(false)
 const isLoadingSysProps = ref(false)
 
@@ -816,15 +823,19 @@ function startThreadPolling() {
   if (threadPollingTimer) return
   
   threadPollingEnabled.value = true
-  // 立即执行一次
-  queueThreadStart()
   
-  // 然后每1秒执行一次
-  threadPollingTimer = setInterval(() => {
-    if (selectedPid.value && threadPollingEnabled.value) {
+  // 轮询函数
+  const poll = () => {
+    if (!shouldPause() && selectedPid.value && threadPollingEnabled.value) {
       queueThreadStart()
     }
-  }, 1000)
+  }
+  
+  // 立即执行一次
+  poll()
+  
+  // 然后每1秒执行一次
+  threadPollingTimer = setInterval(poll, 1000)
 }
 
 // 停止轮询
@@ -845,7 +856,7 @@ async function handlePidChange() {
   await getDetailInfoEnabled(selectedPid.value)
   cpuStart()
   memoryStart()
-  threadData.value = []
+  threadData.value = undefined
   
   // 启动新的轮询
   startThreadPolling()
@@ -866,9 +877,36 @@ async function refreshProcesses() {
   }
 }
 
+// 监听标签页可见性变化，暂停/恢复请求
+watch([isActive, isPaused], ([active, paused]) => {
+  if (!active || paused) {
+    // 标签页失活，暂停 EventSource
+    if (cpuEventSource) {
+      cpuEventSource.close()
+      cpuEventSource = null
+    }
+    if (memoryEventSource) {
+      memoryEventSource.close()
+      memoryEventSource = null
+    }
+    stopThreadPolling()
+  } else {
+    // 标签页激活，恢复请求
+    if (selectedPid.value) {
+      if (isCpuStarted.value) {
+        cpuStart()
+      }
+      if (isMemoryStarted.value) {
+        memoryStart()
+      }
+      startThreadPolling()
+    }
+  }
+})
+
 // 监听selectedPid变化
 watch(selectedPid, (newPid, oldPid) => {
-  if (newPid) {
+  if (newPid && !shouldPause()) {
     handlePidChange()
   }
   if (oldPid && oldPid !== newPid) {
@@ -911,15 +949,23 @@ watch(selectedPid, (newPid, oldPid) => {
   }
 }, { immediate: false })
 
-// 监听进程列表变化，自动选择第一个进程
+// 监听进程列表变化，自动选择第一个进程（仅在无 URL 参数时）
 watch(() => availableProcesses.value, (newProcesses) => {
+  // 如果正在从 URL 初始化或 URL 中有 pid 参数，不自动设置第一个进程
+  if (isInitializingFromUrl.value || route.query.pid) {
+    return
+  }
   if (newProcesses.length > 0 && !selectedPid.value) {
     selectedPid.value = newProcesses[0].pid.toString()
   }
 }, { immediate: true })
 
-// 监听当前进程变化，当连接新进程时自动更新数据
+// 监听当前进程变化，当连接新进程时自动更新数据（仅在无 URL 参数时）
 watch(() => processStore.currentProcess, (newProcess) => {
+  // 如果正在从 URL 初始化或 URL 中有 pid 参数，不自动更新（优先使用 URL 参数）
+  if (isInitializingFromUrl.value || route.query.pid) {
+    return
+  }
   if (newProcess?.pid) {
     const newPid = newProcess.pid.toString()
     // 如果 pid 发生变化，更新 selectedPid 并重新获取数据
@@ -935,7 +981,7 @@ let cpuEventSource: EventSource | null = null
 const isCpuStarted = ref(false)
 
 async function cpuStart() {
-  if (!selectedPid.value) return
+  if (!selectedPid.value || shouldPause()) return
   
   await cpuApi.startCpuProfiling(selectedPid.value, processStore.refreshPeriod || 1000, 'include', processStore.selectedScenarios).then((response) => {
     if (response.areSuccess) {
@@ -956,11 +1002,18 @@ async function cpuStart() {
     cpuEventSource = null
   }
   
+  // 如果标签页失活，不创建 EventSource
+  if (shouldPause()) {
+    return
+  }
+  
   // 使用正确的 API 基础 URL 来创建 EventSource
   const baseUrl = resolveApiBaseUrl()
   const eventSourceUrl = `${baseUrl}/cvm/cpu/stream?pid=${selectedPid.value}&refreshPeriod=${5000}`
   cpuEventSource = new EventSource(eventSourceUrl)
   cpuEventSource.onmessage = (event) => {
+    // 如果标签页失活，不处理数据
+    if (shouldPause()) return
     // 处理 event.data
     cpuData.value = JSON.parse(event.data);
   };
@@ -998,7 +1051,7 @@ let memoryEventSource: EventSource | null = null
 const isMemoryStarted = ref(false)
 
 async function memoryStart() {
-  if (!selectedPid.value) return
+  if (!selectedPid.value || shouldPause()) return
   
   await memoryApi.getMemoryStats({
     pid: selectedPid.value,
@@ -1025,10 +1078,17 @@ async function memoryStart() {
     memoryEventSource = null
   }
   
+  // 如果标签页失活，不创建 EventSource
+  if (shouldPause()) {
+    return
+  }
+  
   const baseUrl = resolveApiBaseUrl()
   const eventSourceUrl = `${baseUrl}/cvm/memory/stream?pid=${selectedPid.value}&refreshPeriod=${5000}`
   memoryEventSource = new EventSource(eventSourceUrl)
   memoryEventSource.onmessage = (event) => {
+    // 如果标签页失活，不处理数据
+    if (shouldPause()) return
     // 处理 event.data
     memoryData.value = JSON.parse(event.data);
   };
@@ -1077,14 +1137,165 @@ async function threadStart() {
   })
 }
 
+// 监听 URL 参数和路由变化
+watch([() => route.query, () => route.path], ([query, path]) => {
+  // 确保在概览页面
+  if (path !== '/dashboard' && path !== '/dashboard/') {
+    return
+  }
+  
+  if (query.pid) {
+    const pid = query.pid.toString()
+    const isRemote = query.remote === 'true'
+    
+    // 设置标志，防止其他 watch 干扰
+    isInitializingFromUrl.value = true
+    
+    // 强制使用 URL 中的进程信息，忽略 store 中的状态
+    // 设置远程连接状态
+    processStore.setRemoteConnection(isRemote)
+    
+    // 立即更新 selectedPid，确保 UI 响应
+    selectedPid.value = pid
+    
+    // 获取进程详情
+    if (isRemote) {
+      processStore.getRemoteOverview(pid).then(() => {
+        // 延迟执行 handlePidChange，确保数据已加载
+        setTimeout(() => {
+          if (!shouldPause()) {
+            handlePidChange()
+          }
+          // 初始化完成，清除标志
+          isInitializingFromUrl.value = false
+        }, 100)
+      })
+    } else {
+      processStore.getLocalOverview(pid).then(() => {
+        // 延迟执行 handlePidChange，确保数据已加载
+        setTimeout(() => {
+          if (!shouldPause()) {
+            handlePidChange()
+          }
+          // 初始化完成，清除标志
+          isInitializingFromUrl.value = false
+        }, 100)
+      })
+    }
+  } else {
+    isInitializingFromUrl.value = false
+  }
+}, { immediate: true })
+
+// 监听 postMessage 接收进程信息和导航请求
+onMounted(() => {
+  const handleMessage = (event: MessageEvent) => {
+    if (event.origin !== window.location.origin) return
+    
+    if (event.data.type === 'set_process') {
+      const { pid, isRemote } = event.data
+      processStore.setRemoteConnection(isRemote)
+      
+      if (isRemote) {
+        processStore.getRemoteOverview(pid)
+      } else {
+        processStore.getLocalOverview(pid)
+      }
+      
+      selectedPid.value = pid
+      
+      // 确保导航到概览页面
+      if (route.path !== '/dashboard') {
+        router.push({ path: '/dashboard', query: { pid, remote: isRemote } })
+      }
+    } else if (event.data.type === 'navigate_to_process') {
+      const { pid, isRemote } = event.data
+      processStore.setRemoteConnection(isRemote)
+      
+      if (isRemote) {
+        processStore.getRemoteOverview(pid)
+      } else {
+        processStore.getLocalOverview(pid)
+      }
+      
+      selectedPid.value = pid
+      
+      // 导航到概览页面
+      router.push({ path: '/dashboard', query: { pid, remote: isRemote } })
+    } else if (event.data.type === 'focus_tab') {
+      // 收到聚焦请求，确保窗口获得焦点
+      window.focus()
+    }
+  }
+  
+  window.addEventListener('message', handleMessage)
+  
+  // 监听 BroadcastChannel 消息
+  if (typeof BroadcastChannel !== 'undefined') {
+    const channel = new BroadcastChannel('visualvm_tab_channel')
+    channel.onmessage = (event) => {
+      const { type, data } = event.data
+      if (type === 'focus_tab' && data.pid === selectedPid.value) {
+        window.focus()
+      }
+    }
+    
+    onUnmounted(() => {
+      channel.close()
+    })
+  }
+  
+  onUnmounted(() => {
+    window.removeEventListener('message', handleMessage)
+  })
+})
+
 // 组件挂载时初始化
 onMounted(async () => {
-  // 优先使用 store 中的 currentProcess
-  if (processStore.currentProcess?.pid) {
-    selectedPid.value = processStore.currentProcess.pid.toString()
-  } else if (availableProcesses.value.length > 0) {
-    // 如果没有 currentProcess，使用第一个可用进程
-    selectedPid.value = availableProcesses.value[0].pid.toString()
+  // 确保在概览页面
+  if (route.path !== '/dashboard' && route.path !== '/dashboard/') {
+    router.push({ 
+      path: '/dashboard', 
+      query: route.query 
+    })
+    return
+  }
+  
+  // 强制使用 URL 参数中的进程信息（新标签页优先）
+  if (route.query.pid) {
+    const pid = route.query.pid.toString()
+    const isRemote = route.query.remote === 'true'
+    
+    // 设置标志，防止其他 watch 干扰
+    isInitializingFromUrl.value = true
+    
+    // 立即设置状态，确保 UI 响应
+    selectedPid.value = pid
+    processStore.setRemoteConnection(isRemote)
+    
+    // 强制获取进程详情，忽略 store 中可能存在的其他进程信息
+    if (isRemote) {
+      await processStore.getRemoteOverview(pid)
+    } else {
+      await processStore.getLocalOverview(pid)
+    }
+    
+    // 延迟执行 handlePidChange，确保数据已加载
+    setTimeout(() => {
+      if (!shouldPause()) {
+        handlePidChange()
+      }
+      // 初始化完成，清除标志
+      isInitializingFromUrl.value = false
+    }, 100)
+  } else {
+    // 只有在没有 URL 参数时才使用 store 中的 currentProcess
+    if (processStore.currentProcess?.pid) {
+      selectedPid.value = processStore.currentProcess.pid.toString()
+    } else if (availableProcesses.value.length > 0) {
+      // 如果没有 currentProcess，使用第一个可用进程
+      selectedPid.value = availableProcesses.value[0].pid.toString()
+    }
   }
 })
 

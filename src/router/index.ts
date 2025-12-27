@@ -30,6 +30,7 @@ import {
 import ThreadMonitor from "@/views/ThreadMonitor.vue";
 import ThreadDump from "@/views/ThreadDump.vue";
 import ProcessList from "@/views/ProcessList.vue";
+import DashboardLayout from "@/components/DashboardLayout.vue";
 
 const routes: RouteRecordRaw[] = [
   {
@@ -39,6 +40,7 @@ const routes: RouteRecordRaw[] = [
   {
     path: "/dashboard",
     name: "Dashboard",
+    component: DashboardLayout,
     meta: {
       title: "概览",
       icon: LayoutDashboard,

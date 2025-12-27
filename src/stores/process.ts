@@ -116,10 +116,12 @@ export const useProcessStore = defineStore('process', () => {
       error.value = null
       const response = await processApi.getProcessLocalOverview(id)
       if (response.areSuccess) {
-        currentProcess.value = {
+        const processDetail: ProcessDetail = {
           ...response.data,
           status: 'running'
         }
+        currentProcess.value = processDetail
+        setCurrentProcess(processDetail)
       } else {
         error.value = response.message || '获取进程详情失败'
       }
@@ -154,10 +156,12 @@ export const useProcessStore = defineStore('process', () => {
       // 远程进程使用 id 参数，API 拦截器会自动处理路径转换
       const response = await processApi.getProcessLocalOverview(id)
       if (response.areSuccess) {
-        currentProcess.value = {
+        const processDetail: ProcessDetail = {
           ...response.data,
           status: 'running'
         }
+        currentProcess.value = processDetail
+        setCurrentProcess(processDetail)
       } else {
         error.value = response.message || '获取远程进程详情失败'
       }
