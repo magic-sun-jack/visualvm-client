@@ -1137,7 +1137,7 @@ async function threadStart() {
   })
 }
 
-// 监听 URL 参数和路由变化（优先处理 URL 参数）
+// 监听 URL 参数和路由变化
 watch([() => route.query, () => route.path], ([query, path]) => {
   // 确保在概览页面
   if (path !== '/dashboard' && path !== '/dashboard/') {
@@ -1147,11 +1147,6 @@ watch([() => route.query, () => route.path], ([query, path]) => {
   if (query.pid) {
     const pid = query.pid.toString()
     const isRemote = query.remote === 'true'
-    
-    // 避免重复处理相同的进程
-    if (selectedPid.value === pid && processStore.isRemoteConnection === isRemote) {
-      return
-    }
     
     // 设置标志，防止其他 watch 干扰
     isInitializingFromUrl.value = true
@@ -1174,9 +1169,6 @@ watch([() => route.query, () => route.path], ([query, path]) => {
           // 初始化完成，清除标志
           isInitializingFromUrl.value = false
         }, 100)
-      }).catch((error) => {
-        console.error('获取远程进程详情失败:', error)
-        isInitializingFromUrl.value = false
       })
     } else {
       processStore.getLocalOverview(pid).then(() => {
@@ -1188,9 +1180,6 @@ watch([() => route.query, () => route.path], ([query, path]) => {
           // 初始化完成，清除标志
           isInitializingFromUrl.value = false
         }, 100)
-      }).catch((error) => {
-        console.error('获取本地进程详情失败:', error)
-        isInitializingFromUrl.value = false
       })
     }
   } else {
@@ -1269,12 +1258,37 @@ onMounted(async () => {
       path: '/dashboard', 
       query: route.query 
     })
-    // 路由跳转后，watch 会处理 URL 参数，这里不需要重复处理
     return
   }
   
-  // watch 已经处理了 URL 参数（immediate: true），这里只处理没有 URL 参数的情况
-  if (!route.query.pid) {
+  // 强制使用 URL 参数中的进程信息（新标签页优先）
+  if (route.query.pid) {
+    const pid = route.query.pid.toString()
+    const isRemote = route.query.remote === 'true'
+    
+    // 设置标志，防止其他 watch 干扰
+    isInitializingFromUrl.value = true
+    
+    // 立即设置状态，确保 UI 响应
+    selectedPid.value = pid
+    processStore.setRemoteConnection(isRemote)
+    
+    // 强制获取进程详情，忽略 store 中可能存在的其他进程信息
+    if (isRemote) {
+      await processStore.getRemoteOverview(pid)
+    } else {
+      await processStore.getLocalOverview(pid)
+    }
+    
+    // 延迟执行 handlePidChange，确保数据已加载
+    setTimeout(() => {
+      if (!shouldPause()) {
+        handlePidChange()
+      }
+      // 初始化完成，清除标志
+      isInitializingFromUrl.value = false
+    }, 100)
+  } else {
     // 只有在没有 URL 参数时才使用 store 中的 currentProcess
     if (processStore.currentProcess?.pid) {
       selectedPid.value = processStore.currentProcess.pid.toString()
@@ -1283,7 +1297,6 @@ onMounted(async () => {
       selectedPid.value = availableProcesses.value[0].pid.toString()
     }
   }
-  // 如果有 URL 参数，watch 已经处理了，这里不需要重复处理
 })
 
 // 组件卸载时停止轮询、内存分析和CPU分析
