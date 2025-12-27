@@ -14,7 +14,8 @@ import type {
   CpuStream,
   GCStatsInfo,
   ThreadListData,
-  ThreadListResponse
+  ThreadListResponse,
+  RemoteProcess
 } from '@/types'
 import { env, mockDelay, debugLog, errorLog } from '@/config/env'
 import { mockDataGenerator, mockDataCache } from './mockData'
@@ -181,11 +182,15 @@ export const processApi = {
   -Dcom.sun.management.jmxremote.authenticate=false
   -Dcom.sun.management.jmxremote.ssl=false
    */
-  async getRemoteProcess(host: string, port: number, username?: string, password?: string, authenticate?: boolean, ssl?: boolean): Promise<ApiResponse<JavaProcessDetail>> {
+  async addRemoteProcess(host: string, port: number, username?: string, password?: string, authenticate?: boolean, ssl?: boolean): Promise<ApiResponse<JavaProcessDetail>> {
     const params: any = { host, port }
     if (username) params.username = username
     if (password) params.password = password
     return api.get(`/cvm/remote/addRemote`, { params })
+  },
+  // 获取远程进程
+  async getRemoteProcess(): Promise<ApiResponse<RemoteProcess[]>> {
+    return api.get(`/cvm/remote/getRemote`)
   },
 
   // 获取pid进程监视信息

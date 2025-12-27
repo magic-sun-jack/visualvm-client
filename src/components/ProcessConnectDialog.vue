@@ -312,7 +312,7 @@ async function connect() {
         return
       }
 
-      const response = await processApi.getRemoteProcess(host, port, username, password)
+      const response = await processApi.addRemoteProcess(host, port, username, password)
       
       if (response.areSuccess || response.success) {
         // 设置为远程连接

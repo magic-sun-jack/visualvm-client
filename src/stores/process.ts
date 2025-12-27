@@ -1,11 +1,12 @@
 import { defineStore } from 'pinia'
 import { ref, computed, onUnmounted } from 'vue'
-import type { JavaProcessInfo, JavaProcessListDetail, JavaProcessDetail } from '@/types'
+import type { JavaProcessListDetail, JavaProcessDetail, RemoteProcess } from '@/types'
 import { processApi } from '@/api'
 import { ReconnectingWebSocketClient } from '@/lib/ws'
 
 interface Process extends JavaProcessListDetail {
   status: 'running' | 'stopped'
+  isRemote?: boolean
 }
 
 interface ProcessDetail extends JavaProcessDetail {
@@ -15,6 +16,7 @@ interface ProcessDetail extends JavaProcessDetail {
 export const useProcessStore = defineStore('process', () => {
   // 状态
   const processes = ref<Process[]>([])
+  const remoteProcesses = ref<RemoteProcess[]>([])
   const currentProcess = ref<ProcessDetail>()
   const isLoading = ref(false)
   const error = ref<string | null>(null)
@@ -45,7 +47,8 @@ export const useProcessStore = defineStore('process', () => {
       if (response.areSuccess) {
         processes.value = response.data?.filter(data => data?.displayName != 'monitor-0.0.1-SNAPSHOT.jar')?.map(process => ({
           ...process,
-          status: 'stopped'
+          status: 'stopped',
+          isRemote: false
         })) || []
         if (!currentProcess.value) {
           getLocalOverview(processes.value[0].pid)
@@ -55,6 +58,36 @@ export const useProcessStore = defineStore('process', () => {
       } else {
         error.value = response.message || '获取进程列表失败'
       }
+    } catch (err) {
+      error.value = err instanceof Error ? err.message : '获取进程列表失败'
+    } finally {
+      isLoading.value = false
+    }
+  }
+
+  async function getAllProcesses() {
+    try {
+      isLoading.value = true
+      error.value = null
+      // 获取本地进程
+      await getFilteredProcesses()
+      // 获取远程进程
+      await getRemoteProcesses()
+      // 将远程进程转换为 Process 格式并合并到进程列表
+      const remoteProcessList: Process[] = remoteProcesses.value.map(remote => ({
+        pid: remote.id,
+        displayName: `${remote.ip}:${remote.port}`,
+        javaHome: '',
+        mainArgs: '',
+        mainClass: '远程进程',
+        jvmArgs: '',
+        ip: remote.ip,
+        command: '',
+        startTime: '',
+        status: 'stopped',
+        isRemote: true
+      }))
+      processes.value = [...processes.value, ...remoteProcessList]
     } catch (err) {
       error.value = err instanceof Error ? err.message : '获取进程列表失败'
     } finally {
@@ -77,6 +110,44 @@ export const useProcessStore = defineStore('process', () => {
       }
     } catch (err) {
       error.value = err instanceof Error ? err.message : '获取进程详情失败'
+    } finally {
+      isLoading.value = false
+    }
+  }
+
+  async function getRemoteProcesses() {
+    try {
+      isLoading.value = true
+      error.value = null
+      const response = await processApi.getRemoteProcess()
+      if (response.areSuccess) {
+        remoteProcesses.value = response.data || []
+      } else {
+        error.value = response.message || '获取远程进程列表失败'
+      }
+    } catch (err) {
+      error.value = err instanceof Error ? err.message : '获取远程进程列表失败'
+    } finally {
+      isLoading.value = false
+    }
+  }
+
+  async function getRemoteOverview(id: string) {
+    try {
+      isLoading.value = true
+      error.value = null
+      // 远程进程使用 id 参数，API 拦截器会自动处理路径转换
+      const response = await processApi.getProcessLocalOverview(id)
+      if (response.areSuccess) {
+        currentProcess.value = {
+          ...response.data,
+          status: 'running'
+        }
+      } else {
+        error.value = response.message || '获取远程进程详情失败'
+      }
+    } catch (err) {
+      error.value = err instanceof Error ? err.message : '获取远程进程详情失败'
     } finally {
       isLoading.value = false
     }
@@ -174,6 +245,7 @@ export const useProcessStore = defineStore('process', () => {
   return {
     // 状态
     processes,
+    remoteProcesses,
     currentProcess,
     isLoading,
     error,
@@ -190,7 +262,10 @@ export const useProcessStore = defineStore('process', () => {
     
     // 动作
     getFilteredProcesses,
+    getAllProcesses,
     getLocalOverview,
+    getRemoteProcesses,
+    getRemoteOverview,
     startProcess,
     stopProcess,
     restartProcess,

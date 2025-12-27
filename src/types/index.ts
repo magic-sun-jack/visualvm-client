@@ -450,3 +450,11 @@ export interface ThreadListResponse {
   data: ThreadListData // 数据
   areSuccess: boolean // 是否成功
 }
+
+export interface RemoteProcess {
+  id: string // 进程ID
+  ip: string // ip地址
+  port: number // 端口
+  username: string | null // 用户名
+  password: string | null // 密码
+}

@@ -25,13 +25,6 @@
     {
       "type": "node-terminal",
       "request": "launch",
-      "name": "Run Deploy",
-      "command": "pnpm deploy",
-      "cwd": "${workspaceFolder}"
-    },
-    {
-      "type": "node-terminal",
-      "request": "launch",
       "name": "Run Electron Dev",
       "command": "pnpm electron:dev",
       "cwd": "${workspaceFolder}"
@@ -49,20 +42,6 @@
       "name": "Start Math Java Service",
       "command": "java -jar math-game.jar",
       "cwd": "${workspaceFolder}/java"
-    },
-    {
-      "type": "node-terminal",
-      "request": "launch",
-      "name": "Start Java Service (Linux/Mac)",
-      "command": "bash java/start.sh",
-      "cwd": "${workspaceFolder}"
-    },
-    {
-      "type": "node-terminal",
-      "request": "launch",
-      "name": "Git Pull Gitee Main",
-      "command": "git pull gitee main",
-      "cwd": "${workspaceFolder}"
     }
   ],
   "compounds": [

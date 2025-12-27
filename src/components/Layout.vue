@@ -207,7 +207,11 @@ const navigationItems = computed(() => {
           .filter(child => child.meta?.show !== false)
           .map(child => ({
             name: child.meta?.title,
-            path: child.path.startsWith('/') ? child.path : `${route.path}/${child.path}`,
+            path: child.path.startsWith('/') 
+              ? child.path 
+              : child.path === '' 
+                ? route.path 
+                : `${route.path}/${child.path}`,
             icon: child.meta?.icon,
             show: child.meta?.show
           }))

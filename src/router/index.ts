@@ -25,9 +25,11 @@ import {
   FileText,
   ShieldAlert,
   Trello,
+  List,
 } from "lucide-vue-next";
 import ThreadMonitor from "@/views/ThreadMonitor.vue";
 import ThreadDump from "@/views/ThreadDump.vue";
+import ProcessList from "@/views/ProcessList.vue";
 
 const routes: RouteRecordRaw[] = [
   {
@@ -37,11 +39,30 @@ const routes: RouteRecordRaw[] = [
   {
     path: "/dashboard",
     name: "Dashboard",
-    component: Dashboard,
     meta: {
       title: "概览",
       icon: LayoutDashboard,
     },
+    children: [
+      {
+        path: "",
+        name: "DashboardOverview",
+        component: Dashboard,
+        meta: {
+          title: "概览",
+          icon: LayoutDashboard,
+        },
+      },
+      {
+        path: "processes",
+        name: "ProcessList",
+        component: ProcessList,
+        meta: {
+          title: "进程列表",
+          icon: List,
+        },
+      },
+    ],
   },
   {
     path: "/memory",
