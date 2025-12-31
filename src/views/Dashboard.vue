@@ -852,6 +852,12 @@ async function handlePidChange() {
   // 先停止旧的轮询
   stopThreadPolling()
   
+  // 根据进程的 isRemote 属性设置远程连接状态
+  const process = availableProcesses.value.find(p => p.pid === selectedPid.value)
+  if (process) {
+    processStore.setRemoteConnection(process.isRemote || false)
+  }
+  
   await getSaveDataFn(selectedPid.value)
   await getDetailInfoEnabled(selectedPid.value)
   cpuStart()

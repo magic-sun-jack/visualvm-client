@@ -100,6 +100,12 @@ api.interceptors.request.use(
         try {
           const processStore = useProcessStore()
           if (processStore.isRemoteConnection) {
+            // 添加远程连接标识到请求头
+            config.headers = config.headers || {}
+            if (typeof config.headers === 'object' && !Array.isArray(config.headers)) {
+              config.headers['X-Remote-Connection'] = 'true'
+            }
+            
             // 将 /cvm 替换为 /cvm/remote
             let newUrl = urlPath.replace('/cvm', '/cvm/remote')
             
@@ -549,4 +555,129 @@ export const configApi = {
     // return api.get('/cvm/config/getConfig');
   }
 }
+
+// 远程连接相关API
+export const remoteApi = {
+  // 删除远程主机
+  async deleteRemote(id: string): Promise<ApiResponse<void>> {
+    return api.delete(`/cvm/remote/deleteRemote`, { params: { id } })
+  },
+
+  // 获取远程主机概述信息
+  async getRemoteOverview(id: string): Promise<ApiResponse<JavaProcessDetail>> {
+    return api.get(`/cvm/remote/getRemoteOverview`, { params: { id } })
+  },
+
+  // 获取远程主机GC监控
+  async getRemoteGC(id: string): Promise<ApiResponse<GCStatsInfo>> {
+    return api.get(`/cvm/remote/getRemoteGC`, { params: { id } })
+  },
+
+  // 获取远程监视信息
+  async getRemoteMonitor(id: string): Promise<ApiResponse<any>> {
+    return api.get(`/cvm/remote/getRemoteMonitor`, { params: { id } })
+  },
+
+  // 获取远程线程列表信息
+  async getRemoteThreads(id: string): Promise<ThreadListResponse> {
+    return api.get(`/cvm/remote/getRemoteThreads`, { params: { id } })
+  },
+
+  // 开始远程CPU分析
+  async startRemoteCpu(
+    id: string,
+    refreshPeriod?: number,
+    filterType?: 'include' | 'exclude',
+    filter?: string[]
+  ): Promise<ApiResponse<void>> {
+    // 优先从全局 store 读取 refreshPeriod，如果没有则使用传入的参数或默认值
+    let finalRefreshPeriod = refreshPeriod
+    let finalFilterType = filterType
+    try {
+      const processStore = useProcessStore()
+      if (processStore.refreshPeriod) {
+        finalRefreshPeriod = processStore.refreshPeriod
+      }
+      if (processStore.filterType) {
+        finalFilterType = processStore.filterType
+      }
+    } catch (error) {
+      // 如果 store 未初始化，使用传入的参数或默认值
+    }
+    // 如果都没有，使用默认值
+    if (!finalRefreshPeriod) {
+      finalRefreshPeriod = 1000
+    }
+    if (!finalFilterType) {
+      finalFilterType = 'include'
+    }
+    return api.post(
+      `/cvm/remote/cpu/start?id=${id}&filterType=${finalFilterType}&filter=${filter?.join(',') || ''}&refreshPeriod=${finalRefreshPeriod}`
+    )
+  },
+
+  // 获取远程CPU分析数据
+  async getRemoteCpuStream(id: string): Promise<ApiResponse<any>> {
+    return api.get(`/cvm/remote/cpu/stream`, { params: { id } })
+  },
+
+  // 停止远程CPU分析
+  async stopRemoteCpu(id: string): Promise<ApiResponse<void>> {
+    return api.post(`/cvm/remote/cpu/stop`, { params: { id } })
+  },
+
+  // 开始远程内存分析
+  async startRemoteMemory(
+    id: string,
+    refreshPeriod?: number,
+    filterType?: 'include' | 'exclude',
+    filter?: string[]
+  ): Promise<ApiResponse<void>> {
+    // 优先从全局 store 读取 refreshPeriod，如果没有则使用传入的参数或默认值
+    let finalRefreshPeriod = refreshPeriod
+    let finalFilterType = filterType
+    try {
+      const processStore = useProcessStore()
+      if (processStore.refreshPeriod) {
+        finalRefreshPeriod = processStore.refreshPeriod
+      }
+      if (processStore.filterType) {
+        finalFilterType = processStore.filterType
+      }
+    } catch (error) {
+      // 如果 store 未初始化，使用传入的参数或默认值
+    }
+    // 如果都没有，使用默认值
+    if (!finalRefreshPeriod) {
+      finalRefreshPeriod = 5000
+    }
+    if (!finalFilterType) {
+      finalFilterType = 'include'
+    }
+    return api.post(
+      `/cvm/remote/memory/start?id=${id}&filterType=${finalFilterType}&filter=${filter?.join(',') || ''}&refreshPeriod=${finalRefreshPeriod}`
+    )
+  },
+
+  // 获取远程内存分析数据
+  async getRemoteMemoryStream(id: string): Promise<ApiResponse<any>> {
+    return api.get(`/cvm/remote/memory/stream`, { params: { id } })
+  },
+
+  // 停止远程内存分析
+  async stopRemoteMemory(id: string): Promise<ApiResponse<void>> {
+    return api.post(`/cvm/remote/memory/stop`, { params: { id } })
+  },
+
+  // 获取远程死锁分析
+  async getRemoteThreadTree(id: string): Promise<ApiResponse<any>> {
+    return api.get(`/cvm/remote/getRemoteThreadTree`, { params: { id } })
+  },
+
+  // 获取远程线程dump信息
+  async getRemoteDump(id: string): Promise<ApiResponse<any>> {
+    return api.get(`/cvm/remote/getRemoteDump`, { params: { id } })
+  },
+}
+
 export default api

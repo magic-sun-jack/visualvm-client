@@ -114,6 +114,8 @@ export const useProcessStore = defineStore('process', () => {
     try {
       isLoading.value = true
       error.value = null
+      // 设置远程连接状态为 false
+      setRemoteConnection(false)
       const response = await processApi.getProcessLocalOverview(id)
       if (response.areSuccess) {
         const processDetail: ProcessDetail = {
@@ -153,6 +155,8 @@ export const useProcessStore = defineStore('process', () => {
     try {
       isLoading.value = true
       error.value = null
+      // 设置远程连接状态为 true
+      setRemoteConnection(true)
       // 远程进程使用 id 参数，API 拦截器会自动处理路径转换
       const response = await processApi.getProcessLocalOverview(id)
       if (response.areSuccess) {
@@ -227,6 +231,11 @@ export const useProcessStore = defineStore('process', () => {
 
   function setCurrentProcess(process: ProcessDetail) {
     currentProcess.value = process
+    // 根据进程列表中的 isRemote 属性设置远程连接状态
+    const processInfo = processes.value.find(p => p.pid === process.pid)
+    if (processInfo) {
+      setRemoteConnection(processInfo.isRemote || false)
+    }
   }
 
   function setRemoteConnection(isRemote: boolean) {
