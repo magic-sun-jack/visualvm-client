@@ -10,17 +10,12 @@ import DatabaseAnalysis from "@/views/DatabaseAnalysis.vue";
 import RMIAnalysis from "@/views/RMIAnalysis.vue";
 import MemoryLeak from "@/views/MemoryLeak.vue";
 import GCMonitoring from "@/views/GCMonitoring.vue";
-import LeakDetection from "@/views/LeakDetection.vue";
-import ThreadAnalysis from "@/views/ThreadAnalysis.vue";
 import ProcessManager from "@/views/ProcessManager.vue";
 import ScenarioMonitoring from "@/views/ScenarioMonitoring.vue";
 import ShadcnShowcase from "@/views/ShadcnShowcase.vue";
 import {
   LayoutDashboard,
   Database,
-  MemoryStick,
-  GitBranch,
-  SquareActivity,
   Activity,
   FileText,
   ShieldAlert,
@@ -30,7 +25,6 @@ import {
 import ThreadMonitor from "@/views/ThreadMonitor.vue";
 import ThreadDump from "@/views/ThreadDump.vue";
 import ProcessList from "@/views/ProcessList.vue";
-import DashboardLayout from "@/components/DashboardLayout.vue";
 
 const routes: RouteRecordRaw[] = [
   {
@@ -40,70 +34,45 @@ const routes: RouteRecordRaw[] = [
   {
     path: "/dashboard",
     name: "Dashboard",
-    component: DashboardLayout,
+    component: Dashboard,
     meta: {
       title: "概览",
       icon: LayoutDashboard,
     },
-    children: [
-      {
-        path: "",
-        name: "DashboardOverview",
-        component: Dashboard,
-        meta: {
-          title: "概览",
-          icon: LayoutDashboard,
-        },
-      },
-      {
-        path: "processes",
-        name: "ProcessList",
-        component: ProcessList,
-        meta: {
-          title: "进程列表",
-          icon: List,
-        },
-      },
-    ],
   },
   {
-    path: "/memory",
-    name: "MemoryLeak",
-    // component: MemoryLeak,
-    meta: { title: "内存信息", icon: MemoryStick },
-    children: [
-      {
-        path: "gc",
-        name: "GCMonitoring",
-        component: GCMonitoring,
-        meta: { title: "GC监控", icon: Trello },
-      },
-      {
-        path: "leak",
-        name: "LeakDetection",
-        component: MemoryLeak,
-        meta: { title: "内存泄漏检测", icon: ShieldAlert },
-      },
-    ],
+    path: "/process-list",
+    name: "ProcessList",
+    component: ProcessList,
+    meta: {
+      title: "进程列表",
+      icon: List,
+      show: false,
+    }
   },
   {
-    path: "/threads",
-    name: "ThreadAnalysis",
-    meta: { title: "线程", icon: GitBranch },
-    children: [
-      {
-        path: "monitor",
-        name: "ThreadMonitor",
-        component: ThreadMonitor,
-        meta: { title: "线程监控", icon: Activity },
-      },
-      {
-        path: "dump",
-        name: "ThreadDump",
-        component: ThreadDump,
-        meta: { title: "线程Dump", icon: FileText },
-      },
-    ],
+    path: "/gc-monitoring",
+    name: "GCMonitoring",
+    component: GCMonitoring,
+    meta: { title: "GC监控", icon: Trello },
+  },
+  {
+    path: "/leak-detection",
+    name: "LeakDetection",
+    component: MemoryLeak,
+    meta: { title: "内存泄漏检测", icon: ShieldAlert },
+  },
+  {
+    path: "/thread-monitor",
+    name: "ThreadMonitor",
+    component: ThreadMonitor,
+    meta: { title: "线程监控", icon: Activity },
+  },
+  {
+    path: "/thread-dump",
+    name: "ThreadDump",
+    component: ThreadDump,
+    meta: { title: "线程Dump", icon: FileText },
   },
   {
     path: "/database",
@@ -135,7 +104,6 @@ const routes: RouteRecordRaw[] = [
     component: ScenarioMonitoring,
     meta: { title: "数据库监控", icon: Database, show: true },
   },
-
   {
     path: "/shadcn-showcase",
     name: "ShadcnShowcase",
