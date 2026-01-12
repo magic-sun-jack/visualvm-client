@@ -359,6 +359,17 @@ ipcMain.handle('exit-app', () => {
   app.quit()
 })
 
+// 获取 resources 目录路径
+ipcMain.handle('get-resources-path', () => {
+  if (isDev) {
+    // 开发环境：返回项目根目录下的 java 文件夹
+    return path.join(__dirname, '../java')
+  } else {
+    // 生产环境：返回安装目录的 resources 文件夹
+    return process.resourcesPath || path.join(__dirname, '../resources')
+  }
+})
+
 // 处理文件选择对话框
 ipcMain.on('open-file-dialog-for-file', async (event) => {
   try {

@@ -25,7 +25,7 @@
     </div>
 
     <!-- 应用信息 -->
-    <div class="mb-6 p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
+    <!-- <div class="mb-6 p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
       <div class="flex items-center justify-between">
         <div>
           <h2 class="text-lg font-semibold text-gray-900 dark:text-white">{{ processStore.currentProcess?.main_class }}</h2>
@@ -35,93 +35,8 @@
           <span>刷新率: {{ refreshRate }}ms</span>
         </div>
       </div>
-    </div>
+    </div> -->
 
-    <!-- 内存空间监控 -->
-    <Card class="bg-white dark:bg-gray-800 mb-8">
-      <CardHeader>
-        <CardTitle class="text-lg font-semibold">内存空间使用情况</CardTitle>
-        <CardDescription>实时显示各内存区域的使用状态</CardDescription>
-      </CardHeader>
-      <CardContent>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
-          <!-- Metaspace -->
-          <div class="space-y-2">
-            <div class="flex justify-between items-center">
-              <span class="text-sm font-medium">Metaspace</span>
-              <span class="text-xs text-gray-500">{{ formatBytes(metaspace.used) }} / {{ formatBytes(metaspace.max) }}</span>
-            </div>
-            <div class="w-full bg-gray-200 rounded-full h-3">
-              <div 
-                class="bg-orange-500 h-3 rounded-full transition-all duration-300"
-                :style="{ width: `${metaspace.percentage}%` }"
-              ></div>
-            </div>
-            <div class="text-xs text-gray-500">{{ metaspace.percentage.toFixed(1) }}%</div>
-          </div>
-
-          <!-- Old Generation -->
-          <div class="space-y-2">
-            <div class="flex justify-between items-center">
-              <span class="text-sm font-medium">Old Gen</span>
-              <span class="text-xs text-gray-500">{{ formatBytes(oldGen.used) }} / {{ formatBytes(oldGen.max) }}</span>
-            </div>
-            <div class="w-full bg-gray-200 rounded-full h-3">
-              <div 
-                class="bg-green-600 h-3 rounded-full transition-all duration-300"
-                :style="{ width: `${oldGen.percentage}%` }"
-              ></div>
-            </div>
-            <div class="text-xs text-gray-500">{{ oldGen.percentage.toFixed(1) }}%</div>
-          </div>
-
-          <!-- Eden Space -->
-          <div class="space-y-2">
-            <div class="flex justify-between items-center">
-              <span class="text-sm font-medium">Eden</span>
-              <span class="text-xs text-gray-500">{{ formatBytes(eden.used) }} / {{ formatBytes(eden.max) }}</span>
-            </div>
-            <div class="w-full bg-gray-200 rounded-full h-3">
-              <div 
-                class="bg-orange-500 h-3 rounded-full transition-all duration-300"
-                :style="{ width: `${eden.percentage}%` }"
-              ></div>
-            </div>
-            <div class="text-xs text-gray-500">{{ eden.percentage.toFixed(1) }}%</div>
-          </div>
-
-          <!-- Survivor 0 -->
-          <div class="space-y-2">
-            <div class="flex justify-between items-center">
-              <span class="text-sm font-medium">S0</span>
-              <span class="text-xs text-gray-500">{{ formatBytes(survivor0.used) }} / {{ formatBytes(survivor0.max) }}</span>
-            </div>
-            <div class="w-full bg-gray-200 rounded-full h-3">
-              <div 
-                class="bg-orange-500 h-3 rounded-full transition-all duration-300"
-                :style="{ width: `${survivor0.percentage}%` }"
-              ></div>
-            </div>
-            <div class="text-xs text-gray-500">{{ survivor0.percentage.toFixed(1) }}%</div>
-          </div>
-
-          <!-- Survivor 1 -->
-          <div class="space-y-2">
-            <div class="flex justify-between items-center">
-              <span class="text-sm font-medium">S1</span>
-              <span class="text-xs text-gray-500">{{ formatBytes(survivor1.used) }} / {{ formatBytes(survivor1.max) }}</span>
-            </div>
-            <div class="w-full bg-gray-200 rounded-full h-3">
-              <div 
-                class="bg-orange-500 h-3 rounded-full transition-all duration-300"
-                :style="{ width: `${survivor1.percentage}%` }"
-              ></div>
-            </div>
-            <div class="text-xs text-gray-500">{{ survivor1.percentage.toFixed(1) }}%</div>
-          </div>
-        </div>
-      </CardContent>
-    </Card>
 
     <!-- GC概览卡片 -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
@@ -391,6 +306,91 @@
       </CardContent>
     </Card>
 
+    <!-- 内存空间监控 -->
+    <Card class="bg-white dark:bg-gray-800 mb-8">
+      <CardHeader>
+        <CardTitle class="text-lg font-semibold">内存空间使用情况</CardTitle>
+        <CardDescription>实时显示各内存区域的使用状态</CardDescription>
+      </CardHeader>
+      <CardContent>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+          <!-- Metaspace -->
+          <div class="space-y-2">
+            <div class="flex justify-between items-center">
+              <span class="text-sm font-medium">Metaspace</span>
+              <span class="text-xs text-gray-500">{{ formatBytes(metaspace.used) }} / {{ formatBytes(metaspace.max) }}</span>
+            </div>
+            <div class="w-full bg-gray-200 rounded-full h-3">
+              <div 
+                class="bg-orange-500 h-3 rounded-full transition-all duration-300"
+                :style="{ width: `${metaspace.percentage}%` }"
+              ></div>
+            </div>
+            <div class="text-xs text-gray-500">{{ metaspace.percentage.toFixed(1) }}%</div>
+          </div>
+
+          <!-- Old Generation -->
+          <div class="space-y-2">
+            <div class="flex justify-between items-center">
+              <span class="text-sm font-medium">Old Gen</span>
+              <span class="text-xs text-gray-500">{{ formatBytes(oldGen.used) }} / {{ formatBytes(oldGen.max) }}</span>
+            </div>
+            <div class="w-full bg-gray-200 rounded-full h-3">
+              <div 
+                class="bg-green-600 h-3 rounded-full transition-all duration-300"
+                :style="{ width: `${oldGen.percentage}%` }"
+              ></div>
+            </div>
+            <div class="text-xs text-gray-500">{{ oldGen.percentage.toFixed(1) }}%</div>
+          </div>
+
+          <!-- Eden Space -->
+          <div class="space-y-2">
+            <div class="flex justify-between items-center">
+              <span class="text-sm font-medium">Eden</span>
+              <span class="text-xs text-gray-500">{{ formatBytes(eden.used) }} / {{ formatBytes(eden.max) }}</span>
+            </div>
+            <div class="w-full bg-gray-200 rounded-full h-3">
+              <div 
+                class="bg-orange-500 h-3 rounded-full transition-all duration-300"
+                :style="{ width: `${eden.percentage}%` }"
+              ></div>
+            </div>
+            <div class="text-xs text-gray-500">{{ eden.percentage.toFixed(1) }}%</div>
+          </div>
+
+          <!-- Survivor 0 -->
+          <div class="space-y-2">
+            <div class="flex justify-between items-center">
+              <span class="text-sm font-medium">S0</span>
+              <span class="text-xs text-gray-500">{{ formatBytes(survivor0.used) }} / {{ formatBytes(survivor0.max) }}</span>
+            </div>
+            <div class="w-full bg-gray-200 rounded-full h-3">
+              <div 
+                class="bg-orange-500 h-3 rounded-full transition-all duration-300"
+                :style="{ width: `${survivor0.percentage}%` }"
+              ></div>
+            </div>
+            <div class="text-xs text-gray-500">{{ survivor0.percentage.toFixed(1) }}%</div>
+          </div>
+
+          <!-- Survivor 1 -->
+          <div class="space-y-2">
+            <div class="flex justify-between items-center">
+              <span class="text-sm font-medium">S1</span>
+              <span class="text-xs text-gray-500">{{ formatBytes(survivor1.used) }} / {{ formatBytes(survivor1.max) }}</span>
+            </div>
+            <div class="w-full bg-gray-200 rounded-full h-3">
+              <div 
+                class="bg-orange-500 h-3 rounded-full transition-all duration-300"
+                :style="{ width: `${survivor1.percentage}%` }"
+              ></div>
+            </div>
+            <div class="text-xs text-gray-500">{{ survivor1.percentage.toFixed(1) }}%</div>
+          </div>
+        </div>
+      </CardContent>
+    </Card>
     <!-- GC类型统计和内存回收效率 -->
     <!-- <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
       <Card class="bg-white dark:bg-gray-800">
@@ -834,6 +834,6 @@ onUnmounted(() => {
 
 <style scoped>
 .gc-monitoring-container {
-  @apply p-6 max-w-7xl mx-auto;
+  @apply p-2 max-w-7xl mx-auto;
 }
 </style>

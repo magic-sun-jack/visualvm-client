@@ -31,6 +31,8 @@ contextBridge.exposeInMainWorld('electron', {
     statusListeners.clear()
   },
   exitApp: () => ipcRenderer.invoke('exit-app'),
+  // 获取 resources 目录路径
+  getResourcesPath: () => ipcRenderer.invoke('get-resources-path'),
   // 打开文件选择对话框
   openFileDialog: () => {
     ipcRenderer.send('open-file-dialog-for-file')

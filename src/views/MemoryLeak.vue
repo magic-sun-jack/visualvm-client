@@ -423,12 +423,150 @@ watch(() => processStore.refreshPeriod, () => {
   }
 })
 
+// 生成 heap dump 文件并分析
+async function generateAndAnalyzeHeapDump() {
+  const pid = processStore.currentProcess?.pid
+  if (!pid) {
+    console.warn('没有选中的进程，无法生成 heap dump')
+    return
+  }
+
+  isLoading.value = true
+  try {
+    // 获取 resources 目录路径
+    let outputPath = ''
+    if ((window as any).electron && (window as any).electron.getResourcesPath) {
+      try {
+        outputPath = await (window as any).electron.getResourcesPath()
+        console.log('Resources 目录路径:', outputPath)
+      } catch (error) {
+        console.warn('获取 resources 路径失败，使用默认路径:', error)
+      }
+    }
+    
+    // 生成文件（output 参数为 resources 目录路径）
+    console.log(`开始生成 heap dump，PID: ${pid}, 输出目录: ${outputPath || '默认'}`)
+    const generateResponse = await memoryApi.exportHeapDump({
+      pid: pid.toString(),
+      output: outputPath // 使用 resources 目录作为输出路径
+    })
+
+    if (!generateResponse.areSuccess) {
+      console.error('生成 heap dump 失败:', generateResponse.msg)
+      return
+    }
+
+    // 从响应中获取文件路径
+    // 后端可能返回 { filePath: "..." } 或直接返回文件路径字符串
+    let generatedFilePath: string | null = null
+    
+    if (typeof generateResponse.data === 'string') {
+      generatedFilePath = generateResponse.data
+    } else if (generateResponse.data?.filePath) {
+      generatedFilePath = generateResponse.data.filePath
+    } else if (generateResponse.data) {
+      // 尝试从对象中提取路径
+      const data = generateResponse.data
+      generatedFilePath = data.path || data.file || data.fileName || null
+    }
+
+    if (!generatedFilePath) {
+      console.error('无法从响应中获取文件路径:', generateResponse.data)
+      // 尝试使用默认命名规则
+      const timestamp = Date.now()
+      generatedFilePath = `heapdump_${pid}_${timestamp}.hprof`
+      console.warn('使用默认文件路径:', generatedFilePath)
+    }
+
+    console.log('Heap dump 文件路径:', generatedFilePath)
+
+    // 等待文件生成完成并分析（轮询检查，最多等待60秒）
+    let retryCount = 0
+    const maxRetries = 60 // 60秒
+    const retryInterval = 1000 // 1秒
+
+    while (retryCount < maxRetries) {
+      try {
+        // 尝试分析文件
+        const analysisResponse = await memoryApi.getMemoryLeakAnalysis(generatedFilePath)
+        
+        if (analysisResponse.areSuccess && analysisResponse.data) {
+          // 文件存在且分析成功
+          filePath.value = generatedFilePath
+          selectedFile.value = {
+            name: generatedFilePath.split(/[/\\]/).pop() || generatedFilePath
+          } as File
+          
+          // 更新分析结果
+          if (Array.isArray(analysisResponse.data)) {
+            classLoaders.value = analysisResponse.data
+            console.log(`Heap dump 生成并分析成功，找到 ${classLoaders.value.length} 个类加载器`)
+          } else {
+            classLoaders.value = []
+            console.log('Heap dump 分析完成，但未找到类加载器数据')
+          }
+          
+          return
+        } else {
+          // 分析失败，可能是文件还未生成完成
+          if (retryCount % 5 === 0) {
+            console.log(`等待文件生成中... (${retryCount + 1}/${maxRetries})`)
+          }
+        }
+      } catch (error: any) {
+        // 文件可能还未生成完成，继续等待
+        if (retryCount % 5 === 0) {
+          console.log(`等待文件生成中... (${retryCount + 1}/${maxRetries})`)
+        }
+      }
+      
+      retryCount++
+      await new Promise(resolve => setTimeout(resolve, retryInterval))
+    }
+
+    // 如果超时，尝试最后一次分析
+    console.warn('等待文件生成超时，尝试最后一次分析')
+    const finalResponse = await memoryApi.getMemoryLeakAnalysis(generatedFilePath)
+    if (finalResponse.areSuccess && finalResponse.data) {
+      filePath.value = generatedFilePath
+      selectedFile.value = {
+        name: generatedFilePath.split(/[/\\]/).pop() || generatedFilePath
+      } as File
+      
+      if (Array.isArray(finalResponse.data)) {
+        classLoaders.value = finalResponse.data
+      } else {
+        classLoaders.value = []
+      }
+      console.log('最终分析成功')
+    } else {
+      console.error('Heap dump 分析失败:', finalResponse.msg)
+      // 即使分析失败，也设置文件路径，用户可以手动重新分析
+      filePath.value = generatedFilePath
+      selectedFile.value = {
+        name: generatedFilePath.split(/[/\\]/).pop() || generatedFilePath
+      } as File
+      console.warn('已设置文件路径，您可以手动点击"分析"按钮重试')
+    }
+  } catch (error) {
+    console.error('生成或分析 heap dump 失败:', error)
+  } finally {
+    isLoading.value = false
+  }
+}
+
 // 组件挂载时初始化
-onMounted(() => {
-  analyData()
-  // 如果已有文件路径，启动自动刷新
-  if (filePath.value) {
-    startAutoRefresh()
+onMounted(async () => {
+  // 如果有当前进程，自动生成并分析 heap dump
+  if (processStore.currentProcess?.pid) {
+    await generateAndAnalyzeHeapDump()
+  } else {
+    // 如果没有进程，执行原有的逻辑
+    analyData()
+    // 如果已有文件路径，启动自动刷新
+    if (filePath.value) {
+      startAutoRefresh()
+    }
   }
 })
 

@@ -72,7 +72,7 @@
       <!-- 线程列表 -->
       <div v-if="hasThreads" class="flex-1 min-h-0 overflow-hidden bg-white dark:bg-gray-800 rounded shadow flex flex-col">
         <div class="overflow-auto flex-1 max-h-[800px]">
-        <table class="min-w-[1200px] w-full text-xs">
+        <table class="min-w-[800px] w-full text-xs">
           <thead>
             <tr class="bg-gray-100 dark:bg-gray-700">
               <th class="px-3 py-2 text-left cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-600 select-none" 

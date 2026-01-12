@@ -88,6 +88,14 @@
       {
         "from": "java/monitor-0.0.1-SNAPSHOT.jar",
         "to": "monitor-0.0.1-SNAPSHOT.jar"
+      },
+      {
+        "from": "java/application.properties",
+        "to": "application.properties"
+      },
+      {
+        "from": "java/config/**/*",
+        "to": "config/**/*"
       }
     ],
     "win": {
