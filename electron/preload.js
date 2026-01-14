@@ -46,5 +46,13 @@ contextBridge.exposeInMainWorld('electron', {
     return () => {
       ipcRenderer.removeListener('selected-file', listener)
     }
-  }
+  },
+  // 读取 config.json
+  readConfigJson: () => ipcRenderer.invoke('read-config-json'),
+  // 写入 config.json
+  writeConfigJson: (config) => ipcRenderer.invoke('write-config-json', config),
+  // 读取场景配置文件内容
+  readScenarioConfigFile: (scenario) => ipcRenderer.invoke('read-scenario-config-file', scenario),
+  // 写入场景配置文件内容
+  writeScenarioConfigFile: (params) => ipcRenderer.invoke('write-scenario-config-file', params)
 })

@@ -5,7 +5,7 @@ import { fileURLToPath } from 'url'
 import { dirname } from 'path'
 import { spawn } from 'child_process'
 import axios from 'axios'
-import { existsSync } from 'fs'
+import { existsSync, readFileSync, writeFileSync } from 'fs'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
@@ -367,6 +367,83 @@ ipcMain.handle('get-resources-path', () => {
   } else {
     // 生产环境：返回安装目录的 resources 文件夹
     return process.resourcesPath || path.join(__dirname, '../resources')
+  }
+})
+
+// 获取配置文件路径
+function getConfigFilePath() {
+  if (isDev) {
+    // 开发环境：使用项目根目录下的 java/config/config.json
+    return path.join(__dirname, '../java/config/config.json')
+  } else {
+    // 生产环境：使用打包后的 resources/config/config.json
+    return path.join(process.resourcesPath, 'config', 'config.json')
+  }
+}
+
+// 读取场景配置文件内容
+function getScenarioConfigFilePath(scenario) {
+  const configDir = isDev 
+    ? path.join(__dirname, '../java/config')
+    : path.join(process.resourcesPath, 'config')
+  return path.join(configDir, `${scenario}.properties`)
+}
+
+// 读取 config.json
+ipcMain.handle('read-config-json', async () => {
+  try {
+    const configPath = getConfigFilePath()
+    if (!existsSync(configPath)) {
+      console.warn('配置文件不存在:', configPath)
+      return { success: false, error: '配置文件不存在' }
+    }
+    const content = readFileSync(configPath, 'utf-8')
+    const config = JSON.parse(content)
+    return { success: true, data: config }
+  } catch (error) {
+    console.error('读取配置文件失败:', error)
+    return { success: false, error: error.message }
+  }
+})
+
+// 写入 config.json
+ipcMain.handle('write-config-json', async (_, config) => {
+  try {
+    const configPath = getConfigFilePath()
+    const content = JSON.stringify(config, null, 2)
+    writeFileSync(configPath, content, 'utf-8')
+    return { success: true }
+  } catch (error) {
+    console.error('写入配置文件失败:', error)
+    return { success: false, error: error.message }
+  }
+})
+
+// 读取场景配置文件内容（.properties 文件）
+ipcMain.handle('read-scenario-config-file', async (_, scenario) => {
+  try {
+    const filePath = getScenarioConfigFilePath(scenario)
+    if (!existsSync(filePath)) {
+      console.warn('场景配置文件不存在:', filePath)
+      return { success: false, error: '场景配置文件不存在' }
+    }
+    const content = readFileSync(filePath, 'utf-8')
+    return { success: true, data: { scenario, content } }
+  } catch (error) {
+    console.error('读取场景配置文件失败:', error)
+    return { success: false, error: error.message }
+  }
+})
+
+// 写入场景配置文件内容（.properties 文件）
+ipcMain.handle('write-scenario-config-file', async (_, payload) => {
+  try {
+    const filePath = getScenarioConfigFilePath(payload && payload.scenario)
+    writeFileSync(filePath, payload && payload.content, 'utf-8')
+    return { success: true }
+  } catch (error) {
+    console.error('写入场景配置文件失败:', error)
+    return { success: false, error: error.message }
   }
 })
 

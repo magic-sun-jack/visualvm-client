@@ -85,64 +85,46 @@
                     </div>
                   </RadioGroup>
                 </div>
-              </CardContent>
-            </Card>
-          </div>
-          <!-- <div class="flex items-center gap-2 ml-auto">
-            <Button
-              :variant="isMonitoring ? 'destructive' : 'default'"
-              size="sm"
-              @click="toggleMonitoring"
-              :disabled="!selectedScenarios || !selectedProcess"
-            >
-              {{ isMonitoring ? '停止监控' : '开始监控' }}
-            </Button>
-          </div> -->
-          
-          <!-- 指标展示 -->
-          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" v-if="metrics.length > 0">
-            <Card v-for="metric in metrics" :key="metric.name">
-              <CardHeader class="pb-2">
-                <CardTitle class="text-sm font-medium">{{ metric.name }}</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div class="flex items-baseline justify-between">
-                  <span class="text-2xl font-bold">{{ formatValue(metric.value, metric.unit) }}</span>
-                  <span class="text-xs text-muted-foreground">{{ metric.unit }}</span>
-                </div>
-                <div class="mt-2 flex items-center text-xs">
-                  <span v-if="metric.trend === 'up'" class="text-green-600">
-                    ↑ 上升
-                  </span>
-                  <span v-else-if="metric.trend === 'down'" class="text-red-600">
-                    ↓ 下降
-                  </span>
-                  <span v-else class="text-gray-600">
-                    → 稳定
-                  </span>
-                </div>
-                <div class="mt-2 h-16">
-                  <MetricSparkline :data="metric.dataPoints" />
+                <!-- 配置文件编辑区域 -->
+                <div class="mt-6 space-y-3">
+                  <div class="flex items-center justify-between gap-2">
+                    <div class="flex items-center gap-2">
+                      <span class="text-sm font-medium">配置文件：</span>
+                      <span class="text-xs text-muted-foreground break-all">
+                        @java/config/config.json
+                      </span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                      <button
+                        type="button"
+                        class="inline-flex items-center rounded border px-2 py-1 text-xs border-input bg-background hover:bg-accent hover:text-accent-foreground disabled:cursor-not-allowed disabled:opacity-50"
+                        :disabled="isLoadingConfigFile"
+                        @click="reloadConfigFile"
+                      >
+                        重新加载
+                      </button>
+                      <button
+                        type="button"
+                        class="inline-flex items-center rounded px-2 py-1 text-xs text-white bg-primary hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-50"
+                        :disabled="isSavingConfigFile || !canPersistConfig"
+                        @click="saveConfigFile"
+                      >
+                        保存到文件
+                      </button>
+                    </div>
+                  </div>
+                  <textarea
+                    v-model="rawConfigContent"
+                    class="w-full h-48 resize-y rounded border border-input bg-muted/50 p-2 text-xs font-mono leading-relaxed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-ring"
+                    spellcheck="false"
+                  />
+                  <p v-if="!canPersistConfig" class="text-[11px] text-muted-foreground">
+                    当前运行环境无法直接写入本地配置文件，仅支持查看与临时编辑。
+                  </p>
                 </div>
               </CardContent>
             </Card>
           </div>
-          
-          <!-- 实时数据图表 -->
-          <Card v-if="isMonitoring">
-            <CardHeader>
-              <CardTitle class="text-base">实时监控数据</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div class="h-64">
-                <RealtimeChart 
-                  :scenario="selectedScenarios.join(',')"
-                  :processId="selectedProcess"
-                  :interval="refreshPeriod"
-                />
-              </div>
-            </CardContent>
-          </Card>
         </div>
       </CardContent>
     </Card>
@@ -150,13 +132,21 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted, watch } from 'vue'
+import { ref, onMounted, watch } from 'vue'
 import { Card, CardContent, CardHeader, CardTitle, Checkbox, Input, RadioGroup, RadioGroupItem, Label } from '@/components/ui'
-import { scenarioApi, configApi } from '@/api'
+import { scenarioApi } from '@/api'
 import { useProcessStore } from '@/stores/process'
-import MetricSparkline from './MetricSparkline.vue'
-import RealtimeChart from './RealtimeChart.vue'
-import type { MonitoringMetric } from '@/types'
+// 静态导入配置文件（非 Electron 环境的回退）
+// 注意：使用相对路径指向项目根目录下的 java/config/config.json
+// @ts-ignore
+import scenarioConfigJson from '../../../java/config/config.json'
+
+interface ScenarioConfigItem {
+  name: string
+  value: boolean | number | string
+}
+
+type ScenarioConfigMap = Record<string, ScenarioConfigItem>
 
 interface Props {
   selectedProcess?: string
@@ -164,6 +154,7 @@ interface Props {
 
 const props = defineProps<Props>()
 const processStore = useProcessStore()
+const isElectronEnv = typeof window !== 'undefined' && !!(window as any).electron
 
 // 从全局 store 读取初始值，如果没有则使用默认值
 const selectedScenarios = ref<string[]>(processStore.selectedScenarios.length > 0 ? [...processStore.selectedScenarios] : ['common'])
@@ -173,8 +164,14 @@ const filterType = ref<'include' | 'exclude'>(processStore.filterType || 'includ
 const isMonitoring = ref(false)
 const loading = ref(false)
 const config = ref<any>(null)
-const metrics = ref<MonitoringMetric[]>([])
 const scenarioOptions = ref<Array<{ value: string; label: string }>>([])
+
+// 配置文件与编辑状态
+const configFile = ref<ScenarioConfigMap>({})
+const rawConfigContent = ref('')
+const isLoadingConfigFile = ref(false)
+const isSavingConfigFile = ref(false)
+const canPersistConfig = isElectronEnv && !!(window as any).electron?.writeConfigJson
 
 // 场景名称到中文标签的映射
 const scenarioLabelMap: Record<string, string> = {
@@ -190,28 +187,120 @@ const scenarioLabelMap: Record<string, string> = {
   'RMI': 'RMI监控',
   'HTTP': 'HTTP监控',
   'database': '数据库监控',
-  'io': 'IO监控',
   'http': 'HTTP监控'
 }
 
-let metricsIntervalId: number | null = null
+function buildScenarioOptionsFromConfig(configData: ScenarioConfigMap) {
+  const entries = Object.entries(configData).filter(
+    ([key]) => key !== 'refreshPeriod' && key !== 'filterType'
+  )
 
-// 格式化数值
-function formatValue(value: number, unit: string): string {
-  if (unit === '%') {
-    return value.toFixed(1)
-  } else if (unit === 'ms') {
-    if (value > 1000) {
-      return (value / 1000).toFixed(2) + 's'
+  scenarioOptions.value = entries.map(([key, item]) => {
+    const scenarioValue = key.toLowerCase()
+    return {
+      value: scenarioValue,
+      label: item.name || scenarioLabelMap[key] || scenarioLabelMap[scenarioValue] || key
     }
-    return value.toFixed(0)
-  } else if (unit === 'MB/s') {
-    return value.toFixed(2)
-  } else if (unit === 'queries/sec' || unit === 'ops/sec' || unit === 'tx/sec') {
-    return value.toFixed(1)
-  } else {
-    return value.toFixed(0)
+  })
+
+  const enabled = entries
+    .filter(([, item]) => item.value === true)
+    .map(([key]) => key.toLowerCase())
+
+  if (enabled.length > 0) {
+    selectedScenarios.value = enabled
   }
+
+  if (configData.refreshPeriod && typeof configData.refreshPeriod.value === 'number') {
+    refreshPeriod.value = configData.refreshPeriod.value as number
+  }
+
+  if (configData.filterType && typeof configData.filterType.value === 'string') {
+    const v = configData.filterType.value as string
+    if (v === 'include' || v === 'exclude') {
+      filterType.value = v
+    }
+  }
+}
+
+async function loadConfigFromFile() {
+  isLoadingConfigFile.value = true
+  try {
+    let data: ScenarioConfigMap | null = null
+
+    if (isElectronEnv && (window as any).electron?.readConfigJson) {
+      const result = await (window as any).electron.readConfigJson()
+      if (result?.success && result.data) {
+        data = result.data as ScenarioConfigMap
+      }
+    }
+
+    if (!data) {
+      data = scenarioConfigJson as ScenarioConfigMap
+    }
+
+    configFile.value = data
+    rawConfigContent.value = JSON.stringify(data, null, 2)
+    buildScenarioOptionsFromConfig(data)
+
+    processStore.setSelectedScenarios([...selectedScenarios.value])
+    processStore.setRefreshPeriod(refreshPeriod.value)
+    processStore.setFilterType(filterType.value)
+  } catch (error) {
+    console.error('加载配置文件失败:', error)
+  } finally {
+    isLoadingConfigFile.value = false
+  }
+}
+
+async function reloadConfigFile() {
+  await loadConfigFromFile()
+}
+
+async function saveConfigFile() {
+  if (!canPersistConfig) {
+    console.warn('当前环境不支持写入配置文件')
+    return
+  }
+
+  isSavingConfigFile.value = true
+  try {
+    let parsed: ScenarioConfigMap
+    try {
+      parsed = JSON.parse(rawConfigContent.value)
+    } catch (e) {
+      console.error('配置文件 JSON 解析失败:', e)
+      return
+    }
+
+    const result = await (window as any).electron.writeConfigJson(parsed)
+    if (result?.success) {
+      configFile.value = parsed
+      buildScenarioOptionsFromConfig(parsed)
+      rawConfigContent.value = JSON.stringify(parsed, null, 2)
+    }
+  } catch (error) {
+    console.error('保存配置文件失败:', error)
+  } finally {
+    isSavingConfigFile.value = false
+  }
+}
+
+function updateConfigFileScenarioValue(scenarioValue: string, enabled: boolean) {
+  if (!configFile.value) return
+  const current: ScenarioConfigMap = { ...configFile.value }
+
+  Object.keys(current).forEach((key) => {
+    if (key.toLowerCase() === scenarioValue) {
+      current[key] = {
+        ...current[key],
+        value: enabled
+      }
+    }
+  })
+
+  configFile.value = current
+  rawConfigContent.value = JSON.stringify(current, null, 2)
 }
 
 // 处理场景切换（checkbox 选中/取消选中）
@@ -237,6 +326,8 @@ function handleScenarioToggle(scenarioValue: string, checked: boolean) {
   
   // 同步到全局 store
   processStore.setSelectedScenarios([...selectedScenarios.value])
+  // 同步到配置文件状态
+  updateConfigFileScenarioValue(scenarioValue, checked)
   
   // 如果正在监控，需要重新启动监控以应用新的场景选择
   if (isMonitoring.value && props.selectedProcess) {
@@ -257,9 +348,6 @@ async function handleScenarioChange(scenario: string) {
     
     // 获取新场景的配置
     await loadScenarioConfig(scenario)
-    
-    // 获取新场景的指标
-    await loadScenarioMetrics(scenario)
   } finally {
     loading.value = false
   }
@@ -293,31 +381,6 @@ async function loadScenarioConfig(scenario: string) {
   }
 }
 
-// 加载场景指标
-async function loadScenarioMetrics(scenario: string) {
-  if (!props.selectedProcess) return
-  
-  try {
-    let response
-    switch (scenario) {
-      case 'database':
-        response = await scenarioApi.getDatabaseMetrics(props.selectedProcess)
-        break
-      case 'io':
-        response = await scenarioApi.getIOMetrics(props.selectedProcess)
-        break
-      default:
-        return
-    }
-    
-    if (response.success) {
-      metrics.value = response.data
-    }
-  } catch (error) {
-    console.error('Failed to load scenario metrics:', error)
-  }
-}
-
 // 切换监控状态
 async function toggleMonitoring() {
   if (!props.selectedProcess || !selectedScenarios.value.length) return
@@ -327,23 +390,10 @@ async function toggleMonitoring() {
       // 停止监控
       await scenarioApi.stopScenarioMonitoring(props.selectedProcess, selectedScenarios.value.join(','))
       isMonitoring.value = false
-      
-      // 停止指标更新
-      if (metricsIntervalId) {
-        clearInterval(metricsIntervalId)
-        metricsIntervalId = null
-      }
     } else {
       // 开始监控，使用 selectedScenarios 作为 filter，refreshPeriod 作为刷新周期，filterType 作为过滤类型
       await scenarioApi.startScenarioMonitoring(props.selectedProcess, selectedScenarios.value.join(','), selectedScenarios.value.join(','), refreshPeriod.value, filterType.value)
       isMonitoring.value = true
-      
-      // 开始定时更新指标
-      metricsIntervalId = window.setInterval(() => {
-        if (selectedScenarios.value.length > 0) {
-          loadScenarioMetrics(selectedScenarios.value[0])
-        }
-      }, refreshPeriod.value)
     }
   } catch (error) {
     console.error('Failed to toggle monitoring:', error)
@@ -353,35 +403,20 @@ async function toggleMonitoring() {
 // 加载场景配置选项
 async function loadScenarioOptions() {
   try {
-    const response = await configApi.getScenarioConfig()
-    if (response.success && response.data && Array.isArray(response.data)) {
-      scenarioOptions.value = response.data.map(scenario => {
-        // 保持原始场景值，但转换为小写以匹配 API 路径
-        const scenarioValue = scenario.toLowerCase()
-        return {
-          value: scenarioValue,
-          label: scenarioLabelMap[scenario] || scenarioLabelMap[scenarioValue] || scenario
-        }
-      })
-      
-      // 如果有选项，优先选择 common，否则选择第一个
-      if (scenarioOptions.value.length > 0) {
-        const commonOption = scenarioOptions.value.find(opt => opt.value === 'common')
-        selectedScenarios.value = commonOption ? processStore.selectedScenarios : ['common']
-        // 只有在有选中进程时才加载场景数据
-        if (props.selectedProcess) {
-          handleScenarioChange(selectedScenarios.value.join(','))
-        }
+    await loadConfigFromFile()
+
+    if (scenarioOptions.value.length > 0) {
+      const commonOption = scenarioOptions.value.find(opt => opt.value === 'common')
+      if (!selectedScenarios.value.length) {
+        selectedScenarios.value = commonOption ? [commonOption.value] : [scenarioOptions.value[0].value]
       }
-    } else {
-      // 如果返回数据格式不正确，使用默认选项
-      throw new Error('Invalid response data')
+      if (props.selectedProcess) {
+        handleScenarioChange(selectedScenarios.value.join(','))
+      }
     }
   } catch (error) {
-    console.error('Failed to load scenario options:', error)
-    // 如果接口失败，使用默认选项
+    console.error('Failed to load scenario options from config file:', error)
     scenarioOptions.value = []
-    // 保持默认值为 common
     if (props.selectedProcess && selectedScenarios.value.length) {
       handleScenarioChange(selectedScenarios.value.join(','))
     }
@@ -392,6 +427,16 @@ async function loadScenarioOptions() {
 watch(refreshPeriod, (newValue) => {
   if (newValue && newValue > 0) {
     processStore.setRefreshPeriod(newValue)
+    if (configFile.value?.refreshPeriod) {
+      configFile.value = {
+        ...configFile.value,
+        refreshPeriod: {
+          ...configFile.value.refreshPeriod,
+          value: newValue
+        }
+      }
+      rawConfigContent.value = JSON.stringify(configFile.value, null, 2)
+    }
   }
 }, { immediate: true })
 
@@ -406,17 +451,21 @@ watch(selectedScenarios, (newValue) => {
 watch(filterType, (newValue) => {
   if (newValue) {
     processStore.setFilterType(newValue)
+    if (configFile.value?.filterType) {
+      configFile.value = {
+        ...configFile.value,
+        filterType: {
+          ...configFile.value.filterType,
+          value: newValue
+        }
+      }
+      rawConfigContent.value = JSON.stringify(configFile.value, null, 2)
+    }
   }
 }, { immediate: true })
 
 onMounted(() => {
   loadScenarioOptions()
-})
-
-onUnmounted(() => {
-  if (metricsIntervalId) {
-    clearInterval(metricsIntervalId)
-  }
 })
 </script>
 

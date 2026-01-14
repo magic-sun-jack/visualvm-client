@@ -1,0 +1,62 @@
+{
+  "common": {
+    "name": "通用监控",
+    "value": true
+  },
+  "IO": {
+    "name": "IO监控",
+    "value": false
+  },
+  "Socket": {
+    "name": "Socket监控",
+    "value": false
+  },
+  "RPC": {
+    "name": "RPC监控",
+    "value": false
+  },
+  "pool": {
+    "name": "连接池监控",
+    "value": false
+  },
+  "ORM": {
+    "name": "ORM监控",
+    "value": false
+  },
+  "jdbc": {
+    "name": "JDBC监控",
+    "value": false
+  },
+  "serialize": {
+    "name": "序列化监控",
+    "value": false
+  },
+  "NoSql": {
+    "name": "NoSQL监控",
+    "value": false
+  },
+  "RMI": {
+    "name": "RMI监控",
+    "value": false
+  },
+  "HTTP": {
+    "name": "HTTP监控",
+    "value": false
+  },
+  "database": {
+    "name": "数据库监控",
+    "value": false
+  },
+  "http": {
+    "name": "HTTP监控",
+    "value": false
+  },
+  "refreshPeriod": {
+    "name": "采样间隔",
+    "value": 5000
+  },
+  "filterType": {
+    "name": "过滤类型",
+    "value": "include"
+  }
+}
