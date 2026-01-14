@@ -1,133 +1,99 @@
 <template>
   <div class="scenario-monitoring">
-    <Card class="h-full">
-      <CardHeader>
-        <CardTitle>场景监控</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <div v-if="!selectedScenarios.length" class="text-center py-8 text-muted-foreground">
-          请选择一个监控场景
-        </div>
-        
-        <div v-else-if="loading" class="text-center py-8">
-          <div class="inline-flex items-center">
-            <svg class="animate-spin h-5 w-5 mr-2" viewBox="0 0 24 24">
-              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" fill="none"></circle>
-              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-            </svg>
-            加载中...
-          </div>
-        </div>
-        
-        <div v-else class="space-y-6">
-          <!-- 配置信息 -->
-          <div class="grid grid-cols-1 lg:grid-cols-1 gap-4">
-            <Card>
-              <CardHeader>
-                <CardTitle class="text-base">监控配置</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div class="flex items-center gap-4 flex-wrap">
-                  <div
-                    v-for="option in scenarioOptions"
-                    :key="option.value"
-                    class="flex items-center gap-2"
-                  >
-                    <Checkbox
-                      :id="`scenario-${option.value}`"
-                      :model-value="selectedScenarios.includes(option.value)"
-                      @update:model-value="(value: boolean | 'indeterminate') => {
-                        const checked = value === true
-                        handleScenarioToggle(option.value, checked)
-                      }"
-                    />
-                    <label
-                      :for="`scenario-${option.value}`"
-                      class="text-sm font-medium leading-none cursor-pointer select-none"
-                    >
-                      {{ option.label }}
-                    </label>
-                  </div>
+    <div v-if="!selectedScenarios.length" class="text-center py-8 text-muted-foreground">
+      请选择一个监控场景
+    </div>
+
+    <div v-else-if="loading" class="text-center py-8">
+      <div class="inline-flex items-center">
+        <svg class="animate-spin h-5 w-5 mr-2" viewBox="0 0 24 24">
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" fill="none"></circle>
+          <path class="opacity-75" fill="currentColor"
+            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+          </path>
+        </svg>
+        加载中...
+      </div>
+    </div>
+
+    <div v-else class="space-y-6">
+      <!-- 配置信息 -->
+      <div class="grid grid-cols-1 lg:grid-cols-1 gap-4">
+        <Card>
+          <CardHeader>
+            <CardTitle class="text-base">监控配置</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div class="flex items-center gap-4 flex-wrap">
+              <div v-for="option in scenarioOptions" :key="option.value" class="flex items-center gap-2">
+                <Checkbox :id="`scenario-${option.value}`" :model-value="selectedScenarios.includes(option.value)"
+                  @update:model-value="(value: boolean | 'indeterminate') => {
+                    const checked = value === true
+                    handleScenarioToggle(option.value, checked)
+                  }" />
+                <label :for="`scenario-${option.value}`"
+                  class="text-sm font-medium leading-none cursor-pointer select-none">
+                  {{ option.label }}
+                </label>
+              </div>
+            </div>
+            <div class="space-y-2 text-sm mt-5">
+              <div class="flex items-center gap-2">
+                <label for="refreshPeriod" class="text-muted-foreground whitespace-nowrap">采样间隔 (ms):</label>
+                <Input id="refreshPeriod" v-model.number="refreshPeriod" type="number" min="100" step="100" class="w-32"
+                  :disabled="isMonitoring" />
+              </div>
+            </div>
+            <div class="flex items-center gap-2 mt-5">
+              <Label for="filterType" class="text-muted-foreground whitespace-nowrap">过滤类型:</Label>
+              <RadioGroup id="filterType" :model-value="filterType" class="flex items-center gap-4" @update:model-value="(val: string) => {
+                if (val === 'include' || val === 'exclude') {
+                  filterType = val
+                }
+              }">
+                <div class="flex items-center gap-2">
+                  <RadioGroupItem value="include" id="filter-include" />
+                  <Label for="filter-include" class="text-sm font-normal cursor-pointer">包含</Label>
                 </div>
-                <div class="space-y-2 text-sm mt-5">
-                  <div class="flex items-center gap-2">
-                    <label for="refreshPeriod" class="text-muted-foreground whitespace-nowrap">采样间隔 (ms):</label>
-                    <Input
-                      id="refreshPeriod"
-                      v-model.number="refreshPeriod"
-                      type="number"
-                      min="100"
-                      step="100"
-                      class="w-32"
-                      :disabled="isMonitoring"
-                    />
-                  </div>
+                <div class="flex items-center gap-2">
+                  <RadioGroupItem value="exclude" id="filter-exclude" />
+                  <Label for="filter-exclude" class="text-sm font-normal cursor-pointer">排除</Label>
                 </div>
-                <div class="flex items-center gap-2 mt-5">
-                  <Label for="filterType" class="text-muted-foreground whitespace-nowrap">过滤类型:</Label>
-                  <RadioGroup
-                    id="filterType"
-                    :model-value="filterType"
-                    class="flex items-center gap-4"
-                    @update:model-value="(val: string) => {
-                      if (val === 'include' || val === 'exclude') {
-                        filterType = val
-                      }
-                    }"
-                  >
-                    <div class="flex items-center gap-2">
-                      <RadioGroupItem value="include" id="filter-include" />
-                      <Label for="filter-include" class="text-sm font-normal cursor-pointer">包含</Label>
-                    </div>
-                    <div class="flex items-center gap-2">
-                      <RadioGroupItem value="exclude" id="filter-exclude" />
-                      <Label for="filter-exclude" class="text-sm font-normal cursor-pointer">排除</Label>
-                    </div>
-                  </RadioGroup>
+              </RadioGroup>
+            </div>
+            <!-- 配置文件编辑区域 -->
+            <div class="mt-6 space-y-3">
+              <div class="flex items-center justify-between gap-2">
+                <div class="flex items-center gap-2">
+                  <span class="text-sm font-medium">配置文件：</span>
+                  <span class="text-xs text-muted-foreground break-all">
+                    @java/config/config.json
+                  </span>
                 </div>
-                <!-- 配置文件编辑区域 -->
-                <div class="mt-6 space-y-3">
-                  <div class="flex items-center justify-between gap-2">
-                    <div class="flex items-center gap-2">
-                      <span class="text-sm font-medium">配置文件：</span>
-                      <span class="text-xs text-muted-foreground break-all">
-                        @java/config/config.json
-                      </span>
-                    </div>
-                    <div class="flex items-center gap-2">
-                      <button
-                        type="button"
-                        class="inline-flex items-center rounded border px-2 py-1 text-xs border-input bg-background hover:bg-accent hover:text-accent-foreground disabled:cursor-not-allowed disabled:opacity-50"
-                        :disabled="isLoadingConfigFile"
-                        @click="reloadConfigFile"
-                      >
-                        重新加载
-                      </button>
-                      <button
-                        type="button"
-                        class="inline-flex items-center rounded px-2 py-1 text-xs text-white bg-primary hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-50"
-                        :disabled="isSavingConfigFile || !canPersistConfig"
-                        @click="saveConfigFile"
-                      >
-                        保存到文件
-                      </button>
-                    </div>
-                  </div>
-                  <textarea
-                    v-model="rawConfigContent"
-                    class="w-full h-48 resize-y rounded border border-input bg-muted/50 p-2 text-xs font-mono leading-relaxed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-ring"
-                    spellcheck="false"
-                  />
-                  <p v-if="!canPersistConfig" class="text-[11px] text-muted-foreground">
-                    当前运行环境无法直接写入本地配置文件，仅支持查看与临时编辑。
-                  </p>
+                <div class="flex items-center gap-2">
+                  <button type="button"
+                    class="inline-flex items-center rounded border px-2 py-1 text-xs border-input bg-background hover:bg-accent hover:text-accent-foreground disabled:cursor-not-allowed disabled:opacity-50"
+                    :disabled="isLoadingConfigFile" @click="reloadConfigFile">
+                    重新加载
+                  </button>
+                  <button type="button"
+                    class="inline-flex items-center rounded px-2 py-1 text-xs text-white bg-primary hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-50"
+                    :disabled="isSavingConfigFile || !canPersistConfig" @click="saveConfigFile">
+                    保存到文件
+                  </button>
                 </div>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
-      </CardContent>
-    </Card>
+              </div>
+              <textarea v-model="rawConfigContent"
+                class="w-full h-48 resize-y rounded border border-input bg-muted/50 p-2 text-xs font-mono leading-relaxed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-ring"
+                spellcheck="false" />
+              <p v-if="!canPersistConfig" class="text-[11px] text-muted-foreground">
+                当前运行环境无法直接写入本地配置文件，仅支持查看与临时编辑。
+              </p>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -323,12 +289,12 @@ function handleScenarioToggle(scenarioValue: string, checked: boolean) {
       return
     }
   }
-  
+
   // 同步到全局 store
   processStore.setSelectedScenarios([...selectedScenarios.value])
   // 同步到配置文件状态
   updateConfigFileScenarioValue(scenarioValue, checked)
-  
+
   // 如果正在监控，需要重新启动监控以应用新的场景选择
   if (isMonitoring.value && props.selectedProcess) {
     toggleMonitoring()
@@ -338,14 +304,14 @@ function handleScenarioToggle(scenarioValue: string, checked: boolean) {
 // 处理场景切换（用于加载配置和指标）
 async function handleScenarioChange(scenario: string) {
   if (!props.selectedProcess) return
-  
+
   loading.value = true
   try {
     // 停止之前的监控
     if (isMonitoring.value) {
       await toggleMonitoring()
     }
-    
+
     // 获取新场景的配置
     await loadScenarioConfig(scenario)
   } finally {
@@ -356,7 +322,7 @@ async function handleScenarioChange(scenario: string) {
 // 加载场景配置
 async function loadScenarioConfig(scenario: string) {
   if (!props.selectedProcess) return
-  
+
   try {
     let response
     switch (scenario) {
@@ -372,7 +338,7 @@ async function loadScenarioConfig(scenario: string) {
       default:
         return
     }
-    
+
     if (response.success) {
       config.value = response.data
     }
@@ -384,7 +350,7 @@ async function loadScenarioConfig(scenario: string) {
 // 切换监控状态
 async function toggleMonitoring() {
   if (!props.selectedProcess || !selectedScenarios.value.length) return
-  
+
   try {
     if (isMonitoring.value) {
       // 停止监控
