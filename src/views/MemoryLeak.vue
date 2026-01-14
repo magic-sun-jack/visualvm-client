@@ -377,7 +377,7 @@ function exportReport() {
   console.log('dirPath', dirPath)
   memoryApi.exportHeapDump({
     pid: processStore.currentProcess?.pid || '',
-    output: dirPath
+    output: String.raw`${dirPath}`
   }).then((response) => {
     if (response.areSuccess) {
       console.log('导出内存泄漏分析报告成功:', response.data)
@@ -448,7 +448,7 @@ async function generateAndAnalyzeHeapDump() {
     console.log(`开始生成 heap dump，PID: ${pid}, 输出目录: ${outputPath || '默认'}`)
     const generateResponse = await memoryApi.exportHeapDump({
       pid: pid.toString(),
-      output: outputPath // 使用 resources 目录作为输出路径
+      output: String.raw`outputPath` // 使用 resources 目录作为输出路径
     })
 
     if (!generateResponse.areSuccess) {

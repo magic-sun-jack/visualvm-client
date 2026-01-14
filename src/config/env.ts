@@ -3,7 +3,7 @@ import { buildInfo } from './build-info'
 
 export const env = {
   // 应用配置
-  APP_TITLE: import.meta.env.VITE_APP_TITLE || '优速YouSpeed',
+  APP_TITLE: import.meta.env.VITE_APP_TITLE || 'Java测试工具',
   APP_VERSION: buildInfo.version,
   
   // API配置

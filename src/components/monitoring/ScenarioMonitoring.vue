@@ -84,7 +84,7 @@
                 </div>
               </div>
               <textarea v-model="rawConfigContent"
-                class="w-full h-48 resize-y rounded border border-input bg-muted/50 p-2 text-xs font-mono leading-relaxed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-ring"
+                class="w-full h-96 resize-y rounded border border-input bg-muted/50 p-2 text-xs font-mono leading-relaxed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-ring"
                 spellcheck="false" />
               <p v-if="!canPersistConfig" class="text-[11px] text-muted-foreground">
                 当前运行环境无法直接写入本地配置文件，仅支持查看与临时编辑。

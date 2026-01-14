@@ -1,8 +1,8 @@
-# 优速YouSpeed 用户手册
+# Java测试工具 用户手册
 
 **版本号：V1.0.15**
 
-**产品名称：优速YouSpeed数据监控客户端**
+**产品名称：Java测试工具数据监控客户端**
 
 **作者：magic-sun-jack**
 
@@ -27,7 +27,7 @@
 
 ## 1. 软件简介
 
-优速YouSpeed是一款专业的Java应用性能监控工具，基于Vue 3 + TypeScript + Tailwind CSS开发的现代化监控客户端。该软件提供全面的JVM性能监控和分析功能，帮助开发人员和运维人员实时监控Java应用的运行状态，快速定位性能瓶颈和内存泄漏问题。
+Java测试工具是一款专业的Java应用性能监控工具，基于Vue 3 + TypeScript + Tailwind CSS开发的现代化监控客户端。该软件提供全面的JVM性能监控和分析功能，帮助开发人员和运维人员实时监控Java应用的运行状态，快速定位性能瓶颈和内存泄漏问题。
 
 **主要特性：**
 - 实时监控Java进程的CPU、内存、线程等性能指标
@@ -63,7 +63,7 @@
 
 ### 3.1 Windows系统安装
 
-1. 双击运行安装程序 `优速YouSpeed-Setup-1.0.15.exe`
+1. 双击运行安装程序 `Java测试工具-Setup-1.0.15.exe`
 2. 阅读并同意许可协议
 3. 选择安装路径（建议使用默认路径）
 4. 选择是否创建桌面快捷方式和开始菜单项
@@ -72,15 +72,15 @@
 
 ### 3.2 macOS系统安装
 
-1. 打开下载的 `优速YouSpeed-1.0.15.dmg` 文件
+1. 打开下载的 `Java测试工具-1.0.15.dmg` 文件
 2. 将应用图标拖拽到 Applications 文件夹
 3. 从启动台或 Applications 文件夹启动应用
 
 ### 3.3 Linux系统安装
 
-1. 下载 `优速YouSpeed-1.0.15.AppImage` 文件
-2. 赋予执行权限：`chmod +x 优速YouSpeed-1.0.15.AppImage`
-3. 双击运行或在终端执行：`./优速YouSpeed-1.0.15.AppImage`
+1. 下载 `Java测试工具-1.0.15.AppImage` 文件
+2. 赋予执行权限：`chmod +x Java测试工具-1.0.15.AppImage`
+3. 双击运行或在终端执行：`./Java测试工具-1.0.15.AppImage`
 
 ---
 
@@ -88,8 +88,8 @@
 
 ### 4.1 启动应用
 
-- **Windows**：双击桌面快捷方式或从开始菜单启动"优速YouSpeed"
-- **macOS**：从启动台或Applications文件夹打开"优速YouSpeed"
+- **Windows**：双击桌面快捷方式或从开始菜单启动"Java测试工具"
+- **macOS**：从启动台或Applications文件夹打开"Java测试工具"
 - **Linux**：双击AppImage文件或从应用菜单启动
 
 ### 4.2 首次使用
@@ -107,7 +107,7 @@
 ### 5.1 连接Java进程
 
 **功能描述：**
-连接Java进程是使用优速YouSpeed的第一步。软件支持连接本地和远程的Java进程进行监控。
+连接Java进程是使用Java测试工具的第一步。软件支持连接本地和远程的Java进程进行监控。
 
 **操作步骤：**
 
@@ -621,7 +621,7 @@
    -Dcom.sun.management.jmxremote.authenticate=false
    -Dcom.sun.management.jmxremote.ssl=false
    ```
-2. 在优速YouSpeed中选择"远程连接"
+2. 在Java测试工具中选择"远程连接"
 3. 输入服务器IP和JMX端口
 4. 点击连接
 
@@ -685,7 +685,7 @@
 ### 7.4 许可与版权
 
 **版权信息：**
-- 产品名称：优速YouSpeed数据监控客户端
+- 产品名称：Java测试工具数据监控客户端
 - 版本：V1.0.15
 - 作者：magic-sun-jack
 - 版权所有 © 2024-2025
@@ -761,4 +761,4 @@
 
 ---
 
-**感谢使用优速YouSpeed！**
+**感谢使用Java测试工具！**

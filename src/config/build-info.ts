@@ -1,13 +1,13 @@
 // 自动生成的构建信息
 export const buildInfo = {
-  "version": "1.0.16",
-  "buildTime": "2025-12-29T02:07:56.569Z",
+  "version": "1.0.18",
+  "buildTime": "2026-01-14T12:37:10.738Z",
   "git": {
-    "commitHash": "6da72cf",
-    "commitCount": "126",
+    "commitHash": "364e434",
+    "commitCount": "134",
     "branch": "main"
   },
-  "buildNumber": "126"
+  "buildNumber": "134"
 } as const
 
 export const getVersion = () => buildInfo.version

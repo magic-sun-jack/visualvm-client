@@ -1,5 +1,5 @@
 # VisualVM 监控客户端
-# 优速YouSpeed 监控客户端
+# Java测试工具 监控客户端
 一个基于 Vue 3 + TypeScript + Tailwind CSS 的现代化 Java 应用监控客户端，提供全面的 JVM 性能监控和分析功能。
 
 ## 如何运行
@@ -126,7 +126,7 @@ src/
 
 ```env
 VITE_API_BASE_URL=http://localhost:8080/api
-VITE_APP_TITLE=优速YouSpeed 监控客户端
+VITE_APP_TITLE=Java测试工具 监控客户端
 VITE_APP_VERSION=1.0.0
 ```
 

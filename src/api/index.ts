@@ -334,8 +334,13 @@ export const memoryApi = {
   },
 
   // 导出指定pid进程的heapdump文件
+  // output: 输出目录，如果为空，则使用默认目录,值为C:\Users\SY199\AppData\Local\Programs\youspeed-client\resources 格式
   async exportHeapDump({pid, output}: {pid: string, output: string}): Promise<ApiResponse<any>> {
-    return api.post(`/cvm/heapdump/generate?pid=${pid}&output=${output}`)
+    // 不要手拼 query string：Windows 路径包含 "\"，在 URL 中可能被解析/丢失
+    // 使用 axios params 让其负责编码，确保后端收到的 output 完整
+    return api.post('/cvm/heapdump/generate', null, {
+      params: { pid, output }
+    })
   },
   
   // 内存泄漏分析
