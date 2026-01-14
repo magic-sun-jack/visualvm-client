@@ -417,7 +417,7 @@ function sortBy(field: string) {
 }
 
 async function getThreadDump() {
-  router.push('/threads/dump?pid=' + processStore.currentProcess?.pid)
+  router.push('/thread-dump?pid=' + processStore.currentProcess?.pid)
 }
 
 // 轮询控制

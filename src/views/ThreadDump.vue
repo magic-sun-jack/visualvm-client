@@ -1,53 +1,84 @@
 <template>
   <div class="p-6 space-y-6">
-    <div>
-      <h2 class="text-2xl font-bold">线程转储文件查看</h2>
-      <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">选择本地线程转储文件（.threaddump 等），直接读取并显示文件内容</p>
-    </div>
+    <div class="flex items-start justify-between gap-4">
+      <div>
+        <h2 class="text-2xl font-bold">线程转储文件查看</h2>
+        <!-- <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">
+          选择本地线程转储文件（.threaddump 等），直接读取并显示文件内容
+        </p> -->
+      </div>
 
-    <Card class="bg-white dark:bg-gray-800">
-      <CardHeader>
-        <CardTitle>选择文件</CardTitle>
-        <CardDescription>本地读取，文件不上传</CardDescription>
-      </CardHeader>
-      <CardContent class="space-y-4">
-        <div class="flex items-center gap-3">
-          <Input
-            ref="fileInputRef"
-            type="file"
-            accept=".threaddump,.dump,.txt,.log,.log.gz"
-            @change="onFileChange"
-          />
-          <Button variant="secondary" size="sm" @click="clearSelection" :disabled="!selectedFile">清除</Button>
-          <Button variant="outline" size="sm" @click="readFile" :disabled="!selectedFile || isReading">读取文件</Button>
-        </div>
-        <div v-if="selectedFile" class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-          <div>
-            <div class="text-muted-foreground">文件名</div>
-            <div class="font-mono break-all">{{ selectedFile.name }}</div>
-          </div>
-          <div>
-            <div class="text-muted-foreground">大小</div>
-            <div>{{ formatBytes(selectedFile.size) }}</div>
-          </div>
-          <div>
-            <div class="text-muted-foreground">最后修改</div>
-            <div>{{ new Date(selectedFile.lastModified).toLocaleString() }}</div>
-          </div>
-          <div>
-            <div class="text-muted-foreground">读取状态</div>
-            <div>
-              <span v-if="readError" class="text-red-600">读取失败：{{ readError }}</span>
-              <span v-else-if="isReading" class="text-blue-600">读取中...</span>
-              <span v-else-if="fileContent" class="text-green-600">已读取 ({{ fileLines }} 行)</span>
-              <span v-else class="text-gray-500">未读取</span>
+      <!-- 右上角：点击按钮后弹窗选择文件 -->
+      <Dialog>
+        <DialogTrigger>
+          <Button variant="outline" size="sm">
+            选择文件
+          </Button>
+        </DialogTrigger>
+        <DialogContent class="max-w-lg">
+          <DialogHeader>
+            <DialogTitle>选择线程转储文件</DialogTitle>
+            <DialogDescription>
+              本地读取，文件不上传
+            </DialogDescription>
+          </DialogHeader>
+
+          <div class="space-y-4 mt-2">
+            <div class="flex flex-col gap-2">
+              <Input
+                ref="fileInputRef"
+                type="file"
+                accept=".threaddump,.dump,.txt,.log,.log.gz"
+                @change="onFileChange"
+                class="text-xs"
+              />
+              <div class="flex items-center gap-2">
+                <Button
+                  variant="secondary"
+                  size="sm"
+                  @click="clearSelection"
+                  :disabled="!selectedFile"
+                  class="text-xs px-2 py-1 h-7"
+                >
+                  清除
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  @click="readFile"
+                  :disabled="!selectedFile || isReading"
+                  class="text-xs px-2 py-1 h-7"
+                >
+                  读取文件
+                </Button>
+              </div>
+            </div>
+
+            <div v-if="selectedFile" class="space-y-2 text-xs border-t pt-2">
+              <div class="flex items-start justify-between gap-2">
+                <span class="text-muted-foreground">文件名:</span>
+                <span class="font-mono break-all text-right flex-1">
+                  {{ selectedFile.name }}
+                </span>
+              </div>
+              <div class="flex items-center justify-between">
+                <span class="text-muted-foreground">大小:</span>
+                <span>{{ formatBytes(selectedFile.size) }}</span>
+              </div>
+              <div class="flex items-center justify-between">
+                <span class="text-muted-foreground">状态:</span>
+                <span>
+                  <span v-if="readError" class="text-red-600 text-xs">读取失败：{{ readError }}</span>
+                  <span v-else-if="isReading" class="text-blue-600 text-xs">读取中...</span>
+                  <span v-else-if="fileContent" class="text-green-600 text-xs">已读取 ({{ fileLines }} 行)</span>
+                  <span v-else class="text-gray-500 text-xs">未读取</span>
+                </span>
+              </div>
             </div>
           </div>
-        </div>
-      </CardContent>
-      <CardFooter class="flex justify-end gap-2">
-      </CardFooter>
-    </Card>
+        </DialogContent>
+      </Dialog>
+    </div>
 
     <!-- 文件内容显示 -->
     <Card v-if="fileContent" class="bg-white dark:bg-gray-800">
@@ -55,7 +86,7 @@
         <div class="flex items-center justify-between">
           <div>
             <CardTitle>文件内容</CardTitle>
-            <CardDescription>{{ fileLines }} 行，{{ formatBytes(fileContent.length) }}</CardDescription>
+            <!-- <CardDescription>{{ fileLines }} 行，{{ formatBytes(fileContent.length) }}</CardDescription> -->
           </div>
           <div class="flex items-center gap-2">
             <Button variant="outline" size="sm" @click="copyToClipboard">复制</Button>
@@ -70,9 +101,9 @@
             class="font-mono text-sm bg-gray-50 dark:bg-gray-900 rounded p-4 overflow-auto max-h-[70vh] whitespace-pre-wrap break-words flex"
             :class="{ 'line-numbers': showLineNumbers }"
           >
-            <div v-if="showLineNumbers" class="absolute left-0 top-0 bottom-0 w-12 bg-gray-100 dark:bg-gray-800 border-r border-gray-300 dark:border-gray-700 text-right pr-2 text-gray-500 text-xs select-none">
+            <!-- <div v-if="showLineNumbers" class="absolute left-0 top-0 bottom-0 w-12 bg-gray-100 dark:bg-gray-800 border-r border-gray-300 dark:border-gray-700 text-right pr-2 text-gray-500 text-xs select-none">
               <div v-for="n in fileLines" :key="n" class="leading-6">{{ n }}</div>
-            </div>
+            </div> -->
             <div>
               <div class="leading-6 pl-2" v-for="line in fileContent" :key="line">
                 {{ line }}
@@ -104,9 +135,17 @@ import CardHeader from '@/components/ui/card/CardHeader.vue'
 import CardTitle from '@/components/ui/card/CardTitle.vue'
 import CardDescription from '@/components/ui/card/CardDescription.vue'
 import CardContent from '@/components/ui/card/CardContent.vue'
-import CardFooter from '@/components/ui/card/CardFooter.vue'
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui'
 import { threadApi } from '@/api'
 import router from '@/router'
+import { useProcessStore } from '@/stores/process'
 
 const fileInputRef = ref<HTMLInputElement | null>(null)
 const selectedFile = ref<File | null>(null)
@@ -119,12 +158,13 @@ const contentContainer = ref<HTMLElement | null>(null)
 
 const fileLines = computed(() => {
   if (!fileContent.value) return 0
-  return fileContent.value?.length
+  return fileContentLines.value.length
 })
 
-function triggerFileSelect() {
-  fileInputRef.value?.click()
-}
+const fileContentLines = computed(() => {
+  if (!fileContent.value) return []
+  return fileContent.value
+})
 
 function onFileChange(e: Event) {
   const input = e.target as HTMLInputElement
@@ -200,8 +240,9 @@ function formatBytes(size: number): string {
   return `${(size / Math.pow(k, i)).toFixed(2)} ${units[i]}`
 }
 
+const processStore = useProcessStore()
 onMounted(() => {
-  const pid = router.currentRoute.value.query.pid as string
+  const pid = router.currentRoute.value.query.pid as string || processStore.currentProcess?.pid
   if (pid) {
     threadApi.getThreadDump(pid).then((response) => {
       if (response.areSuccess) {

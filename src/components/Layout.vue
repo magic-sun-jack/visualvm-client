@@ -230,7 +230,7 @@
       </aside>
 
       <!-- 主内容区域 -->
-      <main class="flex-1 p-2 lg:ml-80 transition-all duration-300">
+      <main class="flex-1 p-2 lg:ml-80 transition-all duration-300" style="max-width: calc(100% - 20rem);">
         <!-- <Breadcrumb /> -->
         <RouterView v-if="tabsStore.hasTabs && tabsStore.activeTab" :key="`${tabsStore.activeTab.pid}-${tabsStore.activeTab.isRemote}`" />
         <div v-else>
