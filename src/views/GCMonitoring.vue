@@ -17,12 +17,12 @@
     </div>
 
     <!-- 加载状态 -->
-    <div v-if="isLoading" class="mb-6 p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
+    <!-- <div v-if="isLoading" class="mb-6 p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
       <div class="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
         <div class="h-4 w-4 animate-spin rounded-full border-2 border-primary border-t-transparent"></div>
         正在加载GC统计数据...
       </div>
-    </div>
+    </div> -->
 
     <!-- 应用信息 -->
     <!-- <div class="mb-6 p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
@@ -50,7 +50,7 @@
             {{ gcStatsData?.compileTime.totalCompilationTime || 0 }}
           </div>
           <div class="flex items-center gap-2 pt-2 border-t border-gray-100 dark:border-gray-700">
-            <span class="text-xs font-medium text-gray-500 dark:text-gray-400">编译器:</span>
+            <span class="text-xs font-medium text-gray-500 dark:text-gray-400" style="min-width: 50px;">编译器:</span>
             <span class="text-xs text-gray-700 dark:text-gray-300 font-mono">{{ gcStatsData?.compileTime.name || '-' }}</span>
           </div>
         </CardContent>
