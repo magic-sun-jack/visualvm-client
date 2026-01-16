@@ -1,0 +1,1235 @@
+Thread 0x80769f48
+  at java.lang.Object.wait0(J)V (Native Method)
+  at java.lang.Object.wait(J)V (Unknown Source)
+  at java.lang.Object.wait()V (Unknown Source)
+  at org.eclipse.jdt.ls.core.internal.LanguageServerApplication.start(Lorg/eclipse/equinox/app/IApplicationContext;)Ljava/lang/Object; (LanguageServerApplication.java:63)
+  at org.eclipse.equinox.internal.app.EclipseAppHandle.run(Ljava/lang/Object;)Ljava/lang/Object; (EclipseAppHandle.java:219)
+  at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.runApplication(Ljava/lang/Object;)Ljava/lang/Object; (EclipseAppLauncher.java:149)
+  at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.start(Ljava/lang/Object;)Ljava/lang/Object; (EclipseAppLauncher.java:115)
+  at org.eclipse.core.runtime.adaptor.EclipseStarter.run(Ljava/lang/Object;)Ljava/lang/Object; (EclipseStarter.java:467)
+  at org.eclipse.core.runtime.adaptor.EclipseStarter.run([Ljava/lang/String;Ljava/lang/Runnable;)Ljava/lang/Object; (EclipseStarter.java:298)
+  at java.lang.invoke.DirectMethodHandle$Holder.invokeStatic(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object; (Unknown Source)
+  at java.lang.invoke.LambdaForm$MH+0x000001c44f08a800.invoke(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object; (Unknown Source)
+  at java.lang.invoke.LambdaForm$MH+0x000001c44f002c00.invokeExact_MT(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object; (Unknown Source)
+  at jdk.internal.reflect.DirectMethodHandleAccessor.invokeImpl(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object; (Unknown Source)
+  at jdk.internal.reflect.DirectMethodHandleAccessor.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object; (Unknown Source)
+  at java.lang.reflect.Method.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object; (Unknown Source)
+  at org.eclipse.equinox.launcher.Main.invokeFramework([Ljava/lang/String;[Ljava/net/URL;)V (Main.java:615)
+  at org.eclipse.equinox.launcher.Main.basicRun([Ljava/lang/String;)V (Main.java:563)
+  at org.eclipse.equinox.launcher.Main.run([Ljava/lang/String;)I (Main.java:1415)
+  at org.eclipse.equinox.launcher.Main.main([Ljava/lang/String;)V (Main.java:1387)
+
+  locals:
+    objecId=0x80f16848, line=1
+    objecId=0x80f16848, line=2
+    objecId=0x80f16818, line=3
+    objecId=0x80a2bb00, line=3
+    objecId=0x80f1ef38, line=3
+    objecId=0x80f16848, line=3
+    objecId=0x80a2bb00, line=4
+    objecId=0x8001afd0, line=4
+    objecId=0x80f16818, line=4
+    objecId=0x80a2bb00, line=4
+    objecId=0x80f16930, line=5
+    objecId=0x80f16930, line=6
+    objecId=0x806b18e0, line=6
+    objecId=0x806b0a18, line=8
+    objecId=0x80453ec8, line=8
+    objecId=0x80454e40, line=10
+    objecId=0x806b0898, line=10
+    objecId=0x806b0a18, line=10
+    objecId=0x80453ec8, line=10
+    objecId=0x80454f48, line=10
+    objecId=0x80453ec8, line=10
+    objecId=0x80454f20, line=10
+    objecId=0x806b0a18, line=10
+    objecId=0x80454e70, line=10
+    objecId=0x80454e40, line=11
+    objecId=0x806b0898, line=11
+    objecId=0x806b0a18, line=11
+    objecId=0x80453ec8, line=11
+    objecId=0x806acca0, line=11
+    objecId=0x80454e20, line=12
+    objecId=0x806b0898, line=12
+    objecId=0x80583638, line=12
+    objecId=0x80454e20, line=13
+    objecId=0x806b0898, line=13
+    objecId=0x80583638, line=13
+    objecId=0x80583650, line=14
+    objecId=0x806b0898, line=14
+    objecId=0x80583638, line=14
+    objecId=0x80709eb8, line=14
+    objecId=0x80454e20, line=14
+    objecId=0x80453f40, line=15
+    objecId=0x806b0a18, line=15
+    objecId=0x805836a8, line=15
+    objecId=0x8070a880, line=15
+    objecId=0x800002e8, line=15
+    objecId=0x800038a8, line=15
+    objecId=0x806b0898, line=15
+    objecId=0x80583650, line=15
+    objecId=0x80453f40, line=16
+    objecId=0x805836c8, line=16
+    objecId=0x806b0a18, line=16
+    objecId=0x805836f0, line=16
+    objecId=0x805836a8, line=16
+    objecId=0x80453f40, line=17
+    objecId=0x805836c8, line=17
+    objecId=0x805836c8, line=18
+
+Thread 0x80583aa8
+  at java.lang.ref.Reference.waitForReferencePendingList()V (Native Method)
+  at java.lang.ref.Reference.processPendingReferences()V (Unknown Source)
+  at java.lang.ref.Reference$ReferenceHandler.run()V (Unknown Source)
+
+  locals:
+    objecId=0x80583aa8, line=2
+
+Thread 0x80583bf0
+  at java.lang.Object.wait0(J)V (Native Method)
+  at java.lang.Object.wait(J)V (Unknown Source)
+  at java.lang.Object.wait()V (Unknown Source)
+  at java.lang.ref.NativeReferenceQueue.await()V (Unknown Source)
+  at java.lang.ref.ReferenceQueue.remove0()Ljava/lang/ref/Reference; (Unknown Source)
+  at java.lang.ref.NativeReferenceQueue.remove()Ljava/lang/ref/Reference; (Unknown Source)
+  at java.lang.ref.Finalizer$FinalizerThread.run()V (Unknown Source)
+
+  locals:
+    objecId=0x805703d0, line=1
+    objecId=0x805703d0, line=2
+    objecId=0x805703a8, line=3
+    objecId=0x805703a8, line=4
+    objecId=0x805703a8, line=5
+    objecId=0x805703d0, line=5
+    objecId=0x80583bf0, line=6
+    objecId=0x80003178, line=6
+
+Thread 0x8020e3c8
+
+  locals:
+
+Thread 0x8020e440
+
+  locals:
+
+Thread 0x806bc9f8
+  at jdk.internal.misc.Unsafe.park(ZJ)V (Native Method)
+  at java.util.concurrent.locks.LockSupport.parkNanos(Ljava/lang/Object;J)V (Unknown Source)
+  at java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.await(JLjava/util/concurrent/TimeUnit;)Z (Unknown Source)
+  at java.lang.ref.ReferenceQueue.await(J)V (Unknown Source)
+  at java.lang.ref.ReferenceQueue.remove0(J)Ljava/lang/ref/Reference; (Unknown Source)
+  at java.lang.ref.ReferenceQueue.remove(J)Ljava/lang/ref/Reference; (Unknown Source)
+  at jdk.internal.ref.CleanerImpl.run()V (Unknown Source)
+  at java.lang.Thread.runWith(Ljava/lang/Object;Ljava/lang/Runnable;)V (Unknown Source)
+  at java.lang.Thread.run()V (Unknown Source)
+  at jdk.internal.misc.InnocuousThread.run()V (Unknown Source)
+
+  locals:
+    objecId=0x806bc9f8, line=1
+    objecId=0x806bc9e0, line=2
+    objecId=0x82519dc0, line=2
+    objecId=0x806bc990, line=4
+    objecId=0x806bc990, line=5
+    objecId=0x806bcce8, line=6
+    objecId=0x806bc9f8, line=6
+    objecId=0x806bc9f8, line=6
+    objecId=0x806bc9f8, line=7
+    objecId=0x80003470, line=7
+    objecId=0x806bcce8, line=7
+    objecId=0x806bc9f8, line=8
+    objecId=0x806bcce8, line=8
+    objecId=0x80003470, line=8
+    objecId=0x806bc9f8, line=9
+
+Thread 0x8020e698
+
+  locals:
+
+Thread 0x806f9d40
+  at jdk.internal.misc.Unsafe.park(ZJ)V (Native Method)
+  at java.util.concurrent.locks.LockSupport.parkNanos(Ljava/lang/Object;J)V (Unknown Source)
+  at java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.awaitNanos(J)J (Unknown Source)
+  at java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take()Ljava/util/concurrent/RunnableScheduledFuture; (Unknown Source)
+  at java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take()Ljava/lang/Object; (Unknown Source)
+  at java.util.concurrent.ThreadPoolExecutor.getTask()Ljava/lang/Runnable; (Unknown Source)
+  at java.util.concurrent.ThreadPoolExecutor.runWorker(Ljava/util/concurrent/ThreadPoolExecutor$Worker;)V (Unknown Source)
+  at java.util.concurrent.ThreadPoolExecutor$Worker.run()V (Unknown Source)
+  at java.lang.Thread.runWith(Ljava/lang/Object;Ljava/lang/Runnable;)V (Unknown Source)
+  at java.lang.Thread.run()V (Unknown Source)
+
+  locals:
+    objecId=0x806f9d40, line=1
+    objecId=0x806f9ed0, line=2
+    objecId=0x8251ad00, line=2
+    objecId=0x806f9c10, line=3
+    objecId=0x806f9cf0, line=3
+    objecId=0x806f9d40, line=3
+    objecId=0x806f9bb0, line=5
+    objecId=0x806f9bb0, line=6
+    objecId=0x806f9e90, line=6
+    objecId=0x806f9d40, line=6
+    objecId=0x806f9e90, line=7
+    objecId=0x806f9d40, line=8
+    objecId=0x80003470, line=8
+    objecId=0x806f9e90, line=8
+    objecId=0x806f9d40, line=9
+    objecId=0x806f9e90, line=9
+    objecId=0x80003470, line=9
+
+Thread 0x808131f0
+  at java.lang.Object.wait0(J)V (Native Method)
+  at java.lang.Object.wait(J)V (Unknown Source)
+  at java.lang.Object.wait()V (Unknown Source)
+  at org.eclipse.osgi.framework.eventmgr.EventManager$EventThread.getNextEvent()Lorg/eclipse/osgi/framework/eventmgr/EventManager$EventThread$Queued; (EventManager.java:396)
+  at org.eclipse.osgi.framework.eventmgr.EventManager$EventThread.run()V (EventManager.java:337)
+
+  locals:
+    objecId=0x808131f0, line=1
+    objecId=0x808131f0, line=2
+    objecId=0x808131f0, line=3
+    objecId=0x808131f0, line=4
+
+Thread 0x80a43470
+  at java.lang.Object.wait0(J)V (Native Method)
+  at java.lang.Object.wait(J)V (Unknown Source)
+  at java.lang.Object.wait()V (Unknown Source)
+  at org.eclipse.osgi.framework.eventmgr.EventManager$EventThread.getNextEvent()Lorg/eclipse/osgi/framework/eventmgr/EventManager$EventThread$Queued; (EventManager.java:396)
+  at org.eclipse.osgi.framework.eventmgr.EventManager$EventThread.run()V (EventManager.java:337)
+
+  locals:
+    objecId=0x80a43470, line=3
+    objecId=0x80a43470, line=4
+
+Thread 0x80848b00
+  at java.lang.Object.wait0(J)V (Native Method)
+  at java.lang.Object.wait(J)V (Unknown Source)
+  at java.lang.Object.wait()V (Unknown Source)
+  at org.eclipse.osgi.framework.eventmgr.EventManager$EventThread.getNextEvent()Lorg/eclipse/osgi/framework/eventmgr/EventManager$EventThread$Queued; (EventManager.java:396)
+  at org.eclipse.osgi.framework.eventmgr.EventManager$EventThread.run()V (EventManager.java:337)
+
+  locals:
+    objecId=0x80848b00, line=1
+    objecId=0x80848b00, line=3
+    objecId=0x80848b00, line=4
+
+Thread 0x8044bcb8
+  at java.lang.Object.wait0(J)V (Native Method)
+  at java.lang.Object.wait(J)V (Unknown Source)
+  at java.lang.Object.wait()V (Unknown Source)
+  at org.eclipse.osgi.framework.eventmgr.EventManager$EventThread.getNextEvent()Lorg/eclipse/osgi/framework/eventmgr/EventManager$EventThread$Queued; (EventManager.java:396)
+  at org.eclipse.osgi.framework.eventmgr.EventManager$EventThread.run()V (EventManager.java:337)
+
+  locals:
+    objecId=0x8044bcb8, line=3
+    objecId=0x8044bcb8, line=4
+
+Thread 0x809d7b28
+  at jdk.internal.misc.Unsafe.park(ZJ)V (Native Method)
+  at java.util.concurrent.locks.LockSupport.park()V (Unknown Source)
+  at java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionNode.block()Z (Unknown Source)
+  at java.util.concurrent.ForkJoinPool.unmanagedBlock(Ljava/util/concurrent/ForkJoinPool$ManagedBlocker;)V (Unknown Source)
+  at java.util.concurrent.ForkJoinPool.managedBlock(Ljava/util/concurrent/ForkJoinPool$ManagedBlocker;)V (Unknown Source)
+  at java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.await()V (Unknown Source)
+  at java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take()Ljava/util/concurrent/RunnableScheduledFuture; (Unknown Source)
+  at java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take()Ljava/lang/Object; (Unknown Source)
+  at java.util.concurrent.ThreadPoolExecutor.getTask()Ljava/lang/Runnable; (Unknown Source)
+  at java.util.concurrent.ThreadPoolExecutor.runWorker(Ljava/util/concurrent/ThreadPoolExecutor$Worker;)V (Unknown Source)
+  at java.util.concurrent.ThreadPoolExecutor$Worker.run()V (Unknown Source)
+  at java.lang.Thread.runWith(Ljava/lang/Object;Ljava/lang/Runnable;)V (Unknown Source)
+  at java.lang.Thread.run()V (Unknown Source)
+
+  locals:
+    objecId=0x81fd6758, line=2
+    objecId=0x81fd6758, line=3
+    objecId=0x81fd6758, line=4
+    objecId=0x809d7b28, line=4
+    objecId=0x809d7e70, line=5
+    objecId=0x81fd6758, line=5
+    objecId=0x809d78c0, line=6
+    objecId=0x809d7ad8, line=6
+    objecId=0x809d78c0, line=7
+    objecId=0x809d7860, line=8
+    objecId=0x809d7860, line=9
+    objecId=0x809d7e30, line=9
+    objecId=0x809d7b28, line=9
+    objecId=0x809d7e30, line=10
+    objecId=0x809d7b28, line=11
+    objecId=0x80003470, line=11
+    objecId=0x809d7e30, line=11
+    objecId=0x809d7b28, line=12
+    objecId=0x809d7e30, line=12
+    objecId=0x80003470, line=12
+
+Thread 0x80a17468
+  at java.lang.Object.wait0(J)V (Native Method)
+  at java.lang.Object.wait(J)V (Unknown Source)
+  at org.eclipse.core.internal.jobs.InternalWorker.run()V (InternalWorker.java:61)
+
+  locals:
+    objecId=0x80a17468, line=2
+    objecId=0x80a17450, line=2
+    objecId=0x823268a0, line=2
+
+Thread 0x80a96a38
+  at jdk.internal.misc.Unsafe.park(ZJ)V (Native Method)
+  at java.util.concurrent.locks.LockSupport.parkNanos(Ljava/lang/Object;J)V (Unknown Source)
+  at java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.await(JLjava/util/concurrent/TimeUnit;)Z (Unknown Source)
+  at java.lang.ref.ReferenceQueue.await(J)V (Unknown Source)
+  at java.lang.ref.ReferenceQueue.remove0(J)Ljava/lang/ref/Reference; (Unknown Source)
+  at java.lang.ref.ReferenceQueue.remove(J)Ljava/lang/ref/Reference; (Unknown Source)
+  at com.sun.jna.internal.Cleaner$CleanerThread.run()V (Cleaner.java:154)
+
+  locals:
+    objecId=0x80a96a38, line=1
+    objecId=0x80a96ab0, line=2
+    objecId=0x8251c160, line=2
+    objecId=0x80a96ae8, line=4
+    objecId=0x80a96ae8, line=5
+    objecId=0x80a96a38, line=6
+
+Thread 0x80d8c6c0
+  at java.lang.Object.wait0(J)V (Native Method)
+  at java.lang.Object.wait(J)V (Unknown Source)
+  at java.lang.Object.wait()V (Unknown Source)
+  at org.eclipse.jdt.internal.core.search.processing.JobManager.indexerLoop()V (JobManager.java:502)
+  at org.eclipse.jdt.internal.core.search.processing.JobManager$$Lambda+0x000001c44f319290.run()V (Unknown Source)
+  at java.lang.Thread.runWith(Ljava/lang/Object;Ljava/lang/Runnable;)V (Unknown Source)
+  at java.lang.Thread.run()V (Unknown Source)
+
+  locals:
+    objecId=0x80c65100, line=2
+    objecId=0x80c65100, line=3
+    objecId=0x822b5510, line=3
+    objecId=0x80c65100, line=3
+    objecId=0x80d8c738, line=4
+    objecId=0x80d8c6c0, line=5
+    objecId=0x80003470, line=5
+    objecId=0x80d8c738, line=5
+    objecId=0x80d8c6c0, line=6
+    objecId=0x80d8c738, line=6
+    objecId=0x80003470, line=6
+
+Thread 0x80f0fba8
+  at java.lang.Object.wait0(J)V (Native Method)
+  at java.lang.Object.wait(J)V (Unknown Source)
+  at org.eclipse.core.internal.jobs.WorkerPool.sleep(J)V (WorkerPool.java:205)
+  at org.eclipse.core.internal.jobs.WorkerPool.startJob(Lorg/eclipse/core/internal/jobs/Worker;)Lorg/eclipse/core/internal/jobs/InternalJob; (WorkerPool.java:248)
+  at org.eclipse.core.internal.jobs.Worker.run()V (Worker.java:58)
+
+  locals:
+    objecId=0x8094a010, line=2
+    objecId=0x8094a010, line=3
+    objecId=0x80f0fba8, line=3
+    objecId=0x8094a010, line=3
+    objecId=0x80f0fba8, line=4
+    objecId=0x80f0fba8, line=4
+
+Thread 0x80f0ff10
+  at sun.nio.ch.Iocp.getQueuedCompletionStatus(JLsun/nio/ch/Iocp$CompletionStatus;)V (Native Method)
+  at sun.nio.ch.Iocp$EventHandlerTask.run()V (Unknown Source)
+  at java.lang.Thread.runWith(Ljava/lang/Object;Ljava/lang/Runnable;)V (Unknown Source)
+  at java.lang.Thread.run()V (Unknown Source)
+
+  locals:
+    objecId=0x80f10098, line=1
+    objecId=0x80f10008, line=1
+    objecId=0x80f0ff10, line=2
+    objecId=0x80003470, line=2
+    objecId=0x80f10098, line=2
+    objecId=0x80f0ff10, line=3
+    objecId=0x80f10098, line=3
+    objecId=0x80003470, line=3
+
+Thread 0x80f18f30
+  at sun.nio.ch.Iocp.getQueuedCompletionStatus(JLsun/nio/ch/Iocp$CompletionStatus;)V (Native Method)
+  at sun.nio.ch.Iocp$EventHandlerTask.run()V (Unknown Source)
+  at sun.nio.ch.AsynchronousChannelGroupImpl$1.run()V (Unknown Source)
+  at java.util.concurrent.ThreadPoolExecutor.runWorker(Ljava/util/concurrent/ThreadPoolExecutor$Worker;)V (Unknown Source)
+  at java.util.concurrent.ThreadPoolExecutor$Worker.run()V (Unknown Source)
+  at java.lang.Thread.runWith(Ljava/lang/Object;Ljava/lang/Runnable;)V (Unknown Source)
+  at java.lang.Thread.run()V (Unknown Source)
+
+  locals:
+    objecId=0x80f10098, line=1
+    objecId=0x80f18fc8, line=1
+    objecId=0x80f18fa8, line=1
+    objecId=0x80f19050, line=2
+    objecId=0x80f10108, line=3
+    objecId=0x80f19068, line=3
+    objecId=0x80f18f30, line=3
+    objecId=0x80f19050, line=3
+    objecId=0x80f19068, line=4
+    objecId=0x80f18f30, line=5
+    objecId=0x80003470, line=5
+    objecId=0x80f19068, line=5
+    objecId=0x80f18f30, line=6
+    objecId=0x80f19068, line=6
+    objecId=0x80003470, line=6
+
+Thread 0x80f102f0
+  at sun.nio.ch.Iocp.getQueuedCompletionStatus(JLsun/nio/ch/Iocp$CompletionStatus;)V (Native Method)
+  at sun.nio.ch.Iocp$EventHandlerTask.run()V (Unknown Source)
+  at sun.nio.ch.AsynchronousChannelGroupImpl$1.run()V (Unknown Source)
+  at java.util.concurrent.ThreadPoolExecutor.runWorker(Ljava/util/concurrent/ThreadPoolExecutor$Worker;)V (Unknown Source)
+  at java.util.concurrent.ThreadPoolExecutor$Worker.run()V (Unknown Source)
+  at java.lang.Thread.runWith(Ljava/lang/Object;Ljava/lang/Runnable;)V (Unknown Source)
+  at java.lang.Thread.run()V (Unknown Source)
+
+  locals:
+    objecId=0x80f10098, line=1
+    objecId=0x80f10490, line=1
+    objecId=0x80f191d0, line=1
+    objecId=0x80f19050, line=2
+    objecId=0x80f10108, line=3
+    objecId=0x80f102c0, line=3
+    objecId=0x80f102f0, line=3
+    objecId=0x80f19050, line=3
+    objecId=0x80f102c0, line=4
+    objecId=0x80f102f0, line=5
+    objecId=0x80003470, line=5
+    objecId=0x80f102c0, line=5
+    objecId=0x80f102f0, line=6
+    objecId=0x80f102c0, line=6
+    objecId=0x80003470, line=6
+
+Thread 0x80f191f0
+  at sun.nio.ch.Iocp.getQueuedCompletionStatus(JLsun/nio/ch/Iocp$CompletionStatus;)V (Native Method)
+  at sun.nio.ch.Iocp$EventHandlerTask.run()V (Unknown Source)
+  at sun.nio.ch.AsynchronousChannelGroupImpl$1.run()V (Unknown Source)
+  at java.util.concurrent.ThreadPoolExecutor.runWorker(Ljava/util/concurrent/ThreadPoolExecutor$Worker;)V (Unknown Source)
+  at java.util.concurrent.ThreadPoolExecutor$Worker.run()V (Unknown Source)
+  at java.lang.Thread.runWith(Ljava/lang/Object;Ljava/lang/Runnable;)V (Unknown Source)
+  at java.lang.Thread.run()V (Unknown Source)
+
+  locals:
+    objecId=0x80f10098, line=1
+    objecId=0x80f19288, line=1
+    objecId=0x80f19268, line=1
+    objecId=0x80f19050, line=2
+    objecId=0x80f10108, line=3
+    objecId=0x80f192a0, line=3
+    objecId=0x80f191f0, line=3
+    objecId=0x80f19050, line=3
+    objecId=0x80f192a0, line=4
+    objecId=0x80f191f0, line=5
+    objecId=0x80003470, line=5
+    objecId=0x80f192a0, line=5
+    objecId=0x80f191f0, line=6
+    objecId=0x80f192a0, line=6
+    objecId=0x80003470, line=6
+
+Thread 0x80f19408
+  at sun.nio.ch.Iocp.getQueuedCompletionStatus(JLsun/nio/ch/Iocp$CompletionStatus;)V (Native Method)
+  at sun.nio.ch.Iocp$EventHandlerTask.run()V (Unknown Source)
+  at sun.nio.ch.AsynchronousChannelGroupImpl$1.run()V (Unknown Source)
+  at java.util.concurrent.ThreadPoolExecutor.runWorker(Ljava/util/concurrent/ThreadPoolExecutor$Worker;)V (Unknown Source)
+  at java.util.concurrent.ThreadPoolExecutor$Worker.run()V (Unknown Source)
+  at java.lang.Thread.runWith(Ljava/lang/Object;Ljava/lang/Runnable;)V (Unknown Source)
+  at java.lang.Thread.run()V (Unknown Source)
+
+  locals:
+    objecId=0x80f10098, line=1
+    objecId=0x80faf168, line=1
+    objecId=0x80faf148, line=1
+    objecId=0x80f19050, line=2
+    objecId=0x80f10108, line=3
+    objecId=0x80f19480, line=3
+    objecId=0x80f19408, line=3
+    objecId=0x80f19050, line=3
+    objecId=0x80f19480, line=4
+    objecId=0x80f19408, line=5
+    objecId=0x80003470, line=5
+    objecId=0x80f19480, line=5
+    objecId=0x80f19408, line=6
+    objecId=0x80f19480, line=6
+    objecId=0x80003470, line=6
+
+Thread 0x80f17430
+  at sun.nio.ch.Iocp.getQueuedCompletionStatus(JLsun/nio/ch/Iocp$CompletionStatus;)V (Native Method)
+  at sun.nio.ch.Iocp$EventHandlerTask.run()V (Unknown Source)
+  at sun.nio.ch.AsynchronousChannelGroupImpl$1.run()V (Unknown Source)
+  at java.util.concurrent.ThreadPoolExecutor.runWorker(Ljava/util/concurrent/ThreadPoolExecutor$Worker;)V (Unknown Source)
+  at java.util.concurrent.ThreadPoolExecutor$Worker.run()V (Unknown Source)
+  at java.lang.Thread.runWith(Ljava/lang/Object;Ljava/lang/Runnable;)V (Unknown Source)
+  at java.lang.Thread.run()V (Unknown Source)
+
+  locals:
+    objecId=0x80f10098, line=1
+    objecId=0x80f175d0, line=1
+    objecId=0x80f19560, line=1
+    objecId=0x80f19050, line=2
+    objecId=0x80f10108, line=3
+    objecId=0x80f17400, line=3
+    objecId=0x80f17430, line=3
+    objecId=0x80f19050, line=3
+    objecId=0x80f17400, line=4
+    objecId=0x80f17430, line=5
+    objecId=0x80003470, line=5
+    objecId=0x80f17400, line=5
+    objecId=0x80f17430, line=6
+    objecId=0x80f17400, line=6
+    objecId=0x80003470, line=6
+
+Thread 0x80f16ff8
+  at sun.nio.ch.Iocp.getQueuedCompletionStatus(JLsun/nio/ch/Iocp$CompletionStatus;)V (Native Method)
+  at sun.nio.ch.Iocp$EventHandlerTask.run()V (Unknown Source)
+  at sun.nio.ch.AsynchronousChannelGroupImpl$1.run()V (Unknown Source)
+  at java.util.concurrent.ThreadPoolExecutor.runWorker(Ljava/util/concurrent/ThreadPoolExecutor$Worker;)V (Unknown Source)
+  at java.util.concurrent.ThreadPoolExecutor$Worker.run()V (Unknown Source)
+  at java.lang.Thread.runWith(Ljava/lang/Object;Ljava/lang/Runnable;)V (Unknown Source)
+  at java.lang.Thread.run()V (Unknown Source)
+
+  locals:
+    objecId=0x80f10098, line=1
+    objecId=0x80f17198, line=1
+    objecId=0x80f19580, line=1
+    objecId=0x80f19050, line=2
+    objecId=0x80f10108, line=3
+    objecId=0x80f10928, line=3
+    objecId=0x80f16ff8, line=3
+    objecId=0x80f19050, line=3
+    objecId=0x80f10928, line=4
+    objecId=0x80f16ff8, line=5
+    objecId=0x80003470, line=5
+    objecId=0x80f10928, line=5
+    objecId=0x80f16ff8, line=6
+    objecId=0x80f10928, line=6
+    objecId=0x80003470, line=6
+
+Thread 0x80eb2470
+  at sun.nio.ch.Iocp.getQueuedCompletionStatus(JLsun/nio/ch/Iocp$CompletionStatus;)V (Native Method)
+  at sun.nio.ch.Iocp$EventHandlerTask.run()V (Unknown Source)
+  at sun.nio.ch.AsynchronousChannelGroupImpl$1.run()V (Unknown Source)
+  at java.util.concurrent.ThreadPoolExecutor.runWorker(Ljava/util/concurrent/ThreadPoolExecutor$Worker;)V (Unknown Source)
+  at java.util.concurrent.ThreadPoolExecutor$Worker.run()V (Unknown Source)
+  at java.lang.Thread.runWith(Ljava/lang/Object;Ljava/lang/Runnable;)V (Unknown Source)
+  at java.lang.Thread.run()V (Unknown Source)
+
+  locals:
+    objecId=0x80f10098, line=1
+    objecId=0x80f9f3a8, line=1
+    objecId=0x80f9f388, line=1
+    objecId=0x80f19050, line=2
+    objecId=0x80f10108, line=3
+    objecId=0x80f17eb0, line=3
+    objecId=0x80eb2470, line=3
+    objecId=0x80f19050, line=3
+    objecId=0x80f17eb0, line=4
+    objecId=0x80eb2470, line=5
+    objecId=0x80003470, line=5
+    objecId=0x80f17eb0, line=5
+    objecId=0x80eb2470, line=6
+    objecId=0x80f17eb0, line=6
+    objecId=0x80003470, line=6
+
+Thread 0x80f17648
+  at sun.nio.ch.Iocp.getQueuedCompletionStatus(JLsun/nio/ch/Iocp$CompletionStatus;)V (Native Method)
+  at sun.nio.ch.Iocp$EventHandlerTask.run()V (Unknown Source)
+  at sun.nio.ch.AsynchronousChannelGroupImpl$1.run()V (Unknown Source)
+  at java.util.concurrent.ThreadPoolExecutor.runWorker(Ljava/util/concurrent/ThreadPoolExecutor$Worker;)V (Unknown Source)
+  at java.util.concurrent.ThreadPoolExecutor$Worker.run()V (Unknown Source)
+  at java.lang.Thread.runWith(Ljava/lang/Object;Ljava/lang/Runnable;)V (Unknown Source)
+  at java.lang.Thread.run()V (Unknown Source)
+
+  locals:
+    objecId=0x80f10098, line=1
+    objecId=0x80f177e8, line=1
+    objecId=0x80f195a0, line=1
+    objecId=0x80f19050, line=2
+    objecId=0x80f10108, line=3
+    objecId=0x80f17618, line=3
+    objecId=0x80f17648, line=3
+    objecId=0x80f19050, line=3
+    objecId=0x80f17618, line=4
+    objecId=0x80f17648, line=5
+    objecId=0x80003470, line=5
+    objecId=0x80f17618, line=5
+    objecId=0x80f17648, line=6
+    objecId=0x80f17618, line=6
+    objecId=0x80003470, line=6
+
+Thread 0x80f17860
+  at sun.nio.ch.Iocp.getQueuedCompletionStatus(JLsun/nio/ch/Iocp$CompletionStatus;)V (Native Method)
+  at sun.nio.ch.Iocp$EventHandlerTask.run()V (Unknown Source)
+  at sun.nio.ch.AsynchronousChannelGroupImpl$1.run()V (Unknown Source)
+  at java.util.concurrent.ThreadPoolExecutor.runWorker(Ljava/util/concurrent/ThreadPoolExecutor$Worker;)V (Unknown Source)
+  at java.util.concurrent.ThreadPoolExecutor$Worker.run()V (Unknown Source)
+  at java.lang.Thread.runWith(Ljava/lang/Object;Ljava/lang/Runnable;)V (Unknown Source)
+  at java.lang.Thread.run()V (Unknown Source)
+
+  locals:
+    objecId=0x80f10098, line=1
+    objecId=0x80f17a08, line=1
+    objecId=0x80f195c0, line=1
+    objecId=0x80f19050, line=2
+    objecId=0x80f10108, line=3
+    objecId=0x80f17830, line=3
+    objecId=0x80f17860, line=3
+    objecId=0x80f19050, line=3
+    objecId=0x80f17830, line=4
+    objecId=0x80f17860, line=5
+    objecId=0x80003470, line=5
+    objecId=0x80f17830, line=5
+    objecId=0x80f17860, line=6
+    objecId=0x80f17830, line=6
+    objecId=0x80003470, line=6
+
+Thread 0x80f17f30
+  at sun.nio.ch.Iocp.getQueuedCompletionStatus(JLsun/nio/ch/Iocp$CompletionStatus;)V (Native Method)
+  at sun.nio.ch.Iocp$EventHandlerTask.run()V (Unknown Source)
+  at sun.nio.ch.AsynchronousChannelGroupImpl$1.run()V (Unknown Source)
+  at java.util.concurrent.ThreadPoolExecutor.runWorker(Ljava/util/concurrent/ThreadPoolExecutor$Worker;)V (Unknown Source)
+  at java.util.concurrent.ThreadPoolExecutor$Worker.run()V (Unknown Source)
+  at java.lang.Thread.runWith(Ljava/lang/Object;Ljava/lang/Runnable;)V (Unknown Source)
+  at java.lang.Thread.run()V (Unknown Source)
+
+  locals:
+    objecId=0x80f10098, line=1
+    objecId=0x80fab1d0, line=1
+    objecId=0x80faf208, line=1
+    objecId=0x80f19050, line=2
+    objecId=0x80f10108, line=3
+    objecId=0x80f17f00, line=3
+    objecId=0x80f17f30, line=3
+    objecId=0x80f19050, line=3
+    objecId=0x80f17f00, line=4
+    objecId=0x80f17f30, line=5
+    objecId=0x80003470, line=5
+    objecId=0x80f17f00, line=5
+    objecId=0x80f17f30, line=6
+    objecId=0x80f17f00, line=6
+    objecId=0x80003470, line=6
+
+Thread 0x80f105b8
+  at sun.nio.ch.Iocp.getQueuedCompletionStatus(JLsun/nio/ch/Iocp$CompletionStatus;)V (Native Method)
+  at sun.nio.ch.Iocp$EventHandlerTask.run()V (Unknown Source)
+  at sun.nio.ch.AsynchronousChannelGroupImpl$1.run()V (Unknown Source)
+  at java.util.concurrent.ThreadPoolExecutor.runWorker(Ljava/util/concurrent/ThreadPoolExecutor$Worker;)V (Unknown Source)
+  at java.util.concurrent.ThreadPoolExecutor$Worker.run()V (Unknown Source)
+  at java.lang.Thread.runWith(Ljava/lang/Object;Ljava/lang/Runnable;)V (Unknown Source)
+  at java.lang.Thread.run()V (Unknown Source)
+
+  locals:
+    objecId=0x80f10098, line=1
+    objecId=0x80fab130, line=1
+    objecId=0x80faf228, line=1
+    objecId=0x80f19050, line=2
+    objecId=0x80f10108, line=3
+    objecId=0x80f10588, line=3
+    objecId=0x80f105b8, line=3
+    objecId=0x80f19050, line=3
+    objecId=0x80f10588, line=4
+    objecId=0x80f105b8, line=5
+    objecId=0x80003470, line=5
+    objecId=0x80f10588, line=5
+    objecId=0x80f105b8, line=6
+    objecId=0x80f10588, line=6
+    objecId=0x80003470, line=6
+
+Thread 0x80f180f0
+  at sun.nio.ch.Iocp.getQueuedCompletionStatus(JLsun/nio/ch/Iocp$CompletionStatus;)V (Native Method)
+  at sun.nio.ch.Iocp$EventHandlerTask.run()V (Unknown Source)
+  at sun.nio.ch.AsynchronousChannelGroupImpl$1.run()V (Unknown Source)
+  at java.util.concurrent.ThreadPoolExecutor.runWorker(Ljava/util/concurrent/ThreadPoolExecutor$Worker;)V (Unknown Source)
+  at java.util.concurrent.ThreadPoolExecutor$Worker.run()V (Unknown Source)
+  at java.lang.Thread.runWith(Ljava/lang/Object;Ljava/lang/Runnable;)V (Unknown Source)
+  at java.lang.Thread.run()V (Unknown Source)
+
+  locals:
+    objecId=0x80f10098, line=1
+    objecId=0x80f18298, line=1
+    objecId=0x80eb2598, line=1
+    objecId=0x80f19050, line=2
+    objecId=0x80f10108, line=3
+    objecId=0x80f180c0, line=3
+    objecId=0x80f180f0, line=3
+    objecId=0x80f19050, line=3
+    objecId=0x80f180c0, line=4
+    objecId=0x80f180f0, line=5
+    objecId=0x80003470, line=5
+    objecId=0x80f180c0, line=5
+    objecId=0x80f180f0, line=6
+    objecId=0x80f180c0, line=6
+    objecId=0x80003470, line=6
+
+Thread 0x80f17210
+  at sun.nio.ch.Iocp.getQueuedCompletionStatus(JLsun/nio/ch/Iocp$CompletionStatus;)V (Native Method)
+  at sun.nio.ch.Iocp$EventHandlerTask.run()V (Unknown Source)
+  at sun.nio.ch.AsynchronousChannelGroupImpl$1.run()V (Unknown Source)
+  at java.util.concurrent.ThreadPoolExecutor.runWorker(Ljava/util/concurrent/ThreadPoolExecutor$Worker;)V (Unknown Source)
+  at java.util.concurrent.ThreadPoolExecutor$Worker.run()V (Unknown Source)
+  at java.lang.Thread.runWith(Ljava/lang/Object;Ljava/lang/Runnable;)V (Unknown Source)
+  at java.lang.Thread.run()V (Unknown Source)
+
+  locals:
+    objecId=0x80f10098, line=1
+    objecId=0x80f173b8, line=1
+    objecId=0x80f195e0, line=1
+    objecId=0x80f19050, line=2
+    objecId=0x80f10108, line=3
+    objecId=0x80f171e0, line=3
+    objecId=0x80f17210, line=3
+    objecId=0x80f19050, line=3
+    objecId=0x80f171e0, line=4
+    objecId=0x80f17210, line=5
+    objecId=0x80003470, line=5
+    objecId=0x80f171e0, line=5
+    objecId=0x80f17210, line=6
+    objecId=0x80f171e0, line=6
+    objecId=0x80003470, line=6
+
+Thread 0x80f10738
+  at sun.nio.ch.Iocp.getQueuedCompletionStatus(JLsun/nio/ch/Iocp$CompletionStatus;)V (Native Method)
+  at sun.nio.ch.Iocp$EventHandlerTask.run()V (Unknown Source)
+  at sun.nio.ch.AsynchronousChannelGroupImpl$1.run()V (Unknown Source)
+  at java.util.concurrent.ThreadPoolExecutor.runWorker(Ljava/util/concurrent/ThreadPoolExecutor$Worker;)V (Unknown Source)
+  at java.util.concurrent.ThreadPoolExecutor$Worker.run()V (Unknown Source)
+  at java.lang.Thread.runWith(Ljava/lang/Object;Ljava/lang/Runnable;)V (Unknown Source)
+  at java.lang.Thread.run()V (Unknown Source)
+
+  locals:
+    objecId=0x80f10098, line=1
+    objecId=0x80f108e0, line=1
+    objecId=0x80f19600, line=1
+    objecId=0x80f19050, line=2
+    objecId=0x80f10108, line=3
+    objecId=0x80f10708, line=3
+    objecId=0x80f10738, line=3
+    objecId=0x80f19050, line=3
+    objecId=0x80f10708, line=4
+    objecId=0x80f10738, line=5
+    objecId=0x80003470, line=5
+    objecId=0x80f10708, line=5
+    objecId=0x80f10738, line=6
+    objecId=0x80f10708, line=6
+    objecId=0x80003470, line=6
+
+Thread 0x80f17aa0
+  at sun.nio.ch.Iocp.getQueuedCompletionStatus(JLsun/nio/ch/Iocp$CompletionStatus;)V (Native Method)
+  at sun.nio.ch.Iocp$EventHandlerTask.run()V (Unknown Source)
+  at sun.nio.ch.AsynchronousChannelGroupImpl$1.run()V (Unknown Source)
+  at java.util.concurrent.ThreadPoolExecutor.runWorker(Ljava/util/concurrent/ThreadPoolExecutor$Worker;)V (Unknown Source)
+  at java.util.concurrent.ThreadPoolExecutor$Worker.run()V (Unknown Source)
+  at java.lang.Thread.runWith(Ljava/lang/Object;Ljava/lang/Runnable;)V (Unknown Source)
+  at java.lang.Thread.run()V (Unknown Source)
+
+  locals:
+    objecId=0x80f10098, line=1
+    objecId=0x80f17c48, line=1
+    objecId=0x80eb25b8, line=1
+    objecId=0x80f19050, line=2
+    objecId=0x80f10108, line=3
+    objecId=0x80f17a70, line=3
+    objecId=0x80f17aa0, line=3
+    objecId=0x80f19050, line=3
+    objecId=0x80f17a70, line=4
+    objecId=0x80f17aa0, line=5
+    objecId=0x80003470, line=5
+    objecId=0x80f17a70, line=5
+    objecId=0x80f17aa0, line=6
+    objecId=0x80f17a70, line=6
+    objecId=0x80003470, line=6
+
+Thread 0x80f17cc0
+  at sun.nio.ch.Iocp.getQueuedCompletionStatus(JLsun/nio/ch/Iocp$CompletionStatus;)V (Native Method)
+  at sun.nio.ch.Iocp$EventHandlerTask.run()V (Unknown Source)
+  at sun.nio.ch.AsynchronousChannelGroupImpl$1.run()V (Unknown Source)
+  at java.util.concurrent.ThreadPoolExecutor.runWorker(Ljava/util/concurrent/ThreadPoolExecutor$Worker;)V (Unknown Source)
+  at java.util.concurrent.ThreadPoolExecutor$Worker.run()V (Unknown Source)
+  at java.lang.Thread.runWith(Ljava/lang/Object;Ljava/lang/Runnable;)V (Unknown Source)
+  at java.lang.Thread.run()V (Unknown Source)
+
+  locals:
+    objecId=0x80f10098, line=1
+    objecId=0x80f17e68, line=1
+    objecId=0x80f18908, line=1
+    objecId=0x80f19050, line=2
+    objecId=0x80f10108, line=3
+    objecId=0x80f17c90, line=3
+    objecId=0x80f17cc0, line=3
+    objecId=0x80f19050, line=3
+    objecId=0x80f17c90, line=4
+    objecId=0x80f17cc0, line=5
+    objecId=0x80003470, line=5
+    objecId=0x80f17c90, line=5
+    objecId=0x80f17cc0, line=6
+    objecId=0x80f17c90, line=6
+    objecId=0x80003470, line=6
+
+Thread 0x80eb25d8
+  at jdk.internal.misc.Unsafe.park(ZJ)V (Native Method)
+  at java.util.concurrent.locks.LockSupport.parkNanos(Ljava/lang/Object;J)V (Unknown Source)
+  at java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.awaitNanos(J)J (Unknown Source)
+  at java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take()Ljava/util/concurrent/RunnableScheduledFuture; (Unknown Source)
+  at java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take()Ljava/lang/Object; (Unknown Source)
+  at java.util.concurrent.ThreadPoolExecutor.getTask()Ljava/lang/Runnable; (Unknown Source)
+  at java.util.concurrent.ThreadPoolExecutor.runWorker(Ljava/util/concurrent/ThreadPoolExecutor$Worker;)V (Unknown Source)
+  at java.util.concurrent.ThreadPoolExecutor$Worker.run()V (Unknown Source)
+  at java.lang.Thread.runWith(Ljava/lang/Object;Ljava/lang/Runnable;)V (Unknown Source)
+  at java.lang.Thread.run()V (Unknown Source)
+
+  locals:
+    objecId=0x80eb25d8, line=1
+    objecId=0x80eb2650, line=2
+    objecId=0x8251ad20, line=2
+    objecId=0x80eb2668, line=3
+    objecId=0x80eb2688, line=3
+    objecId=0x80eb25d8, line=3
+    objecId=0x80eb2698, line=5
+    objecId=0x80eb2698, line=6
+    objecId=0x80eb26e8, line=6
+    objecId=0x80eb25d8, line=6
+    objecId=0x80eb26e8, line=7
+    objecId=0x80eb25d8, line=8
+    objecId=0x80003470, line=8
+    objecId=0x80eb26e8, line=8
+    objecId=0x80eb25d8, line=9
+    objecId=0x80eb26e8, line=9
+    objecId=0x80003470, line=9
+
+Thread 0x81c82ef8
+  at jdk.internal.misc.Unsafe.park(ZJ)V (Native Method)
+  at java.util.concurrent.locks.LockSupport.park()V (Unknown Source)
+  at java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionNode.block()Z (Unknown Source)
+  at java.util.concurrent.ForkJoinPool.unmanagedBlock(Ljava/util/concurrent/ForkJoinPool$ManagedBlocker;)V (Unknown Source)
+  at java.util.concurrent.ForkJoinPool.managedBlock(Ljava/util/concurrent/ForkJoinPool$ManagedBlocker;)V (Unknown Source)
+  at java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.await()V (Unknown Source)
+  at java.util.concurrent.LinkedBlockingQueue.take()Ljava/lang/Object; (Unknown Source)
+  at org.eclipse.jdt.ls.core.internal.handlers.WorkspaceEventsHandler.lambda$0()V (WorkspaceEventsHandler.java:64)
+  at org.eclipse.jdt.ls.core.internal.handlers.WorkspaceEventsHandler$$Lambda+0x000001c44f4aeef8.run()V (Unknown Source)
+  at java.lang.Thread.runWith(Ljava/lang/Object;Ljava/lang/Runnable;)V (Unknown Source)
+  at java.lang.Thread.run()V (Unknown Source)
+
+  locals:
+    objecId=0x8251b530, line=2
+    objecId=0x8251b530, line=3
+    objecId=0x8251b530, line=4
+    objecId=0x81c82ef8, line=4
+    objecId=0x81ca3c40, line=5
+    objecId=0x8251b530, line=5
+    objecId=0x81ca3bd0, line=6
+    objecId=0x81ca3c00, line=6
+    objecId=0x81ca3c10, line=6
+    objecId=0x81c82f70, line=7
+    objecId=0x81c82f90, line=8
+    objecId=0x81c82ef8, line=9
+    objecId=0x80003470, line=9
+    objecId=0x81c82f90, line=9
+    objecId=0x81c82ef8, line=10
+    objecId=0x81c82f90, line=10
+    objecId=0x80003470, line=10
+
+Thread 0x81c7b520
+  at jdk.internal.misc.Unsafe.park(ZJ)V (Native Method)
+  at java.util.concurrent.locks.LockSupport.park(Ljava/lang/Object;)V (Unknown Source)
+  at java.util.concurrent.locks.AbstractQueuedSynchronizer.acquire(Ljava/util/concurrent/locks/AbstractQueuedSynchronizer$Node;IZZZJ)I (Unknown Source)
+  at java.util.concurrent.locks.AbstractQueuedSynchronizer.acquireSharedInterruptibly(I)V (Unknown Source)
+  at java.util.concurrent.CountDownLatch.await()V (Unknown Source)
+  at sun.nio.ch.PendingFuture.get()Ljava/lang/Object; (Unknown Source)
+  at org.eclipse.jdt.ls.core.internal.ConnectionStreamFactory$NamedPipeInputStream.read()I (ConnectionStreamFactory.java:171)
+  at org.eclipse.lsp4j.jsonrpc.json.StreamMessageProducer.listen(Lorg/eclipse/lsp4j/jsonrpc/MessageConsumer;)V (StreamMessageProducer.java:82)
+  at org.eclipse.lsp4j.jsonrpc.json.ConcurrentMessageProcessor.run()V (ConcurrentMessageProcessor.java:114)
+  at java.util.concurrent.Executors$RunnableAdapter.call()Ljava/lang/Object; (Unknown Source)
+  at java.util.concurrent.FutureTask.run()V (Unknown Source)
+  at java.util.concurrent.ThreadPoolExecutor.runWorker(Ljava/util/concurrent/ThreadPoolExecutor$Worker;)V (Unknown Source)
+  at java.util.concurrent.ThreadPoolExecutor$Worker.run()V (Unknown Source)
+  at java.lang.Thread.runWith(Ljava/lang/Object;Ljava/lang/Runnable;)V (Unknown Source)
+  at java.lang.Thread.run()V (Unknown Source)
+
+  locals:
+    objecId=0x81c7b520, line=1
+    objecId=0x8251b708, line=2
+    objecId=0x8251b748, line=2
+    objecId=0x81c7b520, line=2
+    objecId=0x8251b728, line=2
+    objecId=0x8251b6c8, line=5
+    objecId=0x80f843a0, line=6
+    objecId=0x80f843a0, line=6
+    objecId=0x81cf8090, line=7
+    objecId=0x81cf80b0, line=7
+    objecId=0x82519d10, line=7
+    objecId=0x81cf80c8, line=8
+    objecId=0x81cf80e0, line=9
+    objecId=0x81cf80f8, line=10
+    objecId=0x81cf80e0, line=10
+    objecId=0x80f1ec80, line=11
+    objecId=0x81ca8e98, line=11
+    objecId=0x81c7b520, line=11
+    objecId=0x81cf80f8, line=11
+    objecId=0x81ca8e98, line=12
+    objecId=0x81c7b520, line=13
+    objecId=0x80003470, line=13
+    objecId=0x81ca8e98, line=13
+    objecId=0x81c7b520, line=14
+    objecId=0x81ca8e98, line=14
+    objecId=0x80003470, line=14
+
+Thread 0x824f1980
+  at sun.nio.ch.Net.accept(Ljava/io/FileDescriptor;Ljava/io/FileDescriptor;[Ljava/net/InetSocketAddress;)I (Native Method)
+  at sun.nio.ch.NioSocketImpl.accept(Ljava/net/SocketImpl;)V (Unknown Source)
+  at java.net.ServerSocket.implAccept(Ljava/net/SocketImpl;)V (Unknown Source)
+  at java.net.ServerSocket.platformImplAccept()Ljava/net/SocketImpl; (Unknown Source)
+  at java.net.ServerSocket.implAccept()Ljava/net/SocketImpl; (Unknown Source)
+  at java.net.ServerSocket.implAccept(Ljava/net/Socket;)V (Unknown Source)
+  at java.net.ServerSocket.accept()Ljava/net/Socket; (Unknown Source)
+  at sun.management.jmxremote.LocalRMIServerSocketFactory$1.accept()Ljava/net/Socket; (Unknown Source)
+  at sun.rmi.transport.tcp.TCPTransport$AcceptLoop.executeAcceptLoop()V (Unknown Source)
+  at sun.rmi.transport.tcp.TCPTransport$AcceptLoop.run()V (Unknown Source)
+  at java.lang.Thread.runWith(Ljava/lang/Object;Ljava/lang/Runnable;)V (Unknown Source)
+  at java.lang.Thread.run()V (Unknown Source)
+
+  locals:
+    objecId=0x824f1a20, line=1
+    objecId=0x8251ad80, line=1
+    objecId=0x8251ad80, line=1
+    objecId=0x8251ad40, line=1
+    objecId=0x8251ad68, line=1
+    objecId=0x824f1a70, line=1
+    objecId=0x824f19f8, line=1
+    objecId=0x824f1af8, line=2
+    objecId=0x8251ad80, line=2
+    objecId=0x824f1af8, line=3
+    objecId=0x8251ad80, line=3
+    objecId=0x824f1af8, line=4
+    objecId=0x824f1af8, line=5
+    objecId=0x8251add0, line=5
+    objecId=0x824f1af8, line=6
+    objecId=0x8251add0, line=6
+    objecId=0x824f1af8, line=7
+    objecId=0x824f1bf8, line=8
+    objecId=0x824f1bf8, line=9
+    objecId=0x824f1980, line=10
+    objecId=0x80003470, line=10
+    objecId=0x824f1bf8, line=10
+    objecId=0x824f1980, line=11
+    objecId=0x824f1bf8, line=11
+    objecId=0x80003470, line=11
+
+Thread 0x824f38f0
+  at jdk.internal.misc.Unsafe.park(ZJ)V (Native Method)
+  at java.util.concurrent.locks.LockSupport.parkNanos(Ljava/lang/Object;J)V (Unknown Source)
+  at java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.awaitNanos(J)J (Unknown Source)
+  at java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take()Ljava/util/concurrent/RunnableScheduledFuture; (Unknown Source)
+  at java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take()Ljava/lang/Object; (Unknown Source)
+  at java.util.concurrent.ThreadPoolExecutor.getTask()Ljava/lang/Runnable; (Unknown Source)
+  at java.util.concurrent.ThreadPoolExecutor.runWorker(Ljava/util/concurrent/ThreadPoolExecutor$Worker;)V (Unknown Source)
+  at java.util.concurrent.ThreadPoolExecutor$Worker.run()V (Unknown Source)
+  at java.lang.Thread.runWith(Ljava/lang/Object;Ljava/lang/Runnable;)V (Unknown Source)
+  at java.lang.Thread.run()V (Unknown Source)
+
+  locals:
+    objecId=0x824f38f0, line=1
+    objecId=0x824f3968, line=2
+    objecId=0x8251e3a8, line=2
+    objecId=0x824f3980, line=3
+    objecId=0x824f39a0, line=3
+    objecId=0x824f38f0, line=3
+    objecId=0x824f39b0, line=5
+    objecId=0x824f39b0, line=6
+    objecId=0x824f3a00, line=6
+    objecId=0x824f38f0, line=6
+    objecId=0x824f3a00, line=7
+    objecId=0x824f38f0, line=8
+    objecId=0x80003470, line=8
+    objecId=0x824f3a00, line=8
+    objecId=0x824f38f0, line=9
+    objecId=0x824f3a00, line=9
+    objecId=0x80003470, line=9
+
+Thread 0x824f5868
+  at java.lang.Object.wait0(J)V (Native Method)
+  at java.lang.Object.wait(J)V (Unknown Source)
+  at org.eclipse.core.internal.jobs.WorkerPool.sleep(J)V (WorkerPool.java:205)
+  at org.eclipse.core.internal.jobs.WorkerPool.startJob(Lorg/eclipse/core/internal/jobs/Worker;)Lorg/eclipse/core/internal/jobs/InternalJob; (WorkerPool.java:248)
+  at org.eclipse.core.internal.jobs.Worker.run()V (Worker.java:58)
+
+  locals:
+    objecId=0x8094a010, line=2
+    objecId=0x8094a010, line=3
+    objecId=0x824f5868, line=3
+    objecId=0x8094a010, line=3
+    objecId=0x824f5868, line=4
+    objecId=0x824f5868, line=4
+
+Thread 0x8251c180
+  at sun.nio.ch.Net.poll(Ljava/io/FileDescriptor;IJ)I (Native Method)
+  at sun.nio.ch.NioSocketImpl.park(Ljava/io/FileDescriptor;IJ)V (Unknown Source)
+  at sun.nio.ch.NioSocketImpl.timedRead(Ljava/io/FileDescriptor;[BIIJ)I (Unknown Source)
+  at sun.nio.ch.NioSocketImpl.implRead([BII)I (Unknown Source)
+  at sun.nio.ch.NioSocketImpl.read([BII)I (Unknown Source)
+  at sun.nio.ch.NioSocketImpl$1.read([BII)I (Unknown Source)
+  at java.net.Socket$SocketInputStream.read([BII)I (Unknown Source)
+  at java.io.BufferedInputStream.fill()V (Unknown Source)
+  at java.io.BufferedInputStream.implRead()I (Unknown Source)
+  at java.io.BufferedInputStream.read()I (Unknown Source)
+  at java.io.FilterInputStream.read()I (Unknown Source)
+  at sun.rmi.transport.tcp.TCPTransport.handleMessages(Lsun/rmi/transport/Connection;Z)V (Unknown Source)
+  at sun.rmi.transport.tcp.TCPTransport$ConnectionHandler.run0()V (Unknown Source)
+  at sun.rmi.transport.tcp.TCPTransport$ConnectionHandler.lambda$run$0()Ljava/lang/Void; (Unknown Source)
+  at sun.rmi.transport.tcp.TCPTransport$ConnectionHandler$$Lambda+0x000001c44f787af0.run()Ljava/lang/Object; (Unknown Source)
+  at java.security.AccessController.executePrivileged(Ljava/security/PrivilegedAction;Ljava/security/AccessControlContext;Ljava/lang/Class;)Ljava/lang/Object; (Unknown Source)
+  at java.security.AccessController.doPrivileged(Ljava/security/PrivilegedAction;Ljava/security/AccessControlContext;)Ljava/lang/Object; (Unknown Source)
+  at sun.rmi.transport.tcp.TCPTransport$ConnectionHandler.run()V (Unknown Source)
+  at java.util.concurrent.ThreadPoolExecutor.runWorker(Ljava/util/concurrent/ThreadPoolExecutor$Worker;)V (Unknown Source)
+  at java.util.concurrent.ThreadPoolExecutor$Worker.run()V (Unknown Source)
+  at java.lang.Thread.runWith(Ljava/lang/Object;Ljava/lang/Runnable;)V (Unknown Source)
+  at java.lang.Thread.run()V (Unknown Source)
+
+  locals:
+    objecId=0x8251c220, line=2
+    objecId=0x8251c1f8, line=2
+    objecId=0x8251c270, line=2
+    objecId=0x8251c220, line=3
+    objecId=0x8251c220, line=4
+    objecId=0x8251e280, line=6
+    objecId=0x8251e298, line=7
+    objecId=0x8251e298, line=8
+    objecId=0x8251e298, line=9
+    objecId=0x824f1c18, line=11
+    objecId=0x8251e2c8, line=11
+    objecId=0x8251e300, line=11
+    objecId=0x825272b8, line=12
+    objecId=0x824f1c70, line=12
+    objecId=0x8251e280, line=12
+    objecId=0x8251e298, line=12
+    objecId=0x8251e320, line=12
+    objecId=0x82527318, line=12
+    objecId=0x8251f640, line=12
+    objecId=0x8251e340, line=12
+    objecId=0x82528dd8, line=12
+    objecId=0x82528da8, line=12
+    objecId=0x8251e2c8, line=12
+    objecId=0x8251e368, line=12
+    objecId=0x825272b8, line=13
+    objecId=0x8251e380, line=14
+    objecId=0x825095b8, line=15
+    objecId=0x824fefe8, line=15
+    objecId=0x825272b8, line=17
+    objecId=0x8251c180, line=17
+    objecId=0x8251e390, line=17
+    objecId=0x825083f0, line=18
+    objecId=0x82527568, line=18
+    objecId=0x8251c180, line=18
+    objecId=0x825272b8, line=18
+    objecId=0x82527568, line=19
+    objecId=0x8251c180, line=20
+    objecId=0x80003470, line=20
+    objecId=0x82527568, line=20
+    objecId=0x8251c180, line=21
+    objecId=0x82527568, line=21
+    objecId=0x80003470, line=21
+
+Thread 0x82521710
+  at com.sun.management.internal.OperatingSystemImpl.getProcessCpuLoad0()D (Native Method)
+  at com.sun.management.internal.OperatingSystemImpl.getProcessCpuLoad()D (Unknown Source)
+  at java.lang.invoke.LambdaForm$DMH+0x000001c44f7d6400.invokeInterface(Ljava/lang/Object;Ljava/lang/Object;)D (Unknown Source)
+  at java.lang.invoke.LambdaForm$MH+0x000001c44f7d7400.invoke(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object; (Unknown Source)
+  at java.lang.invoke.Invokers$Holder.invokeExact_MT(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object; (Unknown Source)
+  at jdk.internal.reflect.DirectMethodHandleAccessor.invokeImpl(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object; (Unknown Source)
+  at jdk.internal.reflect.DirectMethodHandleAccessor.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object; (Unknown Source)
+  at java.lang.reflect.Method.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object; (Unknown Source)
+  at sun.reflect.misc.Trampoline.invoke(Ljava/lang/reflect/Method;Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object; (Unknown Source)
+  at java.lang.invoke.DirectMethodHandle$Holder.invokeStatic(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object; (Unknown Source)
+  at java.lang.invoke.LambdaForm$MH+0x000001c44f711000.invoke(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object; (Unknown Source)
+  at java.lang.invoke.LambdaForm$MH+0x000001c44f01c800.invokeExact_MT(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object; (Unknown Source)
+  at jdk.internal.reflect.DirectMethodHandleAccessor.invokeImpl(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object; (Unknown Source)
+  at jdk.internal.reflect.DirectMethodHandleAccessor.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object; (Unknown Source)
+  at java.lang.reflect.Method.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object; (Unknown Source)
+  at sun.reflect.misc.MethodUtil.invoke(Ljava/lang/reflect/Method;Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object; (Unknown Source)
+  at com.sun.jmx.mbeanserver.ConvertingMethod.invokeWithOpenReturn(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object; (Unknown Source)
+  at com.sun.jmx.mbeanserver.ConvertingMethod.invokeWithOpenReturn(Lcom/sun/jmx/mbeanserver/MXBeanLookup;Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object; (Unknown Source)
+  at com.sun.jmx.mbeanserver.MXBeanIntrospector.invokeM2(Lcom/sun/jmx/mbeanserver/ConvertingMethod;Ljava/lang/Object;[Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object; (Unknown Source)
+  at com.sun.jmx.mbeanserver.MXBeanIntrospector.invokeM2(Ljava/lang/Object;Ljava/lang/Object;[Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object; (Unknown Source)
+  at com.sun.jmx.mbeanserver.MBeanIntrospector.invokeM(Ljava/lang/Object;Ljava/lang/Object;[Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object; (Unknown Source)
+  at com.sun.jmx.mbeanserver.PerInterface.getAttribute(Ljava/lang/Object;Ljava/lang/String;Ljava/lang/Object;)Ljava/lang/Object; (Unknown Source)
+  at com.sun.jmx.mbeanserver.MBeanSupport.getAttribute(Ljava/lang/String;)Ljava/lang/Object; (Unknown Source)
+  at javax.management.StandardMBean.getAttribute(Ljava/lang/String;)Ljava/lang/Object; (Unknown Source)
+  at com.sun.jmx.interceptor.DefaultMBeanServerInterceptor.getAttribute(Ljavax/management/ObjectName;Ljava/lang/String;)Ljava/lang/Object; (Unknown Source)
+  at com.sun.jmx.mbeanserver.JmxMBeanServer.getAttribute(Ljavax/management/ObjectName;Ljava/lang/String;)Ljava/lang/Object; (Unknown Source)
+  at javax.management.remote.rmi.RMIConnectionImpl.doOperation(I[Ljava/lang/Object;)Ljava/lang/Object; (Unknown Source)
+  at javax.management.remote.rmi.RMIConnectionImpl$PrivilegedOperation.run()Ljava/lang/Object; (Unknown Source)
+  at javax.management.remote.rmi.RMIConnectionImpl.doPrivilegedOperation(I[Ljava/lang/Object;Ljavax/security/auth/Subject;)Ljava/lang/Object; (Unknown Source)
+  at javax.management.remote.rmi.RMIConnectionImpl.getAttribute(Ljavax/management/ObjectName;Ljava/lang/String;Ljavax/security/auth/Subject;)Ljava/lang/Object; (Unknown Source)
+  at java.lang.invoke.LambdaForm$DMH+0x000001c44f7c4800.invokeInterface(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object; (Unknown Source)
+  at java.lang.invoke.LambdaForm$MH+0x000001c44f7c5800.invoke(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object; (Unknown Source)
+  at java.lang.invoke.LambdaForm$MH+0x000001c44f01c800.invokeExact_MT(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object; (Unknown Source)
+  at jdk.internal.reflect.DirectMethodHandleAccessor.invokeImpl(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object; (Unknown Source)
+  at jdk.internal.reflect.DirectMethodHandleAccessor.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object; (Unknown Source)
+  at java.lang.reflect.Method.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object; (Unknown Source)
+  at sun.rmi.server.UnicastServerRef.dispatch(Ljava/rmi/Remote;Ljava/rmi/server/RemoteCall;)V (Unknown Source)
+  at sun.rmi.transport.Transport$1.run()Ljava/lang/Void; (Unknown Source)
+  at sun.rmi.transport.Transport$1.run()Ljava/lang/Object; (Unknown Source)
+  at java.security.AccessController.executePrivileged(Ljava/security/PrivilegedExceptionAction;Ljava/security/AccessControlContext;Ljava/lang/Class;)Ljava/lang/Object; (Unknown Source)
+  at java.security.AccessController.doPrivileged(Ljava/security/PrivilegedExceptionAction;Ljava/security/AccessControlContext;)Ljava/lang/Object; (Unknown Source)
+  at sun.rmi.transport.Transport.serviceCall(Ljava/rmi/server/RemoteCall;)Z (Unknown Source)
+  at sun.rmi.transport.tcp.TCPTransport.handleMessages(Lsun/rmi/transport/Connection;Z)V (Unknown Source)
+  at sun.rmi.transport.tcp.TCPTransport$ConnectionHandler.run0()V (Unknown Source)
+  at sun.rmi.transport.tcp.TCPTransport$ConnectionHandler.lambda$run$0()Ljava/lang/Void; (Unknown Source)
+  at sun.rmi.transport.tcp.TCPTransport$ConnectionHandler$$Lambda+0x000001c44f787af0.run()Ljava/lang/Object; (Unknown Source)
+  at java.security.AccessController.executePrivileged(Ljava/security/PrivilegedAction;Ljava/security/AccessControlContext;Ljava/lang/Class;)Ljava/lang/Object; (Unknown Source)
+  at java.security.AccessController.doPrivileged(Ljava/security/PrivilegedAction;Ljava/security/AccessControlContext;)Ljava/lang/Object; (Unknown Source)
+  at sun.rmi.transport.tcp.TCPTransport$ConnectionHandler.run()V (Unknown Source)
+  at java.util.concurrent.ThreadPoolExecutor.runWorker(Ljava/util/concurrent/ThreadPoolExecutor$Worker;)V (Unknown Source)
+  at java.util.concurrent.ThreadPoolExecutor$Worker.run()V (Unknown Source)
+  at java.lang.Thread.runWith(Ljava/lang/Object;Ljava/lang/Runnable;)V (Unknown Source)
+  at java.lang.Thread.run()V (Unknown Source)
+
+  locals:
+    objecId=0x8248aea8, line=1
+    objecId=0x82519608, line=2
+    objecId=0x8248aea8, line=2
+    objecId=0x82519850, line=2
+    objecId=0x8248aea8, line=2
+    objecId=0x82518b88, line=3
+    objecId=0x8248aea8, line=3
+    objecId=0x82519978, line=3
+    objecId=0x8248aea8, line=3
+    objecId=0x82519608, line=3
+    objecId=0x82518b68, line=6
+    objecId=0x8246fb48, line=8
+    objecId=0x8248aea8, line=8
+    objecId=0x824f58e8, line=10
+    objecId=0x8246fb48, line=10
+    objecId=0x8248aea8, line=10
+    objecId=0x824f5918, line=10
+    objecId=0x824f5940, line=10
+    objecId=0x8246fb48, line=10
+    objecId=0x824f5968, line=10
+    objecId=0x824f5990, line=13
+    objecId=0x8246fb48, line=15
+    objecId=0x8248aea8, line=15
+    objecId=0x8246fb28, line=16
+    objecId=0x8248aea8, line=16
+    objecId=0x8246fb28, line=17
+    objecId=0x8248ad10, line=17
+    objecId=0x8248aea8, line=17
+    objecId=0x82445500, line=18
+    objecId=0x8246fb28, line=18
+    objecId=0x8248aea8, line=18
+    objecId=0x8248ad10, line=18
+    objecId=0x82445500, line=19
+    objecId=0x8246fb28, line=19
+    objecId=0x8248aea8, line=19
+    objecId=0x8248ad10, line=19
+    objecId=0x82445500, line=20
+    objecId=0x8246fb28, line=20
+    objecId=0x8248aea8, line=20
+    objecId=0x8248ad10, line=20
+    objecId=0x82469438, line=21
+    objecId=0x8248aea8, line=21
+    objecId=0x82521788, line=21
+    objecId=0x8248ad10, line=21
+    objecId=0x8246fb28, line=21
+    objecId=0x824a1978, line=22
+    objecId=0x82521788, line=22
+    objecId=0x824a1960, line=23
+    objecId=0x82521788, line=23
+    objecId=0x82444a58, line=24
+    objecId=0x825217a0, line=24
+    objecId=0x82521788, line=24
+    objecId=0x824a1960, line=24
+    objecId=0x824448e0, line=25
+    objecId=0x825217a0, line=25
+    objecId=0x82521788, line=25
+    objecId=0x8251e828, line=26
+    objecId=0x825217c0, line=26
+    objecId=0x825217d8, line=27
+    objecId=0x8251e828, line=28
+    objecId=0x825217c0, line=28
+    objecId=0x825217d8, line=28
+    objecId=0x8251e828, line=29
+    objecId=0x825217a0, line=29
+    objecId=0x82521788, line=29
+    objecId=0x825217c0, line=29
+    objecId=0x824ea728, line=30
+    objecId=0x8251e828, line=30
+    objecId=0x825217a0, line=30
+    objecId=0x82521788, line=30
+    objecId=0x824ea990, line=30
+    objecId=0x8251e828, line=30
+    objecId=0x824ea368, line=31
+    objecId=0x8251e828, line=31
+    objecId=0x825217a0, line=31
+    objecId=0x82521788, line=31
+    objecId=0x824ec5b0, line=31
+    objecId=0x825217a0, line=31
+    objecId=0x824eaa28, line=31
+    objecId=0x8251e828, line=31
+    objecId=0x824eaa00, line=31
+    objecId=0x82521788, line=31
+    objecId=0x824ea9d8, line=31
+    objecId=0x824ea728, line=31
+    objecId=0x824ea348, line=34
+    objecId=0x8251f050, line=36
+    objecId=0x8251e828, line=36
+    objecId=0x825217f0, line=36
+    objecId=0x82521818, line=36
+    objecId=0x82521818, line=36
+    objecId=0x824f47a8, line=36
+    objecId=0x82521860, line=36
+    objecId=0x82521880, line=36
+    objecId=0x825218a0, line=37
+    objecId=0x825218a0, line=38
+    objecId=0x8251f1e8, line=39
+    objecId=0x8250fac0, line=39
+    objecId=0x824f1c18, line=41
+    objecId=0x825217f0, line=41
+    objecId=0x8251e828, line=41
+    objecId=0x825218c0, line=41
+    objecId=0x824f1c18, line=41
+    objecId=0x8251e790, line=41
+    objecId=0x8251f050, line=41
+    objecId=0x8251f1e8, line=41
+    objecId=0x806a5340, line=41
+    objecId=0x824f1c18, line=42
+    objecId=0x825220f0, line=42
+    objecId=0x825218d8, line=42
+    objecId=0x825217f0, line=42
+    objecId=0x8251a7d8, line=43
+    objecId=0x824f1c70, line=43
+    objecId=0x8251a930, line=43
+    objecId=0x82522198, line=43
+    objecId=0x825218f8, line=43
+    objecId=0x8251a958, line=43
+    objecId=0x82524218, line=43
+    objecId=0x82521918, line=43
+    objecId=0x82522158, line=43
+    objecId=0x82522128, line=43
+    objecId=0x825220f0, line=43
+    objecId=0x82521940, line=43
+    objecId=0x8251a7d8, line=44
+    objecId=0x82521958, line=45
+    objecId=0x825095b8, line=46
+    objecId=0x824fefe8, line=46
+    objecId=0x8251a7d8, line=48
+    objecId=0x82521710, line=48
+    objecId=0x82521968, line=48
+    objecId=0x825083f0, line=49
+    objecId=0x825275d8, line=49
+    objecId=0x82521710, line=49
+    objecId=0x8251a7d8, line=49
+    objecId=0x825275d8, line=50
+    objecId=0x82521710, line=51
+    objecId=0x80003470, line=51
+    objecId=0x825275d8, line=51
+    objecId=0x82521710, line=52
+    objecId=0x825275d8, line=52
+    objecId=0x80003470, line=52
+
+Thread 0x82521ac8
+  at java.lang.Object.wait0(J)V (Native Method)
+  at java.lang.Object.wait(J)V (Unknown Source)
+  at com.sun.jmx.remote.internal.ServerCommunicatorAdmin$Timeout.run()V (Unknown Source)
+  at java.lang.Thread.runWith(Ljava/lang/Object;Ljava/lang/Runnable;)V (Unknown Source)
+  at java.lang.Thread.run()V (Unknown Source)
+
+  locals:
+    objecId=0x82521b50, line=2
+    objecId=0x82521b40, line=2
+    objecId=0x82521ac8, line=3
+    objecId=0x80003470, line=3
+    objecId=0x82521b50, line=3
+    objecId=0x82521ac8, line=4
+    objecId=0x82521b50, line=4
+    objecId=0x80003470, line=4
+

@@ -41,12 +41,12 @@
           </svg>
           分析
         </Button>
-        <Button variant="outline" @click="exportReport" :disabled="!filePath">
+        <!-- <Button variant="outline" @click="exportReport" :disabled="!filePath">
           <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
           </svg>
-          导出
-        </Button>
+          生成
+        </Button> -->
       </div>
     </div>
 
@@ -77,14 +77,14 @@
       <CardHeader>
         <div class="flex items-center justify-between">
           <CardTitle>类加载器泄漏分析</CardTitle>
-          <div class="flex items-center space-x-2">
+          <!-- <div class="flex items-center space-x-2">
             <Input
               v-model="searchQuery"
               type="text"
               placeholder="搜索类加载器名称..."
               class="w-64"
             />
-          </div>
+          </div> -->
         </div>
       </CardHeader>
       <CardContent>
@@ -100,7 +100,7 @@
           <div
             v-for="classLoader in filteredClassLoaders"
             :key="classLoader.classLoaderId"
-            class="border rounded-lg p-4 hover:bg-muted/50 transition-colors"
+            class="border rounded-lg p-4 hover:bg-muted/50 transition-colors max-h-[800px] overflow-y-auto"
           >
             <div class="flex items-start justify-between mb-3">
               <div class="flex-1">
