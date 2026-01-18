@@ -865,7 +865,7 @@ async function handlePidChange() {
   threadData.value = undefined
   
   // 启动新的轮询
-  startThreadPolling()
+  // startThreadPolling()
 }
 
 // 刷新进程列表
@@ -884,31 +884,31 @@ async function refreshProcesses() {
 }
 
 // 监听标签页可见性变化，暂停/恢复请求
-watch([isActive, isPaused], ([active, paused]) => {
-  if (!active || paused) {
-    // 标签页失活，暂停 EventSource
-    if (cpuEventSource) {
-      cpuEventSource.close()
-      cpuEventSource = null
-    }
-    if (memoryEventSource) {
-      memoryEventSource.close()
-      memoryEventSource = null
-    }
-    stopThreadPolling()
-  } else {
-    // 标签页激活，恢复请求
-    if (selectedPid.value) {
-      if (isCpuStarted.value) {
-        cpuStart()
-      }
-      if (isMemoryStarted.value) {
-        memoryStart()
-      }
-      startThreadPolling()
-    }
-  }
-})
+// watch([isActive, isPaused], ([active, paused]) => {
+//   if (!active || paused) {
+//     // 标签页失活，暂停 EventSource
+//     if (cpuEventSource) {
+//       cpuEventSource.close()
+//       cpuEventSource = null
+//     }
+//     if (memoryEventSource) {
+//       memoryEventSource.close()
+//       memoryEventSource = null
+//     }
+//     stopThreadPolling()
+//   } else {
+//     // 标签页激活，恢复请求
+//     if (selectedPid.value) {
+//       if (isCpuStarted.value) {
+//         cpuStart()
+//       }
+//       if (isMemoryStarted.value) {
+//         memoryStart()
+//       }
+//       startThreadPolling()
+//     }
+//   }
+// })
 
 // 监听selectedPid变化
 watch(selectedPid, (newPid, oldPid) => {

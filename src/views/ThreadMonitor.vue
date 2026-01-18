@@ -1,21 +1,29 @@
 <template>
   <div class="p-4 flex flex-col overflow-hidden">
-    <div class="flex items-center justify-between gap-2 mb-4 flex-shrink-0">
-      <h2 class="text-lg font-bold mb-4">线程监控</h2>
-      <div class="flex items-center justify-between gap-2 mb-4">
-        <Button variant="outline" size="sm" @click="getThreadDump">线程转储</Button>
-        <Checkbox v-model="showStateDistribution" label="线程可视化" />
-        <label for="showStateDistribution" class="flex items-center gap-2 cursor-pointer">
-          <span class="text-sm">显示状态分布</span>
-        </label>
-        <Switch v-model="isActive" label="自动刷新" />
-        <label for="isActive" class="flex items-center gap-2 cursor-pointer">
-          <span class="text-sm">自动刷新</span>
-        </label>
+    <!-- 未选择进程提示 -->
+    <div v-if="!processStore.currentProcess?.pid" class="flex-1 flex items-center justify-center">
+      <div class="text-center">
+        <p class="text-gray-500 dark:text-gray-400 mb-4">请选择进程后查看</p>
       </div>
     </div>
 
-    <!-- Loading状态 -->
+    <template v-else>
+      <div class="flex items-center justify-between gap-2 mb-4 flex-shrink-0">
+        <h2 class="text-lg font-bold mb-4">线程监控</h2>
+        <div class="flex items-center justify-between gap-2 mb-4">
+          <Button variant="outline" size="sm" @click="getThreadDump">线程转储</Button>
+          <Checkbox v-model="showStateDistribution" label="线程可视化" />
+          <label for="showStateDistribution" class="flex items-center gap-2 cursor-pointer">
+            <span class="text-sm">显示状态分布</span>
+          </label>
+          <Switch v-model="isActive" label="自动刷新" />
+          <label for="isActive" class="flex items-center gap-2 cursor-pointer">
+            <span class="text-sm">自动刷新</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Loading状态 -->
     <div v-if="loading" class="flex-1 flex items-center justify-center">
       <div class="flex flex-col items-center gap-4">
         <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
@@ -252,13 +260,14 @@
         <div class="flex items-center gap-1" v-for="[state] in Object.entries(stats?.stateDistributionPercent || {})" :key="state"><span class="h-3 w-5 rounded" :class="getStateColor(state)"></span>{{ getStateDisplayName(state) }}</div>
       </div>
     </div>
-    <!-- 空状态 -->
-    <div v-if="!loading && !hasStats" class="flex-1 flex items-center justify-center">
-      <div class="text-center">
-        <p class="text-gray-500 dark:text-gray-400 mb-4">暂无线程数据</p>
-        <Button variant="outline" size="sm" @click="getThreadListFn">刷新</Button>
+      <!-- 空状态 -->
+      <div v-if="!loading && !hasStats" class="flex-1 flex items-center justify-center">
+        <div class="text-center">
+          <p class="text-gray-500 dark:text-gray-400 mb-4">{{resMsg || '暂无线程数据'}}</p>
+          <Button variant="outline" size="sm" @click="getThreadListFn">刷新</Button>
+        </div>
       </div>
-    </div>
+    </template>
   </div>
 </template>
 
@@ -386,6 +395,7 @@ function searchThreadFn() {
   threads.value = threads.value.filter(thread => thread.threadName.includes(searchThreadName.value))
 }
 
+let resMsg = ref()
 // 获取线程列表数据（可控是否展示loading）
 async function getThreadListFn(showLoading: boolean = true) {
   const pid = processStore.currentProcess?.pid
@@ -394,6 +404,7 @@ async function getThreadListFn(showLoading: boolean = true) {
   if (showLoading) loading.value = true
   try {
     const response = await threadApi.getThreadList(pid)
+    resMsg.value = response.msg
     if (response.areSuccess && response.data) {
       stats.value = response.data.stats
       threads.value = response.data.threads

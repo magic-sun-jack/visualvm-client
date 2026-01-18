@@ -14,24 +14,6 @@
           </RouterLink>
         </div>
 
-        <!-- 导航菜单 -->
-        <nav class="hidden lg:flex items-center space-x-1 mr-4">
-          <RouterLink
-            v-for="item in mainNavigationItems"
-            :key="item.path"
-            :to="item.path"
-            :class="[
-              'flex items-center gap-2 px-3 py-2 text-sm font-medium rounded-md transition-colors',
-              isRouteActive(item.path)
-                ? 'bg-accent text-accent-foreground'
-                : 'text-muted-foreground hover:bg-accent hover:text-accent-foreground'
-            ]"
-          >
-            <component v-if="item.icon" :is="item.icon" class="h-4 w-4" />
-            <span>{{ item.title }}</span>
-          </RouterLink>
-        </nav>
-
         <!-- 搜索栏 -->
         <!-- <div class="hidden md:block">
           <SearchBar :navigation-items="flatNavigationItems" />
@@ -81,48 +63,12 @@
           <MobileNav :navigation-items="flatNavigationItems" />
         </div>
       </div>
-
-      <!-- 第二行：Tab栏 -->
-      <div v-if="tabsStore.hasTabs" class="w-full border-t bg-background/95">
-        <div class="flex items-center gap-1 px-2 overflow-x-auto">
-          <div
-            v-for="tab in tabsStore.tabs"
-            :key="tab.id"
-            @click="switchToTab(tab.id)"
-            :class="[
-              'group flex items-center gap-2 px-3 py-2 text-sm rounded-t-md transition-colors cursor-pointer min-w-0',
-              tabsStore.activeTabId === tab.id
-                ? 'bg-background border-t border-l border-r text-foreground'
-                : 'bg-muted/50 hover:bg-muted text-muted-foreground'
-            ]"
-          >
-            <Badge 
-              :variant="tab.isRemote ? 'destructive' : 'outline'" 
-              class="text-xs shrink-0"
-            >
-              {{ tab.isRemote ? '远程' : '本地' }}
-            </Badge>
-            <span class="truncate max-w-[200px]">{{ tab.displayName }}</span>
-            <button
-              @click.stop="closeTab(tab.id)"
-              class="opacity-0 group-hover:opacity-100 transition-opacity ml-1 hover:bg-destructive/10 rounded p-0.5"
-            >
-              <svg class="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-              </svg>
-            </button>
-          </div>
-        </div>
-      </div>
     </header>
 
     <div class="flex">
       <!-- 侧边栏 - 进程列表 -->
       <aside
-        :class="[
-          'sidebar-fixed hidden lg:block fixed left-0 w-80 border-r bg-muted/40 overflow-y-auto z-40',
-          tabsStore.hasTabs ? 'top-[6rem] h-[calc(100vh-6rem)]' : 'top-14 h-[calc(100vh-3.5rem)]'
-        ]"
+        class="sidebar-fixed hidden lg:block fixed left-0 w-80 border-r bg-muted/40 overflow-y-auto z-40 top-14 h-[calc(100vh-3.5rem)]"
       >
         <div class="p-4 space-y-4">
           <!-- 标题和刷新按钮 -->
@@ -230,11 +176,66 @@
       </aside>
 
       <!-- 主内容区域 -->
-      <main class="flex-1 p-2 lg:ml-80 transition-all duration-300" style="max-width: calc(100% - 20rem);">
+      <main v-if="tabsStore.hasTabs" class="flex-1 lg:ml-80 transition-all duration-300" style="max-width: calc(100% - 20rem);">
+        <!-- Tab栏 -->
+        <div class="w-full border-b bg-background/95">
+          <div class="flex items-center gap-1 px-2 overflow-x-auto">
+            <div
+              v-for="tab in tabsStore.tabs"
+              :key="tab.id"
+              @click="switchToTab(tab.id)"
+              :class="[
+                'group flex items-center gap-2 px-3 py-2 text-sm rounded-t-md transition-colors cursor-pointer min-w-0',
+                tabsStore.activeTabId === tab.id
+                  ? 'bg-background border-t border-l border-r text-foreground'
+                  : 'bg-muted/50 hover:bg-muted text-muted-foreground'
+              ]"
+            >
+              <Badge 
+                :variant="tab.isRemote ? 'destructive' : 'outline'" 
+                class="text-xs shrink-0"
+              >
+                {{ tab.isRemote ? '远程' : '本地' }}
+              </Badge>
+              <span class="truncate max-w-[200px]">{{ tab.displayName }}</span>
+              <button
+                @click.stop="closeTab(tab.id)"
+                class="opacity-0 group-hover:opacity-100 transition-opacity ml-1 hover:bg-destructive/10 rounded p-0.5"
+              >
+                <svg class="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 导航菜单 -->
+        <nav class="w-full border-b bg-background/95 px-2 py-2">
+          <div class="flex items-center space-x-1">
+            <RouterLink
+              v-for="item in mainNavigationItems"
+              :key="item.path"
+              :to="item.path"
+              :class="[
+                'flex items-center gap-2 px-3 py-2 text-sm font-medium rounded-md transition-colors',
+                isRouteActive(item.path)
+                  ? 'bg-accent text-accent-foreground'
+                  : 'text-muted-foreground hover:bg-accent hover:text-accent-foreground'
+              ]"
+            >
+              <component v-if="item.icon" :is="item.icon" class="h-4 w-4" />
+              <span>{{ item.title }}</span>
+            </RouterLink>
+          </div>
+        </nav>
+        
         <!-- <Breadcrumb /> -->
-        <RouterView v-if="tabsStore.hasTabs && tabsStore.activeTab" :key="`${tabsStore.activeTab.pid}-${tabsStore.activeTab.isRemote}`" />
-        <div v-else>
-          <slot />
+        <div class="p-2">
+          <RouterView v-if="tabsStore.hasTabs && tabsStore.activeTab" :key="`${tabsStore.activeTab.pid}-${tabsStore.activeTab.isRemote}`" />
+          <div v-else>
+            <slot />
+          </div>
         </div>
       </main>
     </div>
@@ -255,7 +256,6 @@ import { useTabsStore } from '@/stores/tabs'
 import type { JavaProcessListDetail } from '@/types'
 import { Button } from '@/components/ui'
 import MobileNav from '@/components/MobileNav.vue'
-import SearchBar from '@/components/SearchBar.vue'
 import ThemeToggle from '@/components/ThemeToggle.vue'
 import ProcessConnectDialog from '@/components/ProcessConnectDialog.vue'
 import {
