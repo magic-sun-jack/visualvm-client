@@ -448,7 +448,7 @@ async function generateAndAnalyzeHeapDump() {
     console.log(`开始生成 heap dump，PID: ${pid}, 输出目录: ${outputPath || '默认'}`)
     const generateResponse = await memoryApi.exportHeapDump({
       pid: pid.toString(),
-      output: String.raw`outputPath` // 使用 resources 目录作为输出路径
+      output: String.raw`${outputPath}` // 使用 resources 目录作为输出路径
     })
 
     if (!generateResponse.areSuccess) {
