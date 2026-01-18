@@ -650,6 +650,9 @@ const isLoadingDetails = ref(false)
 const isInitializingFromUrl = ref(false) // 标志：是否正在从 URL 初始化
 const isLoadingJvmArgs = ref(false)
 const isLoadingSysProps = ref(false)
+const isHandlingPidChange = ref(false) // 标志：是否正在处理 PID 变化
+const currentHandlingPid = ref<string | null>(null) // 当前正在处理的 PID
+const pendingOverviewRequest = ref<Promise<any> | null>(null) // 正在进行的概览请求
 
 // 错误状态
 const errorMessage = ref<string>('')
@@ -847,25 +850,57 @@ function stopThreadPolling() {
   }
 }
 
-// 处理PID变化
+// 处理PID变化（带请求去重）
 async function handlePidChange() {
-  // 先停止旧的轮询
-  stopThreadPolling()
+  const pid = selectedPid.value
+  if (!pid) return
   
-  // 根据进程的 isRemote 属性设置远程连接状态
-  const process = availableProcesses.value.find(p => p.pid === selectedPid.value)
-  if (process) {
-    processStore.setRemoteConnection(process.isRemote || false)
+  // 如果正在处理相同的 PID，直接返回
+  if (isHandlingPidChange.value && currentHandlingPid.value === pid) {
+    return
   }
   
-  await getSaveDataFn(selectedPid.value)
-  await getDetailInfoEnabled(selectedPid.value)
-  cpuStart()
-  memoryStart()
-  threadData.value = undefined
+  // 如果正在处理不同的 PID，等待完成
+  if (isHandlingPidChange.value) {
+    // 等待当前请求完成
+    while (isHandlingPidChange.value) {
+      await new Promise(resolve => setTimeout(resolve, 50))
+    }
+    // 如果处理完成后 PID 已经变化，不再处理
+    if (selectedPid.value !== pid) {
+      return
+    }
+  }
   
-  // 启动新的轮询
-  // startThreadPolling()
+  // 设置处理标志
+  isHandlingPidChange.value = true
+  currentHandlingPid.value = pid
+  
+  try {
+    // 先停止旧的轮询
+    stopThreadPolling()
+    
+    // 根据进程的 isRemote 属性设置远程连接状态
+    const process = availableProcesses.value.find(p => p.pid === pid)
+    if (process) {
+      processStore.setRemoteConnection(process.isRemote || false)
+    }
+    
+    await getSaveDataFn(pid)
+    await getDetailInfoEnabled(pid)
+    cpuStart()
+    memoryStart()
+    threadData.value = undefined
+    
+    // 启动新的轮询
+    // startThreadPolling()
+  } finally {
+    // 清除处理标志
+    isHandlingPidChange.value = false
+    if (currentHandlingPid.value === pid) {
+      currentHandlingPid.value = null
+    }
+  }
 }
 
 // 刷新进程列表
@@ -912,7 +947,11 @@ async function refreshProcesses() {
 
 // 监听selectedPid变化
 watch(selectedPid, (newPid, oldPid) => {
-  if (newPid && !shouldPause()) {
+  // 如果正在从 URL 初始化，不处理
+  if (isInitializingFromUrl.value) {
+    return
+  }
+  if (newPid && !shouldPause() && newPid !== oldPid) {
     handlePidChange()
   }
   if (oldPid && oldPid !== newPid) {
@@ -961,15 +1000,23 @@ watch(() => availableProcesses.value, (newProcesses) => {
   if (isInitializingFromUrl.value || route.query.pid) {
     return
   }
+  // 如果正在处理 PID 变化，不自动设置
+  if (isHandlingPidChange.value) {
+    return
+  }
   if (newProcesses.length > 0 && !selectedPid.value) {
     selectedPid.value = newProcesses[0].pid.toString()
   }
-}, { immediate: true })
+}, { immediate: false })
 
 // 监听当前进程变化，当连接新进程时自动更新数据（仅在无 URL 参数时）
 watch(() => processStore.currentProcess, (newProcess) => {
   // 如果正在从 URL 初始化或 URL 中有 pid 参数，不自动更新（优先使用 URL 参数）
   if (isInitializingFromUrl.value || route.query.pid) {
+    return
+  }
+  // 如果正在处理 PID 变化，不自动更新
+  if (isHandlingPidChange.value) {
     return
   }
   if (newProcess?.pid) {
@@ -980,7 +1027,7 @@ watch(() => processStore.currentProcess, (newProcess) => {
       handlePidChange()
     }
   }
-}, { immediate: true })
+}, { immediate: false })
 
 const cpuData = ref()
 let cpuEventSource: EventSource | null = null
@@ -1154,6 +1201,11 @@ watch([() => route.query, () => route.path], ([query, path]) => {
     const pid = query.pid.toString()
     const isRemote = query.remote === 'true'
     
+    // 如果 PID 没有变化，且已经在处理中，直接返回
+    if (selectedPid.value === pid && (isHandlingPidChange.value || pendingOverviewRequest.value)) {
+      return
+    }
+    
     // 设置标志，防止其他 watch 干扰
     isInitializingFromUrl.value = true
     
@@ -1164,30 +1216,38 @@ watch([() => route.query, () => route.path], ([query, path]) => {
     // 立即更新 selectedPid，确保 UI 响应
     selectedPid.value = pid
     
-    // 获取进程详情
-    if (isRemote) {
-      processStore.getRemoteOverview(pid).then(() => {
-        // 延迟执行 handlePidChange，确保数据已加载
-        setTimeout(() => {
-          if (!shouldPause()) {
-            handlePidChange()
-          }
-          // 初始化完成，清除标志
-          isInitializingFromUrl.value = false
-        }, 100)
+    // 如果已经有相同的请求在进行，等待它完成
+    if (pendingOverviewRequest.value) {
+      pendingOverviewRequest.value.then(() => {
+        if (selectedPid.value === pid && !shouldPause()) {
+          handlePidChange()
+        }
+        isInitializingFromUrl.value = false
       })
-    } else {
-      processStore.getLocalOverview(pid).then(() => {
-        // 延迟执行 handlePidChange，确保数据已加载
-        setTimeout(() => {
-          if (!shouldPause()) {
-            handlePidChange()
-          }
-          // 初始化完成，清除标志
-          isInitializingFromUrl.value = false
-        }, 100)
-      })
+      return
     }
+    
+    // 获取进程详情（带请求去重）
+    const overviewPromise = isRemote 
+      ? processStore.getRemoteOverview(pid)
+      : processStore.getLocalOverview(pid)
+    
+    pendingOverviewRequest.value = overviewPromise
+    
+    overviewPromise.then(() => {
+      pendingOverviewRequest.value = null
+      // 延迟执行 handlePidChange，确保数据已加载
+      setTimeout(() => {
+        if (selectedPid.value === pid && !shouldPause()) {
+          handlePidChange()
+        }
+        // 初始化完成，清除标志
+        isInitializingFromUrl.value = false
+      }, 100)
+    }).catch(() => {
+      pendingOverviewRequest.value = null
+      isInitializingFromUrl.value = false
+    })
   } else {
     isInitializingFromUrl.value = false
   }
@@ -1267,35 +1327,9 @@ onMounted(async () => {
     return
   }
   
-  // 强制使用 URL 参数中的进程信息（新标签页优先）
-  if (route.query.pid) {
-    const pid = route.query.pid.toString()
-    const isRemote = route.query.remote === 'true'
-    
-    // 设置标志，防止其他 watch 干扰
-    isInitializingFromUrl.value = true
-    
-    // 立即设置状态，确保 UI 响应
-    selectedPid.value = pid
-    processStore.setRemoteConnection(isRemote)
-    
-    // 强制获取进程详情，忽略 store 中可能存在的其他进程信息
-    if (isRemote) {
-      await processStore.getRemoteOverview(pid)
-    } else {
-      await processStore.getLocalOverview(pid)
-    }
-    
-    // 延迟执行 handlePidChange，确保数据已加载
-    setTimeout(() => {
-      if (!shouldPause()) {
-        handlePidChange()
-      }
-      // 初始化完成，清除标志
-      isInitializingFromUrl.value = false
-    }, 100)
-  } else {
-    // 只有在没有 URL 参数时才使用 store 中的 currentProcess
+  // 如果 URL 中有 pid，watch 已经处理了，这里不需要重复处理
+  // 只有在没有 URL 参数时才使用 store 中的 currentProcess
+  if (!route.query.pid) {
     if (processStore.currentProcess?.pid) {
       selectedPid.value = processStore.currentProcess.pid.toString()
     } else if (availableProcesses.value.length > 0) {
