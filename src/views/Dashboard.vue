@@ -1062,7 +1062,9 @@ async function cpuStart() {
   
   // 使用正确的 API 基础 URL 来创建 EventSource
   const baseUrl = resolveApiBaseUrl()
-  const eventSourceUrl = `${baseUrl}/cvm/cpu/stream?pid=${selectedPid.value}&refreshPeriod=${5000}`
+  const eventSourceUrl = processStore.isRemoteConnection
+    ? `${baseUrl}/cvm/remote/cpu/stream?id=${selectedPid.value}&refreshPeriod=${5000}`
+    : `${baseUrl}/cvm/cpu/stream?pid=${selectedPid.value}&refreshPeriod=${5000}`
   cpuEventSource = new EventSource(eventSourceUrl)
   cpuEventSource.onmessage = (event) => {
     // 如果标签页失活，不处理数据
@@ -1137,7 +1139,9 @@ async function memoryStart() {
   }
   
   const baseUrl = resolveApiBaseUrl()
-  const eventSourceUrl = `${baseUrl}/cvm/memory/stream?pid=${selectedPid.value}&refreshPeriod=${5000}`
+  const eventSourceUrl = processStore.isRemoteConnection
+    ? `${baseUrl}/cvm/remote/memory/stream?id=${selectedPid.value}&refreshPeriod=${5000}`
+    : `${baseUrl}/cvm/memory/stream?pid=${selectedPid.value}&refreshPeriod=${5000}`
   memoryEventSource = new EventSource(eventSourceUrl)
   memoryEventSource.onmessage = (event) => {
     // 如果标签页失活，不处理数据

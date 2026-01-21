@@ -3,7 +3,6 @@ import type {
   JavaProcessInfo, 
   DatabaseCall, 
   RMICall, 
-  MemoryLeakResult, 
   ThreadInfo,
   SystemOverview,
   PaginationParams,
@@ -11,9 +10,7 @@ import type {
   ApiResponse,
   JavaProcessDetail,
   JavaProcessListDetail,
-  CpuStream,
   GCStatsInfo,
-  ThreadListData,
   ThreadListResponse,
   RemoteProcess
 } from '@/types'
@@ -81,7 +78,7 @@ api.interceptors.request.use(
       }
     } catch {}
 
-    // 远程连接时，在 /cvm 后添加 /remote，并将 pid 参数改为 id（排除 ProcessConnectDialog 中的接口）
+    // 远程连接时，将 /cvm/... 改写为 /cvm/remote/...，并将 pid 参数改为 id（排除 ProcessConnectDialog 中的接口）
     try {
       const urlPath = (config.url || '').toString()
       // 需要排除的接口（ProcessConnectDialog 中使用的接口）
@@ -95,8 +92,9 @@ api.interceptors.request.use(
       // 检查是否是排除的接口
       const isExcluded = excludedPaths.some(path => urlPath.includes(path))
       
-      // 如果是远程连接且不是排除的接口，且路径包含 /cvm
-      if (!isExcluded && urlPath.includes('/cvm')) {
+      // 如果是远程连接且不是排除的接口，且路径包含 /cvm，但还未是 /cvm/remote（避免二次改写）
+      const isAlreadyRemotePath = urlPath.includes('/cvm/remote')
+      if (!isExcluded && urlPath.includes('/cvm') && !isAlreadyRemotePath) {
         try {
           const processStore = useProcessStore()
           if (processStore.isRemoteConnection) {
@@ -146,6 +144,15 @@ api.interceptors.request.use(
   }
 )
 
+function getIsRemoteConnection(): boolean {
+  try {
+    const processStore = useProcessStore()
+    return !!processStore.isRemoteConnection
+  } catch {
+    return false
+  }
+}
+
 // 响应拦截器
 api.interceptors.response.use(
   (response) => {
@@ -192,6 +199,9 @@ export const processApi = {
     const params: any = { host, port }
     if (username) params.username = username
     if (password) params.password = password
+    // 兼容可选参数（后端支持则透传）
+    if (authenticate !== undefined) params.authenticate = authenticate
+    if (ssl !== undefined) params.ssl = ssl
     return api.get(`/cvm/remote/addRemote`, { params })
   },
   // 获取远程进程
@@ -206,7 +216,7 @@ export const processApi = {
   },
 
   // 停止进程
-  async stopProcess(id: string): Promise<ApiResponse<void>> {
+  async stopProcess(_id: string): Promise<ApiResponse<void>> {
     return {
       areSuccess: false,
       success: false,
@@ -214,7 +224,7 @@ export const processApi = {
       msg: '接口不存在',
       data: undefined
     }
-    // return api.post(`/cvm/processes/${id}/stop`)
+    // return api.post(`/cvm/processes/${_id}/stop`)
   },
 
   // 重启进程
@@ -287,6 +297,7 @@ export const memoryApi = {
     filterType?: string; // 过滤类型，include或exclude
     filter?: string[]; // 场景过滤
   }): Promise<ApiResponse<any>> {
+    if (getIsRemoteConnection()) return remoteApi.startRemoteMemory(pid, refresh, (filterType as any) || 'include', filter)
     // 优先从全局 store 读取 refreshPeriod，如果没有则使用传入的参数或默认值
     let finalRefresh = refresh
     let finalFilterType = filterType
@@ -317,6 +328,7 @@ export const memoryApi = {
   async getMemoryAnalysisData(
     pid: string
   ): Promise<ApiResponse<any>> {
+    if (getIsRemoteConnection()) return remoteApi.getRemoteMemoryStream(pid)
     // totalClasses	类总数
     // totalInstances	实例总数
     // totalBytes	字节总数
@@ -330,6 +342,7 @@ export const memoryApi = {
 
   // 停止pid进程内存分析
   async stopMemory(pid: string): Promise<ApiResponse<any>> {
+    if (getIsRemoteConnection()) return remoteApi.stopRemoteMemory(pid)
     return api.post(`/cvm/memory/stop?pid=${pid}`)
   },
 
@@ -352,6 +365,7 @@ export const memoryApi = {
 export const gcApi = {
   // 获取GC监控数据
   async getGCStats(pid: string): Promise<ApiResponse<GCStatsInfo>> {
+    if (getIsRemoteConnection()) return remoteApi.getRemoteGC(pid)
     return api.get('/cvm/gc/getGC', { params: { pid: pid }})
   }
 };
@@ -360,11 +374,13 @@ export const gcApi = {
 export const threadApi = {
   // 获取pid线程列表
   async getThreadList(pid: string): Promise<ThreadListResponse> {
+    if (getIsRemoteConnection()) return remoteApi.getRemoteThreads(pid)
     return api.get(`/cvm/thread/monitorThreads`, { params: { pid } })
   },
 
   // 获取pid线程分析Tree（死锁等信息）
   async getTheradTree(pid: string): Promise<ApiResponse<any>> {
+    if (getIsRemoteConnection()) return remoteApi.getRemoteThreadTree(pid)
     return api.get(`/cvm/thread/getThreadTree`, { params: { pid } })
     // totalThreads	线程总数
     // deadlockedCount	死锁线程数
@@ -381,6 +397,7 @@ export const threadApi = {
 
   // 获取pid线程dump信息
   async getThreadDump(pid: string): Promise<ApiResponse<any>> {
+    if (getIsRemoteConnection()) return remoteApi.getRemoteDump(pid)
     return api.get(`/cvm/thread/dump`, { params: { pid: pid } })
   }
 }
@@ -506,6 +523,7 @@ export const scenarioApi = {
 
 export const cpuApi = {
   async startCpuProfiling(pid: string, refreshPeriod?: number, filterType?: string, filter?: string[]): Promise<ApiResponse<void>> {
+    if (getIsRemoteConnection()) return remoteApi.startRemoteCpu(pid, refreshPeriod, (filterType as any) || 'include', filter)
     // 优先从全局 store 读取 refreshPeriod，如果没有则使用传入的参数或默认值
     let finalRefreshPeriod = refreshPeriod
     let finalFilterType = filterType
@@ -531,6 +549,7 @@ export const cpuApi = {
   },
 
   async stopCpuProfiling(pid: string): Promise<ApiResponse<void>> {
+    if (getIsRemoteConnection()) return remoteApi.stopRemoteCpu(pid)
     return api.post(`/cvm/cpu/stop?pid=${pid}`)
   },
 }

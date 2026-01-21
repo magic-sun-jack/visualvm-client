@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import { ref, computed, onUnmounted } from 'vue'
 import type { JavaProcessListDetail, JavaProcessDetail, RemoteProcess } from '@/types'
-import { processApi } from '@/api'
+import { processApi, remoteApi } from '@/api'
 import { ReconnectingWebSocketClient } from '@/lib/ws'
 
 interface Process extends JavaProcessListDetail {
@@ -157,8 +157,7 @@ export const useProcessStore = defineStore('process', () => {
       error.value = null
       // 设置远程连接状态为 true
       setRemoteConnection(true)
-      // 远程进程使用 id 参数，API 拦截器会自动处理路径转换
-      const response = await processApi.getProcessLocalOverview(id)
+      const response = await remoteApi.getRemoteOverview(id)
       if (response.areSuccess) {
         const processDetail: ProcessDetail = {
           ...response.data,
