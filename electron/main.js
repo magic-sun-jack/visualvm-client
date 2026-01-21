@@ -13,6 +13,64 @@ const isDev = process.env.NODE_ENV === 'development'
 
 let mainWindow
 let javaProcess = null
+let isQuitting = false
+
+function isProcessRunning(proc) {
+  if (!proc) return false
+  return proc.exitCode === null && !proc.killed
+}
+
+function stopJavaServiceAndWait({ timeoutMs = 10_000, forceKillAfterMs = 5_000 } = {}) {
+  if (!javaProcess) return Promise.resolve()
+
+  const currentProcess = javaProcess
+
+  return new Promise((resolve) => {
+    let hasResolved = false
+
+    function safeResolve() {
+      if (hasResolved) return
+      hasResolved = true
+      resolve()
+    }
+
+    function cleanupProcessRef() {
+      if (javaProcess === currentProcess) javaProcess = null
+    }
+
+    currentProcess.once('exit', (code) => {
+      console.log(`Java服务已停止，退出码: ${code}`)
+      cleanupProcessRef()
+      safeResolve()
+    })
+
+    try {
+      console.log('正在停止Java服务...')
+      currentProcess.kill('SIGTERM')
+    } catch (error) {
+      console.error('停止Java服务时出错:', error)
+      cleanupProcessRef()
+      safeResolve()
+      return
+    }
+
+    setTimeout(() => {
+      if (!isProcessRunning(currentProcess)) return
+      try {
+        console.log('强制停止Java服务...')
+        currentProcess.kill('SIGKILL')
+      } catch (error) {
+        console.error('强制停止Java服务时出错:', error)
+      }
+    }, forceKillAfterMs)
+
+    setTimeout(() => {
+      // 兜底：无论子进程是否已退出，都放行主进程退出，避免卡死
+      cleanupProcessRef()
+      safeResolve()
+    }, timeoutMs)
+  })
+}
 
 function createWindow() {
   // 创建浏览器窗口
@@ -289,26 +347,20 @@ function stopJavaService() {
 
 // 在应用退出前清理
 app.on('before-quit', (event) => {
-  console.log('Electron应用即将退出，正在停止Java服务...')
-  stopJavaService()
-  
-  // 等待Java服务停止后再退出
-  if (javaProcess) {
-    event.preventDefault()
-    
-    const checkInterval = setInterval(() => {
-      if (!javaProcess || javaProcess.killed) {
-        clearInterval(checkInterval)
-        app.quit()
-      }
-    }, 100)
-    
-    // 最多等待10秒
-    setTimeout(() => {
-      clearInterval(checkInterval)
-      app.quit()
-    }, 10000)
-  }
+  if (isQuitting) return
+  isQuitting = true
+
+  if (!isProcessRunning(javaProcess)) return
+
+  console.log('Electron应用即将退出，正在停止Java服务并等待退出...')
+  event.preventDefault()
+
+  stopJavaServiceAndWait({ timeoutMs: 10_000, forceKillAfterMs: 5_000 })
+    .catch((error) => console.error('等待Java服务退出时出错:', error))
+    .finally(() => {
+      // 使用 exit 避免再次触发 before-quit 导致循环
+      app.exit(0)
+    })
 })
 
 // 设置 IPC 通信

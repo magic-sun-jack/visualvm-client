@@ -238,6 +238,13 @@
           </div>
         </div>
       </main>
+      <div class="w-full bg-background/95" v-else>
+        <div class="flex items-center justify-center h-full">
+          <div class="text-center text-sm text-muted-foreground">
+            <p class="text-lg font-semibold mt-10">请选择进程或连接远程进程</p>
+          </div>
+        </div>
+      </div>
     </div>
 
     <!-- 进程连接对话框 -->
