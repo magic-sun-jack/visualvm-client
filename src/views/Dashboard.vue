@@ -951,9 +951,8 @@ watch(selectedPid, (newPid, oldPid) => {
   if (isInitializingFromUrl.value) {
     return
   }
-  if (newPid && !shouldPause() && newPid !== oldPid) {
-    handlePidChange()
-  }
+  // 重要：这里不要触发 handlePidChange。
+  // 数据加载的唯一入口是下面的 route.query watch（带 overview 请求去重）。
   if (oldPid && oldPid !== newPid) {
     // PID 变化时，停止之前的内存分析
     if (isMemoryStarted.value) {
@@ -1005,29 +1004,14 @@ watch(() => availableProcesses.value, (newProcesses) => {
     return
   }
   if (newProcesses.length > 0 && !selectedPid.value) {
-    selectedPid.value = newProcesses[0].pid.toString()
+    const first = newProcesses[0]
+    // 以路由为准：写入 query 后由 route watch 统一拉取 overview + handlePidChange
+    router.replace({ path: '/dashboard', query: { pid: first.pid.toString(), remote: (first.isRemote || false).toString() } })
   }
 }, { immediate: false })
 
-// 监听当前进程变化，当连接新进程时自动更新数据（仅在无 URL 参数时）
-watch(() => processStore.currentProcess, (newProcess) => {
-  // 如果正在从 URL 初始化或 URL 中有 pid 参数，不自动更新（优先使用 URL 参数）
-  if (isInitializingFromUrl.value || route.query.pid) {
-    return
-  }
-  // 如果正在处理 PID 变化，不自动更新
-  if (isHandlingPidChange.value) {
-    return
-  }
-  if (newProcess?.pid) {
-    const newPid = newProcess.pid.toString()
-    // 如果 pid 发生变化，更新 selectedPid 并重新获取数据
-    if (selectedPid.value !== newPid) {
-      selectedPid.value = newPid
-      handlePidChange()
-    }
-  }
-}, { immediate: false })
+// 注意：不要基于 processStore.currentProcess 触发数据加载。
+// currentProcess 的更新本身来自 overview 请求；再 watch 它会形成重复触发。
 
 const cpuData = ref()
 let cpuEventSource: EventSource | null = null

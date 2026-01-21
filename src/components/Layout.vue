@@ -351,24 +351,9 @@ async function selectProcess(process: JavaProcessListDetail) {
   
   // 添加或切换到对应的tab
   tabsStore.addTab(process)
-  
-  // 设置远程连接状态
-  processStore.setRemoteConnection(isRemote)
-  
-  // 获取进程详情
-  if (isRemote) {
-    await processStore.getRemoteOverview(process.pid)
-  } else {
-    await processStore.getLocalOverview(process.pid)
-  }
-  // 导航到概览页面（用于RouterView）
-  router.push({
-    path: '/dashboard',
-    query: {
-      pid: process.pid,
-      remote: isRemote.toString()
-    }
-  })
+  // 注意：不要在这里请求 overview。
+  // 原因：addTab 会触发 activeTab watch，Dashboard 也会基于路由 query 拉取数据。
+  // 这里重复请求会导致接口被调用 2~3 次。
 }
 
 // 切换到指定tab
@@ -457,15 +442,8 @@ watch(() => tabsStore.activeTabId, async (newTabId, oldTabId) => {
       })
     }
     
-    // 设置远程连接状态
+    // 只同步远程状态，数据加载交给 Dashboard 的 route watch（它带去重）
     processStore.setRemoteConnection(newTab.isRemote)
-    
-    // 加载进程详情
-    if (newTab.isRemote) {
-      await processStore.getRemoteOverview(newTab.pid)
-    } else {
-      await processStore.getLocalOverview(newTab.pid)
-    }
   }
 }, { immediate: false })
 
